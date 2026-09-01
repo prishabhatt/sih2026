@@ -1,0 +1,54 @@
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { ProcurementProvider } from './context/ProcurementContext';
+import { Navbar } from './components/Navbar';
+import { Footer } from './components/Footer';
+import { SampleDataDrawer } from './components/SampleDataDrawer';
+import { LandingPageView } from './views/LandingPageView';
+import { LoginView } from './views/LoginView';
+import { InputFormView } from './views/InputFormView';
+import { AnalyzingView } from './views/AnalyzingView';
+import { DashboardView } from './views/DashboardView';
+import { ReportsView } from './views/ReportsView';
+
+function AppLayout({ children }) {
+  const location = useLocation();
+  // Hide main navbar on Landing (which has its own hero navbar), Login, and Analyzing
+  const isCustomOrAuthPage = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/analyzing';
+
+  return (
+    <div className="min-h-screen flex flex-col bg-[#090D16] text-slate-100 selection:bg-blue-600 selection:text-white">
+      {!isCustomOrAuthPage && <Navbar />}
+      <main className="flex-1">
+        {children}
+      </main>
+      <SampleDataDrawer />
+      {!isCustomOrAuthPage && <Footer />}
+    </div>
+  );
+}
+
+export function App() {
+  return (
+    <AuthProvider>
+      <ProcurementProvider>
+        <BrowserRouter>
+          <AppLayout>
+            <Routes>
+              <Route path="/" element={<LandingPageView />} />
+              <Route path="/login" element={<LoginView />} />
+              <Route path="/input" element={<InputFormView />} />
+              <Route path="/analyzing" element={<AnalyzingView />} />
+              <Route path="/dashboard" element={<DashboardView />} />
+              <Route path="/reports" element={<ReportsView />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </AppLayout>
+        </BrowserRouter>
+      </ProcurementProvider>
+    </AuthProvider>
+  );
+}
+
+export default App;
