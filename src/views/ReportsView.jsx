@@ -6,11 +6,14 @@ import {
   ArrowLeft, 
   CheckCircle2, 
   Award, 
-  Lock
+  Lock,
+  Download,
+  QrCode
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useProcurement } from '../context/ProcurementContext';
 import { MOCK_STANDARDS } from '../data/mockStandardsData';
+import { DigitalPassportQR } from '../components/DigitalPassportQR';
 
 export function ReportsView() {
   const navigate = useNavigate();
@@ -99,6 +102,7 @@ export function ReportsView() {
             </div>
           </div>
 
+          {/* Section 1: Standards Registry */}
           <div className="space-y-2.5">
             <h3 className="font-bold text-xs text-slate-900 uppercase tracking-wider">
               {t.reports.standardsSectionTitle}
@@ -136,6 +140,7 @@ export function ReportsView() {
             </div>
           </div>
 
+          {/* Section 2: Normative Test Methods */}
           <div className="space-y-2.5">
             <h3 className="font-bold text-xs text-slate-900 uppercase tracking-wider">
               {t.reports.normativeSectionTitle}
@@ -160,6 +165,12 @@ export function ReportsView() {
             </div>
           </div>
 
+          {/* Section 3: Physical Audit & Inventory QR Pass */}
+          <div className="pt-2">
+            <DigitalPassportQR isDarkTheme={false} />
+          </div>
+
+          {/* Section 4: Cryptographic Non-Repudiation Hash */}
           <div className="bg-slate-900 text-slate-200 p-4 rounded-xl space-y-1.5 text-xs">
             <div className="flex items-center gap-1.5 text-emerald-400 font-semibold">
               <Lock className="w-3.5 h-3.5" />
@@ -171,6 +182,7 @@ export function ReportsView() {
             </p>
           </div>
 
+          {/* Section 5: Authorized Sign-off */}
           <div className="pt-4 border-t border-slate-200 flex items-center justify-between text-xs">
             <div>
               <p className="font-semibold text-slate-900">{orgProfile.applicantName}</p>

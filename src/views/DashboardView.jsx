@@ -9,12 +9,14 @@ import {
   Award, 
   Layers, 
   HardHat,
-  Sparkles
+  Sparkles,
+  QrCode
 } from 'lucide-react';
 import { useProcurement } from '../context/ProcurementContext';
 import { ComplianceMeter } from '../components/ComplianceMeter';
 import { NormativeTreeModal } from '../components/NormativeTreeModal';
 import { ModelClauseModal } from '../components/ModelClauseModal';
+import { DigitalPassportQR } from '../components/DigitalPassportQR';
 import { Badge } from '../components/Badge';
 
 export function DashboardView() {
@@ -35,6 +37,7 @@ export function DashboardView() {
   const [divisionFilter, setDivisionFilter] = useState('ALL');
   const [qcoOnlyFilter, setQcoOnlyFilter] = useState(false);
   const [schemeFilter, setSchemeFilter] = useState('ALL');
+  const [showQrCard, setShowQrCard] = useState(false);
 
   const filteredStandards = recommendedStandards.filter((std) => {
     if (divisionFilter !== 'ALL' && std.division !== divisionFilter) return false;
@@ -72,6 +75,14 @@ export function DashboardView() {
 
           <div className="flex flex-wrap items-center gap-2.5">
             <button
+              onClick={() => setShowQrCard(!showQrCard)}
+              className="px-3.5 py-2 rounded-lg bg-[#0F172A] hover:bg-slate-800 text-slate-200 border border-slate-800 text-xs font-semibold transition shadow-sm flex items-center gap-1.5"
+            >
+              <QrCode className="w-3.5 h-3.5 text-emerald-400" />
+              <span>{showQrCard ? 'Hide QR Passport' : 'Digital QR Passport'}</span>
+            </button>
+
+            <button
               onClick={() => setIsModelClauseModalOpen(true)}
               className="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition shadow-sm flex items-center gap-1.5"
             >
@@ -88,6 +99,13 @@ export function DashboardView() {
             </button>
           </div>
         </div>
+
+        {/* Dynamic Digital QR Passport Showcase (if toggled or on load) */}
+        {showQrCard && (
+          <div className="animate-in fade-in slide-in-from-top-3 duration-200">
+            <DigitalPassportQR isDarkTheme={true} />
+          </div>
+        )}
 
         {/* 4 Metric Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
