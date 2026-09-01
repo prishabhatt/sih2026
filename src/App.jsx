@@ -5,7 +5,7 @@ import { ProcurementProvider } from './context/ProcurementContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { SampleDataDrawer } from './components/SampleDataDrawer';
-import { LandingPageView } from './views/LandingPageView';
+import { LandingView } from './views/LandingView';
 import { LoginView } from './views/LoginView';
 import { InputFormView } from './views/InputFormView';
 import { AnalyzingView } from './views/AnalyzingView';
@@ -36,7 +36,7 @@ export function App() {
         <BrowserRouter>
           <AppLayout>
             <Routes>
-              <Route path="/" element={<LandingPageView />} />
+              <Route path="/" element={<LandingView />} />
               <Route path="/login" element={<LoginView />} />
               <Route path="/input" element={<InputFormView />} />
               <Route path="/analyzing" element={<AnalyzingView />} />
