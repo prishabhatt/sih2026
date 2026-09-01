@@ -37,13 +37,13 @@ export function ReportsView() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090D16] text-slate-100 py-8 px-4 sm:px-6 lg:px-8 space-y-6">
+    <div className="min-h-screen bg-slate-100 dark:bg-[#090D16] text-slate-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 space-y-6 transition-colors">
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Actions Bar */}
         <div className="flex items-center justify-between no-print">
           <button
             onClick={() => navigate('/dashboard')}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0F172A] hover:bg-slate-800 border border-slate-800 text-xs font-medium text-slate-300 transition"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white dark:bg-[#0F172A] hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 text-xs font-medium text-slate-700 dark:text-slate-300 transition shadow-xs"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>{t.reports.btnBackDashboard}</span>
@@ -201,22 +201,22 @@ export function ReportsView() {
         </div>
 
         {/* Historical Logs */}
-        <div className="bg-[#0F172A] rounded-xl border border-slate-800 p-5 shadow-sm no-print space-y-3">
-          <div className="flex items-center gap-1.5 pb-2.5 border-b border-slate-800">
-            <Award className="w-4 h-4 text-blue-400" />
-            <h3 className="font-semibold text-xs uppercase tracking-wider text-slate-200">
+        <div className="bg-white dark:bg-[#0F172A] rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-xs no-print space-y-3">
+          <div className="flex items-center gap-1.5 pb-2.5 border-b border-slate-100 dark:border-slate-800">
+            <Award className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+            <h3 className="font-semibold text-xs uppercase tracking-wider text-slate-900 dark:text-slate-200">
               {t.reports.historyTitle}
             </h3>
           </div>
 
-          <div className="divide-y divide-slate-800/80 text-xs">
+          <div className="divide-y divide-slate-100 dark:divide-slate-800/80 text-xs">
             {auditLogs.map((log) => (
               <div key={log.id} className="py-2.5 flex items-center justify-between gap-4">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-bold text-slate-300 text-xs">{log.id}</span>
-                    <span className="text-slate-200 text-xs">{log.tenderRef}</span>
-                    <span className="text-[10px] font-mono bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">
+                    <span className="font-mono font-bold text-slate-900 dark:text-slate-300 text-xs">{log.id}</span>
+                    <span className="text-slate-800 dark:text-slate-200 text-xs">{log.tenderRef}</span>
+                    <span className="text-[10px] font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-400 px-1.5 py-0.5 rounded">
                       {log.division}
                     </span>
                   </div>
@@ -225,7 +225,7 @@ export function ReportsView() {
                   </p>
                 </div>
 
-                <span className="font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded text-xs font-semibold">
+                <span className="font-mono text-emerald-800 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 px-2 py-0.5 rounded text-xs font-bold">
                   {log.score}%
                 </span>
               </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ProcurementProvider } from './context/ProcurementContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { SampleDataDrawer } from './components/SampleDataDrawer';
@@ -14,11 +15,10 @@ import { ReportsView } from './views/ReportsView';
 
 function AppLayout({ children }) {
   const location = useLocation();
-  // Hide main navbar on Landing (which has its own hero navbar), Login, and Analyzing
   const isCustomOrAuthPage = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/analyzing';
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#090D16] text-slate-100 selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#090D16] text-slate-900 dark:text-slate-100 selection:bg-blue-600 selection:text-white transition-colors duration-200">
       {!isCustomOrAuthPage && <Navbar />}
       <main className="flex-1">
         {children}
@@ -31,23 +31,25 @@ function AppLayout({ children }) {
 
 export function App() {
   return (
-    <AuthProvider>
-      <ProcurementProvider>
-        <BrowserRouter>
-          <AppLayout>
-            <Routes>
-              <Route path="/" element={<LandingView />} />
-              <Route path="/login" element={<LoginView />} />
-              <Route path="/input" element={<InputFormView />} />
-              <Route path="/analyzing" element={<AnalyzingView />} />
-              <Route path="/dashboard" element={<DashboardView />} />
-              <Route path="/reports" element={<ReportsView />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </AppLayout>
-        </BrowserRouter>
-      </ProcurementProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <ProcurementProvider>
+          <BrowserRouter>
+            <AppLayout>
+              <Routes>
+                <Route path="/" element={<LandingView />} />
+                <Route path="/login" element={<LoginView />} />
+                <Route path="/input" element={<InputFormView />} />
+                <Route path="/analyzing" element={<AnalyzingView />} />
+                <Route path="/dashboard" element={<DashboardView />} />
+                <Route path="/reports" element={<ReportsView />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </AppLayout>
+          </BrowserRouter>
+        </ProcurementProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

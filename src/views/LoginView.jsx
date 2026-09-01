@@ -8,29 +8,33 @@ import {
   Award, 
   FileCheck, 
   UserCheck, 
-  ShieldAlert,
-  Sparkles,
-  Smartphone,
-  KeyRound,
-  CheckCircle2,
-  RefreshCw,
-  ArrowLeft
+  ShieldAlert, 
+  Sparkles, 
+  Smartphone, 
+  KeyRound, 
+  CheckCircle2, 
+  RefreshCw, 
+  ArrowLeft,
+  Sun,
+  Moon
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useAuth } from '../context/AuthContext';
 import { useProcurement } from '../context/ProcurementContext';
+import { useTheme } from '../context/ThemeContext';
 
 export function LoginView() {
   const navigate = useNavigate();
   const { loginAsRole, switchPersona } = useAuth();
   const { t, loadScenario, setOrgProfile } = useProcurement();
+  const { isDark, toggleTheme } = useTheme();
 
   const [authMethod, setAuthMethod] = useState('otp'); // 'otp' or 'sso'
   const [selectedRole, setSelectedRole] = useState('procurement');
 
   // Mobile OTP State
   const [mobileNumber, setMobileNumber] = useState('9810123456');
-  const [otpStep, setOtpStep] = useState(1); // 1: Enter mobile, 2: Enter OTP
+  const [otpStep, setOtpStep] = useState(1);
   const [otpDigits, setOtpDigits] = useState(['', '', '', '', '', '']);
   const [countdown, setCountdown] = useState(30);
   const [isCounting, setIsCounting] = useState(false);
@@ -99,7 +103,6 @@ export function LoginView() {
     setOtpSuccess(true);
     confetti({ particleCount: 35, spread: 45, origin: { y: 0.8 } });
 
-    // Update org profile with verified mobile
     setOrgProfile((prev) => ({
       ...prev,
       mobileNumber: `+91 ${mobileNumber}`
@@ -123,44 +126,53 @@ export function LoginView() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090D16] text-slate-100 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#090D16] text-slate-900 dark:text-slate-100 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 transition-colors">
       <div className="max-w-4xl mx-auto w-full space-y-6">
         {/* Navigation back to landing */}
         <div className="flex items-center justify-between">
           <button
             onClick={() => navigate('/')}
-            className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-200 transition"
+            className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to Gateway Home</span>
           </button>
-          <span className="text-[11px] font-mono text-emerald-400">
-            GFR 2017 Statutory Access Portal
-          </span>
+          
+          <div className="flex items-center gap-3">
+            <span className="text-[11px] font-mono text-emerald-700 dark:text-emerald-400 font-semibold">
+              GFR 2017 Statutory Access Portal
+            </span>
+            <button
+              onClick={toggleTheme}
+              className="p-1.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300"
+            >
+              {isDark ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-slate-700" />}
+            </button>
+          </div>
         </div>
 
         {/* Header Hero */}
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#0F172A] border border-slate-800 text-emerald-400 text-xs font-medium">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 text-emerald-700 dark:text-emerald-400 text-xs font-medium shadow-xs">
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>{t.login.badge}</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-100 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
             {t.login.heroTitle}
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
             {t.login.heroSubtitle}
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Main Auth Card */}
-          <div className="lg:col-span-7 bg-[#0F172A] rounded-2xl border border-slate-800 p-6 sm:p-7 shadow-sm space-y-5">
+          <div className="lg:col-span-7 bg-white dark:bg-[#0F172A] rounded-2xl border border-slate-200 dark:border-slate-800 p-6 sm:p-7 shadow-sm space-y-5">
             {/* Role Selection */}
             <div>
-              <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2 mb-3">
-                <UserCheck className="w-3.5 h-3.5 text-blue-400" />
+              <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-2 mb-3">
+                <UserCheck className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
                 {t.login.selectRole}
               </h2>
 
@@ -170,11 +182,11 @@ export function LoginView() {
                   onClick={() => setSelectedRole('procurement')}
                   className={`p-2.5 rounded-xl border text-center transition flex flex-col items-center gap-1 ${
                     selectedRole === 'procurement'
-                      ? 'bg-blue-500/15 border-blue-500/40 text-slate-100 ring-1 ring-blue-500/30'
-                      : 'bg-[#131C2E] border-slate-800 text-slate-400 hover:border-slate-700'
+                      ? 'bg-blue-50 dark:bg-blue-500/15 border-blue-400 dark:border-blue-500/40 text-blue-900 dark:text-slate-100 ring-1 ring-blue-500/30'
+                      : 'bg-slate-50 dark:bg-[#131C2E] border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-slate-300'
                   }`}
                 >
-                  <Building2 className="w-4 h-4 text-blue-400" />
+                  <Building2 className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                   <span className="text-[11px] font-semibold">{t.login.roleProcurement}</span>
                 </button>
 
@@ -183,11 +195,11 @@ export function LoginView() {
                   onClick={() => setSelectedRole('evaluator')}
                   className={`p-2.5 rounded-xl border text-center transition flex flex-col items-center gap-1 ${
                     selectedRole === 'evaluator'
-                      ? 'bg-blue-500/15 border-blue-500/40 text-slate-100 ring-1 ring-blue-500/30'
-                      : 'bg-[#131C2E] border-slate-800 text-slate-400 hover:border-slate-700'
+                      ? 'bg-blue-50 dark:bg-blue-500/15 border-blue-400 dark:border-blue-500/40 text-blue-900 dark:text-slate-100 ring-1 ring-blue-500/30'
+                      : 'bg-slate-50 dark:bg-[#131C2E] border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-slate-300'
                   }`}
                 >
-                  <FileCheck className="w-4 h-4 text-emerald-400" />
+                  <FileCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                   <span className="text-[11px] font-semibold">{t.login.roleEvaluator}</span>
                 </button>
 
@@ -196,28 +208,28 @@ export function LoginView() {
                   onClick={() => setSelectedRole('auditor')}
                   className={`p-2.5 rounded-xl border text-center transition flex flex-col items-center gap-1 ${
                     selectedRole === 'auditor'
-                      ? 'bg-blue-500/15 border-blue-500/40 text-slate-100 ring-1 ring-blue-500/30'
-                      : 'bg-[#131C2E] border-slate-800 text-slate-400 hover:border-slate-700'
+                      ? 'bg-blue-50 dark:bg-blue-500/15 border-blue-400 dark:border-blue-500/40 text-blue-900 dark:text-slate-100 ring-1 ring-blue-500/30'
+                      : 'bg-slate-50 dark:bg-[#131C2E] border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-slate-300'
                   }`}
                 >
-                  <Award className="w-4 h-4 text-purple-400" />
+                  <Award className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                   <span className="text-[11px] font-semibold">{t.login.roleAuditor}</span>
                 </button>
               </div>
             </div>
 
             {/* Auth Method Switcher Tabs */}
-            <div className="flex rounded-xl bg-[#131C2E] p-1 border border-slate-800">
+            <div className="flex rounded-xl bg-slate-100 dark:bg-[#131C2E] p-1 border border-slate-200 dark:border-slate-800">
               <button
                 type="button"
                 onClick={() => setAuthMethod('otp')}
                 className={`flex-1 py-2 text-xs font-semibold rounded-lg transition flex items-center justify-center gap-1.5 ${
                   authMethod === 'otp'
-                    ? 'bg-[#0F172A] text-slate-100 shadow-sm border border-slate-700'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-white dark:bg-[#0F172A] text-slate-900 dark:text-slate-100 shadow-xs border border-slate-200 dark:border-slate-700'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
                 }`}
               >
-                <Smartphone className="w-3.5 h-3.5 text-emerald-400" />
+                <Smartphone className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                 <span>{t.login.tabOtp}</span>
               </button>
 
@@ -226,11 +238,11 @@ export function LoginView() {
                 onClick={() => setAuthMethod('sso')}
                 className={`flex-1 py-2 text-xs font-semibold rounded-lg transition flex items-center justify-center gap-1.5 ${
                   authMethod === 'sso'
-                    ? 'bg-[#0F172A] text-slate-100 shadow-sm border border-slate-700'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-white dark:bg-[#0F172A] text-slate-900 dark:text-slate-100 shadow-xs border border-slate-200 dark:border-slate-700'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
                 }`}
               >
-                <KeyRound className="w-3.5 h-3.5 text-blue-400" />
+                <KeyRound className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
                 <span>{t.login.tabSso}</span>
               </button>
             </div>
@@ -241,11 +253,11 @@ export function LoginView() {
                 {otpStep === 1 ? (
                   <form onSubmit={handleSendOtp} className="space-y-3.5">
                     <div>
-                      <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
+                      <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
                         {t.otp.mobileLabel}
                       </label>
                       <div className="relative flex items-center">
-                        <span className="absolute left-3 font-mono text-xs text-slate-400 font-semibold border-r border-slate-700 pr-2">
+                        <span className="absolute left-3 font-mono text-xs text-slate-500 font-semibold border-r border-slate-300 dark:border-slate-700 pr-2">
                           +91
                         </span>
                         <input
@@ -254,11 +266,11 @@ export function LoginView() {
                           value={mobileNumber}
                           onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, ''))}
                           placeholder={t.otp.mobilePlaceholder}
-                          className="w-full pl-14 pr-4 py-2.5 rounded-xl border border-slate-800 bg-[#131C2E] text-slate-100 text-xs font-mono font-semibold focus:border-blue-500 focus:outline-none transition"
+                          className="w-full pl-14 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-[#131C2E] text-slate-900 dark:text-slate-100 text-xs font-mono font-semibold focus:border-blue-500 focus:outline-none transition"
                         />
                       </div>
                       {otpError && (
-                        <p className="text-[11px] text-rose-400 mt-1 font-medium">{otpError}</p>
+                        <p className="text-[11px] text-rose-600 dark:text-rose-400 mt-1 font-medium">{otpError}</p>
                       )}
                     </div>
 
@@ -273,15 +285,15 @@ export function LoginView() {
                   </form>
                 ) : (
                   <form onSubmit={handleVerifyOtp} className="space-y-4 animate-in fade-in duration-200">
-                    <div className="p-3 rounded-xl bg-[#131C2E] border border-slate-800 flex items-center justify-between text-xs">
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#131C2E] border border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs">
                       <div>
-                        <p className="text-[10px] text-slate-400 uppercase font-mono">Mobile Number</p>
-                        <p className="font-mono font-bold text-slate-100 text-xs mt-0.5">+91 {mobileNumber}</p>
+                        <p className="text-[10px] text-slate-500 uppercase font-mono">Mobile Number</p>
+                        <p className="font-mono font-bold text-slate-900 dark:text-slate-100 text-xs mt-0.5">+91 {mobileNumber}</p>
                       </div>
                       <button
                         type="button"
                         onClick={() => setOtpStep(1)}
-                        className="text-[11px] text-blue-400 hover:underline font-medium"
+                        className="text-[11px] text-blue-600 dark:text-blue-400 hover:underline font-medium"
                       >
                         Change
                       </button>
@@ -289,13 +301,13 @@ export function LoginView() {
 
                     <div>
                       <div className="flex items-center justify-between mb-2">
-                        <label className="text-[11px] font-semibold text-slate-300">
+                        <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">
                           {t.otp.otpLabel}
                         </label>
                         <button
                           type="button"
                           onClick={handleAutoFillOtp}
-                          className="text-[10px] font-mono text-amber-400 hover:text-amber-300 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded transition"
+                          className="text-[10px] font-mono text-amber-700 dark:text-amber-400 hover:underline bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 px-2 py-0.5 rounded transition font-semibold"
                         >
                           {t.otp.autoFillBtn}
                         </button>
@@ -313,26 +325,26 @@ export function LoginView() {
                             value={digit}
                             onChange={(e) => handleOtpChange(idx, e.target.value)}
                             onKeyDown={(e) => handleOtpKeyDown(idx, e)}
-                            className="w-full h-11 text-center font-mono font-bold text-base rounded-xl border border-slate-800 bg-[#131C2E] text-slate-100 focus:border-blue-500 focus:outline-none transition selection:bg-blue-600"
+                            className="w-full h-11 text-center font-mono font-bold text-base rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-[#131C2E] text-slate-900 dark:text-slate-100 focus:border-blue-500 focus:outline-none transition selection:bg-blue-600"
                           />
                         ))}
                       </div>
 
                       {otpError && (
-                        <p className="text-[11px] text-rose-400 mt-1.5 font-medium">{otpError}</p>
+                        <p className="text-[11px] text-rose-600 dark:text-rose-400 mt-1.5 font-medium">{otpError}</p>
                       )}
                     </div>
 
                     <div className="flex items-center justify-between text-xs pt-1">
                       {isCounting ? (
-                        <span className="text-[11px] text-slate-400 font-mono">
+                        <span className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
                           {t.otp.resendWait}: <strong>{countdown}s</strong>
                         </span>
                       ) : (
                         <button
                           type="button"
                           onClick={handleSendOtp}
-                          className="text-[11px] text-blue-400 hover:underline flex items-center gap-1 font-medium"
+                          className="text-[11px] text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 font-medium"
                         >
                           <RefreshCw className="w-3 h-3" />
                           <span>{t.otp.btnResendOtp}</span>
@@ -371,7 +383,7 @@ export function LoginView() {
                 <button
                   type="button"
                   onClick={() => handleSsoLogin('Jan Parichay (National SSO)')}
-                  className="w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center justify-center gap-2 transition"
+                  className="w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center justify-center gap-2 transition shadow-sm"
                 >
                   <ShieldCheck className="w-4 h-4 text-emerald-300" />
                   <span>{t.login.ssoJanParichay}</span>
@@ -382,14 +394,14 @@ export function LoginView() {
                   <button
                     type="button"
                     onClick={() => handleSsoLogin('MeriPehchaan SSO')}
-                    className="py-2.5 px-3 rounded-lg bg-[#131C2E] hover:bg-slate-800 border border-slate-800 text-xs font-medium text-slate-300 transition text-center"
+                    className="py-2.5 px-3 rounded-lg bg-slate-50 dark:bg-[#131C2E] hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 text-xs font-medium text-slate-700 dark:text-slate-300 transition text-center"
                   >
                     {t.login.ssoMeriPehchaan}
                   </button>
                   <button
                     type="button"
                     onClick={() => handleSsoLogin('GeM Portal SSO')}
-                    className="py-2.5 px-3 rounded-lg bg-[#131C2E] hover:bg-slate-800 border border-slate-800 text-xs font-medium text-slate-300 transition text-center"
+                    className="py-2.5 px-3 rounded-lg bg-slate-50 dark:bg-[#131C2E] hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 text-xs font-medium text-slate-700 dark:text-slate-300 transition text-center"
                   >
                     {t.login.ssoGem}
                   </button>
@@ -397,82 +409,82 @@ export function LoginView() {
               </div>
             )}
 
-            <div className="pt-3 border-t border-slate-800 text-[11px] text-slate-400 text-center flex items-center justify-center gap-1.5">
-              <Lock className="w-3.5 h-3.5 text-slate-500" />
+            <div className="pt-3 border-t border-slate-200 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 text-center flex items-center justify-center gap-1.5">
+              <Lock className="w-3.5 h-3.5 text-slate-400" />
               <span>{t.login.auditNotice}</span>
             </div>
           </div>
 
           {/* Quick Demo Profiles Side Card */}
           <div className="lg:col-span-5 space-y-4">
-            <div className="bg-[#0F172A] rounded-2xl border border-slate-800 p-5 shadow-sm space-y-3">
-              <div className="flex items-center gap-1.5 text-slate-200">
-                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-200">
+            <div className="bg-white dark:bg-[#0F172A] rounded-2xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm space-y-3">
+              <div className="flex items-center gap-1.5 text-slate-900 dark:text-slate-200">
+                <Sparkles className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-slate-200">
                   {t.login.demoPersonasTitle}
                 </h3>
               </div>
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
                 Pre-configured profiles for instant SIH evaluation:
               </p>
 
               <div className="space-y-2">
                 <button
                   onClick={() => handleQuickPersona('metro', 'underground_cable_metro')}
-                  className="w-full text-left p-3 rounded-xl bg-[#131C2E] hover:bg-slate-800 border border-slate-800 hover:border-slate-700 transition group"
+                  className="w-full text-left p-3 rounded-xl bg-slate-50 dark:bg-[#131C2E] hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-blue-400 transition group shadow-xs"
                 >
                   <div className="flex items-center justify-between">
-                    <p className="text-xs font-semibold text-slate-100 group-hover:text-blue-400 transition">
+                    <p className="text-xs font-semibold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">
                       Er. Vikramaditya Sharma
                     </p>
-                    <span className="text-[10px] font-mono text-blue-400 bg-blue-500/10 border border-blue-500/20 px-1.5 py-0.5 rounded">ETD</span>
+                    <span className="text-[10px] font-mono text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 px-1.5 py-0.5 rounded font-bold">ETD</span>
                   </div>
-                  <p className="text-[11px] text-slate-400 mt-0.5">National Metro Rail (11kV Cables)</p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">National Metro Rail (11kV Cables)</p>
                 </button>
 
                 <button
                   onClick={() => handleQuickPersona('nhai', 'tmt_rebars_cement_nhai')}
-                  className="w-full text-left p-3 rounded-xl bg-[#131C2E] hover:bg-slate-800 border border-slate-800 hover:border-slate-700 transition group"
+                  className="w-full text-left p-3 rounded-xl bg-slate-50 dark:bg-[#131C2E] hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-emerald-400 transition group shadow-xs"
                 >
                   <div className="flex items-center justify-between">
-                    <p className="text-xs font-semibold text-slate-100 group-hover:text-emerald-400 transition">
+                    <p className="text-xs font-semibold text-slate-900 dark:text-slate-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition">
                       Er. Rajeshwar Nath Kulkarni
                     </p>
-                    <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded">CED</span>
+                    <span className="text-[10px] font-mono text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 px-1.5 py-0.5 rounded font-bold">CED</span>
                   </div>
-                  <p className="text-[11px] text-slate-400 mt-0.5">NHAI (Fe 500D TMT & OPC 53)</p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">NHAI (Fe 500D TMT & OPC 53)</p>
                 </button>
 
                 <button
                   onClick={() => handleQuickPersona('geda', 'solar_pumps_kusum')}
-                  className="w-full text-left p-3 rounded-xl bg-[#131C2E] hover:bg-slate-800 border border-slate-800 hover:border-slate-700 transition group"
+                  className="w-full text-left p-3 rounded-xl bg-slate-50 dark:bg-[#131C2E] hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-amber-400 transition group shadow-xs"
                 >
                   <div className="flex items-center justify-between">
-                    <p className="text-xs font-semibold text-slate-100 group-hover:text-amber-400 transition">
+                    <p className="text-xs font-semibold text-slate-900 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition">
                       Dr. Jayeshbhai Patel
                     </p>
-                    <span className="text-[10px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.5 rounded">LITD</span>
+                    <span className="text-[10px] font-mono text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 px-1.5 py-0.5 rounded font-bold">LITD</span>
                   </div>
-                  <p className="text-[11px] text-slate-400 mt-0.5">GEDA (PM-KUSUM Solar Pumps)</p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">GEDA (PM-KUSUM Solar Pumps)</p>
                 </button>
 
                 <button
                   onClick={() => handleQuickPersona('audit', 'underground_cable_metro')}
-                  className="w-full text-left p-3 rounded-xl bg-[#131C2E] hover:bg-slate-800 border border-slate-800 hover:border-slate-700 transition group"
+                  className="w-full text-left p-3 rounded-xl bg-slate-50 dark:bg-[#131C2E] hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-purple-400 transition group shadow-xs"
                 >
                   <div className="flex items-center justify-between">
-                    <p className="text-xs font-semibold text-slate-100 group-hover:text-purple-400 transition">
+                    <p className="text-xs font-semibold text-slate-900 dark:text-slate-100 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition">
                       Smt. Ananya Sen, IA&AS
                     </p>
-                    <span className="text-[10px] font-mono text-purple-400 bg-purple-500/10 border border-purple-500/20 px-1.5 py-0.5 rounded">AUDIT</span>
+                    <span className="text-[10px] font-mono text-purple-700 dark:text-purple-400 bg-purple-50 dark:bg-purple-500/10 border border-purple-200 dark:border-purple-500/20 px-1.5 py-0.5 rounded font-bold">AUDIT</span>
                   </div>
-                  <p className="text-[11px] text-slate-400 mt-0.5">Comptroller & Auditor General</p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Comptroller & Auditor General</p>
                 </button>
               </div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-[#0F172A] border border-slate-800 text-[11px] text-slate-400 flex items-start gap-2.5">
-              <ShieldAlert className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+            <div className="p-3.5 rounded-xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 text-[11px] text-slate-600 dark:text-slate-400 flex items-start gap-2.5 shadow-xs">
+              <ShieldAlert className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
               <p className="leading-relaxed">
                 Smart India Hackathon 2026 Prototype: Semantic RAG retrieval across 22,000+ BIS standards with QCO registry verification.
               </p>
