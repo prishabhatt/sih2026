@@ -12,7 +12,7 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-2 text-slate-900 dark:text-slate-100 font-semibold text-sm mb-2">
               <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-              <span>Smart India Hackathon 2026</span>
+              <span>BISEngine</span>
             </div>
             <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-xs">
               AI-Powered Recommendation Engine for Identifying Applicable Indian Standards for Public Procurement Specifications.
@@ -59,7 +59,7 @@ export function Footer() {
         </div>
 
         <div className="pt-4 flex flex-col sm:flex-row items-center justify-between text-slate-500 text-[11px]">
-          <p>© 2026 Smart India Hackathon. Ministry of Consumer Affairs, Food & Public Distribution.</p>
+          <p>© BISEngine. Ministry of Consumer Affairs, Food & Public Distribution.</p>
           <p className="mt-2 sm:mt-0 font-mono">Simulated NIC e-Gov Cloud Gateway</p>
         </div>
       </div>

@@ -1,17 +1,17 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { 
-  ShieldCheck, 
-  ArrowRight, 
-  Sparkles, 
-  Layers, 
-  FileCheck, 
-  Database, 
-  CheckCircle2, 
-  Award, 
-  Globe, 
-  GitFork, 
-  Lock, 
+import {
+  ShieldCheck,
+  ArrowRight,
+  Sparkles,
+  Layers,
+  FileCheck,
+  Database,
+  CheckCircle2,
+  Award,
+  Globe,
+  GitFork,
+  Lock,
   ChevronRight,
   Sun,
   Moon
@@ -47,7 +47,7 @@ export function LandingView() {
               GFR 2017 Rule 144(xi) Verified
             </span>
             <span className="text-slate-300 dark:text-slate-700 hidden md:inline">|</span>
-            
+
             {/* Theme Toggle in Header */}
             <button
               onClick={toggleTheme}
@@ -62,33 +62,30 @@ export function LandingView() {
               <Globe className="w-3 h-3 text-blue-600 dark:text-blue-400" />
               <button
                 onClick={() => setLang('en')}
-                className={`px-1.5 py-0.5 rounded transition ${
-                  lang === 'en'
+                className={`px-1.5 py-0.5 rounded transition ${lang === 'en'
                     ? 'text-blue-700 dark:text-blue-400 font-bold bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/20'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
-                }`}
+                  }`}
               >
                 EN
               </button>
               <span className="text-slate-300 dark:text-slate-700">/</span>
               <button
                 onClick={() => setLang('hi')}
-                className={`px-1.5 py-0.5 rounded transition ${
-                  lang === 'hi'
+                className={`px-1.5 py-0.5 rounded transition ${lang === 'hi'
                     ? 'text-blue-700 dark:text-blue-400 font-bold bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/20'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
-                }`}
+                  }`}
               >
                 हिन्दी
               </button>
               <span className="text-slate-300 dark:text-slate-700">/</span>
               <button
                 onClick={() => setLang('gu')}
-                className={`px-1.5 py-0.5 rounded transition ${
-                  lang === 'gu'
+                className={`px-1.5 py-0.5 rounded transition ${lang === 'gu'
                     ? 'text-blue-700 dark:text-blue-400 font-bold bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/20'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
-                }`}
+                  }`}
               >
                 ગુજરાતી
               </button>
@@ -448,7 +445,7 @@ export function LandingView() {
             <div>
               <div className="flex items-center gap-2 text-slate-900 dark:text-slate-100 font-semibold text-sm mb-2">
                 <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>Smart India Hackathon 2026</span>
+                <span>BISEngine</span>
               </div>
               <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-xs">
                 AI-Powered Recommendation Engine for Identifying Applicable Indian Standards for Public Procurement Specifications.
@@ -487,7 +484,7 @@ export function LandingView() {
           </div>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-between text-slate-500 text-[11px]">
-            <p>© 2026 Smart India Hackathon. Government of India.</p>
+            <p>© BISEngine. Government of India.</p>
             <p className="mt-2 sm:mt-0 font-mono">Developed for Public Procurement Traceability & Quality Assurance</p>
           </div>
         </div>
