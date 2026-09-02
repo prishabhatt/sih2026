@@ -289,16 +289,18 @@ export function LandingView() {
       <div className="noise-overlay" />
 
       {/* ================================================================ */}
-      {/* NAVBAR                                                           */}
+      {/* NAVBAR (Floating Glassmorphic Capsule with Top/Side Margins)      */}
       {/* ================================================================ */}
-      <header className="fixed top-0 left-0 right-0 w-full z-50 backdrop-blur-2xl bg-white/75 dark:bg-[#070B14]/80 border-b border-slate-200/80 dark:border-white/[0.08] shadow-[0_4px_25px_rgba(0,0,0,0.04)] transition-all">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#0B1E36] to-[#1E3A5F] flex items-center justify-center text-white border border-[#1E3A5F]/40 shadow-md shadow-[#0B1E36]/30">
-              <ShieldCheck className="w-4.5 h-4.5 text-amber-400" />
+      <div className="fixed top-4 sm:top-5 inset-x-0 z-50 flex justify-center px-4 sm:px-6 lg:px-8 pointer-events-none">
+        <header className="pointer-events-auto max-w-[1360px] w-full backdrop-blur-2xl bg-white/85 dark:bg-[#070B14]/90 border-2 border-white dark:border-white/20 shadow-[0_12px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.5)] rounded-full px-6 sm:px-8 py-3 sm:py-3.5 flex items-center justify-between gap-6 transition-all">
+          
+          {/* Module 1: Brand Logo & Status */}
+          <div className="flex items-center gap-3.5 shrink-0">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#0B1E36] to-[#1E3A5F] flex items-center justify-center text-white border border-[#1E3A5F]/40 shadow-md shadow-[#0B1E36]/30">
+              <ShieldCheck className="w-5 h-5 text-amber-400" />
             </div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-base tracking-tight text-slate-900 dark:text-white">
+            <div className="flex items-center gap-2.5">
+              <span className="font-extrabold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white">
                 BIS<span className="text-[#1E3A5F] dark:text-[#93B5D9] font-serif italic">Engine</span>
               </span>
               <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#1E3A5F]/10 dark:bg-[#1E3A5F]/30 text-[#1E3A5F] dark:text-[#93B5D9] border border-[#1E3A5F]/20 font-mono">
@@ -308,33 +310,35 @@ export function LandingView() {
             </div>
           </div>
 
-          <nav className="hidden lg:flex items-center gap-7 text-xs font-semibold text-slate-600 dark:text-slate-400 tracking-wide">
-            <a href="#overview" className="hover:text-[#1E3A5F] dark:hover:text-white transition-colors">
+          {/* Module 2: Central Navigation in Sleek Glassmorphic Capsule */}
+          <nav className="hidden xl:flex items-center gap-1 p-1.5 rounded-full bg-slate-100/70 dark:bg-white/[0.04] border border-slate-200/80 dark:border-white/10 backdrop-blur-xl">
+            <a href="#overview" className="px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-white dark:hover:bg-white/10 hover:shadow-xs transition-all">
               {lang === 'hi' ? 'अवलोकन' : lang === 'gu' ? 'ઝાંખી' : 'Overview'}
             </a>
-            <a href="#terminal" className="hover:text-[#1E3A5F] dark:hover:text-white transition-colors">
+            <a href="#terminal" className="px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-white dark:hover:bg-white/10 hover:shadow-xs transition-all">
               {lang === 'hi' ? 'लाइव डेमो' : lang === 'gu' ? 'લાઇવ ડેમો' : 'Live Demo'}
             </a>
-            <a href="#architecture" className="hover:text-[#1E3A5F] dark:hover:text-white transition-colors">
+            <a href="#architecture" className="px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-white dark:hover:bg-white/10 hover:shadow-xs transition-all">
               {lang === 'hi' ? 'आर्किटेक्चर' : lang === 'gu' ? 'આર્કિટેક્ચર' : 'Architecture'}
             </a>
-            <a href="#pipeline" className="hover:text-[#1E3A5F] dark:hover:text-white transition-colors">
+            <a href="#pipeline" className="px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-white dark:hover:bg-white/10 hover:shadow-xs transition-all">
               {lang === 'hi' ? 'सिस्टम पाइपलाइन' : lang === 'gu' ? 'સિસ્ટમ પાઇપલાઇન' : 'System Pipeline'}
             </a>
-            <a href="#corpus" className="hover:text-[#1E3A5F] dark:hover:text-white transition-colors">
+            <a href="#corpus" className="px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-white dark:hover:bg-white/10 hover:shadow-xs transition-all">
               {lang === 'hi' ? 'मानक संग्रह' : lang === 'gu' ? 'માનક સંગ્રહ' : 'Standards Corpus'}
             </a>
-            <a href="#faq" className="hover:text-[#1E3A5F] dark:hover:text-white transition-colors">
+            <a href="#faq" className="px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-white dark:hover:bg-white/10 hover:shadow-xs transition-all">
               {lang === 'hi' ? 'एफएक्यू' : lang === 'gu' ? 'પ્રશ્નોત્તરી' : 'FAQ'}
             </a>
           </nav>
 
-          <div className="flex items-center gap-3">
+          {/* Module 3: Right Controls Group */}
+          <div className="flex items-center gap-3 sm:gap-3.5 shrink-0">
             {/* Multilingual Distinct Glassmorphic Dropdown */}
             <div className="relative">
               <button
                 onClick={() => setIsLangOpen(!isLangOpen)}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-black tracking-wider text-slate-900 dark:text-white bg-white/90 hover:bg-white dark:bg-white/15 dark:hover:bg-white/25 border-2 border-slate-300/90 dark:border-white/30 backdrop-blur-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all cursor-pointer hover:scale-105"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-black tracking-wider text-slate-900 dark:text-white bg-white/90 hover:bg-white dark:bg-white/15 dark:hover:bg-white/25 border-2 border-slate-300/90 dark:border-white/30 backdrop-blur-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all cursor-pointer hover:scale-105"
               >
                 <Globe className="w-4 h-4 text-amber-500 shrink-0 stroke-[2.5]" />
                 <span className="uppercase">{lang}</span>
@@ -370,6 +374,7 @@ export function LandingView() {
                 </>
               )}
             </div>
+
             {/* Distinct Segmented Theme Capsule Toggle */}
             <div className="flex items-center p-1 rounded-full bg-slate-200/90 dark:bg-black/50 border-2 border-slate-300 dark:border-white/20 shadow-inner backdrop-blur-2xl transition-all">
               <button
@@ -398,21 +403,23 @@ export function LandingView() {
                 <Moon className={`w-4 h-4 stroke-[2.5] ${isDark ? 'text-sky-300 drop-shadow-xs' : 'text-slate-400'}`} />
               </button>
             </div>
+
+            {/* Portal Login Button */}
             <button
               onClick={() => navigate('/login')}
-              className="px-4 py-2 rounded-full text-xs font-bold bg-[#0B1E36] hover:bg-[#132845] dark:bg-white dark:hover:bg-slate-100 text-white dark:text-[#07080A] shadow-md transition-all cursor-pointer flex items-center gap-1.5"
+              className="px-5 py-2.5 rounded-full text-xs font-extrabold bg-[#0B1E36] hover:bg-[#132845] dark:bg-white dark:hover:bg-slate-100 text-white dark:text-[#07080A] shadow-[0_4px_16px_rgba(11,30,54,0.2)] transition-all cursor-pointer flex items-center gap-2 hover:scale-105 border border-white/30 dark:border-white/10"
             >
               <span>{t?.nav?.portalLogin || 'Portal Login'}</span>
               <ArrowRight className="w-3.5 h-3.5 text-amber-400 dark:text-slate-900" />
             </button>
           </div>
-        </div>
-      </header>
+        </header>
+      </div>
 
       {/* ================================================================ */}
       {/* HERO                                                             */}
       {/* ================================================================ */}
-      <section id="overview" className="relative z-10 pt-32 sm:pt-40 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+      <section id="overview" className="relative z-10 pt-36 sm:pt-44 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         <div className="max-w-3xl mx-auto text-center space-y-6">
           <h1 className="hero-animate text-[40px] sm:text-[56px] lg:text-[70px] font-black tracking-[-0.03em] leading-[1.02] text-slate-900 dark:text-white">
             {t?.landing?.heroTitle || 'AI-Powered Indian Standards Engine for Public Procurement'}
