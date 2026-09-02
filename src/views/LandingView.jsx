@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   ShieldCheck,
@@ -6,7 +6,6 @@ import {
   Sparkles,
   Layers,
   FileCheck,
-  Database,
   CheckCircle2,
   Award,
   Globe,
@@ -14,13 +13,9 @@ import {
   Lock,
   ChevronRight,
   Database,
-  GitFork,
-  CheckCircle2,
   AlertTriangle,
-  Award,
   Terminal,
   Activity,
-  Globe,
   Sun,
   Moon,
   Smartphone,
@@ -33,7 +28,9 @@ import {
   Zap,
   Scale,
   FileSpreadsheet,
-  AlertCircle
+  AlertCircle,
+  Cpu,     // <-- ADDED THIS
+  QrCode   // <-- ADDED THIS
 } from 'lucide-react';
 
 import { useTheme } from '../context/ThemeContext';
@@ -184,7 +181,7 @@ export function LandingView() {
             >
               {isDark ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-slate-700" />}
             </button>
-          </nav>
+          </div>
 
           {/* Right Action Controls */}
           <div className="flex items-center gap-2 sm:gap-3">
@@ -193,8 +190,8 @@ export function LandingView() {
               <button
                 onClick={() => setLang('en')}
                 className={`px-1.5 py-0.5 rounded transition ${lang === 'en'
-                    ? 'text-blue-700 dark:text-blue-400 font-bold bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/20'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+                  ? 'text-blue-700 dark:text-blue-400 font-bold bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/20'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
                   }`}
               >
                 EN
@@ -202,8 +199,8 @@ export function LandingView() {
               <button
                 onClick={() => setLang('hi')}
                 className={`px-1.5 py-0.5 rounded transition ${lang === 'hi'
-                    ? 'text-blue-700 dark:text-blue-400 font-bold bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/20'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+                  ? 'text-blue-700 dark:text-blue-400 font-bold bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/20'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
                   }`}
               >
                 हिन्दी
@@ -211,8 +208,8 @@ export function LandingView() {
               <button
                 onClick={() => setLang('gu')}
                 className={`px-1.5 py-0.5 rounded transition ${lang === 'gu'
-                    ? 'text-blue-700 dark:text-blue-400 font-bold bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/20'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+                  ? 'text-blue-700 dark:text-blue-400 font-bold bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/20'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
                   }`}
               >
                 ગુજરાતી
@@ -501,8 +498,8 @@ export function LandingView() {
                   key={div.code}
                   onClick={() => setActiveDivisionTab(div.code)}
                   className={`px-4 py-2 rounded-xl text-xs font-extrabold font-mono transition-all ${isSelected
-                      ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20'
-                      : 'bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-white/10'
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20'
+                    : 'bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-white/10'
                     }`}
                 >
                   {div.code} • {div.shortName}
@@ -586,7 +583,7 @@ export function LandingView() {
             <div>
               <div className="flex items-center gap-2 text-slate-900 dark:text-slate-100 font-semibold text-sm mb-2">
                 <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>Smart India Hackathon 2026</span>
+                <span>BISEngine</span>
               </div>
               <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                 National AI-Powered Recommendation Engine for Bureau of Indian Standards Compliance.
@@ -630,7 +627,7 @@ export function LandingView() {
           </div>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-between text-slate-500 text-[11px]">
-            <p>© 2026 Smart India Hackathon. Government of India.</p>
+            <p>© BISEngine. Government of India.</p>
             <p className="mt-2 sm:mt-0 font-mono">Developed for Public Procurement Traceability & Quality Assurance</p>
           </div>
         </div>

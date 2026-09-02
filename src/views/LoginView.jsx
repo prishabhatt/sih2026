@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
+import {
   ArrowLeft,
   Sun,
   Moon,
@@ -139,8 +139,8 @@ export function LoginView() {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 sm:p-8 bg-slate-100 dark:bg-[#0B1120] transition-colors duration-300 relative">
-      
+    <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 sm:p-8 bg-neutral-200/80 dark:bg-black transition-colors duration-300 relative">
+
       {/* Header Navigation (Extracted outside the card) */}
       <div className="absolute top-0 w-full flex justify-between items-center p-6 sm:px-8 z-10">
         <button
@@ -160,181 +160,169 @@ export function LoginView() {
       </div>
 
       {/* Central Floating Card */}
-      <div className="max-w-5xl w-full bg-white dark:bg-[#131C2E] rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row border border-slate-200 dark:border-slate-700 min-h-[600px] mt-12 sm:mt-8">
-        
+      <div className="max-w-6xl w-full bg-[#F3F4F6] dark:bg-zinc-900 rounded-[2.5rem] p-3 sm:p-4 shadow-2xl ring-1 ring-white/60 dark:ring-white/10 flex flex-col lg:flex-row gap-4 relative overflow-hidden min-h-[600px] mt-12 sm:mt-8">
+
         {/* Left Column - Auth Form */}
-        <div className="w-full md:w-1/2 p-6 sm:p-10 flex flex-col relative bg-white dark:bg-[#131C2E] overflow-y-auto">
-          
+        <div className="flex-1 p-8 lg:p-12 flex flex-col justify-center overflow-y-auto">
+
           <div className="flex-1 flex flex-col max-w-sm w-full mx-auto justify-center">
-            <div className="mb-6">
-              <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
+            <div className="mb-8">
+              <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">
                 {isSignUp ? 'Create an account' : 'Sign in to your account'}
               </h1>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
-                {isSignUp 
-                  ? 'Register your details to access the AI recommendation engine.' 
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
+                {isSignUp
+                  ? 'Register your details to access the AI recommendation engine.'
                   : 'Authenticate using your official credentials or SSO gateway.'}
               </p>
             </div>
 
             {isSignUp ? (
-              <form onSubmit={handleSignUpSubmit} className="space-y-4 mb-6">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">Full Name</label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <form onSubmit={handleSignUpSubmit} className="flex flex-col gap-4 mb-6">
+                <div>
+                  <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">Full Name</label>
+                  <div className="relative flex items-center bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl focus-within:ring-2 focus-within:ring-slate-900 dark:focus-within:ring-white transition-all overflow-hidden">
+                    <User className="absolute left-4 w-4 h-4 text-slate-400" />
                     <input
                       type="text"
                       placeholder="John Doe"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all text-sm"
+                      className="w-full pl-11 pr-4 py-3 text-sm bg-transparent outline-none placeholder:text-slate-400 text-slate-900 dark:text-white"
                       required
                     />
                   </div>
                 </div>
-                
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">Email Address</label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+
+                <div>
+                  <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">Email Address</label>
+                  <div className="relative flex items-center bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl focus-within:ring-2 focus-within:ring-slate-900 dark:focus-within:ring-white transition-all overflow-hidden">
+                    <Mail className="absolute left-4 w-4 h-4 text-slate-400" />
                     <input
                       type="email"
                       placeholder="official@gov.in"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all text-sm"
+                      className="w-full pl-11 pr-4 py-3 text-sm bg-transparent outline-none placeholder:text-slate-400 text-slate-900 dark:text-white"
                       required
                     />
                   </div>
                 </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">Password</label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <div>
+                  <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">Password</label>
+                  <div className="relative flex items-center bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl focus-within:ring-2 focus-within:ring-slate-900 dark:focus-within:ring-white transition-all overflow-hidden">
+                    <Lock className="absolute left-4 w-4 h-4 text-slate-400" />
                     <input
                       type="password"
                       placeholder="••••••••"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all text-sm"
+                      className="w-full pl-11 pr-4 py-3 text-sm bg-transparent outline-none placeholder:text-slate-400 text-slate-900 dark:text-white"
                       required
                     />
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 py-2">
-                  <input 
-                    type="checkbox" 
-                    id="terms" 
-                    className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 bg-slate-50 dark:bg-slate-800 dark:border-slate-600" 
-                    required 
+                <div className="flex items-center gap-2 py-1">
+                  <input
+                    type="checkbox"
+                    id="terms"
+                    className="rounded border-slate-300 text-slate-900 focus:ring-slate-900 bg-white dark:bg-zinc-900 dark:border-zinc-700"
+                    required
                   />
                   <label htmlFor="terms" className="text-xs text-slate-500 dark:text-slate-400">
-                    I agree to the <a href="#" className="text-slate-900 dark:text-slate-200 hover:underline font-medium">Terms & Conditions</a>
+                    I agree to the <a href="#" className="text-slate-900 dark:text-white hover:underline font-medium">Terms & Conditions</a>
                   </label>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl transition-colors shadow-sm flex items-center justify-center gap-2"
+                  className="w-full py-3.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-semibold hover:bg-slate-800 dark:hover:bg-slate-200 transition-all shadow-md shadow-slate-900/10 flex items-center justify-center gap-2 mt-2"
                 >
-                  Create Account
+                  <span>Create Account</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </form>
             ) : (
-              <>
+              <div className="flex flex-col gap-6">
                 {/* Role Selection */}
-                <div className="mb-6">
-                  <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2 mb-3">
-                    <User className="w-3.5 h-3.5" />
+                <div>
+                  <h2 className="text-xs font-semibold text-slate-900 dark:text-white mb-2">
                     Select Official Role
                   </h2>
-
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="flex flex-wrap gap-2">
                     <button
                       type="button"
                       onClick={() => setSelectedRole('procurement')}
-                      className={`p-2 rounded-xl border text-center transition flex flex-col items-center gap-1.5 ${
-                        selectedRole === 'procurement'
-                          ? 'bg-blue-50 dark:bg-blue-500/15 border-blue-400 dark:border-blue-500/40 text-blue-700 dark:text-blue-300 ring-1 ring-blue-500/30'
-                          : 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-600'
-                      }`}
+                      className={`transition-colors cursor-pointer flex items-center gap-1.5 ${selectedRole === 'procurement'
+                          ? 'px-4 py-2 rounded-full border border-transparent bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-medium shadow-sm'
+                          : 'px-4 py-2 rounded-full border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-medium text-slate-600 dark:text-slate-400 hover:border-slate-300'
+                        }`}
                     >
-                      <Building2 className={`w-4 h-4 ${selectedRole === 'procurement' ? 'text-blue-600 dark:text-blue-400' : ''}`} />
-                      <span className="text-[10px] font-semibold leading-tight">Procurement<br/>Officer</span>
+                      <Building2 className="w-3 h-3" />
+                      <span>Procurement</span>
                     </button>
-
                     <button
                       type="button"
                       onClick={() => setSelectedRole('evaluator')}
-                      className={`p-2 rounded-xl border text-center transition flex flex-col items-center gap-1.5 ${
-                        selectedRole === 'evaluator'
-                          ? 'bg-emerald-50 dark:bg-emerald-500/15 border-emerald-400 dark:border-emerald-500/40 text-emerald-700 dark:text-emerald-300 ring-1 ring-emerald-500/30'
-                          : 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-600'
-                      }`}
+                      className={`transition-colors cursor-pointer flex items-center gap-1.5 ${selectedRole === 'evaluator'
+                          ? 'px-4 py-2 rounded-full border border-transparent bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-medium shadow-sm'
+                          : 'px-4 py-2 rounded-full border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-medium text-slate-600 dark:text-slate-400 hover:border-slate-300'
+                        }`}
                     >
-                      <FileCheck className={`w-4 h-4 ${selectedRole === 'evaluator' ? 'text-emerald-600 dark:text-emerald-400' : ''}`} />
-                      <span className="text-[10px] font-semibold leading-tight">Technical<br/>Evaluator</span>
+                      <FileCheck className="w-3 h-3" />
+                      <span>Evaluator</span>
                     </button>
-
                     <button
                       type="button"
                       onClick={() => setSelectedRole('auditor')}
-                      className={`p-2 rounded-xl border text-center transition flex flex-col items-center gap-1.5 ${
-                        selectedRole === 'auditor'
-                          ? 'bg-purple-50 dark:bg-purple-500/15 border-purple-400 dark:border-purple-500/40 text-purple-700 dark:text-purple-300 ring-1 ring-purple-500/30'
-                          : 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-600'
-                      }`}
+                      className={`transition-colors cursor-pointer flex items-center gap-1.5 ${selectedRole === 'auditor'
+                          ? 'px-4 py-2 rounded-full border border-transparent bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-medium shadow-sm'
+                          : 'px-4 py-2 rounded-full border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-medium text-slate-600 dark:text-slate-400 hover:border-slate-300'
+                        }`}
                     >
-                      <Award className={`w-4 h-4 ${selectedRole === 'auditor' ? 'text-purple-600 dark:text-purple-400' : ''}`} />
-                      <span className="text-[10px] font-semibold leading-tight">Vigilance &<br/>Audit</span>
+                      <Award className="w-3 h-3" />
+                      <span>Audit</span>
                     </button>
                   </div>
                 </div>
 
                 {/* Auth Method Switcher Tabs */}
-                <div className="flex rounded-xl bg-slate-100 dark:bg-slate-800/50 p-1 border border-slate-200 dark:border-slate-700 mb-5">
+                <div className="flex p-1 bg-slate-200/50 dark:bg-zinc-900 rounded-lg">
                   <button
                     type="button"
                     onClick={() => setAuthMethod('otp')}
-                    className={`flex-1 py-2 text-xs font-semibold rounded-lg transition flex items-center justify-center gap-1.5 ${
-                      authMethod === 'otp'
-                        ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm border border-slate-200 dark:border-slate-600'
-                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
-                    }`}
+                    className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-all ${authMethod === 'otp'
+                        ? 'bg-white dark:bg-zinc-800 text-slate-900 dark:text-white shadow-sm'
+                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+                      }`}
                   >
-                    <Smartphone className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                    <span>Official Mobile OTP</span>
+                    Mobile OTP
                   </button>
-
                   <button
                     type="button"
                     onClick={() => setAuthMethod('sso')}
-                    className={`flex-1 py-2 text-xs font-semibold rounded-lg transition flex items-center justify-center gap-1.5 ${
-                      authMethod === 'sso'
-                        ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm border border-slate-200 dark:border-slate-600'
-                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
-                    }`}
+                    className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-all ${authMethod === 'sso'
+                        ? 'bg-white dark:bg-zinc-800 text-slate-900 dark:text-white shadow-sm'
+                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+                      }`}
                   >
-                    <KeyRound className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-                    <span>National SSO Gateway</span>
+                    National SSO
                   </button>
                 </div>
 
                 {/* AUTH METHOD 1: Mobile OTP Workflow */}
                 {authMethod === 'otp' && (
-                  <div className="space-y-4 pt-1">
+                  <div>
                     {otpStep === 1 ? (
                       <form onSubmit={handleSendOtp} className="space-y-4">
                         <div>
-                          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
-                            Registered Official Mobile Number
+                          <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                            Registered Mobile Number
                           </label>
-                          <div className="relative flex items-center">
-                            <span className="absolute left-3 font-mono text-sm text-slate-500 font-semibold border-r border-slate-300 dark:border-slate-600 pr-2">
+                          <div className="relative flex items-center bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl focus-within:ring-2 focus-within:ring-slate-900 dark:focus-within:ring-white transition-all overflow-hidden">
+                            <span className="absolute left-4 font-mono text-sm text-slate-500 font-medium">
                               +91
                             </span>
                             <input
@@ -343,7 +331,7 @@ export function LoginView() {
                               value={mobileNumber}
                               onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, ''))}
                               placeholder="Enter 10-digit number"
-                              className="w-full pl-14 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white text-sm font-mono font-semibold focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-all"
+                              className="w-full pl-12 pr-4 py-3 text-sm bg-transparent outline-none placeholder:text-slate-400 text-slate-900 dark:text-white font-mono font-medium"
                             />
                           </div>
                           {otpError && (
@@ -353,38 +341,37 @@ export function LoginView() {
 
                         <button
                           type="submit"
-                          className="w-full py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold flex items-center justify-center gap-2 transition-colors shadow-sm"
+                          className="w-full py-3.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-semibold hover:bg-slate-800 dark:hover:bg-slate-200 transition-all shadow-md shadow-slate-900/10 flex items-center justify-center gap-2 mt-2"
                         >
-                          <Smartphone className="w-4 h-4" />
                           <span>Send 6-Digit OTP</span>
                           <ArrowRight className="w-4 h-4" />
                         </button>
                       </form>
                     ) : (
-                      <form onSubmit={handleVerifyOtp} className="space-y-4 animate-in fade-in duration-200">
-                        <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 flex items-center justify-between text-xs">
+                      <form onSubmit={handleVerifyOtp} className="space-y-6 animate-in fade-in duration-200">
+                        <div className="p-4 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 flex items-center justify-between">
                           <div>
-                            <p className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-mono">Mobile Number</p>
-                            <p className="font-mono font-bold text-slate-900 dark:text-white text-sm mt-0.5">+91 {mobileNumber}</p>
+                            <p className="text-[11px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-medium">Mobile Number</p>
+                            <p className="font-mono font-medium text-slate-900 dark:text-white text-sm mt-1">+91 {mobileNumber}</p>
                           </div>
                           <button
                             type="button"
                             onClick={() => setOtpStep(1)}
-                            className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                            className="text-xs text-slate-900 dark:text-white hover:underline font-medium px-3 py-1.5 rounded-lg bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 shadow-sm transition-colors"
                           >
-                            Change
+                            Edit
                           </button>
                         </div>
 
                         <div>
                           <div className="flex items-center justify-between mb-2">
-                            <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                            <label className="text-xs font-medium text-slate-700 dark:text-slate-300">
                               Enter 6-Digit OTP
                             </label>
                             <button
                               type="button"
                               onClick={handleAutoFillOtp}
-                              className="text-[10px] font-mono text-amber-700 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/30 bg-amber-50/50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/50 px-2 py-0.5 rounded transition font-semibold"
+                              className="text-[10px] font-mono text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition font-medium"
                             >
                               Auto-Fill Demo
                             </button>
@@ -402,7 +389,7 @@ export function LoginView() {
                                 value={digit}
                                 onChange={(e) => handleOtpChange(idx, e.target.value)}
                                 onKeyDown={(e) => handleOtpKeyDown(idx, e)}
-                                className="w-full h-12 text-center font-mono font-bold text-lg rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-all selection:bg-blue-600/30"
+                                className="w-full h-12 text-center font-mono font-medium text-lg rounded-xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-slate-900 dark:text-white focus:border-slate-900 dark:focus:border-white focus:ring-1 focus:ring-slate-900 dark:focus:ring-white focus:outline-none transition-all selection:bg-slate-200 dark:selection:bg-zinc-700"
                               />
                             ))}
                           </div>
@@ -412,18 +399,18 @@ export function LoginView() {
                           )}
                         </div>
 
-                        <div className="flex items-center justify-between text-xs pt-1">
+                        <div className="flex items-center justify-between text-xs">
                           {isCounting ? (
                             <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">
-                              Resend OTP in: <strong>{countdown}s</strong>
+                              Resend in: {countdown}s
                             </span>
                           ) : (
                             <button
                               type="button"
                               onClick={handleSendOtp}
-                              className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 font-medium"
+                              className="text-xs text-slate-900 dark:text-white hover:underline flex items-center gap-1 font-medium"
                             >
-                              <RefreshCw className="w-3.5 h-3.5" />
+                              <RefreshCw className="w-3 h-3" />
                               <span>Resend OTP</span>
                             </button>
                           )}
@@ -432,19 +419,17 @@ export function LoginView() {
                         <button
                           type="submit"
                           disabled={otpSuccess}
-                          className={`w-full py-3 px-4 rounded-xl text-white text-sm font-semibold flex items-center justify-center gap-2 transition-all shadow-sm ${
-                            otpSuccess ? 'bg-emerald-600' : 'bg-blue-600 hover:bg-blue-700'
-                          }`}
+                          className={`w-full py-3.5 rounded-xl text-white text-sm font-semibold flex items-center justify-center gap-2 transition-all shadow-md ${otpSuccess ? 'bg-emerald-600 dark:bg-emerald-500 text-white' : 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-200 shadow-slate-900/10'
+                            }`}
                         >
                           {otpSuccess ? (
                             <>
-                              <CheckCircle2 className="w-4 h-4 text-white" />
-                              <span>Verified • Entering Portal...</span>
+                              <CheckCircle2 className="w-4 h-4" />
+                              <span>Verified</span>
                             </>
                           ) : (
                             <>
-                              <ShieldCheck className="w-4 h-4 text-emerald-300" />
-                              <span>Verify OTP & Login</span>
+                              <span>Verify & Login</span>
                               <ArrowRight className="w-4 h-4" />
                             </>
                           )}
@@ -456,14 +441,14 @@ export function LoginView() {
 
                 {/* AUTH METHOD 2: National SSO Options */}
                 {authMethod === 'sso' && (
-                  <div className="space-y-3 pt-1">
+                  <div className="space-y-3">
                     <button
                       type="button"
                       onClick={() => handleSsoLogin('Jan Parichay (National SSO)')}
-                      className="w-full py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold flex items-center justify-center gap-2 transition-colors shadow-sm"
+                      className="w-full py-3.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-semibold hover:bg-slate-800 dark:hover:bg-slate-200 transition-all shadow-md shadow-slate-900/10 flex items-center justify-center gap-2"
                     >
-                      <ShieldCheck className="w-4 h-4 text-emerald-300" />
-                      <span>Jan Parichay (National SSO)</span>
+                      <ShieldCheck className="w-4 h-4" />
+                      <span>Jan Parichay SSO</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
 
@@ -471,56 +456,54 @@ export function LoginView() {
                       <button
                         type="button"
                         onClick={() => handleSsoLogin('MeriPehchaan SSO')}
-                        className="py-3 px-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-colors text-center"
+                        className="py-3 px-3 rounded-xl bg-white dark:bg-zinc-900 hover:bg-slate-50 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-800 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-colors text-center"
                       >
                         MeriPehchaan
                       </button>
                       <button
                         type="button"
                         onClick={() => handleSsoLogin('GeM Portal SSO')}
-                        className="py-3 px-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-colors text-center"
+                        className="py-3 px-3 rounded-xl bg-white dark:bg-zinc-900 hover:bg-slate-50 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-800 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-colors text-center"
                       >
                         GeM Portal
                       </button>
                     </div>
                   </div>
                 )}
-              </>
+              </div>
             )}
 
             {/* Mode Toggle Sign Up / Sign In */}
             <div className="mt-6 text-center">
               <p className="text-xs text-slate-500 dark:text-slate-400">
                 {isSignUp ? "Already have an account? " : "Don't have an account? "}
-                <button 
+                <button
                   type="button"
-                  onClick={() => setIsSignUp(!isSignUp)} 
-                  className="font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+                  onClick={() => setIsSignUp(!isSignUp)}
+                  className="font-medium text-slate-900 dark:text-white hover:underline"
                 >
                   {isSignUp ? 'Sign In' : 'Sign Up'}
                 </button>
               </p>
             </div>
 
-            <div className="mt-8 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-start justify-center gap-2 text-slate-500 dark:text-slate-400">
-              <Lock className="w-4 h-4 shrink-0 mt-0.5" />
-              <p className="text-[10px] leading-relaxed text-center">
-                Protected under 256-bit NIC e-Gov security architecture. All queries logged under GFR 2017 Rule 144(xi).
-              </p>
+            <div className="mt-8 flex items-center justify-center gap-2 text-[11px] text-slate-400">
+              <Lock className="w-3 h-3" />
+              <span>Protected by 256-bit NIC e-Gov security.</span>
             </div>
           </div>
         </div>
 
         {/* Right Column - Quick Demo Profiles */}
-        <div className="w-full md:w-1/2 p-6 sm:p-10 flex flex-col bg-slate-50 dark:bg-[#0B1120]/50 overflow-y-auto border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-700">
-          
+        <div className="flex-1 bg-[#0F0F11] dark:bg-[#0A0A0B] rounded-[2rem] p-8 lg:p-12 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] border border-white/10 flex flex-col relative overflow-y-auto antialiased">
+
           <div className="flex flex-col h-full w-full max-w-sm mx-auto justify-center">
-            
+
             <div className="mb-6">
-              <h3 className="text-sm font-bold uppercase tracking-widest text-slate-800 dark:text-slate-300 mb-1.5">
+              <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">
                 Quick Demo Profiles
               </h3>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+              <p className="text-sm text-slate-500 mt-2">
                 Pre-configured profiles for instant evaluation without requiring real mobile OTP verification.
               </p>
             </div>
@@ -528,57 +511,65 @@ export function LoginView() {
             <div className="space-y-3">
               <button
                 onClick={() => handleQuickPersona('metro', 'underground_cable_metro')}
-                className="w-full text-left p-4 rounded-xl bg-white dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-blue-500/50 dark:hover:border-blue-500/50 transition-all group shadow-sm flex flex-col gap-1.5"
+                className="w-full text-left bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer group flex flex-col"
               >
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  <p className="text-white font-semibold text-sm tracking-tight">
                     Er. Vikramaditya Sharma
                   </p>
-                  <span className="text-[10px] font-mono text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-500/20 border border-blue-200 dark:border-blue-500/30 px-2 py-0.5 rounded-md font-bold">ETD</span>
+                  <span className="bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wider">
+                    ETD
+                  </span>
                 </div>
-                <p className="text-xs text-slate-500 dark:text-slate-400">National Metro Rail (11kV Cables)</p>
+                <p className="text-slate-400 text-xs mt-1">National Metro Rail (11kV Cables)</p>
               </button>
 
               <button
                 onClick={() => handleQuickPersona('nhai', 'tmt_rebars_cement_nhai')}
-                className="w-full text-left p-4 rounded-xl bg-white dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-emerald-500/50 dark:hover:border-emerald-500/50 transition-all group shadow-sm flex flex-col gap-1.5"
+                className="w-full text-left bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer group flex flex-col"
               >
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-200 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                  <p className="text-white font-semibold text-sm tracking-tight">
                     Er. Rajeshwar Nath Kulkarni
                   </p>
-                  <span className="text-[10px] font-mono text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-500/20 border border-emerald-200 dark:border-emerald-500/30 px-2 py-0.5 rounded-md font-bold">CED</span>
+                  <span className="bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wider">
+                    CED
+                  </span>
                 </div>
-                <p className="text-xs text-slate-500 dark:text-slate-400">NHAI (Fe 500D TMT & OPC 53)</p>
+                <p className="text-slate-400 text-xs mt-1">NHAI (Fe 500D TMT & OPC 53)</p>
               </button>
 
               <button
                 onClick={() => handleQuickPersona('geda', 'solar_pumps_kusum')}
-                className="w-full text-left p-4 rounded-xl bg-white dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-amber-500/50 dark:hover:border-amber-500/50 transition-all group shadow-sm flex flex-col gap-1.5"
+                className="w-full text-left bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer group flex flex-col"
               >
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-200 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                  <p className="text-white font-semibold text-sm tracking-tight">
                     Dr. Jayeshbhai Patel
                   </p>
-                  <span className="text-[10px] font-mono text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-500/20 border border-amber-200 dark:border-amber-500/30 px-2 py-0.5 rounded-md font-bold">LITD</span>
+                  <span className="bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wider">
+                    LITD
+                  </span>
                 </div>
-                <p className="text-xs text-slate-500 dark:text-slate-400">GEDA (PM-KUSUM Solar Pumps)</p>
+                <p className="text-slate-400 text-xs mt-1">GEDA (PM-KUSUM Solar Pumps)</p>
               </button>
 
               <button
                 onClick={() => handleQuickPersona('audit', 'underground_cable_metro')}
-                className="w-full text-left p-4 rounded-xl bg-white dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-purple-500/50 dark:hover:border-purple-500/50 transition-all group shadow-sm flex flex-col gap-1.5"
+                className="w-full text-left bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer group flex flex-col"
               >
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-200 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                  <p className="text-white font-semibold text-sm tracking-tight">
                     Smt. Ananya Sen, IA&AS
                   </p>
-                  <span className="text-[10px] font-mono text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-500/20 border border-purple-200 dark:border-purple-500/30 px-2 py-0.5 rounded-md font-bold">AUDIT</span>
+                  <span className="bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wider">
+                    AUDIT
+                  </span>
                 </div>
-                <p className="text-xs text-slate-500 dark:text-slate-400">Comptroller & Auditor General</p>
+                <p className="text-slate-400 text-xs mt-1">Comptroller & Auditor General</p>
               </button>
             </div>
-            
+
           </div>
         </div>
 
