@@ -11,13 +11,13 @@ export function Badge({ children, variant = 'default', size = 'md', className = 
 
   const variants = {
     default: 'glass-pill-container text-slate-700 dark:text-slate-300',
-    primary: 'bg-blue-500/10 text-blue-700 dark:text-blue-300 border border-blue-500/20',
-    qco: 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20',
-    scheme1: 'bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20',
-    scheme2: 'bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 border border-cyan-500/20',
+    primary: 'bg-[#292524]/10 text-[#292524] dark:text-[#A8A29E] border border-[#292524]/20',
+    qco: 'bg-[#059669]/10 text-emerald-700 dark:text-emerald-300 border border-[#059669]/20',
+    scheme1: 'bg-[#1C1917]/10 text-[#1C1917] dark:text-[#A8A29E] border border-[#1C1917]/20',
+    scheme2: 'bg-[#292524]/15 text-[#292524] dark:text-[#A8A29E] border border-[#292524]/30',
     warning: 'bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/20',
     danger: 'bg-rose-500/10 text-rose-700 dark:text-rose-300 border border-rose-500/20',
-    active: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30',
+    active: 'bg-[#059669]/15 text-emerald-700 dark:text-emerald-300 border border-[#059669]/30',
     success: 'bg-emerald-600 text-white shadow-sm'
   };
 

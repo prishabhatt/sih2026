@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useMemo } from 'react';
 import { MOCK_STANDARDS } from '../data/mockStandardsData';
 import { SAMPLE_SCENARIOS } from '../data/sampleScenarios';
-import { TRANSLATIONS } from '../data/translations';
+import { TRANSLATIONS, SUPPORTED_LANGUAGES } from '../data/translations';
 
 const ProcurementContext = createContext();
 
@@ -219,6 +219,7 @@ export function ProcurementProvider({ children }) {
       value={{
         lang,
         setLang,
+        languages: SUPPORTED_LANGUAGES,
         t,
         orgProfile,
         setOrgProfile,

@@ -11,15 +11,15 @@ export function StandardCard({ std, isSelected, onToggle, onExploreNormative }) 
         {/* Info on Left */}
         <div className="flex flex-col gap-1.5 flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-sm font-black font-mono text-blue-600 dark:text-blue-400 shrink-0">
+            <span className="text-sm font-black font-mono text-[#292524] dark:text-[#A8A29E] shrink-0">
               {std.code}
             </span>
             {std.qcoMandatory && (
-              <span className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 px-2.5 py-0.5 rounded-full text-[10px] font-bold shrink-0">
+              <span className="bg-[#059669]/10 text-emerald-700 dark:text-[#059669] border border-[#059669]/20 px-2.5 py-0.5 rounded-full text-[10px] font-bold shrink-0">
                 Mandatory QCO
               </span>
             )}
-            <span className="bg-blue-500/10 text-blue-700 dark:text-blue-400 border border-blue-500/20 px-2.5 py-0.5 rounded-full text-[10px] font-bold shrink-0">
+            <span className="bg-[#292524]/10 text-[#292524] dark:text-[#A8A29E] border border-[#292524]/20 px-2.5 py-0.5 rounded-full text-[10px] font-bold shrink-0">
               ISI Mark
             </span>
           </div>
@@ -66,7 +66,7 @@ export function StandardCard({ std, isSelected, onToggle, onExploreNormative }) 
               onClick={() => onExploreNormative(std)}
               className="glass-btn-secondary inline-flex items-center gap-2 px-4 py-2 rounded-full text-slate-800 dark:text-slate-200 text-xs font-bold transition shadow-xs cursor-pointer"
             >
-              <GitFork className="w-3.5 h-3.5 text-blue-500" />
+              <GitFork className="w-3.5 h-3.5 text-[#292524] dark:text-[#A8A29E]" />
               <span>Explore Normative Tree</span>
             </button>
           </div>

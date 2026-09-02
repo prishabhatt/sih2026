@@ -77,21 +77,21 @@ export function AnalyzingView() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#F1F5F9] dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-500 relative font-sans selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen bg-[#F1F5F9] dark:bg-[#090A0F] text-slate-900 dark:text-slate-100 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-500 relative font-sans selection:bg-[#292524] selection:text-white">
       
       {/* Living Aurora Background */}
       <AppleStripeBackground />
 
       <div className="max-w-4xl mx-auto w-full space-y-6 relative z-10">
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-pill-container text-blue-600 dark:text-blue-400 text-xs font-mono font-bold shadow-xs">
-            <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-600 dark:text-blue-400" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-pill-container text-[#292524] dark:text-[#A8A29E] text-xs font-mono font-bold shadow-xs">
+            <Loader2 className="w-3.5 h-3.5 animate-spin text-[#292524] dark:text-[#A8A29E]" />
             <span>AI Neural Vector Resolution Pipeline</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
             {t.analyzing.title}{' '}
-            <span className="font-serif italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-sky-300">
+            <span className="font-serif italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-[#1C1917] via-[#292524] to-[#44403C] dark:from-[#A8A29E] dark:via-[#D6D3D1] dark:to-[#A8A29E]">
               Intelligence
             </span>
           </h1>
@@ -114,7 +114,7 @@ export function AnalyzingView() {
 
           <div className="w-full bg-slate-200/80 dark:bg-white/10 h-2.5 rounded-full overflow-hidden p-0.5">
             <div
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-sky-400 h-full rounded-full transition-all duration-300 ease-out shadow-sm"
+              className="bg-gradient-to-r from-[#1C1917] via-[#292524] to-[#44403C] dark:from-[#292524] dark:to-[#A8A29E] h-full rounded-full transition-all duration-300 ease-out shadow-sm"
               style={{ width: `${progress}%` }}
             ></div>
           </div>
@@ -131,7 +131,7 @@ export function AnalyzingView() {
                     isDone
                       ? 'bg-emerald-50/80 dark:bg-emerald-950/30 border-emerald-300 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-300 font-bold'
                       : isCurrent
-                      ? 'glass-pill-active border-blue-500/50 dark:border-blue-400/50 text-blue-900 dark:text-blue-300 font-extrabold ring-2 ring-blue-500/20'
+                      ? 'glass-pill-active border-[#292524]/50 dark:border-[#A8A29E]/50 text-[#292524] dark:text-[#A8A29E] font-extrabold ring-2 ring-[#292524]/20'
                       : 'glass-card text-slate-400 dark:text-slate-500'
                   }`}
                 >
@@ -139,7 +139,7 @@ export function AnalyzingView() {
                     {isDone ? (
                       <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                     ) : isCurrent ? (
-                      <Loader2 className="w-4 h-4 text-blue-600 dark:text-blue-400 animate-spin" />
+                      <Loader2 className="w-4 h-4 text-[#292524] dark:text-[#A8A29E] animate-spin" />
                     ) : (
                       <span className="w-4 h-4 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-500 text-[10px] flex items-center justify-center font-mono">
                         {idx + 1}
@@ -159,7 +159,7 @@ export function AnalyzingView() {
         <div className="bg-[#070B14]/90 dark:bg-[#070B14]/95 text-slate-200 rounded-3xl border border-white/10 p-5 shadow-2xl font-mono text-xs overflow-hidden backdrop-blur-2xl">
           <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10 text-slate-400 text-[11px]">
             <span className="flex items-center gap-2 text-white font-bold">
-              <Terminal className="w-4 h-4 text-blue-400" />
+              <Terminal className="w-4 h-4 text-[#A8A29E]" />
               {t.analyzing.terminalTitle}
             </span>
             <span className="text-emerald-400 text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
@@ -189,7 +189,7 @@ export function AnalyzingView() {
           </div>
           <div className="glass-card p-4 rounded-2xl shadow-xs">
             <p className="text-[10px] uppercase font-bold tracking-wider text-slate-400">{t.analyzing.statConfidence}</p>
-            <p className="text-lg font-black font-mono text-blue-600 dark:text-blue-400 mt-0.5">99.4%</p>
+            <p className="text-lg font-black font-mono text-[#292524] dark:text-[#A8A29E] mt-0.5">99.4%</p>
           </div>
           <div className="glass-card p-4 rounded-2xl shadow-xs">
             <p className="text-[10px] uppercase font-bold tracking-wider text-slate-400">{t.analyzing.statLatency}</p>

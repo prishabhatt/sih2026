@@ -42,17 +42,17 @@ export function SampleDataDrawer() {
             <div
               key={scenario.id}
               onClick={() => handleSelectScenario(scenario.id)}
-              className="glass-card p-4 rounded-2xl hover:border-blue-400 dark:hover:border-white/30 transition-all cursor-pointer group shadow-xs"
+              className="glass-card p-4 rounded-2xl hover:border-[#292524] dark:hover:border-white/30 transition-all cursor-pointer group shadow-xs"
             >
               <div className="flex items-start justify-between">
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300 bg-blue-500/10 px-2.5 py-0.5 rounded-full border border-blue-500/20">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#292524] dark:text-[#A8A29E] bg-[#292524]/10 px-2.5 py-0.5 rounded-full border border-[#292524]/20">
                   {scenario.division}
                 </span>
-                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition flex items-center gap-1">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 group-hover:text-[#292524] dark:group-hover:text-[#A8A29E] transition flex items-center gap-1">
                   Load <ArrowRight className="w-3.5 h-3.5 text-amber-400 group-hover:translate-x-0.5 transition-transform" />
                 </span>
               </div>
-              <h4 className="font-extrabold text-xs text-slate-900 dark:text-white mt-2.5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">
+              <h4 className="font-extrabold text-xs text-slate-900 dark:text-white mt-2.5 group-hover:text-[#292524] dark:group-hover:text-[#A8A29E] transition">
                 {scenario.title}
               </h4>
               <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 font-normal">

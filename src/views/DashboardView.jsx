@@ -38,7 +38,7 @@ export function DashboardView() {
   const [showQrCard, setShowQrCard] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#F1F5F9] dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 space-y-6 transition-colors duration-500 relative font-sans selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen bg-[#F1F5F9] dark:bg-[#090A0F] text-slate-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 space-y-6 transition-colors duration-500 relative font-sans selection:bg-[#292524] selection:text-white">
       
       {/* Living Aurora Background */}
       <AppleStripeBackground />
@@ -53,7 +53,7 @@ export function DashboardView() {
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
               {t.dashboard.title}{' '}
-              <span className="font-serif italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-sky-300">
+              <span className="font-serif italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-[#1C1917] via-[#292524] to-[#44403C] dark:from-[#A8A29E] dark:via-[#D6D3D1] dark:to-[#A8A29E]">
                 Matrix
               </span>
             </h1>
@@ -64,7 +64,7 @@ export function DashboardView() {
             {/* Inline Badges */}
             <div className="flex flex-wrap items-center gap-2.5 mt-4">
               <span className="glass-pill-container px-3 py-1 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 shadow-xs">
-                <Layers className="w-3.5 h-3.5 text-blue-500" /> {selectedStandardIds.length} Applicable Standards
+                <Layers className="w-3.5 h-3.5 text-[#292524] dark:text-[#A8A29E]" /> {selectedStandardIds.length} Applicable Standards
               </span>
               <span className="glass-pill-container px-3 py-1 rounded-full text-xs font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5 shadow-xs">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> 100% QCO Verified
@@ -140,7 +140,7 @@ export function DashboardView() {
             <div className="glass-card rounded-3xl p-6 shadow-xl flex flex-col max-h-[calc(100vh-12rem)] min-h-[640px] border border-white/70 dark:border-white/10">
               <div className="flex-shrink-0 mb-4 pb-3 border-b border-slate-200/80 dark:border-white/10">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-blue-500" />
+                  <span className="w-2 h-2 rounded-full bg-[#292524] dark:bg-[#A8A29E]" />
                   Your Tender Draft
                 </h3>
               </div>
@@ -160,7 +160,7 @@ export function DashboardView() {
                         if (!s) return null;
                         return (
                           <li key={id} className="text-xs text-slate-700 dark:text-slate-300 font-medium flex items-start gap-2.5 p-2 rounded-2xl glass-pill-container">
-                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
+                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#292524] dark:bg-[#A8A29E] shrink-0" />
                             <span>
                               <span className="font-bold text-slate-900 dark:text-white block font-mono">{s.code}</span>
                               <span className="block text-[10px] text-slate-500 truncate">{s.title}</span>

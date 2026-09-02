@@ -17,7 +17,7 @@ export function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { currentUser, switchPersona, logout } = useAuth();
-  const { lang, setLang, t, setIsSampleDrawerOpen } = useProcurement();
+  const { lang, setLang, languages = [], t, setIsSampleDrawerOpen } = useProcurement();
   const { toggleTheme, setLightTheme, setDarkTheme, isDark } = useTheme();
   
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -33,22 +33,22 @@ export function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-white/85 dark:bg-[#0B0F19]/85 backdrop-blur-2xl border-b border-slate-200/80 dark:border-white/[0.08] shadow-[0_4px_20px_rgba(0,0,0,0.03)] no-print transition-all py-3.5">
+      <header className="sticky top-0 z-40 bg-white/85 dark:bg-[#090A0F]/85 backdrop-blur-2xl border-b border-slate-200/80 dark:border-white/[0.08] shadow-[0_4px_20px_rgba(0,0,0,0.03)] no-print transition-all py-3.5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0">
             {/* Brand Logo */}
             <div className="flex items-center gap-4">
               <Link to="/" className="flex items-center gap-3 group">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 dark:from-blue-600 dark:to-blue-800 border border-white/30 flex items-center justify-center text-white shadow-md shadow-blue-600/25 group-hover:scale-105 transition-transform">
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#1C1917] to-[#292524] dark:from-[#1C1917] dark:to-[#292524] border border-[#292524]/30 dark:border-white/20 flex items-center justify-center text-white shadow-md shadow-[#1C1917]/20 group-hover:scale-105 transition-transform">
                   <ShieldCheck className="w-5 h-5 text-white" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="font-extrabold text-base tracking-tight text-slate-900 dark:text-white">
-                      BIS<span className="text-blue-600 dark:text-blue-400 font-serif italic">Engine</span>
+                      BIS<span className="text-[#292524] dark:text-[#A8A29E] font-serif italic">Engine</span>
                     </span>
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold glass-pill-active text-slate-800 dark:text-slate-200 font-mono">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#059669] animate-pulse" />
                       NIC-Active
                     </span>
                   </div>
@@ -97,51 +97,58 @@ export function Navbar() {
                   }`}
                   title="Switch to Dark Mode"
                 >
-                  <Moon className={`w-3.5 h-3.5 ${isDark ? 'text-blue-400' : 'text-slate-500'}`} />
+                  <Moon className={`w-3.5 h-3.5 ${isDark ? 'text-[#A8A29E]' : 'text-slate-500'}`} />
                 </button>
               </div>
 
-              {/* Language Selector */}
+              {/* Multilingual Glassmorphic Dropdown */}
               <div className="relative">
                 <button
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                  className="glass-btn-secondary inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 font-mono cursor-pointer"
+                  className="glass-btn-secondary inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 font-mono cursor-pointer shadow-xs"
+                  title="Select Portal Language"
                 >
-                  <Languages className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                  <Languages className="w-3.5 h-3.5 text-[#292524] dark:text-[#A8A29E]" />
                   <span className="uppercase">{lang}</span>
-                  <ChevronDown className="w-3 h-3 text-slate-400" />
+                  <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform duration-200 ${isLangMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
 
                 {isLangMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-44 glass-card rounded-2xl shadow-2xl p-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                    <button
-                      onClick={() => { setLang('en'); setIsLangMenuOpen(false); }}
-                      className={`w-full text-left px-3.5 py-2 rounded-xl text-xs flex items-center justify-between transition-colors ${
-                        lang === 'en' ? 'font-bold glass-pill-active text-slate-900 dark:text-white' : 'text-slate-700 dark:text-slate-300 hover:bg-white/40 dark:hover:bg-white/10'
-                      }`}
-                    >
-                      <span>English (EN)</span>
-                      {lang === 'en' && <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />}
-                    </button>
-                    <button
-                      onClick={() => { setLang('hi'); setIsLangMenuOpen(false); }}
-                      className={`w-full text-left px-3.5 py-2 rounded-xl text-xs flex items-center justify-between transition-colors ${
-                        lang === 'hi' ? 'font-bold glass-pill-active text-slate-900 dark:text-white' : 'text-slate-700 dark:text-slate-300 hover:bg-white/40 dark:hover:bg-white/10'
-                      }`}
-                    >
-                      <span>हिन्दी (Hindi)</span>
-                      {lang === 'hi' && <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />}
-                    </button>
-                    <button
-                      onClick={() => { setLang('gu'); setIsLangMenuOpen(false); }}
-                      className={`w-full text-left px-3.5 py-2 rounded-xl text-xs flex items-center justify-between transition-colors ${
-                        lang === 'gu' ? 'font-bold glass-pill-active text-slate-900 dark:text-white' : 'text-slate-700 dark:text-slate-300 hover:bg-white/40 dark:hover:bg-white/10'
-                      }`}
-                    >
-                      <span>ગુજરાતી (Gujarati)</span>
-                      {lang === 'gu' && <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />}
-                    </button>
-                  </div>
+                  <>
+                    <div 
+                      className="fixed inset-0 z-40" 
+                      onClick={() => setIsLangMenuOpen(false)} 
+                    />
+                    <div className="absolute right-0 mt-2 w-60 glass-card backdrop-blur-2xl rounded-2xl shadow-2xl p-1.5 z-50 border border-slate-200/90 dark:border-white/10 animate-in fade-in slide-in-from-top-2 duration-150 max-h-96 overflow-y-auto">
+                      <div className="px-3 py-1.5 mb-1 border-b border-slate-200/60 dark:border-white/5">
+                        <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-slate-400 dark:text-slate-500">
+                          Major Indian Languages
+                        </span>
+                      </div>
+                      {languages.map((l) => (
+                        <button
+                          key={l.code}
+                          onClick={() => { setLang(l.code); setIsLangMenuOpen(false); }}
+                          className={`w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between transition-colors my-0.5 ${
+                            lang === l.code 
+                              ? 'font-bold glass-pill-active text-slate-900 dark:text-white' 
+                              : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100/70 dark:hover:bg-white/10'
+                          }`}
+                        >
+                          <div>
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-semibold">{l.native}</span>
+                              <span className="text-[10px] opacity-70 font-mono">({l.code.toUpperCase()})</span>
+                            </div>
+                            <div className="text-[9px] text-slate-400 dark:text-slate-400 font-sans">
+                              {l.region}
+                            </div>
+                          </div>
+                          {lang === l.code && <CheckCircle2 className="w-3.5 h-3.5 text-[#292524] dark:text-[#A8A29E] shrink-0" />}
+                        </button>
+                      ))}
+                    </div>
+                  </>
                 )}
               </div>
 
@@ -151,7 +158,7 @@ export function Navbar() {
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                   className="glass-btn-secondary inline-flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-full transition cursor-pointer"
                 >
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#1C1917] to-[#292524] text-white flex items-center justify-center font-bold text-xs shadow-xs">
                     {currentUser?.name?.charAt(0) || 'U'}
                   </div>
                   <div className="text-left hidden lg:block">
@@ -169,11 +176,11 @@ export function Navbar() {
                   <div className="absolute right-0 mt-2 w-72 glass-card rounded-3xl shadow-2xl p-2.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                     <div className="p-3.5 glass-pill-container rounded-2xl mb-2">
                       <p className="text-xs font-extrabold text-slate-900 dark:text-white">{currentUser?.name}</p>
-                      <p className="text-[11px] text-blue-600 dark:text-blue-400 font-semibold">{currentUser?.roleTitle}</p>
+                      <p className="text-[11px] text-[#292524] dark:text-[#A8A29E] font-semibold">{currentUser?.roleTitle}</p>
                       <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">{currentUser?.organization}</p>
                       <div className="mt-2 pt-2 border-t border-slate-200/80 dark:border-white/10 flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
                         <span>Auth: <strong className="font-mono">{currentUser?.ssoProvider}</strong></span>
-                        <span className="text-emerald-600 dark:text-emerald-400 font-bold">Active</span>
+                        <span className="text-emerald-600 dark:text-[#059669] font-bold">Active</span>
                       </div>
                     </div>
 
@@ -188,7 +195,7 @@ export function Navbar() {
                         <p className="font-bold text-slate-800 dark:text-slate-200">Er. Vikramaditya Sharma</p>
                         <p className="text-[10px] text-slate-500 dark:text-slate-400">Procurement Officer (Metro Rail)</p>
                       </div>
-                      {currentUser?.id === 'usr_metro_01' && <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />}
+                      {currentUser?.id === 'usr_metro_01' && <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-[#059669]" />}
                     </button>
 
                     <button
@@ -199,7 +206,7 @@ export function Navbar() {
                         <p className="font-bold text-slate-800 dark:text-slate-200">Er. Rajeshwar Nath Kulkarni</p>
                         <p className="text-[10px] text-slate-500 dark:text-slate-400">Technical Evaluator (NHAI)</p>
                       </div>
-                      {currentUser?.id === 'usr_nhai_02' && <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />}
+                      {currentUser?.id === 'usr_nhai_02' && <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-[#059669]" />}
                     </button>
 
                     <button
@@ -210,7 +217,7 @@ export function Navbar() {
                         <p className="font-bold text-slate-800 dark:text-slate-200">Smt. Ananya Sen</p>
                         <p className="text-[10px] text-slate-500 dark:text-slate-400">Vigilance & Audit Officer (CAG)</p>
                       </div>
-                      {currentUser?.id === 'usr_audit_03' && <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />}
+                      {currentUser?.id === 'usr_audit_03' && <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-[#059669]" />}
                     </button>
 
                     <div className="border-t border-slate-200/80 dark:border-white/10 my-1 pt-1">

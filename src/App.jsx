@@ -19,7 +19,7 @@ function AppLayout({ children }) {
   const isCustomOrAuthPage = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/analyzing';
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F1F5F9] dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 selection:bg-blue-600 selection:text-white transition-colors duration-200">
+    <div className="min-h-screen flex flex-col bg-[#F7F6F3] dark:bg-[#0E121B] text-[#1A1A1A] dark:text-[#E8E6E3] selection:bg-[#D6D3CF] dark:selection:bg-[#2A3040] transition-colors duration-300">
       {!isCustomOrAuthPage && <Navbar />}
       <main className="flex-1">
         {children}

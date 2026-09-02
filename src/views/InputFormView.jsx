@@ -85,7 +85,7 @@ export function InputFormView() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F1F5F9] dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 transition-colors duration-500 relative font-sans selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen bg-[#F1F5F9] dark:bg-[#090A0F] text-slate-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 transition-colors duration-500 relative font-sans selection:bg-[#292524] selection:text-white">
       
       {/* Living Aurora Background */}
       <AppleStripeBackground />
@@ -95,12 +95,12 @@ export function InputFormView() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200/80 dark:border-white/[0.08]">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-pill-container text-slate-800 dark:text-slate-200 text-xs font-bold font-mono shadow-xs mb-2">
-              <span className="w-2 h-2 rounded-full bg-blue-600 dark:bg-blue-400 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-[#292524] dark:bg-[#A8A29E] animate-pulse" />
               <span>Step 1 of 4 : Specification Configuration</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
               {t.input.pageTitle}{' '}
-              <span className="font-serif italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-sky-300">
+              <span className="font-serif italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-[#1C1917] via-[#292524] to-[#44403C] dark:from-[#A8A29E] dark:via-[#D6D3D1] dark:to-[#A8A29E]">
                 Setup
               </span>
             </h1>
@@ -123,7 +123,7 @@ export function InputFormView() {
           {/* Section 1: GeM Profile */}
           <div className="glass-card rounded-3xl p-6 sm:p-8 shadow-lg space-y-5 border border-white/70 dark:border-white/10">
             <div className="flex items-center gap-3 pb-4 border-b border-slate-200/80 dark:border-white/10">
-              <div className="w-9 h-9 rounded-xl bg-blue-600/10 dark:bg-blue-400/15 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold shadow-xs">
+              <div className="w-9 h-9 rounded-xl bg-[#292524]/10 dark:bg-[#292524]/25 flex items-center justify-center text-[#292524] dark:text-[#A8A29E] font-bold shadow-xs">
                 <Building2 className="w-4 h-4" />
               </div>
               <div>
@@ -146,7 +146,7 @@ export function InputFormView() {
                   required
                   value={orgProfile.applicantName}
                   onChange={(e) => handleInputChange('applicantName', e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-2xl glass-pill-container focus:ring-2 focus:ring-blue-500 focus:outline-none text-slate-900 dark:text-white text-xs font-semibold transition"
+                  className="w-full px-4 py-2.5 rounded-2xl glass-pill-container focus:ring-2 focus:ring-[#292524] focus:outline-none text-slate-900 dark:text-white text-xs font-semibold transition"
                 />
               </div>
 
@@ -159,7 +159,7 @@ export function InputFormView() {
                   required
                   value={orgProfile.businessName}
                   onChange={(e) => handleInputChange('businessName', e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-2xl glass-pill-container focus:ring-2 focus:ring-blue-500 focus:outline-none text-slate-900 dark:text-white text-xs font-semibold transition"
+                  className="w-full px-4 py-2.5 rounded-2xl glass-pill-container focus:ring-2 focus:ring-[#292524] focus:outline-none text-slate-900 dark:text-white text-xs font-semibold transition"
                 />
               </div>
 
@@ -170,14 +170,14 @@ export function InputFormView() {
                 <select
                   value={orgProfile.orgType}
                   onChange={(e) => handleInputChange('orgType', e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-2xl glass-pill-container focus:ring-2 focus:ring-blue-500 focus:outline-none text-slate-900 dark:text-white text-xs font-semibold transition"
+                  className="w-full px-4 py-2.5 rounded-2xl glass-pill-container focus:ring-2 focus:ring-[#292524] focus:outline-none text-slate-900 dark:text-white text-xs font-semibold transition"
                 >
-                  <option value="Public Sector Undertaking (PSU)" className="dark:bg-[#0B0F19]">Public Sector Undertaking (PSU)</option>
-                  <option value="Central Ministry / Department" className="dark:bg-[#0B0F19]">Central Ministry / Department</option>
-                  <option value="State Government Dept" className="dark:bg-[#0B0F19]">State Government Department</option>
-                  <option value="MSME Registered Enterprise" className="dark:bg-[#0B0F19]">MSME Registered Enterprise</option>
-                  <option value="Autonomous Govt Body" className="dark:bg-[#0B0F19]">Autonomous Govt Body</option>
-                  <option value="Private Limited Company" className="dark:bg-[#0B0F19]">Private Limited Company</option>
+                  <option value="Public Sector Undertaking (PSU)" className="dark:bg-[#090A0F]">Public Sector Undertaking (PSU)</option>
+                  <option value="Central Ministry / Department" className="dark:bg-[#090A0F]">Central Ministry / Department</option>
+                  <option value="State Government Dept" className="dark:bg-[#090A0F]">State Government Department</option>
+                  <option value="MSME Registered Enterprise" className="dark:bg-[#090A0F]">MSME Registered Enterprise</option>
+                  <option value="Autonomous Govt Body" className="dark:bg-[#090A0F]">Autonomous Govt Body</option>
+                  <option value="Private Limited Company" className="dark:bg-[#090A0F]">Private Limited Company</option>
                 </select>
               </div>
 
@@ -190,7 +190,7 @@ export function InputFormView() {
                   required
                   value={orgProfile.gstin}
                   onChange={(e) => handleInputChange('gstin', e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-2xl glass-pill-container font-mono font-bold text-blue-600 dark:text-blue-400 focus:ring-2 focus:ring-blue-500 focus:outline-none text-xs transition"
+                  className="w-full px-4 py-2.5 rounded-2xl glass-pill-container font-mono font-bold text-[#292524] dark:text-[#A8A29E] focus:ring-2 focus:ring-[#292524] focus:outline-none text-xs transition"
                 />
               </div>
 
@@ -203,7 +203,7 @@ export function InputFormView() {
                   required
                   value={orgProfile.emailId}
                   onChange={(e) => handleInputChange('emailId', e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-2xl glass-pill-container focus:ring-2 focus:ring-blue-500 focus:outline-none text-slate-900 dark:text-white text-xs font-mono font-medium transition"
+                  className="w-full px-4 py-2.5 rounded-2xl glass-pill-container focus:ring-2 focus:ring-[#292524] focus:outline-none text-slate-900 dark:text-white text-xs font-mono font-medium transition"
                 />
               </div>
 
@@ -216,7 +216,7 @@ export function InputFormView() {
                   required
                   value={orgProfile.mobileNumber}
                   onChange={(e) => handleInputChange('mobileNumber', e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-2xl glass-pill-container focus:ring-2 focus:ring-blue-500 focus:outline-none text-slate-900 dark:text-white text-xs font-mono font-bold transition"
+                  className="w-full px-4 py-2.5 rounded-2xl glass-pill-container focus:ring-2 focus:ring-[#292524] focus:outline-none text-slate-900 dark:text-white text-xs font-mono font-bold transition"
                 />
               </div>
 
@@ -228,7 +228,7 @@ export function InputFormView() {
                   type="text"
                   value={orgProfile.state}
                   onChange={(e) => handleInputChange('state', e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-2xl glass-pill-container focus:ring-2 focus:ring-blue-500 focus:outline-none text-slate-900 dark:text-white text-xs font-semibold transition"
+                  className="w-full px-4 py-2.5 rounded-2xl glass-pill-container focus:ring-2 focus:ring-[#292524] focus:outline-none text-slate-900 dark:text-white text-xs font-semibold transition"
                 />
               </div>
 
@@ -240,7 +240,7 @@ export function InputFormView() {
                   type="text"
                   value={orgProfile.district}
                   onChange={(e) => handleInputChange('district', e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-2xl glass-pill-container focus:ring-2 focus:ring-blue-500 focus:outline-none text-slate-900 dark:text-white text-xs font-semibold transition"
+                  className="w-full px-4 py-2.5 rounded-2xl glass-pill-container focus:ring-2 focus:ring-[#292524] focus:outline-none text-slate-900 dark:text-white text-xs font-semibold transition"
                 />
               </div>
 
@@ -252,7 +252,7 @@ export function InputFormView() {
                   type="text"
                   value={orgProfile.pincode}
                   onChange={(e) => handleInputChange('pincode', e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-2xl glass-pill-container font-mono font-bold focus:ring-2 focus:ring-blue-500 focus:outline-none text-slate-900 dark:text-white text-xs transition"
+                  className="w-full px-4 py-2.5 rounded-2xl glass-pill-container font-mono font-bold focus:ring-2 focus:ring-[#292524] focus:outline-none text-slate-900 dark:text-white text-xs transition"
                 />
               </div>
             </div>
@@ -261,7 +261,7 @@ export function InputFormView() {
           {/* Section 2: BIS Division Selection */}
           <div className="glass-card rounded-3xl p-6 sm:p-8 shadow-lg space-y-4 border border-white/70 dark:border-white/10">
             <div className="flex items-center gap-3 pb-4 border-b border-slate-200/80 dark:border-white/10">
-              <div className="w-9 h-9 rounded-xl bg-blue-600/10 dark:bg-blue-400/15 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold shadow-xs">
+              <div className="w-9 h-9 rounded-xl bg-[#292524]/10 dark:bg-[#292524]/25 flex items-center justify-center text-[#292524] dark:text-[#A8A29E] font-bold shadow-xs">
                 <Layers className="w-4 h-4" />
               </div>
               <div>
@@ -284,18 +284,18 @@ export function InputFormView() {
                     onClick={() => setSelectedDivision(div.code)}
                     className={`p-4 rounded-2xl text-left transition-all flex flex-col justify-between cursor-pointer ${
                       isSelected
-                        ? 'glass-pill-active border-blue-500/80 dark:border-blue-400/80 shadow-md ring-2 ring-blue-500/20'
+                        ? 'glass-pill-active border-[#292524]/80 dark:border-[#A8A29E]/80 shadow-md ring-2 ring-[#292524]/20'
                         : 'glass-card hover:border-slate-300 dark:hover:border-white/20'
                     }`}
                   >
                     <div>
                       <div className="flex items-center justify-between mb-2">
                         <span className={`font-mono text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                          isSelected ? 'bg-blue-600 text-white' : 'glass-pill-container text-slate-700 dark:text-slate-300'
+                          isSelected ? 'bg-[#292524] text-white' : 'glass-pill-container text-slate-700 dark:text-slate-300'
                         }`}>
                           {div.code}
                         </span>
-                        {isSelected && <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-blue-400" />}
+                        {isSelected && <CheckCircle2 className="w-4 h-4 text-[#292524] dark:text-[#A8A29E]" />}
                       </div>
                       <p className="text-xs font-extrabold text-slate-900 dark:text-white leading-tight">
                         {div.shortName}
@@ -315,7 +315,7 @@ export function InputFormView() {
           <div className="glass-card rounded-3xl p-6 sm:p-8 shadow-lg space-y-4 border border-white/70 dark:border-white/10">
             <div className="flex items-center justify-between pb-4 border-b border-slate-200/80 dark:border-white/10">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-blue-600/10 dark:bg-blue-400/15 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold shadow-xs">
+                <div className="w-9 h-9 rounded-xl bg-[#292524]/10 dark:bg-[#292524]/25 flex items-center justify-center text-[#292524] dark:text-[#A8A29E] font-bold shadow-xs">
                   <FileText className="w-4 h-4" />
                 </div>
                 <h2 className="font-extrabold text-xs uppercase tracking-wider text-slate-900 dark:text-white">
@@ -333,7 +333,7 @@ export function InputFormView() {
               value={naturalQuery}
               onChange={(e) => setNaturalQuery(e.target.value)}
               placeholder={t.input.naturalQueryPlaceholder}
-              className="w-full p-4 rounded-2xl glass-pill-container text-slate-900 dark:text-white text-xs leading-relaxed focus:ring-2 focus:ring-blue-500 focus:outline-none transition shadow-inner font-medium"
+              className="w-full p-4 rounded-2xl glass-pill-container text-slate-900 dark:text-white text-xs leading-relaxed focus:ring-2 focus:ring-[#292524] focus:outline-none transition shadow-inner font-medium"
             />
 
             <div>
@@ -370,7 +370,7 @@ export function InputFormView() {
           {/* Section 4: Document Upload Zone */}
           <div className="glass-card rounded-3xl p-6 sm:p-8 shadow-lg space-y-4 border border-white/70 dark:border-white/10">
             <div className="flex items-center gap-3 pb-4 border-b border-slate-200/80 dark:border-white/10">
-              <div className="w-9 h-9 rounded-xl bg-blue-600/10 dark:bg-blue-400/15 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold shadow-xs">
+              <div className="w-9 h-9 rounded-xl bg-[#292524]/10 dark:bg-[#292524]/25 flex items-center justify-center text-[#292524] dark:text-[#A8A29E] font-bold shadow-xs">
                 <UploadCloud className="w-4 h-4" />
               </div>
               <h2 className="font-extrabold text-xs uppercase tracking-wider text-slate-900 dark:text-white">
@@ -384,12 +384,12 @@ export function InputFormView() {
               onDrop={handleDrop}
               className={`border-2 border-dashed rounded-2xl p-8 text-center transition-all ${
                 isDragOver
-                  ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-500/10'
+                  ? 'border-[#292524] bg-[#292524]/5 dark:bg-[#292524]/15'
                   : 'border-slate-300 dark:border-white/15 bg-white/40 dark:bg-[#070B14]/40 hover:bg-white/60'
               }`}
             >
               <div className="max-w-md mx-auto space-y-3">
-                <UploadCloud className="w-9 h-9 text-blue-600 dark:text-blue-400 mx-auto" />
+                <UploadCloud className="w-9 h-9 text-[#292524] dark:text-[#A8A29E] mx-auto" />
                 <div>
                   <p className="text-xs font-extrabold text-slate-900 dark:text-white">
                     {t.input.dropzoneTitle}
@@ -441,7 +441,7 @@ export function InputFormView() {
                   type="checkbox"
                   checked={disclaimers.gfr}
                   onChange={() => handleDisclaimerToggle('gfr')}
-                  className="mt-0.5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 w-4 h-4"
+                  className="mt-0.5 rounded border-slate-300 text-[#292524] focus:ring-[#292524] w-4 h-4"
                 />
                 <span className="text-xs leading-relaxed font-medium">{t.input.disclaimerGfr}</span>
               </label>
@@ -451,7 +451,7 @@ export function InputFormView() {
                   type="checkbox"
                   checked={disclaimers.bisAct}
                   onChange={() => handleDisclaimerToggle('bisAct')}
-                  className="mt-0.5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 w-4 h-4"
+                  className="mt-0.5 rounded border-slate-300 text-[#292524] focus:ring-[#292524] w-4 h-4"
                 />
                 <span className="text-xs leading-relaxed font-medium">{t.input.disclaimerBis}</span>
               </label>
@@ -461,7 +461,7 @@ export function InputFormView() {
                   type="checkbox"
                   checked={disclaimers.audit}
                   onChange={() => handleDisclaimerToggle('audit')}
-                  className="mt-0.5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 w-4 h-4"
+                  className="mt-0.5 rounded border-slate-300 text-[#292524] focus:ring-[#292524] w-4 h-4"
                 />
                 <span className="text-xs leading-relaxed font-medium">{t.input.disclaimerAudit}</span>
               </label>

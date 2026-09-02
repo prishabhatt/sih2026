@@ -38,7 +38,7 @@ export function ReportsView() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F1F5F9] dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 space-y-6 transition-colors duration-500 relative font-sans selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen bg-[#F1F5F9] dark:bg-[#090A0F] text-slate-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 space-y-6 transition-colors duration-500 relative font-sans selection:bg-[#292524] selection:text-white">
       
       {/* Living Aurora Background */}
       <AppleStripeBackground />
@@ -81,7 +81,7 @@ export function ReportsView() {
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs">
             <div>
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{t.reports.certificateId}</p>
-              <p className="font-mono font-bold text-blue-700 text-xs mt-0.5">{certificateId}</p>
+              <p className="font-mono font-bold text-[#292524] text-xs mt-0.5">{certificateId}</p>
             </div>
             <div>
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{t.reports.issuedOn}</p>
@@ -125,7 +125,7 @@ export function ReportsView() {
                 <tbody className="divide-y divide-slate-100 bg-white text-xs">
                   {selectedStds.map((std) => (
                     <tr key={std.id}>
-                      <td className="p-3 font-mono font-bold text-blue-700 whitespace-nowrap">
+                      <td className="p-3 font-mono font-bold text-[#292524] whitespace-nowrap">
                         {std.code}
                       </td>
                       <td className="p-3 text-slate-800">
@@ -208,7 +208,7 @@ export function ReportsView() {
         {/* Historical Logs */}
         <div className="glass-card rounded-3xl p-6 shadow-xl no-print space-y-4 border border-white/70 dark:border-white/10">
           <div className="flex items-center gap-2 pb-3 border-b border-slate-200/80 dark:border-white/10">
-            <Award className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+            <Award className="w-4 h-4 text-[#292524] dark:text-[#A8A29E]" />
             <h3 className="font-extrabold text-xs uppercase tracking-wider text-slate-900 dark:text-white">
               {t.reports.historyTitle}
             </h3>

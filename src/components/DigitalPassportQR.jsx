@@ -74,12 +74,12 @@ export function DigitalPassportQR({ className = '', isDarkTheme = false }) {
     bCtx.fillRect(0, 0, 400, 520);
 
     // Border
-    bCtx.strokeStyle = '#0F172A';
+    bCtx.strokeStyle = '#12141C';
     bCtx.lineWidth = 4;
     bCtx.strokeRect(10, 10, 380, 500);
 
     // Header Title
-    bCtx.fillStyle = '#0F172A';
+    bCtx.fillStyle = '#12141C';
     bCtx.font = 'bold 14px sans-serif';
     bCtx.textAlign = 'center';
     bCtx.fillText('GOVERNMENT OF INDIA • BIS COMPLIANCE PASS', 200, 40);
@@ -92,7 +92,7 @@ export function DigitalPassportQR({ className = '', isDarkTheme = false }) {
     bCtx.drawImage(canvas, 75, 80, 250, 250);
 
     // Footer Metadata
-    bCtx.fillStyle = '#0F172A';
+    bCtx.fillStyle = '#12141C';
     bCtx.font = 'bold 11px sans-serif';
     bCtx.fillText(`Entity: ${orgProfile.businessName.substring(0, 35)}`, 200, 360);
 
@@ -127,13 +127,13 @@ export function DigitalPassportQR({ className = '', isDarkTheme = false }) {
     <div className={`rounded-3xl border p-6 glass-card shadow-xl transition-all ${className}`}>
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-5 border-b border-slate-200/80 dark:border-white/10">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-blue-600/10 text-blue-600 dark:text-blue-400 border border-blue-600/20 flex items-center justify-center font-bold shadow-xs">
+          <div className="w-9 h-9 rounded-xl bg-[#292524]/10 text-[#292524] dark:text-[#A8A29E] border border-[#292524]/20 flex items-center justify-center font-bold shadow-xs">
             <QrCode className="w-4 h-4" />
           </div>
           <div>
             <h3 className="font-extrabold text-xs uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-2">
               <span>Physical Audit & Inventory QR Pass</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 font-bold">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#059669]/10 text-emerald-600 dark:text-[#059669] border border-[#059669]/20 font-bold">
                 Live Scannable
               </span>
             </h3>
@@ -147,7 +147,7 @@ export function DigitalPassportQR({ className = '', isDarkTheme = false }) {
           onClick={() => setShowScannerModal(true)}
           className="glass-btn-secondary flex items-center gap-2 px-4 py-2 rounded-full text-slate-800 dark:text-slate-200 text-xs font-bold transition shadow-xs cursor-pointer"
         >
-          <Smartphone className="w-3.5 h-3.5 text-blue-500" />
+          <Smartphone className="w-3.5 h-3.5 text-[#292524] dark:text-[#A8A29E]" />
           <span>Simulate Field Scan</span>
         </button>
       </div>
@@ -176,12 +176,12 @@ export function DigitalPassportQR({ className = '', isDarkTheme = false }) {
           <div className="grid grid-cols-2 gap-3 text-[11px]">
             <div className="p-3 rounded-2xl glass-pill-container shadow-xs">
               <span className="text-[10px] text-slate-400 block uppercase font-mono font-bold">Tender Ref ID</span>
-              <strong className="font-mono text-blue-600 dark:text-blue-400 text-xs truncate block mt-0.5">{certificateId}</strong>
+              <strong className="font-mono text-[#292524] dark:text-[#A8A29E] text-xs truncate block mt-0.5">{certificateId}</strong>
             </div>
 
             <div className="p-3 rounded-2xl glass-pill-container shadow-xs">
               <span className="text-[10px] text-slate-400 block uppercase font-mono font-bold">Statutory QCO Status</span>
-              <strong className="text-emerald-600 dark:text-emerald-400 text-xs truncate block mt-0.5">100% Enforced</strong>
+              <strong className="text-emerald-600 dark:text-[#059669] text-xs truncate block mt-0.5">100% Enforced</strong>
             </div>
 
             <div className="p-3 rounded-2xl glass-pill-container shadow-xs">
@@ -226,7 +226,7 @@ export function DigitalPassportQR({ className = '', isDarkTheme = false }) {
           <div className="glass-card rounded-3xl max-w-lg w-full border border-white/20 p-6 space-y-4 shadow-2xl text-slate-100 animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-start justify-between pb-3 border-b border-white/10">
               <div className="flex items-center gap-2.5">
-                <Scan className="w-5 h-5 text-emerald-400 animate-pulse" />
+                <Scan className="w-5 h-5 text-[#059669] animate-pulse" />
                 <div>
                   <h4 className="font-extrabold text-sm text-white">Handheld Field Scanner Verification</h4>
                   <p className="text-[11px] text-slate-400 font-normal">Simulated NABL / Third Party Inspection Agency (TPIA) Terminal</p>
@@ -240,8 +240,8 @@ export function DigitalPassportQR({ className = '', isDarkTheme = false }) {
               </button>
             </div>
 
-            <div className="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 text-xs text-emerald-300 flex items-center gap-2 font-medium">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+            <div className="p-3 bg-[#059669]/10 rounded-2xl border border-[#059669]/20 text-xs text-emerald-300 flex items-center gap-2 font-medium">
+              <CheckCircle2 className="w-4 h-4 text-[#059669] shrink-0" />
               <span><strong className="font-bold">AUTHENTIC TENDER PASSPORT:</strong> Digital signature verified with NIC Trust Gateway.</span>
             </div>
 

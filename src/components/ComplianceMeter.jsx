@@ -12,11 +12,11 @@ export function ComplianceMeter() {
 
   const colorVariants = {
     emerald: {
-      text: 'text-emerald-600 dark:text-emerald-400',
-      bg: 'bg-emerald-500/10',
-      border: 'border-emerald-500/20',
+      text: 'text-emerald-600 dark:text-[#059669]',
+      bg: 'bg-[#059669]/10',
+      border: 'border-[#059669]/20',
       stroke: 'stroke-emerald-500',
-      pill: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30'
+      pill: 'bg-[#059669]/15 text-emerald-700 dark:text-[#059669] border border-[#059669]/30'
     },
     amber: {
       text: 'text-amber-600 dark:text-amber-400',
@@ -48,7 +48,7 @@ export function ComplianceMeter() {
       <div className="flex items-center justify-between">
         <div>
           <h3 className="font-extrabold text-xs text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
-            <Award className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+            <Award className="w-4 h-4 text-[#292524] dark:text-[#A8A29E]" />
             {t.dashboard.complianceMeterTitle}
           </h3>
           <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 font-normal">
@@ -108,7 +108,7 @@ export function ComplianceMeter() {
           </div>
           <div className="w-full bg-slate-200/70 dark:bg-white/10 h-2 rounded-full overflow-hidden p-0.5">
             <div
-              className="bg-blue-600 dark:bg-blue-500 h-full rounded-full transition-all duration-500 shadow-xs"
+              className="bg-[#292524] dark:bg-[#A8A29E] h-full rounded-full transition-all duration-500 shadow-xs"
               style={{ width: `${primaryAccuracy}%` }}
             ></div>
           </div>
@@ -121,7 +121,7 @@ export function ComplianceMeter() {
           </div>
           <div className="w-full bg-slate-200/70 dark:bg-white/10 h-2 rounded-full overflow-hidden p-0.5">
             <div
-              className="bg-emerald-600 dark:bg-emerald-500 h-full rounded-full transition-all duration-500 shadow-xs"
+              className="bg-emerald-600 dark:bg-[#059669] h-full rounded-full transition-all duration-500 shadow-xs"
               style={{ width: `${rawTestCoverage}%` }}
             ></div>
           </div>

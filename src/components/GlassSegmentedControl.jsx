@@ -51,7 +51,7 @@ export function GlassSegmentedControl({
               <span
                 className={`text-[10px] font-mono px-1.5 py-0.5 rounded-full ${
                   isSelected
-                    ? 'bg-blue-600/10 text-blue-600 dark:bg-blue-400/20 dark:text-blue-300'
+                    ? 'bg-[#292524]/10 text-[#292524] dark:bg-[#292524]/25 dark:text-[#A8A29E]'
                     : 'bg-slate-200/80 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
                 }`}
               >

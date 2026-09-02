@@ -137,7 +137,7 @@ END OF MODEL NIT TECHNICAL CLAUSE - GENERATED VIA BIS STANDARDS ENGINE
         </div>
 
         <div className="p-6 overflow-y-auto flex-1 bg-[#070B14]/90 dark:bg-[#070B14]/95 text-slate-200 font-mono text-xs leading-relaxed">
-          <pre className="whitespace-pre-wrap font-mono selection:bg-blue-600 selection:text-white">
+          <pre className="whitespace-pre-wrap font-mono selection:bg-[#292524] selection:text-white">
             {generatedClauseText}
           </pre>
         </div>

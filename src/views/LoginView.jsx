@@ -333,7 +333,7 @@ export function LoginView() {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 sm:p-8 bg-[#F8FAFC] dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 transition-colors duration-500 relative font-sans selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 sm:p-8 bg-[#F8FAFC] dark:bg-[#090A0F] text-slate-900 dark:text-slate-100 transition-colors duration-500 relative font-sans selection:bg-[#292524] selection:text-white">
       
       {/* Living Aurora Background */}
       <AppleStripeBackground />
@@ -357,7 +357,7 @@ export function LoginView() {
       </div>
 
       {/* Central Floating Card */}
-      <div className="w-full max-w-5xl bg-white dark:bg-[#0F172A] rounded-[2.5rem] p-3 sm:p-5 shadow-2xl border border-slate-200/80 dark:border-white/10 flex flex-col lg:flex-row gap-5 relative z-10 overflow-hidden min-h-[580px] mt-16 sm:mt-12 transition-all duration-300">
+      <div className="w-full max-w-5xl bg-white dark:bg-[#12141C] rounded-[2.5rem] p-3 sm:p-5 shadow-2xl border border-slate-200/80 dark:border-white/10 flex flex-col lg:flex-row gap-5 relative z-10 overflow-hidden min-h-[580px] mt-16 sm:mt-12 transition-all duration-300">
 
         {/* Left Column - Auth Form */}
         <div className="flex-1 p-5 sm:p-8 lg:p-10 flex flex-col justify-start overflow-y-auto max-h-[85vh] scroll-smooth">
@@ -366,7 +366,7 @@ export function LoginView() {
             
             {/* Header / Title */}
             <div className="mb-5">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-700 dark:text-blue-400 border border-blue-500/20 text-[11px] font-semibold mb-2.5 shadow-xs">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#292524]/10 text-[#292524] dark:text-[#A8A29E] border border-[#292524]/20 text-[11px] font-semibold mb-2.5 shadow-xs">
                 <ShieldCheck className="w-3.5 h-3.5" />
                 <span>{isSignUp ? 'Institutional Officer Registration' : 'NIC e-Gov Gateway'}</span>
               </div>
@@ -391,7 +391,7 @@ export function LoginView() {
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                     1. Full Name
                   </label>
-                  <div className="relative flex items-center bg-transparent backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-xl focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all overflow-hidden shadow-xs hover:border-slate-300 dark:hover:border-white/20">
+                  <div className="relative flex items-center bg-transparent backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-xl focus-within:ring-2 focus-within:ring-[#292524]/20 focus-within:border-[#292524] transition-all overflow-hidden shadow-xs hover:border-slate-300 dark:hover:border-white/20">
                     <User className="absolute left-3.5 w-4 h-4 text-slate-400 shrink-0" />
                     <input
                       type="text"
@@ -411,7 +411,7 @@ export function LoginView() {
                   </label>
                   <div className="space-y-2.5">
                     <div className="flex gap-2">
-                      <div className="relative flex-1 flex items-center bg-transparent backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-xl focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all overflow-hidden shadow-xs hover:border-slate-300 dark:hover:border-white/20">
+                      <div className="relative flex-1 flex items-center bg-transparent backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-xl focus-within:ring-2 focus-within:ring-[#292524]/20 focus-within:border-[#292524] transition-all overflow-hidden shadow-xs hover:border-slate-300 dark:hover:border-white/20">
                         <Mail className="absolute left-3.5 w-4 h-4 text-slate-400 shrink-0" />
                         <input
                           type="email"
@@ -442,7 +442,7 @@ export function LoginView() {
 
                     {/* Inline Email OTP Box */}
                     {emailOtpSent && !emailOtpVerified && (
-                      <div className="p-3.5 rounded-xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200/80 dark:border-blue-900/40 space-y-2.5 animate-in fade-in shadow-xs">
+                      <div className="p-3.5 rounded-xl bg-slate-100/50 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-800/40 space-y-2.5 animate-in fade-in shadow-xs">
                         <div className="flex items-center justify-between text-xs">
                           <span className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">
                             Enter 6-Digit Email Code
@@ -450,7 +450,7 @@ export function LoginView() {
                           <button
                             type="button"
                             onClick={handleAutoFillEmailOtp}
-                            className="text-[11px] font-mono text-blue-600 dark:text-blue-400 hover:underline font-semibold cursor-pointer"
+                            className="text-[11px] font-mono text-[#292524] dark:text-[#A8A29E] hover:underline font-semibold cursor-pointer"
                           >
                             Auto-Fill Demo
                           </button>
@@ -467,7 +467,7 @@ export function LoginView() {
                               value={digit}
                               onChange={(e) => handleEmailOtpChange(idx, e.target.value)}
                               onKeyDown={(e) => handleEmailOtpKeyDown(idx, e)}
-                              className="w-full h-10 text-center font-mono font-bold text-sm rounded-lg bg-transparent border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none shadow-xs"
+                              className="w-full h-10 text-center font-mono font-bold text-sm rounded-lg bg-transparent border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#292524]/20 focus:border-[#292524] outline-none shadow-xs"
                             />
                           ))}
                         </div>
@@ -485,7 +485,7 @@ export function LoginView() {
                             <button
                               type="button"
                               onClick={handleSendEmailOtp}
-                              className="text-[11px] text-blue-600 dark:text-blue-400 hover:underline font-semibold cursor-pointer"
+                              className="text-[11px] text-[#292524] dark:text-[#A8A29E] hover:underline font-semibold cursor-pointer"
                             >
                               Resend Code
                             </button>
@@ -511,7 +511,7 @@ export function LoginView() {
                   </label>
                   <div className="space-y-2.5">
                     <div className="flex gap-2">
-                      <div className="relative flex-1 flex items-center bg-transparent backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-xl focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all overflow-hidden shadow-xs hover:border-slate-300 dark:hover:border-white/20">
+                      <div className="relative flex-1 flex items-center bg-transparent backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-xl focus-within:ring-2 focus-within:ring-[#292524]/20 focus-within:border-[#292524] transition-all overflow-hidden shadow-xs hover:border-slate-300 dark:hover:border-white/20">
                         <span className="pl-3.5 font-mono text-xs text-slate-400 font-semibold">+91</span>
                         <input
                           type="tel"
@@ -542,7 +542,7 @@ export function LoginView() {
 
                     {/* Inline Mobile OTP Box */}
                     {signupOtpSent && !signupOtpVerified && (
-                      <div className="p-3.5 rounded-xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200/80 dark:border-blue-900/40 space-y-2.5 animate-in fade-in shadow-xs">
+                      <div className="p-3.5 rounded-xl bg-slate-100/50 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-800/40 space-y-2.5 animate-in fade-in shadow-xs">
                         <div className="flex items-center justify-between text-xs">
                           <span className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">
                             Enter 6-Digit Mobile 2FA OTP
@@ -550,7 +550,7 @@ export function LoginView() {
                           <button
                             type="button"
                             onClick={handleAutoFillSignupOtp}
-                            className="text-[11px] font-mono text-blue-600 dark:text-blue-400 hover:underline font-semibold cursor-pointer"
+                            className="text-[11px] font-mono text-[#292524] dark:text-[#A8A29E] hover:underline font-semibold cursor-pointer"
                           >
                             Auto-Fill Demo
                           </button>
@@ -567,7 +567,7 @@ export function LoginView() {
                               value={digit}
                               onChange={(e) => handleSignupOtpChange(idx, e.target.value)}
                               onKeyDown={(e) => handleSignupOtpKeyDown(idx, e)}
-                              className="w-full h-10 text-center font-mono font-bold text-sm rounded-lg bg-transparent border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none shadow-xs"
+                              className="w-full h-10 text-center font-mono font-bold text-sm rounded-lg bg-transparent border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#292524]/20 focus:border-[#292524] outline-none shadow-xs"
                             />
                           ))}
                         </div>
@@ -585,7 +585,7 @@ export function LoginView() {
                             <button
                               type="button"
                               onClick={handleSendSignupOtp}
-                              className="text-[11px] text-blue-600 dark:text-blue-400 hover:underline font-semibold cursor-pointer"
+                              className="text-[11px] text-[#292524] dark:text-[#A8A29E] hover:underline font-semibold cursor-pointer"
                             >
                               Resend Code
                             </button>
@@ -609,7 +609,7 @@ export function LoginView() {
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                     4. Primary BIS Technical Division
                   </label>
-                  <div className="relative flex items-center bg-transparent backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-xl focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all overflow-hidden shadow-xs hover:border-slate-300 dark:hover:border-white/20">
+                  <div className="relative flex items-center bg-transparent backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-xl focus-within:ring-2 focus-within:ring-[#292524]/20 focus-within:border-[#292524] transition-all overflow-hidden shadow-xs hover:border-slate-300 dark:hover:border-white/20">
                     <Layers className="absolute left-3.5 w-4 h-4 text-slate-400 shrink-0 pointer-events-none" />
                     <select
                       value={primaryDivision}
@@ -631,7 +631,7 @@ export function LoginView() {
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                     5. Secure Password
                   </label>
-                  <div className="relative flex items-center bg-transparent backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-xl focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all overflow-hidden shadow-xs hover:border-slate-300 dark:hover:border-white/20">
+                  <div className="relative flex items-center bg-transparent backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-xl focus-within:ring-2 focus-within:ring-[#292524]/20 focus-within:border-[#292524] transition-all overflow-hidden shadow-xs hover:border-slate-300 dark:hover:border-white/20">
                     <Lock className="absolute left-3.5 w-4 h-4 text-slate-400 shrink-0" />
                     <input
                       type={showPassword ? 'text' : 'password'}
@@ -658,11 +658,11 @@ export function LoginView() {
                     id="signup-terms"
                     checked={agreedTerms}
                     onChange={(e) => setAgreedTerms(e.target.checked)}
-                    className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 w-4 h-4 mt-0.5 cursor-pointer"
+                    className="rounded border-slate-300 text-[#292524] focus:ring-[#292524] w-4 h-4 mt-0.5 cursor-pointer"
                     required
                   />
                   <label htmlFor="signup-terms" className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed cursor-pointer">
-                    I confirm institutional authorization and agree to the <span className="text-blue-600 dark:text-blue-400 hover:underline font-semibold">GFR 2017 & BIS Compliance Terms</span>.
+                    I confirm institutional authorization and agree to the <span className="text-[#292524] dark:text-[#A8A29E] hover:underline font-semibold">GFR 2017 & BIS Compliance Terms</span>.
                   </label>
                 </div>
 
@@ -760,7 +760,7 @@ export function LoginView() {
                           <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                             Registered Mobile Number
                           </label>
-                          <div className="relative flex items-center bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 rounded-xl focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all overflow-hidden">
+                          <div className="relative flex items-center bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 rounded-xl focus-within:ring-2 focus-within:ring-[#292524]/20 focus-within:border-[#292524] transition-all overflow-hidden">
                             <span className="absolute left-3.5 font-mono text-xs text-slate-400 font-semibold">
                               +91
                             </span>
@@ -780,7 +780,7 @@ export function LoginView() {
 
                         <button
                           type="submit"
-                          className="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-[#131C2E] dark:hover:bg-[#1A253C] dark:border dark:border-white/10 text-white text-xs font-bold shadow-sm flex items-center justify-center gap-2 mt-2 cursor-pointer transition-all"
+                          className="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-[#1C1917] dark:hover:bg-[#1A253C] dark:border dark:border-white/10 text-white text-xs font-bold shadow-sm flex items-center justify-center gap-2 mt-2 cursor-pointer transition-all"
                         >
                           <span>Send 6–Digit OTP</span>
                           <ArrowRight className="w-3.5 h-3.5" />
@@ -796,7 +796,7 @@ export function LoginView() {
                           <button
                             type="button"
                             onClick={() => setLoginOtpStep(1)}
-                            className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-semibold px-3 py-1 rounded-lg bg-white dark:bg-white/10 border border-slate-200 dark:border-white/10 cursor-pointer shadow-xs"
+                            className="text-xs text-[#292524] dark:text-[#A8A29E] hover:underline font-semibold px-3 py-1 rounded-lg bg-white dark:bg-white/10 border border-slate-200 dark:border-white/10 cursor-pointer shadow-xs"
                           >
                             Edit
                           </button>
@@ -810,7 +810,7 @@ export function LoginView() {
                             <button
                               type="button"
                               onClick={handleAutoFillLoginOtp}
-                              className="text-[11px] font-mono text-blue-600 dark:text-blue-400 hover:underline font-semibold cursor-pointer"
+                              className="text-[11px] font-mono text-[#292524] dark:text-[#A8A29E] hover:underline font-semibold cursor-pointer"
                             >
                               Auto-Fill Demo
                             </button>
@@ -828,7 +828,7 @@ export function LoginView() {
                                 value={digit}
                                 onChange={(e) => handleLoginOtpChange(idx, e.target.value)}
                                 onKeyDown={(e) => handleLoginOtpKeyDown(idx, e)}
-                                className="w-full h-11 text-center font-mono font-bold text-base rounded-xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none transition-all"
+                                className="w-full h-11 text-center font-mono font-bold text-base rounded-xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#292524]/20 focus:border-[#292524] focus:outline-none transition-all"
                               />
                             ))}
                           </div>
@@ -847,7 +847,7 @@ export function LoginView() {
                             <button
                               type="button"
                               onClick={handleSendLoginOtp}
-                              className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 font-semibold cursor-pointer"
+                              className="text-xs text-[#292524] dark:text-[#A8A29E] hover:underline flex items-center gap-1 font-semibold cursor-pointer"
                             >
                               <RefreshCw className="w-3 h-3" />
                               <span>Resend OTP</span>
@@ -861,7 +861,7 @@ export function LoginView() {
                           className={`w-full py-3 rounded-xl text-white text-xs font-bold shadow-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
                             loginOtpSuccess 
                               ? 'bg-emerald-600 text-white' 
-                              : 'bg-slate-900 hover:bg-slate-800 dark:bg-[#131C2E] dark:hover:bg-[#1A253C] dark:border dark:border-white/10'
+                              : 'bg-slate-900 hover:bg-slate-800 dark:bg-[#1C1917] dark:hover:bg-[#1A253C] dark:border dark:border-white/10'
                           }`}
                         >
                           {loginOtpSuccess ? (
@@ -887,7 +887,7 @@ export function LoginView() {
                     <button
                       type="button"
                       onClick={() => handleSsoLogin('Jan Parichay (National SSO)')}
-                      className="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-[#131C2E] dark:hover:bg-[#1A253C] dark:border dark:border-white/10 text-white text-xs font-bold shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-all"
+                      className="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-[#1C1917] dark:hover:bg-[#1A253C] dark:border dark:border-white/10 text-white text-xs font-bold shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-all"
                     >
                       <ShieldCheck className="w-4 h-4 text-emerald-400" />
                       <span>Jan Parichay SSO</span>
@@ -959,7 +959,7 @@ export function LoginView() {
                   <p className="text-white font-bold text-xs tracking-tight">
                     Er. Vikramaditya Sharma
                   </p>
-                  <span className="bg-blue-500/15 text-blue-300 border border-blue-500/20 px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold">
+                  <span className="bg-[#292524]/20 text-[#A8A29E] border border-[#292524]/30 px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold">
                     ETD
                   </span>
                 </div>

@@ -87,20 +87,20 @@ export function SandboxView() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F1F5F9] dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 py-12 px-4 sm:px-6 lg:px-8 relative font-sans selection:bg-blue-600 selection:text-white transition-colors duration-500">
+    <div className="min-h-screen bg-[#F1F5F9] dark:bg-[#090A0F] text-slate-900 dark:text-slate-100 py-12 px-4 sm:px-6 lg:px-8 relative font-sans selection:bg-[#292524] selection:text-white transition-colors duration-500">
       <AppleStripeBackground />
 
       <div className="max-w-7xl mx-auto space-y-8 relative z-10">
         {/* Header Strip */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 dark:border-white/10 pb-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-pill-container text-blue-600 dark:text-blue-400 text-xs font-mono font-bold shadow-xs mb-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-pill-container text-[#292524] dark:text-[#A8A29E] text-xs font-mono font-bold shadow-xs mb-2">
               <Terminal className="w-3.5 h-3.5" />
               <span>Interactive RAG Sandbox • 768-D Vector Index</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
               Public Procurement{' '}
-              <span className="font-serif italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-sky-300">
+              <span className="font-serif italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-[#1C1917] via-[#292524] to-[#44403C] dark:from-[#A8A29E] dark:via-[#D6D3D1] dark:to-[#A8A29E]">
                 Sandbox Terminal
               </span>
             </h1>
@@ -155,12 +155,12 @@ export function SandboxView() {
                     onClick={() => setActivePreset(idx)}
                     className={`p-3.5 rounded-2xl text-left transition-all cursor-pointer ${
                       isActive
-                        ? 'glass-pill-active border-blue-500/50 dark:border-blue-400/50 shadow-md ring-2 ring-blue-500/20'
+                        ? 'glass-pill-active border-[#292524]/50 dark:border-[#A8A29E]/50 shadow-md ring-2 ring-[#292524]/20'
                         : 'glass-card hover:border-slate-300 dark:hover:border-white/20 text-slate-600 dark:text-slate-300'
                     }`}
                   >
                     <div className="flex items-center justify-between gap-2 mb-1.5">
-                      <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded-full bg-blue-600/10 text-blue-700 dark:bg-blue-400/15 dark:text-blue-300">
+                      <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded-full bg-[#292524]/10 text-[#292524] dark:bg-[#292524]/25 dark:text-[#A8A29E]">
                         {preset.division}
                       </span>
                       <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold">
@@ -183,7 +183,7 @@ export function SandboxView() {
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2">
-                    <FileText className="w-3.5 h-3.5 text-blue-500" />
+                    <FileText className="w-3.5 h-3.5 text-[#292524] dark:text-[#A8A29E]" />
                     Draft Tender Specification / BOQ Scope
                   </span>
                   <span className="text-[11px] font-mono text-slate-400">Natural Language Input</span>
@@ -220,7 +220,7 @@ export function SandboxView() {
                 {/* Main Standard Code */}
                 <div className="p-4 rounded-2xl glass-card">
                   <div className="flex items-center justify-between mb-1">
-                    <p className="text-sm font-black font-mono text-blue-600 dark:text-blue-400">
+                    <p className="text-sm font-black font-mono text-[#292524] dark:text-[#A8A29E]">
                       {demoPresets[activePreset].resolvedCode}
                     </p>
                     <span className="text-[10px] font-bold text-slate-500 font-mono">
@@ -246,7 +246,7 @@ export function SandboxView() {
                         key={i}
                         className="flex items-center gap-2 p-2.5 rounded-xl glass-pill-container text-[11px] font-mono text-slate-700 dark:text-slate-300"
                       >
-                        <GitFork className="w-3.5 h-3.5 text-blue-500 flex-shrink-0" />
+                        <GitFork className="w-3.5 h-3.5 text-[#292524] dark:text-[#A8A29E] flex-shrink-0" />
                         <span className="truncate">{tCode}</span>
                       </div>
                     ))}

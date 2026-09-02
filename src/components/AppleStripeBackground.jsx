@@ -1,43 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTheme } from '../context/ThemeContext';
 
 export function AppleStripeBackground() {
   const { isDark } = useTheme();
   const canvasRef = useRef(null);
-  const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
-  const [targetMouse, setTargetMouse] = useState({ x: -1000, y: -1000 });
+  const mouseRef = useRef({
+    x: -2000,
+    y: -2000,
+    targetX: -2000,
+    targetY: -2000,
+    active: false,
+  });
 
-  // Smooth lerp mouse tracking
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setTargetMouse({ x: e.clientX, y: e.clientY });
-    };
-
-    const handleMouseLeave = () => {
-      setTargetMouse({ x: -1000, y: -1000 });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseleave', handleMouseLeave);
-
-    let animId;
-    const lerp = () => {
-      setMousePos((prev) => ({
-        x: prev.x + (targetMouse.x - prev.x) * 0.08,
-        y: prev.y + (targetMouse.y - prev.y) * 0.08,
-      }));
-      animId = requestAnimationFrame(lerp);
-    };
-    animId = requestAnimationFrame(lerp);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseleave', handleMouseLeave);
-      cancelAnimationFrame(animId);
-    };
-  }, [targetMouse]);
-
-  // High-performance fluid gradient simulation (Pure organic light, zero grids/lines)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -45,86 +19,131 @@ export function AppleStripeBackground() {
     if (!ctx) return;
 
     let animationFrameId;
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let width = window.innerWidth;
+    let height = window.innerHeight;
 
-    const handleResize = () => {
-      if (!canvas) return;
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    };
-    window.addEventListener('resize', handleResize);
-
-    // Dynamic fluid color orbs with parametric oscillation
+    // 1. Organic Fluid Aurora Orbs
     const orbs = [
-      { x: 0.18, y: 0.2, vx: 0.0003, vy: 0.00025, r: 0.55, phase: 0 },
-      { x: 0.82, y: 0.28, vx: -0.00025, vy: 0.0003, r: 0.58, phase: 2.1 },
-      { x: 0.5, y: 0.72, vx: 0.0002, vy: -0.00028, r: 0.62, phase: 4.2 },
-      { x: 0.15, y: 0.82, vx: -0.0003, vy: -0.0002, r: 0.5, phase: 1.5 },
-      { x: 0.85, y: 0.8, vx: 0.0002, vy: 0.00025, r: 0.52, phase: 3.4 },
+      {
+        baseX: 0.2,
+        baseY: 0.25,
+        radiusRatio: 0.5,
+        phase: 0,
+        darkColor: 'rgba(30, 58, 95, 0.45)',     // Sophisticated Navy
+        lightColor: 'rgba(147, 185, 230, 0.40)', // Ethereal Azure
+      },
+      {
+        baseX: 0.8,
+        baseY: 0.2,
+        radiusRatio: 0.45,
+        phase: 2.1,
+        darkColor: 'rgba(217, 119, 6, 0.22)',    // Liquid State Amber/Gold
+        lightColor: 'rgba(245, 158, 11, 0.25)',  // Warm Champagne Gold
+      },
+      {
+        baseX: 0.5,
+        baseY: 0.65,
+        radiusRatio: 0.55,
+        phase: 4.2,
+        darkColor: 'rgba(11, 30, 58, 0.55)',    // Deep Midnight Indigo
+        lightColor: 'rgba(199, 218, 245, 0.38)', // Frost Titanium
+      },
+      {
+        baseX: 0.25,
+        baseY: 0.8,
+        radiusRatio: 0.4,
+        phase: 1.5,
+        darkColor: 'rgba(16, 185, 129, 0.18)',   // GFR Emerald Security Glow
+        lightColor: 'rgba(52, 211, 153, 0.25)',  // Mint Emerald
+      },
+      {
+        baseX: 0.85,
+        baseY: 0.75,
+        radiusRatio: 0.48,
+        phase: 3.4,
+        darkColor: 'rgba(30, 58, 95, 0.38)',     // Royal Navy
+        lightColor: 'rgba(165, 180, 252, 0.30)', // Soft Iris
+      },
     ];
 
-    let time = 0;
+    // 2. Neural Constellation Particles
+    let particles = [];
+    const PARTICLE_COUNT = Math.min(60, Math.max(30, Math.floor((width * height) / 24000)));
 
-    const render = () => {
-      time += 0.007;
+    function initParticles() {
+      particles = [];
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.35,
+          vy: (Math.random() - 0.5) * 0.35,
+          baseRadius: Math.random() * 1.5 + 0.8,
+          phase: Math.random() * Math.PI * 2,
+          pulseSpeed: 0.015 + Math.random() * 0.02,
+          type: Math.random() > 0.7 ? 'gold' : Math.random() > 0.85 ? 'emerald' : 'navy',
+        });
+      }
+    }
+
+    function resize() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.scale(dpr, dpr);
+      initParticles();
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    function onMouseMove(e) {
+      mouseRef.current.targetX = e.clientX;
+      mouseRef.current.targetY = e.clientY;
+      mouseRef.current.active = true;
+    }
+
+    function onMouseLeave() {
+      mouseRef.current.active = false;
+      mouseRef.current.targetX = -2000;
+      mouseRef.current.targetY = -2000;
+    }
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseleave', onMouseLeave);
+
+    // 3. Render Loop
+    let time = 0;
+    let scanlineY = 0;
+
+    function render() {
+      time += 0.005;
       ctx.clearRect(0, 0, width, height);
 
-      // Render each glowing gradient fluid node
+      // Smooth mouse follow (LERP)
+      mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * 0.07;
+      mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * 0.07;
+
+      // -----------------------------------------------------------------------
+      // PASS 1: Volumetric Fluid Aurora Orbs
+      // -----------------------------------------------------------------------
+      ctx.save();
       orbs.forEach((orb, i) => {
-        const cx = (orb.x + Math.sin(time + orb.phase) * 0.14) * width;
-        const cy = (orb.y + Math.cos(time * 0.8 + orb.phase) * 0.12) * height;
-        const radius = orb.r * Math.min(width, height) * (1 + Math.sin(time * 0.5 + i) * 0.1);
+        const cx = (orb.baseX + Math.sin(time * 0.7 + orb.phase) * 0.12) * width;
+        const cy = (orb.baseY + Math.cos(time * 0.5 + orb.phase) * 0.1) * height;
+        const minDim = Math.min(width, height);
+        const radius = minDim * (orb.radiusRatio + Math.sin(time * 0.4 + i) * 0.05);
 
         const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+        const color = isDark ? orb.darkColor : orb.lightColor;
 
-        if (isDark) {
-          // Dark Mode: Rich Industrial Charcoal-Navy & Warm Subtle Amber Ambient Glow
-          if (i === 0) {
-            gradient.addColorStop(0, 'rgba(28, 45, 78, 0.55)'); // Rich Slate-Navy
-            gradient.addColorStop(0.5, 'rgba(15, 23, 42, 0.2)');
-            gradient.addColorStop(1, 'rgba(11, 15, 25, 0)');
-          } else if (i === 1) {
-            gradient.addColorStop(0, 'rgba(40, 52, 78, 0.45)'); // Muted Charcoal-Navy
-            gradient.addColorStop(0.55, 'rgba(15, 23, 42, 0.15)');
-            gradient.addColorStop(1, 'rgba(11, 15, 25, 0)');
-          } else if (i === 2) {
-            gradient.addColorStop(0, 'rgba(217, 119, 6, 0.12)'); // Warm Subtle Amber/Gold Glow
-            gradient.addColorStop(0.5, 'rgba(180, 83, 9, 0.04)');
-            gradient.addColorStop(1, 'rgba(11, 15, 25, 0)');
-          } else if (i === 3) {
-            gradient.addColorStop(0, 'rgba(30, 58, 138, 0.28)'); // Deep Royal Navy
-            gradient.addColorStop(0.55, 'rgba(15, 23, 42, 0.1)');
-            gradient.addColorStop(1, 'rgba(11, 15, 25, 0)');
-          } else {
-            gradient.addColorStop(0, 'rgba(30, 41, 59, 0.4)'); // Deep Charcoal
-            gradient.addColorStop(0.5, 'rgba(15, 23, 42, 0.12)');
-            gradient.addColorStop(1, 'rgba(11, 15, 25, 0)');
-          }
-        } else {
-          // Light Mode: Soft Stone & Paper Iridescent Aura (Warm Off-White, Soft Slate, Delicate Sky)
-          if (i === 0) {
-            gradient.addColorStop(0, 'rgba(219, 234, 254, 0.5)'); // Soft Slate-Sky
-            gradient.addColorStop(0.5, 'rgba(241, 245, 249, 0.25)');
-            gradient.addColorStop(1, 'rgba(241, 245, 249, 0)');
-          } else if (i === 1) {
-            gradient.addColorStop(0, 'rgba(224, 231, 255, 0.45)'); // Soft Stone-Iris
-            gradient.addColorStop(0.55, 'rgba(241, 245, 249, 0.2)');
-            gradient.addColorStop(1, 'rgba(241, 245, 249, 0)');
-          } else if (i === 2) {
-            gradient.addColorStop(0, 'rgba(254, 243, 199, 0.35)'); // Delicate Warm Paper Gold
-            gradient.addColorStop(0.5, 'rgba(241, 245, 249, 0.15)');
-            gradient.addColorStop(1, 'rgba(241, 245, 249, 0)');
-          } else if (i === 3) {
-            gradient.addColorStop(0, 'rgba(203, 213, 225, 0.45)'); // Warm Stone Mist
-            gradient.addColorStop(0.55, 'rgba(241, 245, 249, 0.2)');
-            gradient.addColorStop(1, 'rgba(241, 245, 249, 0)');
-          } else {
-            gradient.addColorStop(0, 'rgba(226, 232, 240, 0.5)'); // Off-White Paper Aura
-            gradient.addColorStop(0.5, 'rgba(241, 245, 249, 0.2)');
-            gradient.addColorStop(1, 'rgba(241, 245, 249, 0)');
-          }
-        }
+        gradient.addColorStop(0, color);
+        gradient.addColorStop(0.5, color.replace(/[\d.]+\)$/, (m) => `${parseFloat(m) * 0.45})`));
+        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
         ctx.fillStyle = gradient;
         ctx.beginPath();
@@ -132,43 +151,201 @@ export function AppleStripeBackground() {
         ctx.fill();
       });
 
+      // Interactive Mouse Spotlight
+      if (mouseRef.current.x > 0 && mouseRef.current.y > 0) {
+        const spotlightRadius = Math.min(width, height) * 0.35;
+        const mouseGrad = ctx.createRadialGradient(
+          mouseRef.current.x,
+          mouseRef.current.y,
+          0,
+          mouseRef.current.x,
+          mouseRef.current.y,
+          spotlightRadius
+        );
+        const spotlightColor = isDark
+          ? 'rgba(30, 58, 95, 0.32)'
+          : 'rgba(147, 197, 253, 0.40)';
+
+        mouseGrad.addColorStop(0, spotlightColor);
+        mouseGrad.addColorStop(0.5, spotlightColor.replace(/[\d.]+\)$/, '0.08)'));
+        mouseGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+        ctx.fillStyle = mouseGrad;
+        ctx.beginPath();
+        ctx.arc(mouseRef.current.x, mouseRef.current.y, spotlightRadius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+
+      // -----------------------------------------------------------------------
+      // PASS 2: Laser Scanline Wave
+      // -----------------------------------------------------------------------
+      scanlineY = (scanlineY + 0.75) % (height + 250);
+      const curY = scanlineY - 120;
+
+      if (curY > -50 && curY < height + 50) {
+        const scanGrad = ctx.createLinearGradient(0, curY - 50, 0, curY + 50);
+        const scanColor = isDark ? 'rgba(245, 158, 11, 0.035)' : 'rgba(30, 58, 95, 0.04)';
+
+        scanGrad.addColorStop(0, 'rgba(0, 0, 0, 0)');
+        scanGrad.addColorStop(0.5, scanColor);
+        scanGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+        ctx.fillStyle = scanGrad;
+        ctx.fillRect(0, curY - 50, width, 100);
+
+        ctx.strokeStyle = isDark ? 'rgba(245, 158, 11, 0.14)' : 'rgba(30, 58, 95, 0.09)';
+        ctx.lineWidth = 0.75;
+        ctx.beginPath();
+        ctx.moveTo(0, curY);
+        ctx.lineTo(width, curY);
+        ctx.stroke();
+      }
+
+      // -----------------------------------------------------------------------
+      // PASS 3: Neural Constellation Mesh
+      // -----------------------------------------------------------------------
+      const connectionDist = Math.min(width, height) * 0.15;
+      const mouseDist = 170;
+
+      for (let i = 0; i < particles.length; i++) {
+        const p1 = particles[i];
+
+        p1.x += p1.vx;
+        p1.y += p1.vy;
+
+        if (p1.x < -10) p1.x = width + 10;
+        if (p1.x > width + 10) p1.x = -10;
+        if (p1.y < -10) p1.y = height + 10;
+        if (p1.y > height + 10) p1.y = -10;
+
+        // Interactive Cursor Connection
+        if (mouseRef.current.x > 0 && mouseRef.current.y > 0) {
+          const dxM = p1.x - mouseRef.current.x;
+          const dyM = p1.y - mouseRef.current.y;
+          const distM = Math.sqrt(dxM * dxM + dyM * dyM);
+
+          if (distM < mouseDist) {
+            const force = (1 - distM / mouseDist) * 0.025;
+            p1.x += dxM * force;
+            p1.y += dyM * force;
+
+            const alphaM = (1 - distM / mouseDist) * (isDark ? 0.35 : 0.28);
+            ctx.strokeStyle = isDark
+              ? `rgba(245, 158, 11, ${alphaM})`
+              : `rgba(30, 58, 95, ${alphaM})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(mouseRef.current.x, mouseRef.current.y);
+            ctx.stroke();
+          }
+        }
+
+        // Inter-Particle Connections
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dx = p1.x - p2.x;
+          const dy = p1.y - p2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < connectionDist) {
+            const alpha = (1 - dist / connectionDist) * (isDark ? 0.18 : 0.16);
+            ctx.strokeStyle = isDark
+              ? `rgba(147, 181, 217, ${alpha})`
+              : `rgba(30, 58, 95, ${alpha})`;
+            ctx.lineWidth = 0.75;
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw Glowing Particles
+      particles.forEach((p) => {
+        p.phase += p.pulseSpeed;
+        const pulse = Math.sin(p.phase) * 0.35 + 1;
+        const radius = p.baseRadius * pulse;
+
+        let fillColor;
+        if (p.type === 'gold') {
+          fillColor = isDark
+            ? `rgba(245, 158, 11, ${0.5 + Math.sin(p.phase) * 0.3})`
+            : `rgba(217, 119, 6, ${0.55 + Math.sin(p.phase) * 0.3})`;
+        } else if (p.type === 'emerald') {
+          fillColor = isDark
+            ? `rgba(52, 211, 153, ${0.5 + Math.sin(p.phase) * 0.3})`
+            : `rgba(16, 185, 129, ${0.55 + Math.sin(p.phase) * 0.3})`;
+        } else {
+          fillColor = isDark
+            ? `rgba(199, 218, 245, ${0.4 + Math.sin(p.phase) * 0.25})`
+            : `rgba(30, 58, 95, ${0.45 + Math.sin(p.phase) * 0.25})`;
+        }
+
+        ctx.fillStyle = fillColor;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
       animationFrameId = requestAnimationFrame(render);
-    };
+    }
 
     render();
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseleave', onMouseLeave);
       cancelAnimationFrame(animationFrameId);
     };
   }, [isDark]);
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-      {/* 1. Fluid Canvas Gradient Mesh (High-Blur Organic Aurora) */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full filter blur-[80px] sm:blur-[110px] opacity-95 transition-opacity duration-700"
+      {/* 1. Base Layer Dynamic Backdrop Gradient */}
+      <div
+        className={`absolute inset-0 transition-colors duration-1000 ${
+          isDark
+            ? 'bg-gradient-to-b from-[#05070D] via-[#070B14] to-[#05070D]'
+            : 'bg-gradient-to-b from-[#F8FAFC] via-[#F1F5F9] to-[#E2E8F0]'
+        }`}
       />
 
-      {/* 2. Interactive Cursor Ambient Spotlight (Follows mouse smoothly) */}
-      {mousePos.x > 0 && mousePos.y > 0 && (
-        <div
-          className="absolute rounded-full transition-transform duration-75 ease-out pointer-events-none filter blur-[90px]"
-          style={{
-            transform: `translate(${mousePos.x - 250}px, ${mousePos.y - 250}px)`,
-            width: '500px',
-            height: '500px',
-            background: isDark
-              ? 'radial-gradient(circle, rgba(59, 130, 246, 0.24) 0%, rgba(99, 102, 241, 0.12) 50%, transparent 75%)'
-              : 'radial-gradient(circle, rgba(147, 197, 253, 0.45) 0%, rgba(199, 210, 254, 0.25) 50%, transparent 75%)',
-          }}
-        />
-      )}
+      {/* 2. Interactive Canvas */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full opacity-100 transition-opacity duration-700"
+      />
 
-      {/* 3. Pure Ambient Lighting Washes (Top & Bottom subtle glow, no lines) */}
-      <div className="absolute -top-32 left-1/4 w-[700px] h-[400px] bg-gradient-to-b from-blue-500/15 via-indigo-500/8 to-transparent filter blur-[100px] pointer-events-none" />
-      <div className="absolute -bottom-40 right-1/4 w-[600px] h-[400px] bg-gradient-to-t from-indigo-500/15 via-blue-500/8 to-transparent filter blur-[100px] pointer-events-none" />
+      {/* 3. Top Ambient Wash */}
+      <div
+        className={`absolute -top-32 left-1/4 w-[750px] h-[450px] rounded-full blur-[110px] pointer-events-none transition-all duration-1000 ${
+          isDark
+            ? 'bg-gradient-to-b from-[#1E3A5F]/30 via-[#0B1E36]/20 to-transparent'
+            : 'bg-gradient-to-b from-[#93B5D9]/35 via-[#C2D8ED]/20 to-transparent'
+        }`}
+      />
+
+      {/* 4. Bottom Ambient Wash */}
+      <div
+        className={`absolute -bottom-32 right-1/4 w-[650px] h-[450px] rounded-full blur-[110px] pointer-events-none transition-all duration-1000 ${
+          isDark
+            ? 'bg-gradient-to-t from-[#D97706]/15 via-[#1E3A5F]/15 to-transparent'
+            : 'bg-gradient-to-t from-[#F59E0B]/18 via-[#93B5D9]/20 to-transparent'
+        }`}
+      />
+
+      {/* 5. Delicate Micro-Grid Pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.035] dark:opacity-[0.045] pointer-events-none"
+        style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, ${isDark ? 'rgba(255,255,255,0.7)' : 'rgba(15,23,42,0.6)'} 1px, transparent 0)`,
+          backgroundSize: '36px 36px',
+        }}
+      />
     </div>
   );
 }
