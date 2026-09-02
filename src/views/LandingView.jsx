@@ -1,23 +1,62 @@
+<<<<<<< HEAD
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+=======
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6ac448708dd57bc42282f955d1760c2f2054674f
+>>>>>>> c6803166b4c75a0b285745859f9d5e32c4d3ad1e
 import {
   ShieldCheck,
   ArrowRight,
   Sparkles,
+<<<<<<< HEAD
   CheckCircle2,
+=======
+  Layers,
+  FileCheck,
+  CheckCircle2,
+  Award,
+  Globe,
+  GitFork,
+  Lock,
+  ChevronRight,
+>>>>>>> c6803166b4c75a0b285745859f9d5e32c4d3ad1e
   ChevronDown,
   Database,
   AlertTriangle,
   Terminal,
+<<<<<<< HEAD
+=======
+  Activity,
+>>>>>>> c6803166b4c75a0b285745859f9d5e32c4d3ad1e
   Sun,
   Moon,
   FileText,
   Scale,
+<<<<<<< HEAD
   Cpu,
   QrCode,
   Send,
   Search
+=======
+  FileSpreadsheet,
+  AlertCircle,
+<<<<<<< HEAD
+  Cpu,     // <-- ADDED THIS
+  QrCode   // <-- ADDED THIS
+=======
+  ArrowUpRight,
+  Compass,
+  CheckCheck,
+  Send,
+  HelpCircle,
+  BarChart3
+>>>>>>> 6ac448708dd57bc42282f955d1760c2f2054674f
+>>>>>>> c6803166b4c75a0b285745859f9d5e32c4d3ad1e
 } from 'lucide-react';
 
 import { useTheme } from '../context/ThemeContext';
@@ -216,12 +255,72 @@ export function LandingView() {
   ];
 
   return (
+<<<<<<< HEAD
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#030712] text-slate-900 dark:text-slate-100 transition-colors duration-500 relative overflow-hidden font-sans">
+
+=======
     <div className="min-h-screen bg-[#F1F5F9] dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 transition-colors duration-500 relative font-sans selection:bg-blue-600 selection:text-white">
       
+>>>>>>> 6ac448708dd57bc42282f955d1760c2f2054674f
       {/* ========================================================================= */}
       {/* LIVING ATMOSPHERE: PURE ORGANIC FLUID AURORA (ZERO GRIDS / ZERO WIRES)    */}
       {/* ========================================================================= */}
+<<<<<<< HEAD
+
+      {/* Top Luminous Perspective Beam */}
+      <div className="absolute top-[60px] inset-x-0 h-[640px] pointer-events-none z-0 overflow-hidden">
+        {/* Dark Mode Luminous Flare */}
+        <div className="hidden dark:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[520px]">
+          <div className="absolute top-1/2 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-cyan-400 via-white to-transparent blur-[1px] opacity-90" />
+          <div className="absolute top-1/2 left-0 right-0 h-[28px] -translate-y-1/2 bg-gradient-to-r from-transparent via-cyan-400/40 via-blue-500/50 to-transparent blur-[12px]" />
+          <div className="absolute top-1/2 left-0 right-0 h-[140px] -translate-y-1/2 bg-gradient-to-r from-transparent via-blue-600/20 via-cyan-500/25 to-transparent blur-[60px]" />
+
+          {/* Dual Diffuse Aura (Top & Bottom Expansion) */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[850px] h-[220px] bg-gradient-to-b from-blue-600/15 via-cyan-500/10 to-transparent blur-[80px]" />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[850px] h-[220px] bg-gradient-to-t from-blue-600/15 via-cyan-500/10 to-transparent blur-[80px]" />
+
+          {/* Smooth Diffused Horizontal Horizon Flare (Zero Clashing Dots) */}
+          <div className="absolute top-1/2 left-0 w-72 h-44 -translate-y-1/2 bg-cyan-400/15 blur-3xl" />
+          <div className="absolute top-1/2 right-1/4 w-96 h-36 -translate-y-1/2 bg-blue-500/15 blur-3xl" />
+        </div>
+
+        {/* Light Mode Soft Azure Aura */}
+        <div className="block dark:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[400px] bg-[radial-gradient(ellipse_70%_50%_at_50%_50%,rgba(191,219,254,0.6),rgba(224,242,254,0.3),transparent_70%)] blur-2xl" />
+      </div>
+
+      {/* Orbital Trajectory Lines (Payius Inspiration) */}
+      <div className="absolute top-[80px] left-1/2 -translate-x-1/2 w-[1200px] h-[550px] pointer-events-none z-0 opacity-40 dark:opacity-30 hidden sm:block">
+        <svg viewBox="0 0 1200 550" fill="none" className="w-full h-full">
+          <ellipse cx="600" cy="275" rx="560" ry="180" stroke="url(#orbit-line-1)" strokeWidth="1" strokeDasharray="4 4" />
+          <ellipse cx="600" cy="275" rx="440" ry="130" stroke="url(#orbit-line-2)" strokeWidth="1.2" />
+          <ellipse cx="600" cy="275" rx="290" ry="85" stroke="url(#orbit-line-3)" strokeWidth="1" />
+          <circle cx="210" cy="220" r="3.5" fill="#38BDF8" className="animate-pulse" />
+          <circle cx="600" cy="145" r="4.5" fill="#60A5FA" />
+          <circle cx="980" cy="320" r="3.5" fill="#38BDF8" className="animate-pulse" />
+          <circle cx="430" cy="355" r="2.5" fill="#93C5FD" />
+          <circle cx="780" cy="210" r="3" fill="#67E8F9" />
+          <defs>
+            <linearGradient id="orbit-line-1" x1="40" y1="275" x2="1160" y2="275" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#38BDF8" stopOpacity="0" />
+              <stop offset="0.5" stopColor="#38BDF8" stopOpacity="0.5" />
+              <stop offset="1" stopColor="#38BDF8" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="orbit-line-2" x1="160" y1="275" x2="1040" y2="275" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#60A5FA" stopOpacity="0.05" />
+              <stop offset="0.5" stopColor="#60A5FA" stopOpacity="0.7" />
+              <stop offset="1" stopColor="#60A5FA" stopOpacity="0.05" />
+            </linearGradient>
+            <linearGradient id="orbit-line-3" x1="310" y1="275" x2="890" y2="275" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#93C5FD" stopOpacity="0" />
+              <stop offset="0.5" stopColor="#93C5FD" stopOpacity="0.4" />
+              <stop offset="1" stopColor="#93C5FD" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+=======
       <AppleStripeBackground />
+>>>>>>> 6ac448708dd57bc42282f955d1760c2f2054674f
 
       {/* ========================================================================= */}
       {/* 1. HEADER & NAVIGATION BAR (FIXED FROSTED GLASS ISLAND)                   */}
@@ -249,6 +348,23 @@ export function LandingView() {
             </div>
           </div>
 
+<<<<<<< HEAD
+          <div className="flex items-center gap-4">
+            <span className="hidden md:inline text-slate-500 dark:text-slate-400 font-mono text-[10px]">
+              GFR 2017 Rule 144(xi) Verified
+            </span>
+            <span className="text-slate-300 dark:text-slate-700 hidden md:inline">|</span>
+
+            {/* Theme Toggle in Header */}
+            <button
+              onClick={toggleTheme}
+              className="p-1 rounded bg-slate-200/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 transition hover:bg-slate-300"
+              title={isDark ? 'Switch to Institutional Light Mode' : 'Switch to Dark Mode'}
+            >
+              {isDark ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-slate-700" />}
+            </button>
+          </div>
+=======
           {/* Centered Navigation */}
           <nav className="hidden md:flex items-center gap-7 text-xs font-semibold text-slate-600 dark:text-slate-300">
             <a href="#overview" className="hover:text-blue-600 dark:hover:text-white transition-colors">Overview</a>
@@ -258,6 +374,7 @@ export function LandingView() {
             <a href="#divisions" className="hover:text-blue-600 dark:hover:text-white transition-colors">Corpus</a>
             <a href="#faq" className="hover:text-blue-600 dark:hover:text-white transition-colors">Knowledge Base</a>
           </nav>
+>>>>>>> 6ac448708dd57bc42282f955d1760c2f2054674f
 
           {/* Action Controls */}
           <div className="flex items-center gap-2 sm:gap-3">
@@ -265,19 +382,40 @@ export function LandingView() {
             <div className="flex items-center rounded-full glass-pill-container p-0.5 text-[11px] font-bold font-mono">
               <button
                 onClick={() => setLang('en')}
+<<<<<<< HEAD
+                className={`px-1.5 py-0.5 rounded transition ${lang === 'en'
+                  ? 'text-blue-700 dark:text-blue-400 font-bold bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/20'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+                  }`}
+=======
                 className={`px-2.5 py-1 rounded-full transition-all ${lang === 'en' ? 'glass-pill-active text-slate-900 dark:text-white font-bold' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}
+>>>>>>> 6ac448708dd57bc42282f955d1760c2f2054674f
               >
                 EN
               </button>
               <button
                 onClick={() => setLang('hi')}
+<<<<<<< HEAD
+                className={`px-1.5 py-0.5 rounded transition ${lang === 'hi'
+                  ? 'text-blue-700 dark:text-blue-400 font-bold bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/20'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+                  }`}
+=======
                 className={`px-2.5 py-1 rounded-full transition-all ${lang === 'hi' ? 'glass-pill-active text-slate-900 dark:text-white font-bold' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}
+>>>>>>> 6ac448708dd57bc42282f955d1760c2f2054674f
               >
                 हिन्दी
               </button>
               <button
                 onClick={() => setLang('gu')}
+<<<<<<< HEAD
+                className={`px-1.5 py-0.5 rounded transition ${lang === 'gu'
+                  ? 'text-blue-700 dark:text-blue-400 font-bold bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/20'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+                  }`}
+=======
                 className={`px-2.5 py-1 rounded-full transition-all ${lang === 'gu' ? 'glass-pill-active text-slate-900 dark:text-white font-bold' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}
+>>>>>>> 6ac448708dd57bc42282f955d1760c2f2054674f
               >
                 ગુજરાતી
               </button>
@@ -724,6 +862,25 @@ export function LandingView() {
             </p>
           </div>
 
+<<<<<<< HEAD
+          {/* Division Tabs */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            {BIS_DIVISIONS.map((div) => {
+              const isSelected = activeDivisionTab === div.code;
+              return (
+                <button
+                  key={div.code}
+                  onClick={() => setActiveDivisionTab(div.code)}
+                  className={`px-4 py-2 rounded-xl text-xs font-extrabold font-mono transition-all ${isSelected
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20'
+                    : 'bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-white/10'
+                    }`}
+                >
+                  {div.code} • {div.shortName}
+                </button>
+              );
+            })}
+=======
           {/* Division Tabs (Using GlassSegmentedControl matching Reference Image 2) */}
           <div className="mb-8 overflow-x-auto pb-2 no-scrollbar">
             <GlassSegmentedControl
@@ -732,6 +889,7 @@ export function LandingView() {
               onChange={(id) => setActiveDivisionTab(id)}
               size="md"
             />
+>>>>>>> 6ac448708dd57bc42282f955d1760c2f2054674f
           </div>
 
           {/* Active Division Panel */}
@@ -858,6 +1016,13 @@ export function LandingView() {
       {/* ========================================================================= */}
       <footer className="relative z-10 border-t border-slate-200 dark:border-white/[0.08] bg-white/85 dark:bg-[#0B0F19]/85 pt-14 pb-10 backdrop-blur-xl transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<<<<<<< HEAD
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pb-6 border-b border-slate-200 dark:border-slate-800/80">
+            <div>
+              <div className="flex items-center gap-2 text-slate-900 dark:text-slate-100 font-semibold text-sm mb-2">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <span>BISEngine</span>
+=======
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             {/* Column 1: Brand */}
             <div className="space-y-3">
@@ -868,6 +1033,7 @@ export function LandingView() {
                 <span className="font-extrabold text-sm text-slate-900 dark:text-white">
                   BIS<span className="text-blue-600 dark:text-blue-400 font-serif italic">Engine</span>
                 </span>
+>>>>>>> 6ac448708dd57bc42282f955d1760c2f2054674f
               </div>
               <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
                 National AI-Powered Recommendation Engine for Bureau of Indian Standards Compliance.
@@ -910,6 +1076,11 @@ export function LandingView() {
             </div>
           </div>
 
+<<<<<<< HEAD
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-between text-slate-500 text-[11px]">
+            <p>© BISEngine. Government of India.</p>
+            <p className="mt-2 sm:mt-0 font-mono">Developed for Public Procurement Traceability & Quality Assurance</p>
+=======
           {/* Bottom Copyright Strip */}
           <div className="pt-8 border-t border-slate-200 dark:border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
             <p>© 2026 BIS Standards Engine. Smart India Hackathon 2026. All rights reserved.</p>
@@ -918,6 +1089,7 @@ export function LandingView() {
               <a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms of Service</a>
               <a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">National Security Protocol</a>
             </div>
+>>>>>>> 6ac448708dd57bc42282f955d1760c2f2054674f
           </div>
         </div>
       </footer>
