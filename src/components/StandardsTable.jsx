@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Search, ShieldCheck, ChevronDown, GitFork, Check } from 'lucide-react';
 
-export function StandardsTable({ 
-  standards, 
-  selectedStandardIds, 
-  onToggleStandard, 
+export function StandardsTable({
+  standards,
+  selectedStandardIds,
+  onToggleStandard,
   onExploreNormative,
-  t 
+  t
 }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [divisionFilter, setDivisionFilter] = useState('ALL');
@@ -158,7 +158,7 @@ export function StandardsTable({
                               Enforcing: <strong className="text-slate-800 dark:text-slate-200">{std.ministryEnforcing}</strong>
                             </p>
                           </div>
-                          
+
                           {/* Right Side: Amendments & Actions */}
                           <div className="flex flex-col items-start md:items-end gap-3.5 justify-between">
                             <div className="text-xs font-semibold text-amber-700 dark:text-amber-300 bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/20">
@@ -181,7 +181,7 @@ export function StandardsTable({
             })}
           </tbody>
         </table>
-        
+
         {filteredStandards.length === 0 && (
           <div className="p-10 text-center text-slate-400 text-xs font-medium">
             No standards found matching your filters.
