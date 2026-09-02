@@ -6,22 +6,26 @@ export function Footer() {
   const { certificateId, shaHash } = useProcurement();
 
   return (
-    <footer className="bg-slate-100 dark:bg-[#0B1120] text-slate-600 dark:text-slate-400 text-xs py-8 border-t border-slate-200 dark:border-slate-800/80 no-print mt-auto transition-colors">
+    <footer className="relative z-10 border-t border-slate-200/80 dark:border-white/[0.08] bg-white/80 dark:bg-[#0B0F19]/80 backdrop-blur-xl text-slate-600 dark:text-slate-400 text-xs py-10 no-print mt-auto transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pb-6 border-b border-slate-200 dark:border-slate-800/80">
-          <div>
-            <div className="flex items-center gap-2 text-slate-900 dark:text-slate-100 font-semibold text-sm mb-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-              <span>BISEngine</span>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-slate-200/80 dark:border-white/[0.08]">
+          <div className="space-y-2.5">
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white shadow-xs">
+                <ShieldCheck className="w-4 h-4" />
+              </div>
+              <span className="font-extrabold text-sm text-slate-900 dark:text-white">
+                BIS<span className="text-blue-600 dark:text-blue-400 font-serif italic">Engine</span>
+              </span>
             </div>
-            <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-xs">
-              AI-Powered Recommendation Engine for Identifying Applicable Indian Standards for Public Procurement Specifications.
+            <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-xs">
+              AI-Powered Recommendation Gateway for Identifying Applicable Indian Standards for Public Procurement Specifications.
             </p>
           </div>
 
           <div>
-            <h4 className="text-slate-900 dark:text-slate-200 font-semibold mb-2">Statutory Frameworks</h4>
-            <ul className="space-y-1 text-slate-600 dark:text-slate-400 text-[11px]">
+            <h4 className="text-slate-900 dark:text-slate-200 font-bold uppercase tracking-wider text-[11px] mb-3">Statutory Frameworks</h4>
+            <ul className="space-y-1.5 text-slate-500 dark:text-slate-400 text-xs font-medium">
               <li>• BIS Act 2016 (Section 16 QCO Enforcement)</li>
               <li>• General Financial Rules (GFR) 2017 Rule 144(xi)</li>
               <li>• Public Procurement Order 2017 (Make in India)</li>
@@ -30,37 +34,39 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-slate-900 dark:text-slate-200 font-semibold mb-2">System Telemetry</h4>
-            <div className="space-y-1 text-[11px] text-slate-600 dark:text-slate-400">
-              <p className="flex items-center gap-1.5">
-                <Database className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-                <span>Vector Index: <strong>22,410 Standards Synced</strong></span>
+            <h4 className="text-slate-900 dark:text-slate-200 font-bold uppercase tracking-wider text-[11px] mb-3">System Telemetry</h4>
+            <div className="space-y-2 text-xs text-slate-500 dark:text-slate-400">
+              <p className="flex items-center gap-2">
+                <Database className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0" />
+                <span>Vector Index: <strong className="font-mono text-slate-800 dark:text-slate-200">22,410 Standards</strong></span>
               </p>
-              <p className="flex items-center gap-1.5">
-                <CheckCircle className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                <span>Gazette QCO Registry: <strong>Active & Verified</strong></span>
+              <p className="flex items-center gap-2">
+                <CheckCircle className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <span>Gazette QCO Registry: <strong className="text-emerald-600 dark:text-emerald-400 font-semibold">Active & Synced</strong></span>
               </p>
-              <p className="flex items-center gap-1.5">
-                <Lock className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
-                <span>Non-Repudiation SHA-256 Enabled</span>
+              <p className="flex items-center gap-2">
+                <Lock className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                <span>SHA-256 Non-Repudiation Enabled</span>
               </p>
             </div>
           </div>
 
           <div>
-            <h4 className="text-slate-900 dark:text-slate-200 font-semibold mb-2">Active Session Certificate</h4>
-            <p className="font-mono text-[11px] text-emerald-700 dark:text-emerald-400 bg-white dark:bg-slate-900 p-2 rounded-lg border border-slate-300 dark:border-slate-800">
-              {certificateId}
-            </p>
-            <p className="text-[10px] text-slate-500 font-mono mt-1 truncate">
-              SHA: {shaHash.substring(0, 24)}...
-            </p>
+            <h4 className="text-slate-900 dark:text-slate-200 font-bold uppercase tracking-wider text-[11px] mb-3">Session Verification</h4>
+            <div className="p-3 rounded-2xl glass-card text-xs">
+              <p className="font-mono font-bold text-emerald-600 dark:text-emerald-400 truncate">
+                {certificateId}
+              </p>
+              <p className="text-[10px] text-slate-400 font-mono mt-1 truncate">
+                SHA: {shaHash.substring(0, 24)}...
+              </p>
+            </div>
           </div>
         </div>
 
-        <div className="pt-4 flex flex-col sm:flex-row items-center justify-between text-slate-500 text-[11px]">
-          <p>© BISEngine. Ministry of Consumer Affairs, Food & Public Distribution.</p>
-          <p className="mt-2 sm:mt-0 font-mono">Simulated NIC e-Gov Cloud Gateway</p>
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-slate-500 text-xs">
+          <p>© 2026 BIS Standards Engine. Ministry of Consumer Affairs, Food & Public Distribution.</p>
+          <p className="font-mono text-[11px] text-slate-400">Simulated NIC e-Gov Cloud Gateway</p>
         </div>
       </div>
     </footer>
