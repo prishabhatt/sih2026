@@ -15,12 +15,14 @@ import {
   CheckCircle2,
   Lock,
   User,
-  Mail
+  Mail,
+  Sparkles
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useAuth } from '../context/AuthContext';
 import { useProcurement } from '../context/ProcurementContext';
 import { useTheme } from '../context/ThemeContext';
+import { AppleStripeBackground } from '../components/AppleStripeBackground';
 
 export function LoginView() {
   const navigate = useNavigate();
@@ -132,60 +134,69 @@ export function LoginView() {
 
   const handleSignUpSubmit = (e) => {
     e.preventDefault();
-    // Default to a persona when standard login is used for demo
     switchPersona('metro');
     loadScenario('underground_cable_metro');
     navigate('/input');
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 sm:p-8 bg-neutral-200/80 dark:bg-black transition-colors duration-300 relative">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 sm:p-8 bg-[#F1F5F9] dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 transition-colors duration-500 relative font-sans selection:bg-blue-600 selection:text-white">
+      
+      {/* Living Aurora Background */}
+      <AppleStripeBackground />
 
-      {/* Header Navigation (Extracted outside the card) */}
-      <div className="absolute top-0 w-full flex justify-between items-center p-6 sm:px-8 z-10">
+      {/* Header Navigation */}
+      <div className="absolute top-0 w-full flex justify-between items-center p-6 sm:px-8 z-20">
         <button
           onClick={() => navigate('/')}
-          className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors"
+          className="glass-btn-secondary inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 transition-colors cursor-pointer"
         >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Gateway Home
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span>Back to Gateway Home</span>
         </button>
         <button
           onClick={toggleTheme}
-          className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800/50 text-slate-600 dark:text-slate-400 transition-colors"
+          className="w-9 h-9 rounded-full glass-btn-secondary flex items-center justify-center text-slate-700 dark:text-slate-300 transition-all cursor-pointer"
           aria-label="Toggle theme"
         >
           {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4" />}
         </button>
       </div>
 
-      {/* Central Floating Card */}
-      <div className="max-w-6xl w-full bg-[#F3F4F6] dark:bg-zinc-900 rounded-[2.5rem] p-3 sm:p-4 shadow-2xl ring-1 ring-white/60 dark:ring-white/10 flex flex-col lg:flex-row gap-4 relative overflow-hidden min-h-[600px] mt-12 sm:mt-8">
+      {/* Central Floating Glass Card */}
+      <div className="max-w-5xl w-full glass-card rounded-[2.5rem] p-3 sm:p-4 shadow-2xl border border-white/70 dark:border-white/10 flex flex-col lg:flex-row gap-4 relative z-10 overflow-hidden min-h-[580px] mt-16 sm:mt-12">
 
         {/* Left Column - Auth Form */}
         <div className="flex-1 p-8 lg:p-12 flex flex-col justify-center overflow-y-auto">
 
           <div className="flex-1 flex flex-col max-w-sm w-full mx-auto justify-center">
             <div className="mb-8">
-              <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">
-                {isSignUp ? 'Create an account' : 'Sign in to your account'}
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-pill-container text-slate-800 dark:text-slate-200 text-xs font-semibold shadow-xs mb-3">
+                <ShieldCheck className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                <span>NIC e-Gov Gateway</span>
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white">
+                {isSignUp ? 'Create your ' : 'Sign in to '}
+                <span className="font-serif italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-sky-300">
+                  {isSignUp ? 'Account.' : 'Gateway.'}
+                </span>
               </h1>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
                 {isSignUp
-                  ? 'Register your details to access the AI recommendation engine.'
-                  : 'Authenticate using your official credentials or SSO gateway.'}
+                  ? 'Register your official procurement identity to access the AI engine.'
+                  : 'Authenticate using your verified mobile OTP or national SSO gateway.'}
               </p>
             </div>
 
             {isSignUp ? (
               <form onSubmit={handleSignUpSubmit} className="flex flex-col gap-4 mb-6">
                 <div>
-                  <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">Full Name</label>
-                  <div className="relative flex items-center bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl focus-within:ring-2 focus-within:ring-slate-900 dark:focus-within:ring-white transition-all overflow-hidden">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">Full Name</label>
+                  <div className="relative flex items-center glass-pill-container rounded-2xl focus-within:ring-2 focus-within:ring-blue-500 transition-all overflow-hidden">
                     <User className="absolute left-4 w-4 h-4 text-slate-400" />
                     <input
                       type="text"
-                      placeholder="John Doe"
+                      placeholder="Er. Vikramaditya Sharma"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       className="w-full pl-11 pr-4 py-3 text-sm bg-transparent outline-none placeholder:text-slate-400 text-slate-900 dark:text-white"
@@ -195,23 +206,23 @@ export function LoginView() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">Email Address</label>
-                  <div className="relative flex items-center bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl focus-within:ring-2 focus-within:ring-slate-900 dark:focus-within:ring-white transition-all overflow-hidden">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">Official Email</label>
+                  <div className="relative flex items-center glass-pill-container rounded-2xl focus-within:ring-2 focus-within:ring-blue-500 transition-all overflow-hidden">
                     <Mail className="absolute left-4 w-4 h-4 text-slate-400" />
                     <input
                       type="email"
-                      placeholder="official@gov.in"
+                      placeholder="officer@delhimetrorail.gov.in"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full pl-11 pr-4 py-3 text-sm bg-transparent outline-none placeholder:text-slate-400 text-slate-900 dark:text-white"
+                      className="w-full pl-11 pr-4 py-3 text-sm bg-transparent outline-none placeholder:text-slate-400 text-slate-900 dark:text-white font-mono"
                       required
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">Password</label>
-                  <div className="relative flex items-center bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl focus-within:ring-2 focus-within:ring-slate-900 dark:focus-within:ring-white transition-all overflow-hidden">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">Password</label>
+                  <div className="relative flex items-center glass-pill-container rounded-2xl focus-within:ring-2 focus-within:ring-blue-500 transition-all overflow-hidden">
                     <Lock className="absolute left-4 w-4 h-4 text-slate-400" />
                     <input
                       type="password"
@@ -228,36 +239,36 @@ export function LoginView() {
                   <input
                     type="checkbox"
                     id="terms"
-                    className="rounded border-slate-300 text-slate-900 focus:ring-slate-900 bg-white dark:bg-zinc-900 dark:border-zinc-700"
+                    className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
                     required
                   />
                   <label htmlFor="terms" className="text-xs text-slate-500 dark:text-slate-400">
-                    I agree to the <a href="#" className="text-slate-900 dark:text-white hover:underline font-medium">Terms & Conditions</a>
+                    I agree to the <span className="text-blue-600 dark:text-blue-400 hover:underline font-bold cursor-pointer">Terms & Conditions</span>
                   </label>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-3.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-semibold hover:bg-slate-800 dark:hover:bg-slate-200 transition-all shadow-md shadow-slate-900/10 flex items-center justify-center gap-2 mt-2"
+                  className="glass-btn-primary shimmer-sweep w-full py-3.5 rounded-full text-white text-xs font-extrabold shadow-lg flex items-center justify-center gap-2 mt-2 cursor-pointer"
                 >
-                  <span>Create Account</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span>Create Official Account</span>
+                  <ArrowRight className="w-4 h-4 text-amber-400" />
                 </button>
               </form>
             ) : (
               <div className="flex flex-col gap-6">
                 {/* Role Selection */}
                 <div>
-                  <h2 className="text-xs font-semibold text-slate-900 dark:text-white mb-2">
+                  <h2 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">
                     Select Official Role
                   </h2>
                   <div className="flex flex-wrap gap-2">
                     <button
                       type="button"
                       onClick={() => setSelectedRole('procurement')}
-                      className={`transition-colors cursor-pointer flex items-center gap-1.5 ${selectedRole === 'procurement'
-                          ? 'px-4 py-2 rounded-full border border-transparent bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-medium shadow-sm'
-                          : 'px-4 py-2 rounded-full border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-medium text-slate-600 dark:text-slate-400 hover:border-slate-300'
+                      className={`transition-all cursor-pointer flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold ${selectedRole === 'procurement'
+                          ? 'glass-btn-primary text-white shadow-xs'
+                          : 'glass-btn-secondary text-slate-600 dark:text-slate-300'
                         }`}
                     >
                       <Building2 className="w-3 h-3" />
@@ -266,9 +277,9 @@ export function LoginView() {
                     <button
                       type="button"
                       onClick={() => setSelectedRole('evaluator')}
-                      className={`transition-colors cursor-pointer flex items-center gap-1.5 ${selectedRole === 'evaluator'
-                          ? 'px-4 py-2 rounded-full border border-transparent bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-medium shadow-sm'
-                          : 'px-4 py-2 rounded-full border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-medium text-slate-600 dark:text-slate-400 hover:border-slate-300'
+                      className={`transition-all cursor-pointer flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold ${selectedRole === 'evaluator'
+                          ? 'glass-btn-primary text-white shadow-xs'
+                          : 'glass-btn-secondary text-slate-600 dark:text-slate-300'
                         }`}
                     >
                       <FileCheck className="w-3 h-3" />
@@ -277,9 +288,9 @@ export function LoginView() {
                     <button
                       type="button"
                       onClick={() => setSelectedRole('auditor')}
-                      className={`transition-colors cursor-pointer flex items-center gap-1.5 ${selectedRole === 'auditor'
-                          ? 'px-4 py-2 rounded-full border border-transparent bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-medium shadow-sm'
-                          : 'px-4 py-2 rounded-full border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-medium text-slate-600 dark:text-slate-400 hover:border-slate-300'
+                      className={`transition-all cursor-pointer flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold ${selectedRole === 'auditor'
+                          ? 'glass-btn-primary text-white shadow-xs'
+                          : 'glass-btn-secondary text-slate-600 dark:text-slate-300'
                         }`}
                     >
                       <Award className="w-3 h-3" />
@@ -289,13 +300,13 @@ export function LoginView() {
                 </div>
 
                 {/* Auth Method Switcher Tabs */}
-                <div className="flex p-1 bg-slate-200/50 dark:bg-zinc-900 rounded-lg">
+                <div className="flex p-0.5 glass-pill-container rounded-full">
                   <button
                     type="button"
                     onClick={() => setAuthMethod('otp')}
-                    className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-all ${authMethod === 'otp'
-                        ? 'bg-white dark:bg-zinc-800 text-slate-900 dark:text-white shadow-sm'
-                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+                    className={`flex-1 py-1.5 text-xs font-bold rounded-full transition-all cursor-pointer ${authMethod === 'otp'
+                        ? 'glass-pill-active text-slate-900 dark:text-white shadow-xs'
+                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                       }`}
                   >
                     Mobile OTP
@@ -303,9 +314,9 @@ export function LoginView() {
                   <button
                     type="button"
                     onClick={() => setAuthMethod('sso')}
-                    className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-all ${authMethod === 'sso'
-                        ? 'bg-white dark:bg-zinc-800 text-slate-900 dark:text-white shadow-sm'
-                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+                    className={`flex-1 py-1.5 text-xs font-bold rounded-full transition-all cursor-pointer ${authMethod === 'sso'
+                        ? 'glass-pill-active text-slate-900 dark:text-white shadow-xs'
+                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                       }`}
                   >
                     National SSO
@@ -318,11 +329,11 @@ export function LoginView() {
                     {otpStep === 1 ? (
                       <form onSubmit={handleSendOtp} className="space-y-4">
                         <div>
-                          <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                          <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
                             Registered Mobile Number
                           </label>
-                          <div className="relative flex items-center bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl focus-within:ring-2 focus-within:ring-slate-900 dark:focus-within:ring-white transition-all overflow-hidden">
-                            <span className="absolute left-4 font-mono text-sm text-slate-500 font-medium">
+                          <div className="relative flex items-center glass-pill-container rounded-2xl focus-within:ring-2 focus-within:ring-blue-500 transition-all overflow-hidden">
+                            <span className="absolute left-4 font-mono text-sm text-slate-400 font-bold">
                               +91
                             </span>
                             <input
@@ -331,33 +342,33 @@ export function LoginView() {
                               value={mobileNumber}
                               onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, ''))}
                               placeholder="Enter 10-digit number"
-                              className="w-full pl-12 pr-4 py-3 text-sm bg-transparent outline-none placeholder:text-slate-400 text-slate-900 dark:text-white font-mono font-medium"
+                              className="w-full pl-12 pr-4 py-3 text-sm bg-transparent outline-none placeholder:text-slate-400 text-slate-900 dark:text-white font-mono font-bold"
                             />
                           </div>
                           {otpError && (
-                            <p className="text-xs text-rose-600 dark:text-rose-400 mt-1.5 font-medium">{otpError}</p>
+                            <p className="text-xs text-rose-600 dark:text-rose-400 mt-1.5 font-semibold">{otpError}</p>
                           )}
                         </div>
 
                         <button
                           type="submit"
-                          className="w-full py-3.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-semibold hover:bg-slate-800 dark:hover:bg-slate-200 transition-all shadow-md shadow-slate-900/10 flex items-center justify-center gap-2 mt-2"
+                          className="glass-btn-primary shimmer-sweep w-full py-3.5 rounded-full text-white text-xs font-extrabold shadow-lg flex items-center justify-center gap-2 mt-2 cursor-pointer"
                         >
                           <span>Send 6-Digit OTP</span>
-                          <ArrowRight className="w-4 h-4" />
+                          <ArrowRight className="w-4 h-4 text-amber-400" />
                         </button>
                       </form>
                     ) : (
                       <form onSubmit={handleVerifyOtp} className="space-y-6 animate-in fade-in duration-200">
-                        <div className="p-4 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 flex items-center justify-between">
+                        <div className="p-3.5 rounded-2xl glass-pill-container flex items-center justify-between">
                           <div>
-                            <p className="text-[11px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-medium">Mobile Number</p>
-                            <p className="font-mono font-medium text-slate-900 dark:text-white text-sm mt-1">+91 {mobileNumber}</p>
+                            <p className="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-bold">Mobile Number</p>
+                            <p className="font-mono font-bold text-slate-900 dark:text-white text-xs mt-0.5">+91 {mobileNumber}</p>
                           </div>
                           <button
                             type="button"
                             onClick={() => setOtpStep(1)}
-                            className="text-xs text-slate-900 dark:text-white hover:underline font-medium px-3 py-1.5 rounded-lg bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 shadow-sm transition-colors"
+                            className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-bold px-3 py-1 rounded-full glass-btn-secondary cursor-pointer"
                           >
                             Edit
                           </button>
@@ -365,13 +376,13 @@ export function LoginView() {
 
                         <div>
                           <div className="flex items-center justify-between mb-2">
-                            <label className="text-xs font-medium text-slate-700 dark:text-slate-300">
+                            <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                               Enter 6-Digit OTP
                             </label>
                             <button
                               type="button"
                               onClick={handleAutoFillOtp}
-                              className="text-[10px] font-mono text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition font-medium"
+                              className="text-[10px] font-mono text-blue-600 dark:text-blue-400 hover:underline font-bold cursor-pointer"
                             >
                               Auto-Fill Demo
                             </button>
@@ -389,13 +400,13 @@ export function LoginView() {
                                 value={digit}
                                 onChange={(e) => handleOtpChange(idx, e.target.value)}
                                 onKeyDown={(e) => handleOtpKeyDown(idx, e)}
-                                className="w-full h-12 text-center font-mono font-medium text-lg rounded-xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-slate-900 dark:text-white focus:border-slate-900 dark:focus:border-white focus:ring-1 focus:ring-slate-900 dark:focus:ring-white focus:outline-none transition-all selection:bg-slate-200 dark:selection:bg-zinc-700"
+                                className="w-full h-12 text-center font-mono font-bold text-lg rounded-2xl glass-pill-container text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
                               />
                             ))}
                           </div>
 
                           {otpError && (
-                            <p className="text-xs text-rose-600 dark:text-rose-400 mt-1.5 font-medium">{otpError}</p>
+                            <p className="text-xs text-rose-600 dark:text-rose-400 mt-1.5 font-semibold">{otpError}</p>
                           )}
                         </div>
 
@@ -408,7 +419,7 @@ export function LoginView() {
                             <button
                               type="button"
                               onClick={handleSendOtp}
-                              className="text-xs text-slate-900 dark:text-white hover:underline flex items-center gap-1 font-medium"
+                              className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 font-bold cursor-pointer"
                             >
                               <RefreshCw className="w-3 h-3" />
                               <span>Resend OTP</span>
@@ -419,18 +430,19 @@ export function LoginView() {
                         <button
                           type="submit"
                           disabled={otpSuccess}
-                          className={`w-full py-3.5 rounded-xl text-white text-sm font-semibold flex items-center justify-center gap-2 transition-all shadow-md ${otpSuccess ? 'bg-emerald-600 dark:bg-emerald-500 text-white' : 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-200 shadow-slate-900/10'
-                            }`}
+                          className={`glass-btn-primary shimmer-sweep w-full py-3.5 rounded-full text-white text-xs font-extrabold shadow-lg flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                            otpSuccess ? '!bg-emerald-600 text-white' : ''
+                          }`}
                         >
                           {otpSuccess ? (
                             <>
                               <CheckCircle2 className="w-4 h-4" />
-                              <span>Verified</span>
+                              <span>Verified & Logging In...</span>
                             </>
                           ) : (
                             <>
                               <span>Verify & Login</span>
-                              <ArrowRight className="w-4 h-4" />
+                              <ArrowRight className="w-4 h-4 text-amber-400" />
                             </>
                           )}
                         </button>
@@ -445,9 +457,9 @@ export function LoginView() {
                     <button
                       type="button"
                       onClick={() => handleSsoLogin('Jan Parichay (National SSO)')}
-                      className="w-full py-3.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-semibold hover:bg-slate-800 dark:hover:bg-slate-200 transition-all shadow-md shadow-slate-900/10 flex items-center justify-center gap-2"
+                      className="glass-btn-primary shimmer-sweep w-full py-3.5 rounded-full text-white text-xs font-extrabold shadow-lg flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      <ShieldCheck className="w-4 h-4" />
+                      <ShieldCheck className="w-4 h-4 text-amber-400" />
                       <span>Jan Parichay SSO</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
@@ -456,14 +468,14 @@ export function LoginView() {
                       <button
                         type="button"
                         onClick={() => handleSsoLogin('MeriPehchaan SSO')}
-                        className="py-3 px-3 rounded-xl bg-white dark:bg-zinc-900 hover:bg-slate-50 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-800 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-colors text-center"
+                        className="py-3 px-3 rounded-2xl glass-btn-secondary text-xs font-bold text-slate-700 dark:text-slate-300 transition-colors text-center cursor-pointer"
                       >
                         MeriPehchaan
                       </button>
                       <button
                         type="button"
                         onClick={() => handleSsoLogin('GeM Portal SSO')}
-                        className="py-3 px-3 rounded-xl bg-white dark:bg-zinc-900 hover:bg-slate-50 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-800 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-colors text-center"
+                        className="py-3 px-3 rounded-2xl glass-btn-secondary text-xs font-bold text-slate-700 dark:text-slate-300 transition-colors text-center cursor-pointer"
                       >
                         GeM Portal
                       </button>
@@ -480,7 +492,7 @@ export function LoginView() {
                 <button
                   type="button"
                   onClick={() => setIsSignUp(!isSignUp)}
-                  className="font-medium text-slate-900 dark:text-white hover:underline"
+                  className="font-bold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
                 >
                   {isSignUp ? 'Sign In' : 'Sign Up'}
                 </button>
@@ -488,85 +500,88 @@ export function LoginView() {
             </div>
 
             <div className="mt-8 flex items-center justify-center gap-2 text-[11px] text-slate-400">
-              <Lock className="w-3 h-3" />
+              <Lock className="w-3 h-3 text-emerald-500" />
               <span>Protected by 256-bit NIC e-Gov security.</span>
             </div>
           </div>
         </div>
 
         {/* Right Column - Quick Demo Profiles */}
-        <div className="flex-1 bg-[#0F0F11] dark:bg-[#0A0A0B] rounded-[2rem] p-8 lg:p-12 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] border border-white/10 flex flex-col relative overflow-y-auto antialiased">
+        <div className="flex-1 rounded-[2rem] p-8 lg:p-12 bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 dark:from-[#070B14] dark:via-[#0B1428] dark:to-[#050810] text-white border border-white/20 shadow-2xl flex flex-col relative overflow-y-auto">
 
           <div className="flex flex-col h-full w-full max-w-sm mx-auto justify-center">
 
             <div className="mb-6">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-blue-400 block mb-1">
+                INSTANT EVALUATION
+              </span>
+              <h3 className="text-xl font-black text-white tracking-tight">
                 Quick Demo Profiles
               </h3>
-              <p className="text-sm text-slate-500 mt-2">
-                Pre-configured profiles for instant evaluation without requiring real mobile OTP verification.
+              <p className="text-xs text-slate-300 mt-1 font-normal leading-relaxed">
+                Pre-configured government personas for instant evaluation without requiring real mobile OTP verification.
               </p>
             </div>
 
             <div className="space-y-3">
               <button
                 onClick={() => handleQuickPersona('metro', 'underground_cable_metro')}
-                className="w-full text-left bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer group flex flex-col"
+                className="w-full text-left bg-white/10 hover:bg-white/15 border border-white/15 hover:border-white/30 rounded-2xl p-4 transition-all cursor-pointer group flex flex-col backdrop-blur-md"
               >
                 <div className="flex items-center justify-between">
-                  <p className="text-white font-semibold text-sm tracking-tight">
+                  <p className="text-white font-bold text-sm tracking-tight">
                     Er. Vikramaditya Sharma
                   </p>
-                  <span className="bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wider">
+                  <span className="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold">
                     ETD
                   </span>
                 </div>
-                <p className="text-slate-400 text-xs mt-1">National Metro Rail (11kV Cables)</p>
+                <p className="text-slate-300 text-xs mt-1">National Metro Rail (11kV HT XLPE Cables)</p>
               </button>
 
               <button
                 onClick={() => handleQuickPersona('nhai', 'tmt_rebars_cement_nhai')}
-                className="w-full text-left bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer group flex flex-col"
+                className="w-full text-left bg-white/10 hover:bg-white/15 border border-white/15 hover:border-white/30 rounded-2xl p-4 transition-all cursor-pointer group flex flex-col backdrop-blur-md"
               >
                 <div className="flex items-center justify-between">
-                  <p className="text-white font-semibold text-sm tracking-tight">
+                  <p className="text-white font-bold text-sm tracking-tight">
                     Er. Rajeshwar Nath Kulkarni
                   </p>
-                  <span className="bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wider">
+                  <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold">
                     CED
                   </span>
                 </div>
-                <p className="text-slate-400 text-xs mt-1">NHAI (Fe 500D TMT & OPC 53)</p>
+                <p className="text-slate-300 text-xs mt-1">NHAI (Fe 500D TMT & OPC 53 Grade)</p>
               </button>
 
               <button
                 onClick={() => handleQuickPersona('geda', 'solar_pumps_kusum')}
-                className="w-full text-left bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer group flex flex-col"
+                className="w-full text-left bg-white/10 hover:bg-white/15 border border-white/15 hover:border-white/30 rounded-2xl p-4 transition-all cursor-pointer group flex flex-col backdrop-blur-md"
               >
                 <div className="flex items-center justify-between">
-                  <p className="text-white font-semibold text-sm tracking-tight">
+                  <p className="text-white font-bold text-sm tracking-tight">
                     Dr. Jayeshbhai Patel
                   </p>
-                  <span className="bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wider">
+                  <span className="bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold">
                     LITD
                   </span>
                 </div>
-                <p className="text-slate-400 text-xs mt-1">GEDA (PM-KUSUM Solar Pumps)</p>
+                <p className="text-slate-300 text-xs mt-1">GEDA (PM-KUSUM Solar Water Pumps)</p>
               </button>
 
               <button
                 onClick={() => handleQuickPersona('audit', 'underground_cable_metro')}
-                className="w-full text-left bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer group flex flex-col"
+                className="w-full text-left bg-white/10 hover:bg-white/15 border border-white/15 hover:border-white/30 rounded-2xl p-4 transition-all cursor-pointer group flex flex-col backdrop-blur-md"
               >
                 <div className="flex items-center justify-between">
-                  <p className="text-white font-semibold text-sm tracking-tight">
+                  <p className="text-white font-bold text-sm tracking-tight">
                     Smt. Ananya Sen, IA&AS
                   </p>
-                  <span className="bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wider">
+                  <span className="bg-purple-500/20 text-purple-300 border border-purple-500/30 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold">
                     AUDIT
                   </span>
                 </div>
-                <p className="text-slate-400 text-xs mt-1">Comptroller & Auditor General</p>
+                <p className="text-slate-300 text-xs mt-1">Comptroller & Auditor General (GFR 144(xi))</p>
               </button>
             </div>
 
@@ -577,3 +592,5 @@ export function LoginView() {
     </div>
   );
 }
+
+export default LoginView;

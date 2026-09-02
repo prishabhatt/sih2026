@@ -5,9 +5,12 @@ import {
   Terminal, 
   Activity, 
   ArrowRight,
-  Loader2
+  Loader2,
+  Cpu,
+  Sparkles
 } from 'lucide-react';
 import { useProcurement } from '../context/ProcurementContext';
+import { AppleStripeBackground } from '../components/AppleStripeBackground';
 
 export function AnalyzingView() {
   const navigate = useNavigate();
@@ -74,41 +77,49 @@ export function AnalyzingView() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#090D16] text-slate-900 dark:text-slate-100 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 transition-colors">
-      <div className="max-w-4xl mx-auto w-full space-y-6">
-        <div className="text-center space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 text-blue-700 dark:text-blue-400 text-xs font-mono font-medium shadow-xs">
-            <Loader2 className="w-3.5 h-3.5 animate-spin" />
-            <span>AI Neural Resolution Engine Active</span>
+    <div className="min-h-screen bg-[#F1F5F9] dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-500 relative font-sans selection:bg-blue-600 selection:text-white">
+      
+      {/* Living Aurora Background */}
+      <AppleStripeBackground />
+
+      <div className="max-w-4xl mx-auto w-full space-y-6 relative z-10">
+        <div className="text-center space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-pill-container text-blue-600 dark:text-blue-400 text-xs font-mono font-bold shadow-xs">
+            <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-600 dark:text-blue-400" />
+            <span>AI Neural Vector Resolution Pipeline</span>
           </div>
 
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
-            {t.analyzing.title}
+          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+            {t.analyzing.title}{' '}
+            <span className="font-serif italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-sky-300">
+              Intelligence
+            </span>
           </h1>
-          <p className="text-xs text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed font-normal">
             {t.analyzing.subtitle}
           </p>
         </div>
 
-        <div className="bg-white dark:bg-[#0F172A] p-5 sm:p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
+        {/* Progress Container */}
+        <div className="glass-card p-6 sm:p-8 rounded-3xl border border-white/70 dark:border-white/10 shadow-xl space-y-5">
           <div className="flex items-center justify-between text-xs">
-            <span className="text-slate-700 dark:text-slate-300 flex items-center gap-2">
+            <span className="text-slate-700 dark:text-slate-300 flex items-center gap-2 font-medium">
               <Activity className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-              Target Entity: <strong className="text-slate-900 dark:text-slate-100 font-semibold">{orgProfile.businessName}</strong>
+              Target Entity: <strong className="text-slate-900 dark:text-white font-extrabold">{orgProfile.businessName}</strong>
             </span>
-            <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400 text-xs">
+            <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400 text-xs bg-emerald-500/10 px-2.5 py-0.5 rounded-full">
               {progress}% Complete
             </span>
           </div>
 
-          <div className="w-full bg-slate-100 dark:bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-200 dark:border-slate-800">
+          <div className="w-full bg-slate-200/80 dark:bg-white/10 h-2.5 rounded-full overflow-hidden p-0.5">
             <div
-              className="bg-blue-600 h-full rounded-full transition-all duration-300 ease-out"
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-sky-400 h-full rounded-full transition-all duration-300 ease-out shadow-sm"
               style={{ width: `${progress}%` }}
             ></div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-5 gap-2 pt-2">
+          <div className="grid grid-cols-1 sm:grid-cols-5 gap-2.5 pt-2">
             {pipelineStages.map((stage, idx) => {
               const isDone = currentStep > idx || progress === 100;
               const isCurrent = currentStep === idx && progress < 100;
@@ -116,21 +127,21 @@ export function AnalyzingView() {
               return (
                 <div
                   key={idx}
-                  className={`p-3 rounded-lg border text-center transition-all ${
+                  className={`p-3.5 rounded-2xl border text-center transition-all ${
                     isDone
-                      ? 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-400 font-medium'
+                      ? 'bg-emerald-50/80 dark:bg-emerald-950/30 border-emerald-300 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-300 font-bold'
                       : isCurrent
-                      ? 'bg-blue-50 dark:bg-blue-500/10 border-blue-400 dark:border-blue-500/40 text-blue-900 dark:text-blue-300 font-bold'
-                      : 'bg-slate-50 dark:bg-[#131C2E] border-slate-200 dark:border-slate-800 text-slate-400 dark:text-slate-500'
+                      ? 'glass-pill-active border-blue-500/50 dark:border-blue-400/50 text-blue-900 dark:text-blue-300 font-extrabold ring-2 ring-blue-500/20'
+                      : 'glass-card text-slate-400 dark:text-slate-500'
                   }`}
                 >
-                  <div className="flex justify-center mb-1">
+                  <div className="flex justify-center mb-1.5">
                     {isDone ? (
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                     ) : isCurrent ? (
-                      <Loader2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 animate-spin" />
+                      <Loader2 className="w-4 h-4 text-blue-600 dark:text-blue-400 animate-spin" />
                     ) : (
-                      <span className="w-3.5 h-3.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-500 text-[10px] flex items-center justify-center font-mono">
+                      <span className="w-4 h-4 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-500 text-[10px] flex items-center justify-center font-mono">
                         {idx + 1}
                       </span>
                     )}
@@ -144,18 +155,19 @@ export function AnalyzingView() {
           </div>
         </div>
 
-        <div className="bg-slate-900 text-slate-200 rounded-xl border border-slate-800 p-4 shadow-sm font-mono text-xs overflow-hidden">
-          <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-slate-800 text-slate-400 text-[11px]">
-            <span className="flex items-center gap-1.5 text-slate-300 font-semibold">
-              <Terminal className="w-3.5 h-3.5 text-blue-400" />
+        {/* Streaming RAG Terminal */}
+        <div className="bg-[#070B14]/90 dark:bg-[#070B14]/95 text-slate-200 rounded-3xl border border-white/10 p-5 shadow-2xl font-mono text-xs overflow-hidden backdrop-blur-2xl">
+          <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10 text-slate-400 text-[11px]">
+            <span className="flex items-center gap-2 text-white font-bold">
+              <Terminal className="w-4 h-4 text-blue-400" />
               {t.analyzing.terminalTitle}
             </span>
-            <span className="text-emerald-400 text-[10px] font-mono">
+            <span className="text-emerald-400 text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
               [RAG PIPELINE STREAM]
             </span>
           </div>
 
-          <div className="h-40 overflow-y-auto space-y-1 text-slate-300 scroll-smooth pr-2 text-[11px]">
+          <div className="h-44 overflow-y-auto space-y-1.5 text-slate-300 scroll-smooth pr-2 text-[11px] font-mono">
             {logLines.map((line, idx) => (
               <p key={idx} className="leading-relaxed truncate">
                 <span className="text-emerald-400 font-bold mr-2">›</span>
@@ -165,35 +177,38 @@ export function AnalyzingView() {
           </div>
         </div>
 
+        {/* Telemetry Strip */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-          <div className="bg-white dark:bg-[#0F172A] p-3 rounded-lg border border-slate-200 dark:border-slate-800 shadow-xs">
-            <p className="text-[10px] uppercase font-semibold text-slate-500 dark:text-slate-400">{t.analyzing.statVectors}</p>
-            <p className="text-base font-bold font-mono text-slate-900 dark:text-slate-100 mt-0.5">22,410</p>
+          <div className="glass-card p-4 rounded-2xl shadow-xs">
+            <p className="text-[10px] uppercase font-bold tracking-wider text-slate-400">{t.analyzing.statVectors}</p>
+            <p className="text-lg font-black font-mono text-slate-900 dark:text-white mt-0.5">22,410</p>
           </div>
-          <div className="bg-white dark:bg-[#0F172A] p-3 rounded-lg border border-slate-200 dark:border-slate-800 shadow-xs">
-            <p className="text-[10px] uppercase font-semibold text-slate-500 dark:text-slate-400">{t.analyzing.statQco}</p>
-            <p className="text-base font-bold font-mono text-emerald-700 dark:text-emerald-400 mt-0.5">142 Orders</p>
+          <div className="glass-card p-4 rounded-2xl shadow-xs">
+            <p className="text-[10px] uppercase font-bold tracking-wider text-slate-400">{t.analyzing.statQco}</p>
+            <p className="text-lg font-black font-mono text-emerald-600 dark:text-emerald-400 mt-0.5">142 Orders</p>
           </div>
-          <div className="bg-white dark:bg-[#0F172A] p-3 rounded-lg border border-slate-200 dark:border-slate-800 shadow-xs">
-            <p className="text-[10px] uppercase font-semibold text-slate-500 dark:text-slate-400">{t.analyzing.statConfidence}</p>
-            <p className="text-base font-bold font-mono text-blue-700 dark:text-blue-400 mt-0.5">99.4%</p>
+          <div className="glass-card p-4 rounded-2xl shadow-xs">
+            <p className="text-[10px] uppercase font-bold tracking-wider text-slate-400">{t.analyzing.statConfidence}</p>
+            <p className="text-lg font-black font-mono text-blue-600 dark:text-blue-400 mt-0.5">99.4%</p>
           </div>
-          <div className="bg-white dark:bg-[#0F172A] p-3 rounded-lg border border-slate-200 dark:border-slate-800 shadow-xs">
-            <p className="text-[10px] uppercase font-semibold text-slate-500 dark:text-slate-400">{t.analyzing.statLatency}</p>
-            <p className="text-base font-bold font-mono text-slate-800 dark:text-slate-200 mt-0.5">38 ms</p>
+          <div className="glass-card p-4 rounded-2xl shadow-xs">
+            <p className="text-[10px] uppercase font-bold tracking-wider text-slate-400">{t.analyzing.statLatency}</p>
+            <p className="text-lg font-black font-mono text-slate-900 dark:text-white mt-0.5">38 ms</p>
           </div>
         </div>
 
-        <div className="text-center">
+        <div className="text-center pt-2">
           <button
             onClick={() => navigate('/dashboard')}
-            className="text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition inline-flex items-center gap-1"
+            className="glass-btn-secondary inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold text-slate-600 dark:text-slate-300 transition cursor-pointer"
           >
             <span>Skip transition to Dashboard</span>
-            <ArrowRight className="w-3 h-3" />
+            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
     </div>
   );
 }
+
+export default AnalyzingView;
