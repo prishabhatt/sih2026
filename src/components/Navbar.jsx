@@ -119,7 +119,7 @@ export function Navbar() {
                       className="fixed inset-0 z-40" 
                       onClick={() => setIsLangMenuOpen(false)} 
                     />
-                    <div className="absolute right-0 mt-2 w-60 glass-card backdrop-blur-2xl rounded-2xl shadow-2xl p-1.5 z-50 border border-slate-200/90 dark:border-white/10 animate-in fade-in slide-in-from-top-2 duration-150 max-h-96 overflow-y-auto">
+                    <div className="absolute right-0 mt-2 w-60 bg-white dark:bg-[#0B132B] rounded-2xl shadow-2xl p-1.5 z-50 border border-slate-200 dark:border-slate-800 animate-in fade-in slide-in-from-top-2 duration-150 max-h-96 overflow-y-auto">
                       <div className="px-3 py-1.5 mb-1 border-b border-slate-200/60 dark:border-white/5">
                         <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-slate-400 dark:text-slate-500">
                           Major Indian Languages
@@ -131,8 +131,8 @@ export function Navbar() {
                           onClick={() => { setLang(l.code); setIsLangMenuOpen(false); }}
                           className={`w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between transition-colors my-0.5 ${
                             lang === l.code 
-                              ? 'font-bold glass-pill-active text-slate-900 dark:text-white' 
-                              : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100/70 dark:hover:bg-white/10'
+                              ? 'font-bold bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-white' 
+                              : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5'
                           }`}
                         >
                           <div>
@@ -144,7 +144,7 @@ export function Navbar() {
                               {l.region}
                             </div>
                           </div>
-                          {lang === l.code && <CheckCircle2 className="w-3.5 h-3.5 text-[#292524] dark:text-[#A8A29E] shrink-0" />}
+                          {lang === l.code && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />}
                         </button>
                       ))}
                     </div>
@@ -173,62 +173,68 @@ export function Navbar() {
                 </button>
 
                 {isUserMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-72 glass-card rounded-3xl shadow-2xl p-2.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                    <div className="p-3.5 glass-pill-container rounded-2xl mb-2">
-                      <p className="text-xs font-extrabold text-slate-900 dark:text-white">{currentUser?.name}</p>
-                      <p className="text-[11px] text-[#292524] dark:text-[#A8A29E] font-semibold">{currentUser?.roleTitle}</p>
-                      <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">{currentUser?.organization}</p>
-                      <div className="mt-2 pt-2 border-t border-slate-200/80 dark:border-white/10 flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
-                        <span>Auth: <strong className="font-mono">{currentUser?.ssoProvider}</strong></span>
-                        <span className="text-emerald-600 dark:text-[#059669] font-bold">Active</span>
+                  <>
+                    <div 
+                      className="fixed inset-0 z-40" 
+                      onClick={() => setIsUserMenuOpen(false)} 
+                    />
+                    <div className="absolute right-0 mt-2 w-72 bg-white dark:bg-[#0B132B] rounded-3xl shadow-2xl p-3 z-50 border border-slate-200 dark:border-slate-800 animate-in fade-in slide-in-from-top-2 duration-150">
+                      <div className="p-3.5 bg-slate-50 dark:bg-[#060A17] border border-slate-200/80 dark:border-white/10 rounded-2xl mb-2">
+                        <p className="text-xs font-extrabold text-slate-900 dark:text-white">{currentUser?.name}</p>
+                        <p className="text-[11px] text-[#292524] dark:text-[#A8A29E] font-semibold">{currentUser?.roleTitle}</p>
+                        <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">{currentUser?.organization}</p>
+                        <div className="mt-2 pt-2 border-t border-slate-200/80 dark:border-white/10 flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
+                          <span>Auth: <strong className="font-mono">{currentUser?.ssoProvider}</strong></span>
+                          <span className="text-emerald-600 dark:text-emerald-400 font-bold">Active</span>
+                        </div>
                       </div>
-                    </div>
 
-                    <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2 py-1">
-                      Switch Test Persona
-                    </p>
-                    <button
-                      onClick={() => { switchPersona('metro'); setIsUserMenuOpen(false); }}
-                      className="w-full text-left p-2 rounded-xl text-xs hover:bg-white/40 dark:hover:bg-white/10 flex items-center justify-between transition-colors cursor-pointer"
-                    >
-                      <div>
-                        <p className="font-bold text-slate-800 dark:text-slate-200">Er. Vikramaditya Sharma</p>
-                        <p className="text-[10px] text-slate-500 dark:text-slate-400">Procurement Officer (Metro Rail)</p>
-                      </div>
-                      {currentUser?.id === 'usr_metro_01' && <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-[#059669]" />}
-                    </button>
-
-                    <button
-                      onClick={() => { switchPersona('nhai'); setIsUserMenuOpen(false); }}
-                      className="w-full text-left p-2 rounded-xl text-xs hover:bg-white/40 dark:hover:bg-white/10 flex items-center justify-between transition-colors cursor-pointer"
-                    >
-                      <div>
-                        <p className="font-bold text-slate-800 dark:text-slate-200">Er. Rajeshwar Nath Kulkarni</p>
-                        <p className="text-[10px] text-slate-500 dark:text-slate-400">Technical Evaluator (NHAI)</p>
-                      </div>
-                      {currentUser?.id === 'usr_nhai_02' && <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-[#059669]" />}
-                    </button>
-
-                    <button
-                      onClick={() => { switchPersona('audit'); setIsUserMenuOpen(false); }}
-                      className="w-full text-left p-2 rounded-xl text-xs hover:bg-white/40 dark:hover:bg-white/10 flex items-center justify-between transition-colors cursor-pointer"
-                    >
-                      <div>
-                        <p className="font-bold text-slate-800 dark:text-slate-200">Smt. Ananya Sen</p>
-                        <p className="text-[10px] text-slate-500 dark:text-slate-400">Vigilance & Audit Officer (CAG)</p>
-                      </div>
-                      {currentUser?.id === 'usr_audit_03' && <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-[#059669]" />}
-                    </button>
-
-                    <div className="border-t border-slate-200/80 dark:border-white/10 my-1 pt-1">
+                      <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2 py-1">
+                        Switch Test Persona
+                      </p>
                       <button
-                        onClick={() => { logout(); navigate('/login'); setIsUserMenuOpen(false); }}
-                        className="w-full text-left p-2 text-xs text-rose-600 dark:text-rose-400 font-bold hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-xl transition cursor-pointer"
+                        onClick={() => { switchPersona('metro'); setIsUserMenuOpen(false); }}
+                        className="w-full text-left p-2 rounded-xl text-xs hover:bg-slate-100 dark:hover:bg-white/10 flex items-center justify-between transition-colors cursor-pointer"
                       >
-                        {t.nav.logout}
+                        <div>
+                          <p className="font-bold text-slate-800 dark:text-slate-200">Er. Vikramaditya Sharma</p>
+                          <p className="text-[10px] text-slate-500 dark:text-slate-400">Procurement Officer (Metro Rail)</p>
+                        </div>
+                        {currentUser?.id === 'usr_metro_01' && <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />}
                       </button>
+
+                      <button
+                        onClick={() => { switchPersona('nhai'); setIsUserMenuOpen(false); }}
+                        className="w-full text-left p-2 rounded-xl text-xs hover:bg-slate-100 dark:hover:bg-white/10 flex items-center justify-between transition-colors cursor-pointer"
+                      >
+                        <div>
+                          <p className="font-bold text-slate-800 dark:text-slate-200">Er. Rajeshwar Nath Kulkarni</p>
+                          <p className="text-[10px] text-slate-500 dark:text-slate-400">Technical Evaluator (NHAI)</p>
+                        </div>
+                        {currentUser?.id === 'usr_nhai_02' && <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />}
+                      </button>
+
+                      <button
+                        onClick={() => { switchPersona('audit'); setIsUserMenuOpen(false); }}
+                        className="w-full text-left p-2 rounded-xl text-xs hover:bg-slate-100 dark:hover:bg-white/10 flex items-center justify-between transition-colors cursor-pointer"
+                      >
+                        <div>
+                          <p className="font-bold text-slate-800 dark:text-slate-200">Smt. Ananya Sen</p>
+                          <p className="text-[10px] text-slate-500 dark:text-slate-400">Vigilance & Audit Officer (CAG)</p>
+                        </div>
+                        {currentUser?.id === 'usr_audit_03' && <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />}
+                      </button>
+
+                      <div className="border-t border-slate-200/80 dark:border-white/10 my-1 pt-1">
+                        <button
+                          onClick={() => { logout(); navigate('/login'); setIsUserMenuOpen(false); }}
+                          className="w-full text-left p-2 text-xs text-rose-600 dark:text-rose-400 font-bold hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-xl transition cursor-pointer"
+                        >
+                          {t.nav.logout}
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  </>
                 )}
               </div>
             </div>
