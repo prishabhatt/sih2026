@@ -94,7 +94,7 @@ export function SandboxView() {
         {/* Header Strip */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 dark:border-white/10 pb-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-pill-container text-[#292524] dark:text-[#A8A29E] text-xs font-mono font-bold shadow-xs mb-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/70 dark:bg-white/10 backdrop-blur-md border border-white dark:border-white/20 text-slate-800 dark:text-slate-200 text-xs font-bold shadow-xs mb-2">
               <Terminal className="w-3.5 h-3.5" />
               <span>Interactive RAG Sandbox • 768-D Vector Index</span>
             </div>
@@ -111,30 +111,30 @@ export function SandboxView() {
 
           <button
             onClick={() => navigate('/input')}
-            className="glass-btn-primary shimmer-sweep inline-flex items-center gap-2 px-6 py-3 rounded-full text-white font-extrabold text-xs shadow-lg cursor-pointer"
+            className="bg-[#0B1E36]/90 hover:bg-[#0B1E36] dark:bg-white/20 dark:hover:bg-white/30 text-white font-extrabold text-xs inline-flex items-center gap-2 px-6 py-3 rounded-full backdrop-blur-2xl border border-white/60 dark:border-white/40 shadow-[0_4px_20px_rgba(0,0,0,0.15)] hover:shadow-2xl transition-all cursor-pointer hover:scale-[1.02]"
           >
             <span>Open Custom Input Form</span>
             <ArrowRight className="w-4 h-4 text-amber-400" />
           </button>
         </div>
 
-        {/* The Sandbox Widget Container */}
-        <div className="rounded-3xl glass-card shadow-2xl overflow-hidden border border-white/70 dark:border-white/10">
+        {/* The Sandbox Widget Container Matching Input Specs Glass Card */}
+        <div className="rounded-3xl bg-white/60 dark:bg-white/[0.04] backdrop-blur-2xl shadow-xl overflow-hidden border border-white dark:border-white/20">
           {/* Terminal Top Bar */}
-          <div className="px-6 py-4 border-b border-slate-200/80 dark:border-white/[0.08] bg-white/40 dark:bg-white/[0.02] flex flex-wrap items-center justify-between gap-3">
+          <div className="px-6 py-4 border-b border-white/60 dark:border-white/[0.08] bg-white/40 dark:bg-white/[0.02] flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80 inline-block" />
                 <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80 inline-block" />
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block" />
               </div>
-              <span className="font-mono text-xs font-bold text-slate-700 dark:text-slate-300">
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
                 LIVE NEURAL SANDBOX • 768-D VECTOR RETRIEVAL NODE
               </span>
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold glass-pill-active text-emerald-600 dark:text-emerald-400 font-mono">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-500/15 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400">
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 <span>NIC-BIS NODE 04 ACTIVE</span>
               </span>
@@ -142,7 +142,7 @@ export function SandboxView() {
           </div>
 
           {/* Preset Selector Buttons */}
-          <div className="p-6 border-b border-slate-200/80 dark:border-white/[0.08] bg-slate-50/50 dark:bg-white/[0.01]">
+          <div className="p-6 border-b border-white/60 dark:border-white/[0.08] bg-white/30 dark:bg-white/[0.01]">
             <p className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">
               Select Public Procurement Scenario to Test AI Vector Resolution:
             </p>
@@ -153,17 +153,19 @@ export function SandboxView() {
                   <button
                     key={preset.id}
                     onClick={() => setActivePreset(idx)}
-                    className={`p-3.5 rounded-2xl text-left transition-all cursor-pointer ${
+                    className={`p-3.5 rounded-2xl text-left transition-all cursor-pointer backdrop-blur-md ${
                       isActive
-                        ? 'glass-pill-active border-[#292524]/50 dark:border-[#A8A29E]/50 shadow-md ring-2 ring-[#292524]/20'
-                        : 'glass-card hover:border-slate-300 dark:hover:border-white/20 text-slate-600 dark:text-slate-300'
+                        ? 'bg-white/90 dark:bg-white/20 border-2 border-white shadow-md ring-2 ring-slate-900/10'
+                        : 'bg-white/50 dark:bg-white/[0.02] border border-white/90 dark:border-white/15 hover:bg-white/70 dark:hover:bg-white/10 text-slate-600 dark:text-slate-300'
                     }`}
                   >
                     <div className="flex items-center justify-between gap-2 mb-1.5">
-                      <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded-full bg-[#292524]/10 text-[#292524] dark:bg-[#292524]/25 dark:text-[#A8A29E]">
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                        isActive ? 'bg-slate-900 text-white dark:bg-white dark:text-black' : 'bg-white/80 dark:bg-white/10 border border-white/60 text-slate-700 dark:text-slate-300'
+                      }`}>
                         {preset.division}
                       </span>
-                      <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold">
+                      <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold">
                         {preset.confidence}% Match
                       </span>
                     </div>
@@ -177,18 +179,18 @@ export function SandboxView() {
           </div>
 
           {/* Interactive Split View */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-200/80 dark:divide-white/[0.08]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-white/60 dark:divide-white/[0.08]">
             {/* Left: Input BOQ Text */}
             <div className="lg:col-span-6 p-6 sm:p-8 flex flex-col justify-between gap-6">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2">
-                    <FileText className="w-3.5 h-3.5 text-[#292524] dark:text-[#A8A29E]" />
+                  <span className="text-xs font-extrabold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                    <FileText className="w-3.5 h-3.5 text-slate-800 dark:text-slate-200" />
                     Draft Tender Specification / BOQ Scope
                   </span>
-                  <span className="text-[11px] font-mono text-slate-400">Natural Language Input</span>
+                  <span className="text-[11px] text-slate-400 font-semibold">Natural Language Input</span>
                 </div>
-                <div className="p-4 rounded-2xl glass-pill-container text-xs font-mono text-slate-800 dark:text-slate-200 leading-relaxed min-h-[140px]">
+                <div className="p-4 rounded-2xl bg-white/70 dark:bg-black/30 backdrop-blur-md border border-white dark:border-white/20 text-xs text-slate-800 dark:text-slate-200 leading-relaxed min-h-[140px] shadow-2xs font-medium">
                   "{demoPresets[activePreset].specText}"
                 </div>
               </div>
@@ -196,38 +198,38 @@ export function SandboxView() {
               <div className="pt-2">
                 <button
                   onClick={() => handleLaunchScenario(demoPresets[activePreset].scenarioId)}
-                  className="w-full glass-btn-primary shimmer-sweep inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full text-white font-extrabold text-xs shadow-lg transition-all cursor-pointer"
+                  className="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full bg-[#0B1E36]/85 hover:bg-[#0B1E36]/95 dark:bg-white/15 dark:hover:bg-white/25 backdrop-blur-2xl border border-white/50 dark:border-white/40 text-white font-extrabold text-xs shadow-lg hover:shadow-xl transition-all cursor-pointer hover:scale-[1.01]"
                 >
                   <span>Load Preset into Active Engine</span>
-                  <ArrowRight className="w-4 h-4 text-amber-400" />
+                  <ArrowRight className="w-4 h-4 text-amber-400 dark:text-white" />
                 </button>
               </div>
             </div>
 
             {/* Right: Resolved Bureau of Indian Standards Matrix */}
-            <div className="lg:col-span-6 p-6 sm:p-8 bg-slate-50/40 dark:bg-white/[0.01] flex flex-col justify-between gap-6">
+            <div className="lg:col-span-6 p-6 sm:p-8 bg-white/30 dark:bg-white/[0.01] flex flex-col justify-between gap-6">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     Resolved BIS Standard & QCO Mandate
                   </span>
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
                     100% GFR 2017 VERIFIED
                   </span>
                 </div>
 
-                {/* Main Standard Code */}
-                <div className="p-4 rounded-2xl glass-card">
+                {/* Main Standard Code Matching Glass Card */}
+                <div className="p-4 rounded-2xl bg-white/70 dark:bg-black/30 backdrop-blur-md border border-white dark:border-white/20 shadow-2xs space-y-2">
                   <div className="flex items-center justify-between mb-1">
-                    <p className="text-sm font-black font-mono text-[#292524] dark:text-[#A8A29E]">
+                    <p className="text-sm font-black text-slate-900 dark:text-white">
                       {demoPresets[activePreset].resolvedCode}
                     </p>
-                    <span className="text-[10px] font-bold text-slate-500 font-mono">
+                    <span className="text-[10px] font-bold text-slate-500">
                       {demoPresets[activePreset].miiLocalContent}
                     </span>
                   </div>
-                  <p className="text-xs font-extrabold text-slate-800 dark:text-slate-200 mb-2">
+                  <p className="text-xs font-extrabold text-slate-800 dark:text-slate-200">
                     {demoPresets[activePreset].resolvedTitle}
                   </p>
                   <p className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-500/10 p-2.5 rounded-xl border border-emerald-500/20">
@@ -244,9 +246,9 @@ export function SandboxView() {
                     {demoPresets[activePreset].normativeTests.map((tCode, i) => (
                       <div
                         key={i}
-                        className="flex items-center gap-2 p-2.5 rounded-xl glass-pill-container text-[11px] font-mono text-slate-700 dark:text-slate-300"
+                        className="flex items-center gap-2 p-2.5 rounded-xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-md border border-white/80 dark:border-white/10 text-[11px] text-slate-700 dark:text-slate-300 shadow-2xs"
                       >
-                        <GitFork className="w-3.5 h-3.5 text-[#292524] dark:text-[#A8A29E] flex-shrink-0" />
+                        <GitFork className="w-3.5 h-3.5 text-slate-700 dark:text-slate-300 flex-shrink-0" />
                         <span className="truncate">{tCode}</span>
                       </div>
                     ))}

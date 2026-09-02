@@ -133,7 +133,7 @@ export function DigitalPassportQR({ className = '', isDarkTheme = false }) {
           <div>
             <h3 className="font-extrabold text-xs uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-2">
               <span>Physical Audit & Inventory QR Pass</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#059669]/10 text-emerald-600 dark:text-[#059669] border border-[#059669]/20 font-bold">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#059669]/10 text-emerald-600 dark:text-[#059669] border border-[#059669]/20 font-bold">
                 Live Scannable
               </span>
             </h3>
@@ -163,10 +163,10 @@ export function DigitalPassportQR({ className = '', isDarkTheme = false }) {
               includeMargin={true}
             />
           </div>
-          <p className="text-[10px] font-mono font-bold text-slate-800 mt-1.5">
+          <p className="text-[10px] font-bold text-slate-800 mt-1.5">
             {certificateId}
           </p>
-          <span className="text-[9px] text-slate-400 font-mono">
+          <span className="text-[9px] text-slate-400 font-semibold">
             ECC: HIGH (30% redundancy)
           </span>
         </div>
@@ -175,24 +175,24 @@ export function DigitalPassportQR({ className = '', isDarkTheme = false }) {
         <div className="md:col-span-8 space-y-4">
           <div className="grid grid-cols-2 gap-3 text-[11px]">
             <div className="p-3 rounded-2xl glass-pill-container shadow-xs">
-              <span className="text-[10px] text-slate-400 block uppercase font-mono font-bold">Tender Ref ID</span>
-              <strong className="font-mono text-[#292524] dark:text-[#A8A29E] text-xs truncate block mt-0.5">{certificateId}</strong>
+              <span className="text-[10px] text-slate-400 block uppercase font-bold">Tender Ref ID</span>
+              <strong className="text-[#292524] dark:text-[#A8A29E] text-xs truncate block mt-0.5 font-bold">{certificateId}</strong>
             </div>
 
             <div className="p-3 rounded-2xl glass-pill-container shadow-xs">
-              <span className="text-[10px] text-slate-400 block uppercase font-mono font-bold">Statutory QCO Status</span>
-              <strong className="text-emerald-600 dark:text-[#059669] text-xs truncate block mt-0.5">100% Enforced</strong>
+              <span className="text-[10px] text-slate-400 block uppercase font-bold">Statutory QCO Status</span>
+              <strong className="text-emerald-600 dark:text-[#059669] text-xs truncate block mt-0.5 font-bold">100% Enforced</strong>
             </div>
 
             <div className="p-3 rounded-2xl glass-pill-container shadow-xs">
-              <span className="text-[10px] text-slate-400 block uppercase font-mono font-bold">Primary Standards</span>
-              <span className="text-slate-800 dark:text-slate-200 font-mono font-bold truncate block mt-0.5">
+              <span className="text-[10px] text-slate-400 block uppercase font-bold">Primary Standards</span>
+              <span className="text-slate-800 dark:text-slate-200 font-bold truncate block mt-0.5">
                 {primaryCodes.join(', ') || 'IS 7098 (Part 2):2011'}
               </span>
             </div>
 
             <div className="p-3 rounded-2xl glass-pill-container shadow-xs">
-              <span className="text-[10px] text-slate-400 block uppercase font-mono font-bold">Normative Tests Bundled</span>
+              <span className="text-[10px] text-slate-400 block uppercase font-bold">Normative Tests Bundled</span>
               <span className="text-slate-800 dark:text-slate-200 font-bold truncate block mt-0.5">
                 {allTests.length} Laboratory Methods
               </span>

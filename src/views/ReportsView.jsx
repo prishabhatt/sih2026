@@ -48,7 +48,7 @@ export function ReportsView() {
         <div className="flex items-center justify-between no-print">
           <button
             onClick={() => navigate('/dashboard')}
-            className="glass-btn-secondary inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 transition-all cursor-pointer shadow-xs"
+            className="bg-white/70 hover:bg-white/90 dark:bg-white/10 dark:hover:bg-white/20 backdrop-blur-2xl border border-white dark:border-white/20 text-slate-800 dark:text-slate-200 text-xs font-bold px-4 py-2.5 rounded-full inline-flex items-center gap-2 shadow-xs transition-all cursor-pointer"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>{t.reports.btnBackDashboard}</span>
@@ -56,9 +56,9 @@ export function ReportsView() {
 
           <button
             onClick={handlePrint}
-            className="glass-btn-primary shimmer-sweep inline-flex items-center gap-2 px-5 py-2 rounded-full text-white text-xs font-extrabold transition-all shadow-md cursor-pointer"
+            className="bg-[#0B1E36]/90 hover:bg-[#0B1E36] dark:bg-white/20 dark:hover:bg-white/30 text-white font-extrabold text-xs inline-flex items-center gap-2 px-6 py-2.5 rounded-full backdrop-blur-2xl border border-white/60 dark:border-white/40 shadow-[0_4px_20px_rgba(0,0,0,0.15)] hover:shadow-2xl transition-all cursor-pointer hover:scale-[1.02]"
           >
-            <Printer className="w-3.5 h-3.5 text-amber-400" />
+            <Printer className="w-4 h-4 text-amber-400" />
             <span>{t.reports.btnPrint}</span>
           </button>
         </div>
@@ -66,7 +66,7 @@ export function ReportsView() {
         {/* Certificate Card (Elevated Paper Structure for Clean Printing) */}
         <div className="bg-white text-slate-900 rounded-3xl border border-slate-300 dark:border-white/20 p-8 sm:p-12 shadow-2xl print-page space-y-6">
           <div className="text-center pb-6 border-b border-slate-200 space-y-2">
-            <div className="flex items-center justify-center gap-2 font-bold text-slate-600 text-[10px] uppercase tracking-widest font-mono">
+            <div className="flex items-center justify-center gap-2 font-bold text-slate-600 text-[10px] uppercase tracking-widest">
               <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
               GOVERNMENT OF INDIA • SMART INDIA HACKATHON 2026
             </div>
@@ -81,7 +81,7 @@ export function ReportsView() {
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs">
             <div>
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{t.reports.certificateId}</p>
-              <p className="font-mono font-bold text-[#292524] text-xs mt-0.5">{certificateId}</p>
+              <p className="font-bold text-[#292524] text-xs mt-0.5">{certificateId}</p>
             </div>
             <div>
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{t.reports.issuedOn}</p>
@@ -97,7 +97,7 @@ export function ReportsView() {
             </div>
             <div>
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{t.reports.gstin}</p>
-              <p className="font-mono font-bold text-slate-800 mt-0.5">{orgProfile.gstin}</p>
+              <p className="font-bold text-slate-800 mt-0.5">{orgProfile.gstin}</p>
             </div>
             <div>
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{t.reports.overallStatus}</p>
@@ -125,7 +125,7 @@ export function ReportsView() {
                 <tbody className="divide-y divide-slate-100 bg-white text-xs">
                   {selectedStds.map((std) => (
                     <tr key={std.id}>
-                      <td className="p-3 font-mono font-bold text-[#292524] whitespace-nowrap">
+                      <td className="p-3 font-bold text-[#292524] whitespace-nowrap">
                         {std.code}
                       </td>
                       <td className="p-3 text-slate-800">
@@ -155,11 +155,11 @@ export function ReportsView() {
                 const tests = selectedNormativeTests[std.id] || [];
                 return (
                   <div key={std.id} className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
-                    <p className="font-mono font-bold text-slate-900 mb-1.5 text-[11px]">{std.code}</p>
+                    <p className="font-bold text-slate-900 mb-1.5 text-[11px]">{std.code}</p>
                     <ul className="space-y-1.5 text-slate-700 text-[11px]">
                       {tests.map((tCode, idx) => (
                         <li key={idx} className="flex items-center gap-1.5">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 stroke-[2.5] shrink-0" />
                           <span className="font-medium">{tCode}</span>
                         </li>
                       ))}
@@ -182,7 +182,7 @@ export function ReportsView() {
               <span>{t.reports.shaTitle}</span>
             </div>
             <p className="text-[10px] text-slate-400">{t.reports.shaDesc}</p>
-            <p className="font-mono text-[10px] text-emerald-300 bg-slate-800 p-2.5 rounded-xl border border-slate-700 break-all select-all">
+            <p className="text-[10px] font-bold text-emerald-300 bg-slate-800 p-2.5 rounded-xl border border-slate-700 break-all select-all">
               {shaHash}
             </p>
           </div>
@@ -197,31 +197,38 @@ export function ReportsView() {
 
             <div className="text-right">
               <div className="inline-flex items-center gap-1.5 text-emerald-700 font-bold text-[11px] bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 mb-1">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 stroke-[2.5]" />
                 DIGITALLY SEALED & VERIFIED
               </div>
-              <p className="text-[10px] text-slate-400 font-mono">NIC-BIS-AI-PIPELINE-v4.2</p>
+              <p className="text-[10px] text-slate-400 font-bold">NIC-BIS-AI-PIPELINE-v4.2</p>
             </div>
           </div>
         </div>
 
-        {/* Historical Logs */}
-        <div className="glass-card rounded-3xl p-6 shadow-xl no-print space-y-4 border border-white/70 dark:border-white/10">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-200/80 dark:border-white/10">
-            <Award className="w-4 h-4 text-[#292524] dark:text-[#A8A29E]" />
-            <h3 className="font-extrabold text-xs uppercase tracking-wider text-slate-900 dark:text-white">
-              {t.reports.historyTitle}
-            </h3>
+        {/* Historical Departmental Procurement Audit Log Card */}
+        <div className="bg-white/60 dark:bg-white/[0.04] backdrop-blur-2xl rounded-3xl p-6 sm:p-8 shadow-xl no-print space-y-5 border border-white dark:border-white/20">
+          <div className="flex items-center gap-3 pb-4 border-b border-white/60 dark:border-white/10">
+            <div className="w-9 h-9 rounded-xl bg-white/80 dark:bg-white/10 backdrop-blur-md border border-white dark:border-white/20 flex items-center justify-center text-slate-800 dark:text-slate-200 font-bold shadow-xs">
+              <Award className="w-4 h-4 text-slate-800 dark:text-white" />
+            </div>
+            <div>
+              <h3 className="font-extrabold text-xs uppercase tracking-wider text-slate-900 dark:text-white">
+                {t.reports.historyTitle}
+              </h3>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                Official immutable record of simulated procurement compliance certificates
+              </p>
+            </div>
           </div>
 
-          <div className="divide-y divide-slate-200/80 dark:divide-white/10 text-xs">
+          <div className="space-y-2.5 text-xs">
             {auditLogs.map((log) => (
-              <div key={log.id} className="py-3 flex items-center justify-between gap-4">
+              <div key={log.id} className="p-3.5 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-md border border-white/90 dark:border-white/10 hover:bg-white/80 dark:hover:bg-white/10 transition-all flex items-center justify-between gap-4 shadow-2xs">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-bold text-slate-900 dark:text-white text-xs">{log.id}</span>
+                    <span className="font-bold text-slate-900 dark:text-white text-xs">{log.id}</span>
                     <span className="text-slate-700 dark:text-slate-300 text-xs font-semibold">{log.tenderRef}</span>
-                    <span className="text-[10px] font-mono glass-pill-container px-2 py-0.5 rounded-full font-bold">
+                    <span className="text-[10px] bg-white/80 dark:bg-white/10 border border-white/60 dark:border-white/20 px-2.5 py-0.5 rounded-full font-bold text-slate-700 dark:text-slate-300">
                       {log.division}
                     </span>
                   </div>
@@ -230,7 +237,7 @@ export function ReportsView() {
                   </p>
                 </div>
 
-                <span className="font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full text-xs font-bold">
+                <span className="font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/15 border border-emerald-500/20 px-3 py-1 rounded-full text-xs">
                   {log.score}%
                 </span>
               </div>

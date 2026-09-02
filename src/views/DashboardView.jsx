@@ -131,7 +131,7 @@ export function DashboardView() {
       {/* Living Subtle Industrial Constellation Background */}
       <AppleStripeBackground />
 
-      <div className="max-w-[1520px] mx-auto space-y-8 relative z-10">
+      <div className="max-w-[1520px] mx-auto space-y-8 relative z-10 pb-16">
         
         {/* ================================================================ */}
         {/* 1. TOP HEADER & TELEMETRY CONTROLS                               */}
@@ -139,7 +139,7 @@ export function DashboardView() {
         <div className="space-y-4 pb-2 border-b border-slate-200/80 dark:border-white/[0.08]">
           {/* Top Pill & Action Row */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 dark:bg-white/[0.04] border border-slate-200/80 dark:border-white/10 text-emerald-700 dark:text-emerald-400 text-xs font-mono font-bold shadow-xs backdrop-blur-xl w-fit">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 dark:bg-white/[0.04] border border-slate-200/80 dark:border-white/10 text-emerald-700 dark:text-emerald-400 text-xs font-bold shadow-xs backdrop-blur-xl w-fit">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
               <span>AI Output Matrix & Recommendation Engine</span>
             </div>
@@ -205,26 +205,26 @@ export function DashboardView() {
         {/* ================================================================ */}
         {/* 2. MAIN 2-COLUMN WORKSPACE (Spacious & Structured)               */}
         {/* ================================================================ */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
-          {/* ==================== LEFT COLUMN (3.5 / 12) ==================== */}
+          {/* ==================== LEFT COLUMN (4 / 12) ==================== */}
           <div className="lg:col-span-4 flex flex-col gap-6">
             
             {/* 1. Compliance Completeness Index Card */}
             <ComplianceMeter />
 
             {/* 2. YOUR TENDER DRAFT Card */}
-            <div className="bg-white/90 dark:bg-[#0E1322]/90 backdrop-blur-2xl rounded-3xl p-6 shadow-xl border border-slate-200/80 dark:border-white/[0.08] flex flex-col space-y-5 transition-all hover:shadow-2xl">
+            <div className="bg-white/90 dark:bg-[#0E1322]/90 backdrop-blur-2xl rounded-3xl p-6 shadow-xl border border-slate-200/80 dark:border-white/[0.08] flex flex-col space-y-5 transition-all hover:shadow-2xl flex-1 justify-between">
               
               {/* Header with Test Completion Ring */}
               <div className="flex items-center justify-between pb-3 border-b border-slate-200/80 dark:border-white/[0.08]">
-                <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold text-xs uppercase tracking-wider font-mono">
+                <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold text-xs uppercase tracking-wider">
                   <span className="w-2 h-2 rounded-full bg-blue-600 dark:bg-blue-400 animate-pulse" />
                   <span>YOUR TENDER DRAFT</span>
                 </div>
                 
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/40">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/40">
                     {testPercentage}% Tests Verified
                   </span>
                 </div>
@@ -233,11 +233,11 @@ export function DashboardView() {
               {/* Primary Standards Section */}
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                  <h4 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                     PRIMARY STANDARDS ({selectedStandardIds.length})
                   </h4>
                   {selectedStandardIds.length > 0 && (
-                    <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400">
+                    <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
                       All Mandatory QCOs Active
                     </span>
                   )}
@@ -256,7 +256,7 @@ export function DashboardView() {
                       return (
                         <div key={id} className="flex items-center justify-between p-2 rounded-xl bg-slate-50/80 dark:bg-white/[0.03] border border-slate-200/60 dark:border-white/5 hover:border-blue-300 transition-all group/item">
                           <div className="min-w-0 flex-1 pr-2">
-                            <span className="font-bold text-slate-900 dark:text-white block font-mono text-[11px]">
+                            <span className="font-bold text-slate-900 dark:text-white block text-[11px] tracking-tight">
                               {s.code}
                             </span>
                             <span className="text-[10px] text-slate-500 dark:text-slate-400 block leading-tight truncate">
@@ -281,12 +281,12 @@ export function DashboardView() {
               {/* Mandatory Associated Tests Section with Select All */}
               <div className="space-y-3 pt-3 border-t border-slate-200/80 dark:border-white/[0.08]">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                  <h4 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                     MANDATORY ASSOCIATED TESTS ({totalSelectedTestsCount}/{allAssociatedTests.length})
                   </h4>
                   <button
                     onClick={handleToggleAllTests}
-                    className="text-[10px] font-mono font-bold text-[#1D4ED8] dark:text-[#60A5FA] hover:underline cursor-pointer"
+                    className="text-[10px] font-bold text-[#1D4ED8] dark:text-[#60A5FA] hover:underline cursor-pointer"
                   >
                     Toggle All
                   </button>
@@ -311,7 +311,7 @@ export function DashboardView() {
                           {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
                         </div>
                         <div className="min-w-0">
-                          <span className="font-mono font-bold text-slate-900 dark:text-white block text-[11px]">
+                          <span className="font-bold text-slate-900 dark:text-white block text-[11px] tracking-tight">
                             {item.test}
                           </span>
                           <span className="text-[10px] text-slate-500 dark:text-slate-400 block leading-tight truncate">
@@ -388,7 +388,7 @@ export function DashboardView() {
                       </button>
                     </div>
 
-                    <div className="flex items-center gap-1 bg-white/10 p-0.5 rounded-full text-[10px] font-mono">
+                    <div className="flex items-center gap-1 bg-white/10 p-0.5 rounded-full text-[10px]">
                       {['3M', '6M', '1Y'].map(tf => (
                         <button
                           key={tf}
@@ -406,7 +406,7 @@ export function DashboardView() {
 
                 {/* Floating Interactive Tooltip */}
                 {hoveredMonth && (
-                  <div className="absolute top-16 left-1/2 -translate-x-1/2 bg-slate-950/95 text-white text-[10px] font-mono px-3.5 py-1.5 rounded-xl border border-white/20 shadow-2xl z-20 whitespace-nowrap animate-in fade-in duration-150">
+                  <div className="absolute top-16 left-1/2 -translate-x-1/2 bg-slate-950/95 text-white text-[10px] px-3.5 py-1.5 rounded-xl border border-white/20 shadow-2xl z-20 whitespace-nowrap animate-in fade-in duration-150">
                     <span className="text-[#00D2D3] font-bold">{hoveredMonth.month}</span>: {hoveredMonth.passedCount} Passed ({hoveredMonth.adherence}) / <span className="text-[#A259FF] font-bold">{hoveredMonth.flaggedCount} Flagged</span>
                   </div>
                 )}
@@ -438,7 +438,7 @@ export function DashboardView() {
                               }`}
                             />
                           </div>
-                          <span className={`text-[10px] font-mono transition-colors ${isHovered ? 'text-[#00D2D3] font-bold' : 'text-slate-400'}`}>
+                          <span className={`text-[10px] transition-colors ${isHovered ? 'text-[#00D2D3] font-bold' : 'text-slate-400'}`}>
                             {d.month}
                           </span>
                         </div>
@@ -467,7 +467,7 @@ export function DashboardView() {
                         strokeLinecap="round"
                       />
                     </svg>
-                    <div className="flex justify-between text-[10px] font-mono text-slate-400 pt-1 px-1">
+                    <div className="flex justify-between text-[10px] text-slate-400 pt-1 px-1">
                       {currentChartData.map(d => (
                         <span key={d.month}>{d.month}</span>
                       ))}
@@ -492,8 +492,8 @@ export function DashboardView() {
                     <Activity className="w-4 h-4" />
                   </div>
                   <div className="mt-3">
-                    <p className="text-2xl sm:text-3xl font-black font-mono text-[#1D4ED8] dark:text-blue-400 tracking-tight">1.2k</p>
-                    <p className="text-[9px] font-bold text-blue-600/80 dark:text-blue-400 uppercase tracking-wider font-mono mt-0.5">
+                    <p className="text-2xl sm:text-3xl font-black text-[#1D4ED8] dark:text-blue-400 tracking-tight">1.2k</p>
+                    <p className="text-[9px] font-bold text-blue-600/80 dark:text-blue-400 uppercase tracking-wider mt-0.5">
                       ACTIVE TENDERS
                     </p>
                   </div>
@@ -512,8 +512,8 @@ export function DashboardView() {
                     <ShieldCheck className="w-4 h-4" />
                   </div>
                   <div className="mt-3">
-                    <p className="text-2xl sm:text-3xl font-black font-mono text-emerald-600 dark:text-emerald-400 tracking-tight">850</p>
-                    <p className="text-[9px] font-bold text-emerald-600/80 dark:text-emerald-400 uppercase tracking-wider font-mono mt-0.5">
+                    <p className="text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400 tracking-tight">850</p>
+                    <p className="text-[9px] font-bold text-emerald-600/80 dark:text-emerald-400 uppercase tracking-wider mt-0.5">
                       MANDATORY QCOS
                     </p>
                   </div>
@@ -532,8 +532,8 @@ export function DashboardView() {
                     <Layers className="w-4 h-4" />
                   </div>
                   <div className="mt-3">
-                    <p className="text-2xl sm:text-3xl font-black font-mono text-slate-800 dark:text-slate-200 tracking-tight">2.8k</p>
-                    <p className="text-[9px] font-bold text-slate-600/80 dark:text-slate-400 uppercase tracking-wider font-mono mt-0.5">
+                    <p className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-slate-200 tracking-tight">2.8k</p>
+                    <p className="text-[9px] font-bold text-slate-600/80 dark:text-slate-400 uppercase tracking-wider mt-0.5">
                       TOTAL STANDARDS
                     </p>
                   </div>

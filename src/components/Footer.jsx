@@ -38,11 +38,11 @@ export function Footer() {
             <div className="space-y-2 text-xs text-slate-500 dark:text-slate-400">
               <p className="flex items-center gap-2">
                 <Database className="w-3.5 h-3.5 text-[#292524] dark:text-[#A8A29E] shrink-0" />
-                <span>Vector Index: <strong className="font-mono text-slate-800 dark:text-slate-200">22,410 Standards</strong></span>
+                <span>Vector Index: <strong className="font-bold text-slate-800 dark:text-slate-200">22,410 Standards</strong></span>
               </p>
               <p className="flex items-center gap-2">
                 <CheckCircle className="w-3.5 h-3.5 text-emerald-600 dark:text-[#059669] shrink-0" />
-                <span>Gazette QCO Registry: <strong className="text-emerald-600 dark:text-[#059669] font-semibold">Active & Synced</strong></span>
+                <span>Gazette QCO Registry: <strong className="text-emerald-600 dark:text-[#059669] font-bold">Active & Synced</strong></span>
               </p>
               <p className="flex items-center gap-2">
                 <Lock className="w-3.5 h-3.5 text-amber-500 shrink-0" />
@@ -54,10 +54,10 @@ export function Footer() {
           <div>
             <h4 className="text-slate-900 dark:text-slate-200 font-bold uppercase tracking-wider text-[11px] mb-3">Session Verification</h4>
             <div className="p-3 rounded-2xl glass-card text-xs">
-              <p className="font-mono font-bold text-emerald-600 dark:text-[#059669] truncate">
+              <p className="font-bold text-emerald-600 dark:text-[#059669] truncate">
                 {certificateId}
               </p>
-              <p className="text-[10px] text-slate-400 font-mono mt-1 truncate">
+              <p className="text-[10px] text-slate-400 font-semibold mt-1 truncate">
                 SHA: {shaHash.substring(0, 24)}...
               </p>
             </div>
@@ -66,7 +66,7 @@ export function Footer() {
 
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-slate-500 text-xs">
           <p>© 2026 BIS Standards Engine. Ministry of Consumer Affairs, Food & Public Distribution.</p>
-          <p className="font-mono text-[11px] text-slate-400">Simulated NIC e-Gov Cloud Gateway</p>
+          <p className="font-semibold text-[11px] text-slate-400">Simulated NIC e-Gov Cloud Gateway</p>
         </div>
       </div>
     </footer>

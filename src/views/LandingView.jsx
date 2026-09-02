@@ -646,14 +646,14 @@ export function LandingView() {
       {/* ================================================================ */}
       <section id="pipeline" className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         <ScrollReveal>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-            <div>
-              <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#1E3A5F] dark:text-amber-400 block mb-2">
-                {t?.landing?.archSubtitle || '4-Tier System Architecture'}
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">{t?.landing?.archTitle || 'End-to-End Pipeline'}</h2>
-            </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm">
+          <div className="mb-8 space-y-2 max-w-3xl">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#1E3A5F] dark:text-amber-400 block">
+              {t?.landing?.archSubtitle || '4-Tier System Architecture'}
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
+              {t?.landing?.archTitle || 'End-to-End Neural Resolution Architecture'}
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 pt-1 font-normal leading-relaxed">
               {lang === 'hi' ? 'वेक्टर आयामों, अनुपालन द्वारों और निर्यात पाइपलाइनों का निरीक्षण करने के लिए किसी भी स्तर पर क्लिक करें।' :
                lang === 'gu' ? 'વેક્ટર પરિમાણો અને નિકાસ પાઇપલાઇન્સનું નિરીક્ષણ કરવા માટે કોઈપણ સ્તર પર ક્લિક કરો.' :
                'Click any tier to inspect vector dimensions, compliance gates, and export pipelines.'}

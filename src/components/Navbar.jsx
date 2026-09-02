@@ -47,7 +47,7 @@ export function Navbar() {
                     <span className="font-extrabold text-base tracking-tight text-slate-900 dark:text-white">
                       BIS<span className="text-[#292524] dark:text-[#A8A29E] font-serif italic">Engine</span>
                     </span>
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold glass-pill-active text-slate-800 dark:text-slate-200 font-mono">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold glass-pill-active text-slate-800 dark:text-slate-200">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#059669] animate-pulse" />
                       NIC-Active
                     </span>
@@ -105,7 +105,7 @@ export function Navbar() {
               <div className="relative">
                 <button
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                  className="glass-btn-secondary inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 font-mono cursor-pointer shadow-xs"
+                  className="glass-btn-secondary inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 cursor-pointer shadow-xs"
                   title="Select Portal Language"
                 >
                   <Languages className="w-3.5 h-3.5 text-[#292524] dark:text-[#A8A29E]" />
@@ -121,7 +121,7 @@ export function Navbar() {
                     />
                     <div className="absolute right-0 mt-2 w-60 bg-white dark:bg-[#0B132B] rounded-2xl shadow-2xl p-1.5 z-50 border border-slate-200 dark:border-slate-800 animate-in fade-in slide-in-from-top-2 duration-150 max-h-96 overflow-y-auto">
                       <div className="px-3 py-1.5 mb-1 border-b border-slate-200/60 dark:border-white/5">
-                        <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-slate-400 dark:text-slate-500">
+                        <span className="text-[10px] font-bold tracking-wider uppercase text-slate-400 dark:text-slate-500">
                           Major Indian Languages
                         </span>
                       </div>
@@ -138,7 +138,7 @@ export function Navbar() {
                           <div>
                             <div className="flex items-center gap-1.5">
                               <span className="font-semibold">{l.native}</span>
-                              <span className="text-[10px] opacity-70 font-mono">({l.code.toUpperCase()})</span>
+                              <span className="text-[10px] opacity-70 font-semibold">({l.code.toUpperCase()})</span>
                             </div>
                             <div className="text-[9px] text-slate-400 dark:text-slate-400 font-sans">
                               {l.region}
@@ -184,12 +184,12 @@ export function Navbar() {
                         <p className="text-[11px] text-[#292524] dark:text-[#A8A29E] font-semibold">{currentUser?.roleTitle}</p>
                         <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">{currentUser?.organization}</p>
                         <div className="mt-2 pt-2 border-t border-slate-200/80 dark:border-white/10 flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
-                          <span>Auth: <strong className="font-mono">{currentUser?.ssoProvider}</strong></span>
+                          <span>Auth: <strong className="font-semibold">{currentUser?.ssoProvider}</strong></span>
                           <span className="text-emerald-600 dark:text-emerald-400 font-bold">Active</span>
                         </div>
                       </div>
 
-                      <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2 py-1">
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2 py-1">
                         Switch Test Persona
                       </p>
                       <button
@@ -244,7 +244,7 @@ export function Navbar() {
 
       {/* Navigation Stepper (Centered Floating Pill) */}
       <div className="w-full px-4 sm:px-6 lg:px-8 mt-6 mb-8 relative z-30 flex justify-center">
-        <nav className="inline-flex flex-nowrap items-center glass-pill-container p-1.5 rounded-full overflow-x-auto max-w-full no-scrollbar shadow-lg">
+        <nav className="inline-flex flex-nowrap items-center bg-white/75 dark:bg-[#0B132B]/75 backdrop-blur-2xl border border-slate-300/90 dark:border-white/20 p-1.5 rounded-full overflow-x-auto max-w-full no-scrollbar shadow-[0_8px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)]">
           {navSteps.map((step) => {
             const isActive = location.pathname === step.path;
             
@@ -254,8 +254,8 @@ export function Navbar() {
                 to={step.path}
                 className={`px-4 py-2 rounded-full text-xs transition-all duration-200 whitespace-nowrap ${
                   isActive
-                    ? 'glass-pill-active text-slate-900 dark:text-white font-extrabold shadow-sm'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 font-medium hover:bg-white/40 dark:hover:bg-white/[0.04]'
+                    ? 'bg-gradient-to-b from-white via-white/90 to-slate-100/95 dark:from-white/25 dark:via-white/15 dark:to-white/10 text-slate-950 dark:text-white font-black shadow-[0_2px_10px_rgba(0,0,0,0.07),inset_0_1px_1px_rgba(255,255,255,0.9)] border border-slate-300/90 dark:border-white/30'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white font-semibold hover:bg-white/50 dark:hover:bg-white/10'
                 }`}
               >
                 {step.short}

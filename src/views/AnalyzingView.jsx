@@ -84,8 +84,8 @@ export function AnalyzingView() {
 
       <div className="max-w-4xl mx-auto w-full space-y-6 relative z-10">
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-pill-container text-[#292524] dark:text-[#A8A29E] text-xs font-mono font-bold shadow-xs">
-            <Loader2 className="w-3.5 h-3.5 animate-spin text-[#292524] dark:text-[#A8A29E]" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/70 dark:bg-white/10 backdrop-blur-md border border-white dark:border-white/20 text-slate-800 dark:text-slate-200 text-xs font-bold shadow-xs">
+            <Loader2 className="w-3.5 h-3.5 animate-spin text-slate-800 dark:text-slate-200" />
             <span>AI Neural Vector Resolution Pipeline</span>
           </div>
 
@@ -100,21 +100,21 @@ export function AnalyzingView() {
           </p>
         </div>
 
-        {/* Progress Container */}
-        <div className="glass-card p-6 sm:p-8 rounded-3xl border border-white/70 dark:border-white/10 shadow-xl space-y-5">
+        {/* Progress Container Matching Input Specs Glass Card */}
+        <div className="bg-white/60 dark:bg-white/[0.04] backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border border-white dark:border-white/20 shadow-xl space-y-5">
           <div className="flex items-center justify-between text-xs">
             <span className="text-slate-700 dark:text-slate-300 flex items-center gap-2 font-medium">
               <Activity className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               Target Entity: <strong className="text-slate-900 dark:text-white font-extrabold">{orgProfile.businessName}</strong>
             </span>
-            <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400 text-xs bg-emerald-500/10 px-2.5 py-0.5 rounded-full">
+            <span className="font-bold text-emerald-700 dark:text-emerald-400 text-xs bg-emerald-500/15 border border-emerald-500/20 px-3 py-0.5 rounded-full">
               {progress}% Complete
             </span>
           </div>
 
           <div className="w-full bg-slate-200/80 dark:bg-white/10 h-2.5 rounded-full overflow-hidden p-0.5">
             <div
-              className="bg-gradient-to-r from-[#1C1917] via-[#292524] to-[#44403C] dark:from-[#292524] dark:to-[#A8A29E] h-full rounded-full transition-all duration-300 ease-out shadow-sm"
+              className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-950 dark:from-white dark:to-slate-300 h-full rounded-full transition-all duration-300 ease-out shadow-sm"
               style={{ width: `${progress}%` }}
             ></div>
           </div>
@@ -127,21 +127,21 @@ export function AnalyzingView() {
               return (
                 <div
                   key={idx}
-                  className={`p-3.5 rounded-2xl border text-center transition-all ${
+                  className={`p-3.5 rounded-2xl border text-center transition-all backdrop-blur-md ${
                     isDone
-                      ? 'bg-emerald-50/80 dark:bg-emerald-950/30 border-emerald-300 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-300 font-bold'
+                      ? 'bg-emerald-500/15 dark:bg-emerald-950/40 border-emerald-500/30 text-emerald-800 dark:text-emerald-300 font-bold'
                       : isCurrent
-                      ? 'glass-pill-active border-[#292524]/50 dark:border-[#A8A29E]/50 text-[#292524] dark:text-[#A8A29E] font-extrabold ring-2 ring-[#292524]/20'
-                      : 'glass-card text-slate-400 dark:text-slate-500'
+                      ? 'bg-white/90 dark:bg-white/20 border-2 border-white text-slate-950 dark:text-white font-extrabold shadow-md ring-2 ring-slate-900/10'
+                      : 'bg-white/40 dark:bg-white/[0.02] border-white/80 dark:border-white/10 text-slate-400 dark:text-slate-500'
                   }`}
                 >
                   <div className="flex justify-center mb-1.5">
                     {isDone ? (
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 stroke-[2.5]" />
                     ) : isCurrent ? (
-                      <Loader2 className="w-4 h-4 text-[#292524] dark:text-[#A8A29E] animate-spin" />
+                      <Loader2 className="w-4 h-4 text-slate-900 dark:text-white animate-spin" />
                     ) : (
-                      <span className="w-4 h-4 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-500 text-[10px] flex items-center justify-center font-mono">
+                      <span className="w-4 h-4 rounded-full bg-white/80 dark:bg-slate-800 border border-white/60 dark:border-white/10 text-slate-600 dark:text-slate-400 text-[10px] flex items-center justify-center font-bold">
                         {idx + 1}
                       </span>
                     )}
@@ -155,19 +155,19 @@ export function AnalyzingView() {
           </div>
         </div>
 
-        {/* Streaming RAG Terminal */}
-        <div className="bg-[#070B14]/90 dark:bg-[#070B14]/95 text-slate-200 rounded-3xl border border-white/10 p-5 shadow-2xl font-mono text-xs overflow-hidden backdrop-blur-2xl">
+        {/* Streaming RAG Terminal with Pure White Border */}
+        <div className="bg-[#070B14]/90 dark:bg-[#070B14]/95 text-slate-200 rounded-3xl border border-white dark:border-white/20 p-6 shadow-2xl text-xs overflow-hidden backdrop-blur-2xl">
           <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10 text-slate-400 text-[11px]">
             <span className="flex items-center gap-2 text-white font-bold">
-              <Terminal className="w-4 h-4 text-[#A8A29E]" />
+              <Terminal className="w-4 h-4 text-amber-400" />
               {t.analyzing.terminalTitle}
             </span>
-            <span className="text-emerald-400 text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
-              [RAG PIPELINE STREAM]
+            <span className="text-emerald-400 text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30">
+              RAG PIPELINE ACTIVE
             </span>
           </div>
 
-          <div className="h-44 overflow-y-auto space-y-1.5 text-slate-300 scroll-smooth pr-2 text-[11px] font-mono">
+          <div className="h-44 overflow-y-auto space-y-1.5 text-slate-300 scroll-smooth pr-2 text-[11px]">
             {logLines.map((line, idx) => (
               <p key={idx} className="leading-relaxed truncate">
                 <span className="text-emerald-400 font-bold mr-2">›</span>
@@ -177,30 +177,30 @@ export function AnalyzingView() {
           </div>
         </div>
 
-        {/* Telemetry Strip */}
+        {/* Telemetry Strip Matching Input Specs Glass Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-          <div className="glass-card p-4 rounded-2xl shadow-xs">
+          <div className="bg-white/60 dark:bg-white/[0.04] backdrop-blur-2xl p-4 rounded-2xl border border-white dark:border-white/20 shadow-xl">
             <p className="text-[10px] uppercase font-bold tracking-wider text-slate-400">{t.analyzing.statVectors}</p>
-            <p className="text-lg font-black font-mono text-slate-900 dark:text-white mt-0.5">22,410</p>
+            <p className="text-lg font-black text-slate-900 dark:text-white mt-0.5">22,410</p>
           </div>
-          <div className="glass-card p-4 rounded-2xl shadow-xs">
+          <div className="bg-white/60 dark:bg-white/[0.04] backdrop-blur-2xl p-4 rounded-2xl border border-white dark:border-white/20 shadow-xl">
             <p className="text-[10px] uppercase font-bold tracking-wider text-slate-400">{t.analyzing.statQco}</p>
-            <p className="text-lg font-black font-mono text-emerald-600 dark:text-emerald-400 mt-0.5">142 Orders</p>
+            <p className="text-lg font-black text-emerald-600 dark:text-emerald-400 mt-0.5">142 Orders</p>
           </div>
-          <div className="glass-card p-4 rounded-2xl shadow-xs">
+          <div className="bg-white/60 dark:bg-white/[0.04] backdrop-blur-2xl p-4 rounded-2xl border border-white dark:border-white/20 shadow-xl">
             <p className="text-[10px] uppercase font-bold tracking-wider text-slate-400">{t.analyzing.statConfidence}</p>
-            <p className="text-lg font-black font-mono text-[#292524] dark:text-[#A8A29E] mt-0.5">99.4%</p>
+            <p className="text-lg font-black text-indigo-600 dark:text-indigo-400 mt-0.5">99.4%</p>
           </div>
-          <div className="glass-card p-4 rounded-2xl shadow-xs">
+          <div className="bg-white/60 dark:bg-white/[0.04] backdrop-blur-2xl p-4 rounded-2xl border border-white dark:border-white/20 shadow-xl">
             <p className="text-[10px] uppercase font-bold tracking-wider text-slate-400">{t.analyzing.statLatency}</p>
-            <p className="text-lg font-black font-mono text-slate-900 dark:text-white mt-0.5">38 ms</p>
+            <p className="text-lg font-black text-slate-900 dark:text-white mt-0.5">38 ms</p>
           </div>
         </div>
 
         <div className="text-center pt-2">
           <button
             onClick={() => navigate('/dashboard')}
-            className="glass-btn-secondary inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold text-slate-600 dark:text-slate-300 transition cursor-pointer"
+            className="bg-white/70 hover:bg-white/90 dark:bg-white/10 dark:hover:bg-white/20 backdrop-blur-2xl border border-white dark:border-white/20 text-slate-800 dark:text-slate-200 text-xs font-bold px-5 py-2 rounded-full inline-flex items-center gap-1.5 shadow-xs transition-all cursor-pointer"
           >
             <span>Skip transition to Dashboard</span>
             <ArrowRight className="w-3.5 h-3.5" />

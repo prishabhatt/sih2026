@@ -140,21 +140,21 @@ export function StandardsTable({
       </div>
 
       {/* Standards Database Terminal Table */}
-      <div className="bg-white/90 dark:bg-[#0E1322]/90 backdrop-blur-2xl rounded-3xl shadow-xl overflow-hidden border border-slate-200/80 dark:border-white/[0.08] flex flex-col flex-1">
+      <div className="bg-white/90 dark:bg-[#0E1322]/90 backdrop-blur-2xl rounded-3xl shadow-xl overflow-hidden border border-slate-200/80 dark:border-white/[0.08] flex flex-col flex-1 min-h-[480px]">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-slate-100 dark:divide-white/[0.06]">
             <thead className="bg-slate-50/50 dark:bg-white/[0.02]">
               <tr>
-                <th className="px-6 py-4 text-left text-[11px] uppercase text-slate-400 font-bold tracking-wider font-mono">
+                <th className="px-6 py-4 text-left text-[11px] uppercase text-slate-400 font-bold tracking-wider">
                   STANDARD CODE
                 </th>
-                <th className="px-6 py-4 text-left text-[11px] uppercase text-slate-400 font-bold tracking-wider font-mono">
+                <th className="px-6 py-4 text-left text-[11px] uppercase text-slate-400 font-bold tracking-wider">
                   PRODUCT SCOPE & TITLE
                 </th>
-                <th className="px-6 py-4 text-left text-[11px] uppercase text-slate-400 font-bold tracking-wider font-mono">
+                <th className="px-6 py-4 text-left text-[11px] uppercase text-slate-400 font-bold tracking-wider">
                   COMPLIANCE STATUS
                 </th>
-                <th className="px-6 py-4 text-right text-[11px] uppercase text-slate-400 font-bold tracking-wider font-mono">
+                <th className="px-6 py-4 text-right text-[11px] uppercase text-slate-400 font-bold tracking-wider">
                   ACTIONS
                 </th>
               </tr>
@@ -170,7 +170,7 @@ export function StandardsTable({
                     <tr className="hover:bg-slate-50/50 dark:hover:bg-white/[0.02] transition-colors group">
                       {/* Code */}
                       <td className="px-6 py-5 whitespace-nowrap align-middle">
-                        <span className="font-mono text-xs font-bold text-[#1D4ED8] dark:text-[#60A5FA]">
+                        <span className="text-xs font-bold text-[#1D4ED8] dark:text-[#60A5FA] tracking-tight">
                           {std.code}
                         </span>
                       </td>
@@ -260,10 +260,10 @@ export function StandardsTable({
                               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-in fade-in">
                                 <div className="lg:col-span-8 space-y-3">
                                   <div className="flex items-center gap-2">
-                                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 px-2.5 py-0.5 rounded-md">
+                                    <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 px-2.5 py-0.5 rounded-md">
                                       Division: {std.divisionName}
                                     </span>
-                                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-0.5 rounded-md">
+                                    <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-0.5 rounded-md">
                                       Min Local Content: {std.makeInIndiaLocalContentMin || '60% Class-I'}
                                     </span>
                                   </div>
@@ -272,15 +272,15 @@ export function StandardsTable({
                                     {std.scope}
                                   </p>
 
-                                  <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+                                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
                                     Statutory Enforcement: <strong className="text-slate-900 dark:text-white font-bold">{std.ministryEnforcing}</strong> (Gazette Order: <strong className="text-slate-900 dark:text-white font-bold">{std.qcoGazetteOrder || 'S.O. 1290(E)'}</strong>)
                                   </p>
                                 </div>
 
                                 <div className="lg:col-span-4 flex flex-col justify-between items-start lg:items-end gap-3 border-t lg:border-t-0 lg:border-l border-slate-200/80 dark:border-white/[0.08] lg:pl-6 pt-3 lg:pt-0">
-                                  <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-800 dark:text-amber-300 text-xs font-mono w-full">
+                                  <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-800 dark:text-amber-300 text-xs w-full">
                                     <span className="font-bold block text-[10px] uppercase text-amber-600 dark:text-amber-400">Gazette Revision:</span>
-                                    <span className="mt-0.5 block">{std.latestAmendment}</span>
+                                    <span className="mt-0.5 block font-semibold">{std.latestAmendment}</span>
                                   </div>
 
                                   <button
@@ -297,7 +297,7 @@ export function StandardsTable({
                             {/* Tab 2: Model NIT Clause Viewer */}
                             {currentTab === 'clause' && (
                               <div className="space-y-3 animate-in fade-in">
-                                <div className="p-4 rounded-xl bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 font-mono text-xs text-slate-800 dark:text-slate-200 whitespace-pre-wrap leading-relaxed">
+                                <div className="p-4 rounded-xl bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 text-xs text-slate-800 dark:text-slate-200 whitespace-pre-wrap leading-relaxed">
                                   {std.modelNitClause || `All goods and equipment supplied under this schedule must strictly comply with ${std.code} (${std.title}), bearing a valid BIS Standard Mark (ISI) with Mandatory Gazette Order compliance.`}
                                 </div>
 
@@ -332,7 +332,7 @@ export function StandardsTable({
           </table>
 
           {filteredStandards.length === 0 && (
-            <div className="p-16 text-center text-slate-400 text-xs font-mono">
+            <div className="p-16 text-center text-slate-400 text-xs">
               No Indian Standards found matching your search filter.
             </div>
           )}
