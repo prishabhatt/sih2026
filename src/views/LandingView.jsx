@@ -1,45 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import {
   ShieldCheck,
-  Sparkles,
   ArrowRight,
-  Search,
-  Cpu,
-  Layers,
-  FileCheck,
-  QrCode,
-  Lock,
-  ExternalLink,
-  ChevronRight,
+  Sparkles,
+  CheckCircle2,
   ChevronDown,
   Database,
-  GitFork,
-  CheckCircle2,
   AlertTriangle,
-  Award,
   Terminal,
-  Activity,
-  Globe,
   Sun,
   Moon,
-  Smartphone,
-  BookOpen,
-  Building2,
-  TrendingUp,
   FileText,
-  Check,
-  Copy,
-  Zap,
   Scale,
-  FileSpreadsheet,
-  AlertCircle,
-  ArrowUpRight,
-  Compass,
-  CheckCheck,
+  Cpu,
+  QrCode,
   Send,
-  HelpCircle,
-  BarChart3
+  Search
 } from 'lucide-react';
 
 import { useTheme } from '../context/ThemeContext';
