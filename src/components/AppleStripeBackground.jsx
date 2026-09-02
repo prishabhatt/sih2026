@@ -9,7 +9,6 @@ export function AppleStripeBackground() {
     y: -2000,
     targetX: -2000,
     targetY: -2000,
-    active: false,
   });
 
   useEffect(() => {
@@ -23,69 +22,26 @@ export function AppleStripeBackground() {
     let width = window.innerWidth;
     let height = window.innerHeight;
 
-    // 1. Organic Fluid Aurora Orbs
-    const orbs = [
-      {
-        baseX: 0.2,
-        baseY: 0.25,
-        radiusRatio: 0.5,
-        phase: 0,
-        darkColor: 'rgba(30, 58, 95, 0.45)',     // Sophisticated Navy
-        lightColor: 'rgba(147, 185, 230, 0.40)', // Ethereal Azure
-      },
-      {
-        baseX: 0.8,
-        baseY: 0.2,
-        radiusRatio: 0.45,
-        phase: 2.1,
-        darkColor: 'rgba(217, 119, 6, 0.22)',    // Liquid State Amber/Gold
-        lightColor: 'rgba(245, 158, 11, 0.25)',  // Warm Champagne Gold
-      },
-      {
-        baseX: 0.5,
-        baseY: 0.65,
-        radiusRatio: 0.55,
-        phase: 4.2,
-        darkColor: 'rgba(11, 30, 58, 0.55)',    // Deep Midnight Indigo
-        lightColor: 'rgba(199, 218, 245, 0.38)', // Frost Titanium
-      },
-      {
-        baseX: 0.25,
-        baseY: 0.8,
-        radiusRatio: 0.4,
-        phase: 1.5,
-        darkColor: 'rgba(16, 185, 129, 0.18)',   // GFR Emerald Security Glow
-        lightColor: 'rgba(52, 211, 153, 0.25)',  // Mint Emerald
-      },
-      {
-        baseX: 0.85,
-        baseY: 0.75,
-        radiusRatio: 0.48,
-        phase: 3.4,
-        darkColor: 'rgba(30, 58, 95, 0.38)',     // Royal Navy
-        lightColor: 'rgba(165, 180, 252, 0.30)', // Soft Iris
-      },
+    // 1. Industrial CAD Markers & Engineering Coordinates
+    const cadMarkers = [
+      { xRel: 0.12, yRel: 0.18, size: 14, rotSpeed: 0.003, angle: 0 },
+      { xRel: 0.88, yRel: 0.22, size: 18, rotSpeed: -0.002, angle: 1.2 },
+      { xRel: 0.15, yRel: 0.78, size: 16, rotSpeed: 0.0025, angle: 2.4 },
+      { xRel: 0.85, yRel: 0.72, size: 15, rotSpeed: -0.003, angle: 0.8 },
+      { xRel: 0.50, yRel: 0.48, size: 22, rotSpeed: 0.0015, angle: 3.1 },
     ];
 
-    // 2. Neural Constellation Particles
-    let particles = [];
-    const PARTICLE_COUNT = Math.min(60, Math.max(30, Math.floor((width * height) / 24000)));
-
-    function initParticles() {
-      particles = [];
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.35,
-          vy: (Math.random() - 0.5) * 0.35,
-          baseRadius: Math.random() * 1.5 + 0.8,
-          phase: Math.random() * Math.PI * 2,
-          pulseSpeed: 0.015 + Math.random() * 0.02,
-          type: Math.random() > 0.7 ? 'gold' : Math.random() > 0.85 ? 'emerald' : 'navy',
-        });
-      }
-    }
+    // 2. Multi-Wave Topological Contour Lines (Industrial Engineering Flux)
+    const WAVE_COUNT = 7;
+    const waveConfigs = [
+      { amp: 45, freq: 0.0012, speed: 0.008, phase: 0, yOffsetRatio: 0.18 },
+      { amp: 65, freq: 0.0009, speed: 0.006, phase: 1.4, yOffsetRatio: 0.32 },
+      { amp: 50, freq: 0.0015, speed: 0.010, phase: 2.8, yOffsetRatio: 0.48 },
+      { amp: 75, freq: 0.0008, speed: 0.005, phase: 4.2, yOffsetRatio: 0.62 },
+      { amp: 55, freq: 0.0011, speed: 0.007, phase: 0.7, yOffsetRatio: 0.78 },
+      { amp: 70, freq: 0.0007, speed: 0.004, phase: 3.5, yOffsetRatio: 0.90 },
+      { amp: 40, freq: 0.0014, speed: 0.009, phase: 5.1, yOffsetRatio: 0.08 },
+    ];
 
     function resize() {
       width = window.innerWidth;
@@ -95,7 +51,6 @@ export function AppleStripeBackground() {
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
       ctx.scale(dpr, dpr);
-      initParticles();
     }
 
     resize();
@@ -104,11 +59,9 @@ export function AppleStripeBackground() {
     function onMouseMove(e) {
       mouseRef.current.targetX = e.clientX;
       mouseRef.current.targetY = e.clientY;
-      mouseRef.current.active = true;
     }
 
     function onMouseLeave() {
-      mouseRef.current.active = false;
       mouseRef.current.targetX = -2000;
       mouseRef.current.targetY = -2000;
     }
@@ -116,179 +69,170 @@ export function AppleStripeBackground() {
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseleave', onMouseLeave);
 
-    // 3. Render Loop
     let time = 0;
-    let scanlineY = 0;
+    let radarAngle = 0;
 
     function render() {
-      time += 0.005;
+      time += 0.012;
+      radarAngle += 0.004;
       ctx.clearRect(0, 0, width, height);
 
       // Smooth mouse follow (LERP)
-      mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * 0.07;
-      mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * 0.07;
+      mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * 0.06;
+      mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * 0.06;
+
+      const strokeBase = isDark ? 'rgba(147, 181, 217, ' : 'rgba(30, 58, 95, ';
+      const goldStroke = isDark ? 'rgba(245, 158, 11, ' : 'rgba(217, 119, 6, ';
+      const gridStroke = isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(15, 23, 42, 0.035)';
 
       // -----------------------------------------------------------------------
-      // PASS 1: Volumetric Fluid Aurora Orbs
+      // 1. Precision Technical Drafting Grid with Caliper Ticks
       // -----------------------------------------------------------------------
-      ctx.save();
-      orbs.forEach((orb, i) => {
-        const cx = (orb.baseX + Math.sin(time * 0.7 + orb.phase) * 0.12) * width;
-        const cy = (orb.baseY + Math.cos(time * 0.5 + orb.phase) * 0.1) * height;
-        const minDim = Math.min(width, height);
-        const radius = minDim * (orb.radiusRatio + Math.sin(time * 0.4 + i) * 0.05);
+      const gridSize = 64;
+      ctx.strokeStyle = gridStroke;
+      ctx.lineWidth = 0.5;
 
-        const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
-        const color = isDark ? orb.darkColor : orb.lightColor;
-
-        gradient.addColorStop(0, color);
-        gradient.addColorStop(0.5, color.replace(/[\d.]+\)$/, (m) => `${parseFloat(m) * 0.45})`));
-        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-        ctx.fillStyle = gradient;
+      for (let x = 0; x < width; x += gridSize) {
         ctx.beginPath();
-        ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, height);
+        ctx.stroke();
+
+        // Subtle crosshair tick markers at intersections
+        for (let y = 0; y < height; y += gridSize) {
+          if ((x / gridSize + y / gridSize) % 3 === 0) {
+            ctx.strokeStyle = isDark ? 'rgba(147, 181, 217, 0.08)' : 'rgba(30, 58, 95, 0.08)';
+            ctx.beginPath();
+            ctx.moveTo(x - 3, y);
+            ctx.lineTo(x + 3, y);
+            ctx.moveTo(x, y - 3);
+            ctx.lineTo(x, y + 3);
+            ctx.stroke();
+            ctx.strokeStyle = gridStroke;
+          }
+        }
+      }
+
+      for (let y = 0; y < height; y += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
+      }
+
+      // -----------------------------------------------------------------------
+      // 2. Harmonic Industrial Contour Waves (Engineering Flux / Topography)
+      // -----------------------------------------------------------------------
+      waveConfigs.forEach((wave, idx) => {
+        const baseY = height * wave.yOffsetRatio;
+        const alpha = isDark ? (0.07 + (idx % 3) * 0.03) : (0.08 + (idx % 3) * 0.035);
+        const isAccent = idx === 1 || idx === 4;
+
+        ctx.strokeStyle = isAccent ? `${goldStroke}${alpha})` : `${strokeBase}${alpha})`;
+        ctx.lineWidth = isAccent ? 1 : 0.75;
+        ctx.beginPath();
+
+        const step = 20;
+        let started = false;
+
+        for (let x = 0; x <= width + step; x += step) {
+          // Double harmonic sine wave
+          const waveVal1 = Math.sin(x * wave.freq + time * wave.speed + wave.phase) * wave.amp;
+          const waveVal2 = Math.cos(x * (wave.freq * 1.6) - time * (wave.speed * 0.8)) * (wave.amp * 0.35);
+
+          // Mouse proximity deflection (subtle physical elastic stretch)
+          let mouseDeflect = 0;
+          if (mouseRef.current.x > 0 && mouseRef.current.y > 0) {
+            const dx = x - mouseRef.current.x;
+            const dy = (baseY + waveVal1) - mouseRef.current.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 220) {
+              mouseDeflect = Math.sin((1 - dist / 220) * Math.PI) * 20 * (dy < 0 ? -1 : 1);
+            }
+          }
+
+          const y = baseY + waveVal1 + waveVal2 + mouseDeflect;
+
+          if (!started) {
+            ctx.moveTo(x, y);
+            started = true;
+          } else {
+            ctx.lineTo(x, y);
+          }
+        }
+
+        ctx.stroke();
+
+        // Delicate floating measurement tick on wave peaks
+        const sampleX = ((width * (0.2 + idx * 0.12) + time * 15) % width);
+        const peakY = baseY + Math.sin(sampleX * wave.freq + time * wave.speed + wave.phase) * wave.amp;
+        
+        ctx.fillStyle = isAccent ? `${goldStroke}${alpha * 1.8})` : `${strokeBase}${alpha * 1.8})`;
+        ctx.beginPath();
+        ctx.arc(sampleX, peakY, 1.5, 0, Math.PI * 2);
         ctx.fill();
       });
 
-      // Interactive Mouse Spotlight
+      // -----------------------------------------------------------------------
+      // 3. Eclectic CAD Reticles & Technical Dial Markers
+      // -----------------------------------------------------------------------
+      cadMarkers.forEach((marker, mIdx) => {
+        const cx = marker.xRel * width;
+        const cy = marker.yRel * height;
+        marker.angle += marker.rotSpeed;
+
+        const isMainNode = mIdx === 0 || mIdx === 4;
+        const alphaReticle = isDark ? 0.18 : 0.22;
+
+        ctx.save();
+        ctx.translate(cx, cy);
+
+        // Rotating Segmented CAD Compass Ring
+        ctx.strokeStyle = isDark ? `rgba(147, 181, 217, ${alphaReticle})` : `rgba(30, 58, 95, ${alphaReticle})`;
+        ctx.lineWidth = 0.75;
+        ctx.beginPath();
+        ctx.arc(0, 0, marker.size, marker.angle, marker.angle + Math.PI * 1.2);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(0, 0, marker.size, marker.angle + Math.PI * 1.5, marker.angle + Math.PI * 1.85);
+        ctx.stroke();
+
+        // Technical Center Crosshair
+        ctx.strokeStyle = isDark ? `rgba(245, 158, 11, ${alphaReticle * 1.2})` : `rgba(217, 119, 6, ${alphaReticle * 1.2})`;
+        ctx.beginPath();
+        ctx.moveTo(-4, 0);
+        ctx.lineTo(4, 0);
+        ctx.moveTo(0, -4);
+        ctx.lineTo(0, 4);
+        ctx.stroke();
+
+        ctx.restore();
+      });
+
+      // -----------------------------------------------------------------------
+      // 4. Subtle Radial Illumination Around Cursor
+      // -----------------------------------------------------------------------
       if (mouseRef.current.x > 0 && mouseRef.current.y > 0) {
-        const spotlightRadius = Math.min(width, height) * 0.35;
-        const mouseGrad = ctx.createRadialGradient(
+        const rad = 280;
+        const glowGrad = ctx.createRadialGradient(
           mouseRef.current.x,
           mouseRef.current.y,
           0,
           mouseRef.current.x,
           mouseRef.current.y,
-          spotlightRadius
+          rad
         );
-        const spotlightColor = isDark
-          ? 'rgba(30, 58, 95, 0.32)'
-          : 'rgba(147, 197, 253, 0.40)';
+        const glowCol = isDark ? 'rgba(30, 58, 95, 0.18)' : 'rgba(147, 181, 217, 0.22)';
+        glowGrad.addColorStop(0, glowCol);
+        glowGrad.addColorStop(0.6, glowCol.replace(/[\d.]+\)$/, '0.04)'));
+        glowGrad.addColorStop(1, 'rgba(0,0,0,0)');
 
-        mouseGrad.addColorStop(0, spotlightColor);
-        mouseGrad.addColorStop(0.5, spotlightColor.replace(/[\d.]+\)$/, '0.08)'));
-        mouseGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-        ctx.fillStyle = mouseGrad;
+        ctx.fillStyle = glowGrad;
         ctx.beginPath();
-        ctx.arc(mouseRef.current.x, mouseRef.current.y, spotlightRadius, 0, Math.PI * 2);
+        ctx.arc(mouseRef.current.x, mouseRef.current.y, rad, 0, Math.PI * 2);
         ctx.fill();
       }
-      ctx.restore();
-
-      // -----------------------------------------------------------------------
-      // PASS 2: Laser Scanline Wave
-      // -----------------------------------------------------------------------
-      scanlineY = (scanlineY + 0.75) % (height + 250);
-      const curY = scanlineY - 120;
-
-      if (curY > -50 && curY < height + 50) {
-        const scanGrad = ctx.createLinearGradient(0, curY - 50, 0, curY + 50);
-        const scanColor = isDark ? 'rgba(245, 158, 11, 0.035)' : 'rgba(30, 58, 95, 0.04)';
-
-        scanGrad.addColorStop(0, 'rgba(0, 0, 0, 0)');
-        scanGrad.addColorStop(0.5, scanColor);
-        scanGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-        ctx.fillStyle = scanGrad;
-        ctx.fillRect(0, curY - 50, width, 100);
-
-        ctx.strokeStyle = isDark ? 'rgba(245, 158, 11, 0.14)' : 'rgba(30, 58, 95, 0.09)';
-        ctx.lineWidth = 0.75;
-        ctx.beginPath();
-        ctx.moveTo(0, curY);
-        ctx.lineTo(width, curY);
-        ctx.stroke();
-      }
-
-      // -----------------------------------------------------------------------
-      // PASS 3: Neural Constellation Mesh
-      // -----------------------------------------------------------------------
-      const connectionDist = Math.min(width, height) * 0.15;
-      const mouseDist = 170;
-
-      for (let i = 0; i < particles.length; i++) {
-        const p1 = particles[i];
-
-        p1.x += p1.vx;
-        p1.y += p1.vy;
-
-        if (p1.x < -10) p1.x = width + 10;
-        if (p1.x > width + 10) p1.x = -10;
-        if (p1.y < -10) p1.y = height + 10;
-        if (p1.y > height + 10) p1.y = -10;
-
-        // Interactive Cursor Connection
-        if (mouseRef.current.x > 0 && mouseRef.current.y > 0) {
-          const dxM = p1.x - mouseRef.current.x;
-          const dyM = p1.y - mouseRef.current.y;
-          const distM = Math.sqrt(dxM * dxM + dyM * dyM);
-
-          if (distM < mouseDist) {
-            const force = (1 - distM / mouseDist) * 0.025;
-            p1.x += dxM * force;
-            p1.y += dyM * force;
-
-            const alphaM = (1 - distM / mouseDist) * (isDark ? 0.35 : 0.28);
-            ctx.strokeStyle = isDark
-              ? `rgba(245, 158, 11, ${alphaM})`
-              : `rgba(30, 58, 95, ${alphaM})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(mouseRef.current.x, mouseRef.current.y);
-            ctx.stroke();
-          }
-        }
-
-        // Inter-Particle Connections
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dx = p1.x - p2.x;
-          const dy = p1.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (dist < connectionDist) {
-            const alpha = (1 - dist / connectionDist) * (isDark ? 0.18 : 0.16);
-            ctx.strokeStyle = isDark
-              ? `rgba(147, 181, 217, ${alpha})`
-              : `rgba(30, 58, 95, ${alpha})`;
-            ctx.lineWidth = 0.75;
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      // Draw Glowing Particles
-      particles.forEach((p) => {
-        p.phase += p.pulseSpeed;
-        const pulse = Math.sin(p.phase) * 0.35 + 1;
-        const radius = p.baseRadius * pulse;
-
-        let fillColor;
-        if (p.type === 'gold') {
-          fillColor = isDark
-            ? `rgba(245, 158, 11, ${0.5 + Math.sin(p.phase) * 0.3})`
-            : `rgba(217, 119, 6, ${0.55 + Math.sin(p.phase) * 0.3})`;
-        } else if (p.type === 'emerald') {
-          fillColor = isDark
-            ? `rgba(52, 211, 153, ${0.5 + Math.sin(p.phase) * 0.3})`
-            : `rgba(16, 185, 129, ${0.55 + Math.sin(p.phase) * 0.3})`;
-        } else {
-          fillColor = isDark
-            ? `rgba(199, 218, 245, ${0.4 + Math.sin(p.phase) * 0.25})`
-            : `rgba(30, 58, 95, ${0.45 + Math.sin(p.phase) * 0.25})`;
-        }
-
-        ctx.fillStyle = fillColor;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
-        ctx.fill();
-      });
 
       animationFrameId = requestAnimationFrame(render);
     }
@@ -305,46 +249,28 @@ export function AppleStripeBackground() {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-      {/* 1. Base Layer Dynamic Backdrop Gradient */}
+      {/* 1. Base Layer Dynamic Neutral Backdrop */}
       <div
-        className={`absolute inset-0 transition-colors duration-1000 ${
+        className={`absolute inset-0 transition-colors duration-700 ${
           isDark
-            ? 'bg-gradient-to-b from-[#05070D] via-[#070B14] to-[#05070D]'
-            : 'bg-gradient-to-b from-[#F8FAFC] via-[#F1F5F9] to-[#E2E8F0]'
+            ? 'bg-gradient-to-b from-[#06080F] via-[#080C16] to-[#06080F]'
+            : 'bg-gradient-to-b from-[#F8FAFC] via-[#F1F5F9] to-[#E9EEF5]'
         }`}
       />
 
-      {/* 2. Interactive Canvas */}
+      {/* 2. Precision Industrial / Eclectic Canvas (Contour Waves & CAD Reticles) */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full opacity-100 transition-opacity duration-700"
+        className="absolute inset-0 w-full h-full opacity-100"
       />
 
-      {/* 3. Top Ambient Wash */}
+      {/* 3. Soft Ambient Vignette for Depth */}
       <div
-        className={`absolute -top-32 left-1/4 w-[750px] h-[450px] rounded-full blur-[110px] pointer-events-none transition-all duration-1000 ${
+        className={`absolute inset-0 pointer-events-none ${
           isDark
-            ? 'bg-gradient-to-b from-[#1E3A5F]/30 via-[#0B1E36]/20 to-transparent'
-            : 'bg-gradient-to-b from-[#93B5D9]/35 via-[#C2D8ED]/20 to-transparent'
+            ? 'bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(6,8,15,0.45)_100%)]'
+            : 'bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(226,232,240,0.30)_100%)]'
         }`}
-      />
-
-      {/* 4. Bottom Ambient Wash */}
-      <div
-        className={`absolute -bottom-32 right-1/4 w-[650px] h-[450px] rounded-full blur-[110px] pointer-events-none transition-all duration-1000 ${
-          isDark
-            ? 'bg-gradient-to-t from-[#D97706]/15 via-[#1E3A5F]/15 to-transparent'
-            : 'bg-gradient-to-t from-[#F59E0B]/18 via-[#93B5D9]/20 to-transparent'
-        }`}
-      />
-
-      {/* 5. Delicate Micro-Grid Pattern */}
-      <div
-        className="absolute inset-0 opacity-[0.035] dark:opacity-[0.045] pointer-events-none"
-        style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, ${isDark ? 'rgba(255,255,255,0.7)' : 'rgba(15,23,42,0.6)'} 1px, transparent 0)`,
-          backgroundSize: '36px 36px',
-        }}
       />
     </div>
   );
