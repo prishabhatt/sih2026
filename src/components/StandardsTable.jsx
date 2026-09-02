@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Search, ShieldCheck, ChevronDown, GitFork } from 'lucide-react';
 
-export function StandardsTable({ 
-  standards, 
-  selectedStandardIds, 
-  onToggleStandard, 
+export function StandardsTable({
+  standards,
+  selectedStandardIds,
+  onToggleStandard,
   onExploreNormative,
-  t 
+  t
 }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [divisionFilter, setDivisionFilter] = useState('ALL');
@@ -72,11 +72,10 @@ export function StandardsTable({
           <button
             type="button"
             onClick={() => setQcoOnlyFilter(!qcoOnlyFilter)}
-            className={`px-3 py-2 rounded-lg border text-sm font-medium transition flex items-center gap-1.5 ${
-              qcoOnlyFilter
+            className={`px-3 py-2 rounded-lg border text-sm font-medium transition flex items-center gap-1.5 ${qcoOnlyFilter
                 ? 'bg-emerald-600 text-white border-emerald-600'
                 : 'bg-slate-50 dark:bg-zinc-950 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-zinc-800 hover:bg-slate-100 dark:hover:bg-zinc-800'
-            }`}
+              }`}
           >
             <ShieldCheck className="w-4 h-4" />
             <span>QCO Only</span>
@@ -126,11 +125,10 @@ export function StandardsTable({
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => onToggleStandard(std.id)}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
-                            isSelected
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${isSelected
                               ? 'bg-emerald-600 text-white hover:bg-emerald-700'
                               : 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-200'
-                          }`}
+                            }`}
                         >
                           {isSelected ? '✓ Added' : '+ Add'}
                         </button>
@@ -158,7 +156,7 @@ export function StandardsTable({
                               Enforcing: {std.ministryEnforcing}
                             </p>
                           </div>
-                          
+
                           {/* Right Side: Amendments & Actions */}
                           <div className="flex flex-col items-start md:items-end gap-4 justify-between">
                             <div className="text-xs font-medium text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 p-2.5 rounded-md border border-amber-100 dark:border-amber-500/20">
@@ -181,7 +179,7 @@ export function StandardsTable({
             })}
           </tbody>
         </table>
-        
+
         {filteredStandards.length === 0 && (
           <div className="p-8 text-center text-slate-500 dark:text-slate-400 text-sm">
             No standards found matching your filters.
