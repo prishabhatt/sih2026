@@ -84,6 +84,25 @@ export function AuthProvider({ children }) {
     setIsAuthenticated(true);
   };
 
+  const registerUser = (userData) => {
+    const newUser = {
+      id: 'usr_reg_' + Date.now().toString().slice(-4),
+      name: userData.name || 'Officer',
+      role: userData.role || 'procurement',
+      roleTitle: userData.roleTitle || userData.designation || 'Procurement Officer',
+      organization: userData.organization || 'Government Department',
+      department: userData.department || userData.orgType || 'Engineering Wing',
+      email: userData.email || 'officer@gov.in',
+      mobile: userData.mobile || '+91 98101 23456',
+      ssoProvider: '2FA Mobile OTP Verified (NIC Gateway)',
+      badgeId: userData.badgeId || ('GOV-ID-' + Math.floor(1000 + Math.random() * 9000)),
+      securityClearance: 'Level-3 (Statutory E-Procurement Verified)'
+    };
+    setCurrentUser(newUser);
+    setIsAuthenticated(true);
+    return newUser;
+  };
+
   const switchPersona = (personaKey) => {
     if (DEMO_PERSONAS[personaKey]) {
       setCurrentUser(DEMO_PERSONAS[personaKey]);
@@ -99,8 +118,10 @@ export function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         currentUser,
+        setCurrentUser,
         isAuthenticated,
         loginAsRole,
+        registerUser,
         switchPersona,
         logout,
         demoPersonas: DEMO_PERSONAS
