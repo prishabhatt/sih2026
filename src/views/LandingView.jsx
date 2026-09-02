@@ -121,7 +121,7 @@ function ScrollReveal({ children, className = '', direction = 'up', delay = 0 })
 export function LandingView() {
   const navigate = useNavigate();
   const { toggleTheme, isDark } = useTheme();
-  const { lang, setLang, languages = [], loadScenario } = useProcurement();
+  const { lang, setLang, languages = [], t = {}, loadScenario } = useProcurement();
 
   const [activeDivisionTab, setActiveDivisionTab] = useState('ETD');
   const [expandedPipelineRow, setExpandedPipelineRow] = useState(0);
@@ -209,22 +209,82 @@ export function LandingView() {
   const activeDivInfo = useMemo(() => BIS_DIVISIONS.find((d) => d.code === activeDivisionTab) || BIS_DIVISIONS[0], [activeDivisionTab]);
 
   const pipelineRows = useMemo(() => [
-    { num: '01', title: 'Natural-Language Scope & Tender BOQ Ingestion', subtitle: 'Multilingual OCR Ingestion & Vector Extraction', badge: 'INGESTION', description: 'Procurement authorities upload unstructured draft tender specifications, engineering BOQs, or GeM descriptions. The parser extracts parameters across 8 Indian languages.', specs: ['PDF, DOCX & Raw Text', 'Multilingual Tokenizer', '768-D Embeddings'], icon: FileText },
-    { num: '02', title: 'Neural Vector RAG Semantic Resolution', subtitle: 'Dense Retrieval Across 22,410+ Active Standards', badge: 'RESOLUTION', description: 'Resolves technical scopes to exact Indian Standards (IS) codes, reaffirmations, and active amendments. Cross-checks gazetted Quality Control Orders (QCOs).', specs: ['Dense Embeddings Matrix', 'Cosine Similarity >= 95%', 'Gazette QCO Registry'], icon: Cpu },
-    { num: '03', title: 'GFR 2017 Rule 144(xi) Anti-Bias Loophole Scanner', subtitle: 'Eliminating Single-Vendor Lock-in & Proprietary Traps', badge: 'AUDIT GUARD', description: 'Scans tender drafts for restrictive commercial parameters that stifle fair competition or secretly bias awards toward single vendors. Enforces open bidding.', specs: ['GFR Rule 144(xi) Audit', 'Proprietary Clause Blocker', 'Make-in-India Validation'], icon: Scale },
-    { num: '04', title: 'Cryptographic SHA-256 Passport & Model NIT Export', subtitle: 'Tamper-Proof Field Verification & 1-Click NIT Clauses', badge: 'TRUST PASSPORT', description: 'Synthesizes legally binding model Notice Inviting Tender (NIT) clauses and generates immutable SHA-256 sealed QR compliance passports for field warehouse inspection.', specs: ['SHA-256 Digital Seal', 'Mobile Scannable QR', '1-Click GeM NIT Export'], icon: QrCode }
-  ], []);
+    {
+      num: '01',
+      title: t?.landing?.stage1Title || 'Natural-Language Scope & Tender BOQ Ingestion',
+      subtitle: t?.landing?.stage1Desc || 'Multilingual OCR Ingestion & Vector Extraction',
+      badge: 'INGESTION',
+      description: t?.landing?.stage1Desc || 'Procurement authorities upload unstructured draft tender specifications, engineering BOQs, or GeM descriptions. The parser extracts parameters across 8 Indian languages.',
+      specs: ['PDF, DOCX & Raw Text', 'Multilingual Tokenizer', '768-D Embeddings'],
+      icon: FileText
+    },
+    {
+      num: '02',
+      title: t?.landing?.stage2Title || 'Neural Vector RAG Semantic Resolution',
+      subtitle: t?.landing?.stage2Desc || 'Dense Retrieval Across 22,410+ Active Standards',
+      badge: 'RESOLUTION',
+      description: t?.landing?.stage2Desc || 'Resolves technical scopes to exact Indian Standards (IS) codes, reaffirmations, and active amendments. Cross-checks gazetted Quality Control Orders (QCOs).',
+      specs: ['Dense Embeddings Matrix', 'Cosine Similarity >= 95%', 'Gazette QCO Registry'],
+      icon: Cpu
+    },
+    {
+      num: '03',
+      title: t?.landing?.stage3Title || 'GFR 2017 Rule 144(xi) Anti-Bias Loophole Scanner',
+      subtitle: t?.landing?.stage3Desc || 'Eliminating Single-Vendor Lock-in & Proprietary Traps',
+      badge: 'AUDIT GUARD',
+      description: t?.landing?.stage3Desc || 'Scans tender drafts for restrictive commercial parameters that stifle fair competition or secretly bias awards toward single vendors. Enforces open bidding.',
+      specs: ['GFR Rule 144(xi) Audit', 'Proprietary Clause Blocker', 'Make-in-India Validation'],
+      icon: Scale
+    },
+    {
+      num: '04',
+      title: t?.landing?.stage4Title || 'Cryptographic SHA-256 Passport & Model NIT Export',
+      subtitle: t?.landing?.stage4Desc || 'Tamper-Proof Field Verification & 1-Click NIT Clauses',
+      badge: 'TRUST PASSPORT',
+      description: t?.landing?.stage5Desc || 'Synthesizes legally binding model Notice Inviting Tender (NIT) clauses and generates immutable SHA-256 sealed QR compliance passports for field warehouse inspection.',
+      specs: ['SHA-256 Digital Seal', 'Mobile Scannable QR', '1-Click GeM NIT Export'],
+      icon: QrCode
+    }
+  ], [t]);
 
   const faqItems = useMemo(() => [
-    { q: 'How does the AI engine resolve the latest amended Indian Standard?', a: 'The engine indexes the live BIS Gazette corpus with 768-dimensional dense vector embeddings. When a tender description is ingested, semantic RAG matching retrieves the most recent reaffirmation and active amendments, preventing references to obsolete specifications.' },
-    { q: 'How does the system prevent single-vendor bias under GFR 2017 Rule 144(xi)?', a: 'GFR 2017 Rule 144(xi) prohibits specifications that restrict competition to a specific make or brand. The engine audits draft tender clauses against standardized Indian Standards parameters.' },
-    { q: 'How are statutory QCOs and mandatory BIS certification enforced?', a: 'Under Section 16 of the BIS Act 2016, gazetted QCOs mandate Scheme-I ISI Marks or Scheme-II CRS Registrations. The gateway automatically flags items under active QCO decrees.' },
-    { q: 'What is a Cryptographic SHA-256 Digital Passport?', a: 'Once verified, the system computes a SHA-256 hash of all approved standards, normative test protocols, and local content thresholds, embedded in a tamper-proof QR Passport for field inspection.' }
-  ], []);
+    {
+      q: lang === 'hi' ? 'एआई इंजन नवीनतम संशोधित भारतीय मानक को कैसे हल करता है?' :
+         lang === 'gu' ? 'એઆઈ એન્જિન નવીનતમ સુધારેલા ભારતીય ધોરણને કેવી રીતે શોધે છે?' :
+         'How does the AI engine resolve the latest amended Indian Standard?',
+      a: lang === 'hi' ? 'इंजन 768-आयामी सघन वेक्टर एम्बेडिंग के साथ लाइव बीआईएस गजट कॉर्पस को इंडेक्स करता है। जब किसी निविदा विवरण को इनपुट किया जाता है, तो सिमेंटिक आरएजी मिलान नवीनतम संशोधन प्राप्त करता है।' :
+         lang === 'gu' ? 'એન્જિન 768-પરિમાણીય વેક્ટર એમ્બેડિંગ્સ સાથે લાઇવ બીઆઈએસ ગેઝેટ કોર્પસને ઇન્ડેક્સ કરે છે. જ્યારે ટેન્ડર વિગતો દાખલ થાય છે ત્યારે સિમેન્ટીક RAG મેચિંગ તાજેતરના સુધારા પુનઃપ્રાપ્ત કરે છે.' :
+         'The engine indexes the live BIS Gazette corpus with 768-dimensional dense vector embeddings. When a tender description is ingested, semantic RAG matching retrieves the most recent reaffirmation and active amendments, preventing references to obsolete specifications.'
+    },
+    {
+      q: lang === 'hi' ? 'GFR 2017 नियम 144(xi) के तहत एकल-विक्रेता पक्षपात को कैसे रोका जाता है?' :
+         lang === 'gu' ? 'GFR 2017 નિયમ 144(xi) હેઠળ સિંગલ-વેન્ડર પક્ષપાત કેવી રીતે અટકાવવામાં આવે છે?' :
+         'How does the system prevent single-vendor bias under GFR 2017 Rule 144(xi)?',
+      a: lang === 'hi' ? 'GFR 2017 नियम 144(xi) उन विनिर्देशों को प्रतिबंधित करता है जो प्रतिस्पर्धा को किसी विशिष्ट मेक या ब्रांड तक सीमित करते हैं। इंजन मानकीकृत बीआईएस मापदंडों के विरुद्ध ड्राफ्ट निविदा खंडों का ऑडिट करता है।' :
+         lang === 'gu' ? 'GFR 2017 નિયમ 144(xi) એવી વિશિષ્ટતાઓને પ્રતિબંધિત કરે છે જે સ્પર્ધાને કોઈ ચોક્કસ બ્રાન્ડ સુધી સીમિત કરે છે. એન્જિન પ્રમાણિત પરિમાણો સામે ડ્રાફ્ટ ટેન્ડર શરતોનું ઓડિટ કરે છે.' :
+         'GFR 2017 Rule 144(xi) prohibits specifications that restrict competition to a specific make or brand. The engine audits draft tender clauses against standardized Indian Standards parameters.'
+    },
+    {
+      q: lang === 'hi' ? 'वैधानिक गुणवत्ता नियंत्रण आदेश (QCO) कैसे लागू किए जाते हैं?' :
+         lang === 'gu' ? 'વૈધાનિક ગુણવત્તા નિયંત્રણ ઓર્ડર (QCO) કેવી રીતે લાગુ કરવામાં આવે છે?' :
+         'How are statutory QCOs and mandatory BIS certification enforced?',
+      a: lang === 'hi' ? 'बीआईएस अधिनियम 2016 की धारा 16 के तहत, अनिवार्य क्यूसीओ आदेश स्कीम-I आईएसआई मार्क या स्कीम-II सीआरएस पंजीकरण अनिवार्य करते हैं। गेटवे स्वचालित रूप से अनिवार्य क्यूसीओ को चिह्नित करता है।' :
+         lang === 'gu' ? 'BIS એક્ટ 2016 ની કલમ 16 હેઠળ, ગેઝેટ કરાયેલા QCOs સ્કીમ-I ISI માર્ક અથવા સ્કીમ-II CRS રજીસ્ટ્રેશન ફરજિયાત કરે છે. ગેટવે આપમેળે વસ્તુઓને સક્રિય QCO હેઠળ ફ્લેગ કરે છે.' :
+         'Under Section 16 of the BIS Act 2016, gazetted QCOs mandate Scheme-I ISI Marks or Scheme-II CRS Registrations. The gateway automatically flags items under active QCO decrees.'
+    },
+    {
+      q: lang === 'hi' ? 'क्रिप्टोग्राफिक SHA-256 डिजिटल पासपोर्ट क्या है?' :
+         lang === 'gu' ? 'ક્રિપ્ટોગ્રાફિક SHA-256 ડિજિટલ પાસપોર્ટ શું છે?' :
+         'What is a Cryptographic SHA-256 Digital Passport?',
+      a: lang === 'hi' ? 'सत्यापन के बाद, सिस्टम सभी अनुमोदित मानकों, प्रामाणिक परीक्षण प्रोटोकॉल और स्थानीय सामग्री सीमाओं का SHA-256 हैश उत्पन्न करता है, जिसे साइट निरीक्षण के लिए क्यूआर कोड में एम्बेड किया जाता है।' :
+         lang === 'gu' ? 'ચકાસણી પછી, સિસ્ટમ તમામ મંજૂર ધોરણો, પરીક્ષણ પ્રોટોકોલ અને સ્થાનિક સામગ્રી થ્રેશોલ્ડના SHA-256 હેશની ગણતરી કરે છે, જે સાઇટ નિરીક્ષણ માટે QR પાસપોર્ટમાં એમ્બેડ થાય છે.' :
+         'Once verified, the system computes a SHA-256 hash of all approved standards, normative test protocols, and local content thresholds, embedded in a tamper-proof QR Passport for field inspection.'
+    }
+  ], [lang]);
 
   return (
     <div className="min-h-screen bg-transparent text-slate-900 dark:text-slate-100 transition-colors duration-500 relative font-sans antialiased overflow-x-hidden selection:bg-[#1E3A5F] selection:text-white">
-      {/* Living Atmospheric High-Grade Background */}
+      {/* Living Atmospheric Industrial Background */}
       <AppleStripeBackground />
       <div className="noise-overlay" />
 
@@ -243,43 +303,57 @@ export function LandingView() {
               </span>
               <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#1E3A5F]/10 dark:bg-[#1E3A5F]/30 text-[#1E3A5F] dark:text-[#93B5D9] border border-[#1E3A5F]/20 font-mono">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                ACTIVE
+                {t?.nav?.sessionActive ? 'ACTIVE' : 'ACTIVE'}
               </span>
             </div>
           </div>
 
           <nav className="hidden lg:flex items-center gap-7 text-xs font-semibold text-slate-600 dark:text-slate-400 tracking-wide">
-            {['Overview', 'Terminal', 'Architecture', 'Pipeline', 'Corpus', 'FAQ'].map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-[#1E3A5F] dark:hover:text-white transition-colors">
-                {item}
-              </a>
-            ))}
+            <a href="#overview" className="hover:text-[#1E3A5F] dark:hover:text-white transition-colors">
+              {t?.nav?.home || 'Overview'}
+            </a>
+            <a href="#terminal" className="hover:text-[#1E3A5F] dark:hover:text-white transition-colors">
+              {t?.nav?.step3 || 'Terminal'}
+            </a>
+            <a href="#architecture" className="hover:text-[#1E3A5F] dark:hover:text-white transition-colors">
+              {t?.nav?.architecture || 'Architecture'}
+            </a>
+            <a href="#pipeline" className="hover:text-[#1E3A5F] dark:hover:text-white transition-colors">
+              {t?.nav?.step4 || 'Pipeline'}
+            </a>
+            <a href="#corpus" className="hover:text-[#1E3A5F] dark:hover:text-white transition-colors">
+              {t?.nav?.standards || 'Corpus'}
+            </a>
+            <a href="#faq" className="hover:text-[#1E3A5F] dark:hover:text-white transition-colors">
+              {t?.nav?.about || 'FAQ'}
+            </a>
           </nav>
 
           <div className="flex items-center gap-3">
+            {/* Multilingual Glassmorphic Dropdown */}
             <div className="relative">
               <button
                 onClick={() => setIsLangOpen(!isLangOpen)}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-slate-700 dark:text-slate-300 bg-white/60 dark:bg-white/[0.04] hover:bg-white dark:hover:bg-white/[0.08] border border-slate-200/80 dark:border-white/10 shadow-2xs backdrop-blur-xl transition-all cursor-pointer font-mono"
               >
                 <Globe className="w-3.5 h-3.5 text-amber-500" />
-                <span className="uppercase">{lang}</span>
+                <span className="uppercase font-bold">{lang}</span>
                 <ChevronDown className={`w-3 h-3 transition-transform ${isLangOpen ? 'rotate-180' : ''}`} />
               </button>
               {isLangOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setIsLangOpen(false)} />
-                  <div className="absolute right-0 mt-2 w-60 bg-white/95 dark:bg-[#090D16]/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-slate-200/90 dark:border-white/10 p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150 max-h-96 overflow-y-auto">
+                  <div className="absolute right-0 mt-2 w-64 bg-white/95 dark:bg-[#090D16]/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-slate-200/90 dark:border-white/10 p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150 max-h-96 overflow-y-auto">
                     <div className="px-3 py-1.5 mb-1 border-b border-slate-200/60 dark:border-white/5">
                       <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-slate-400">
-                        Regional Languages
+                        Official Indian Languages
                       </span>
                     </div>
                     {languages.map((l) => (
                       <button
                         key={l.code}
                         onClick={() => { setLang(l.code); setIsLangOpen(false); }}
-                        className={`w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between transition-colors my-0.5 ${
+                        className={`w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between transition-colors my-0.5 cursor-pointer ${
                           lang === l.code
                             ? 'font-bold bg-[#1E3A5F]/15 dark:bg-[#1E3A5F]/40 text-[#1E3A5F] dark:text-white border border-[#1E3A5F]/30'
                             : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10'
@@ -306,7 +380,7 @@ export function LandingView() {
               onClick={() => navigate('/login')}
               className="px-4 py-2 rounded-full text-xs font-bold bg-[#0B1E36] hover:bg-[#132845] dark:bg-white dark:hover:bg-slate-100 text-white dark:text-[#07080A] shadow-md transition-all cursor-pointer flex items-center gap-1.5"
             >
-              <span>Portal Login</span>
+              <span>{t?.nav?.portalLogin || 'Portal Login'}</span>
               <ArrowRight className="w-3.5 h-3.5 text-amber-400 dark:text-slate-900" />
             </button>
           </div>
@@ -320,18 +394,15 @@ export function LandingView() {
         <div className="max-w-3xl mx-auto text-center space-y-6">
           <div className="hero-animate inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/75 dark:bg-white/[0.04] border border-slate-200/80 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-300 shadow-xs backdrop-blur-xl">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-            <span className="font-semibold font-mono text-[11px]">State Procurement Intelligence Gateway • SIH 2026</span>
+            <span className="font-semibold font-mono text-[11px]">{t?.landing?.govBadge || 'State Procurement Intelligence Gateway • SIH 2026'}</span>
           </div>
 
-          <h1 className="hero-animate text-[44px] sm:text-[60px] lg:text-[76px] font-black tracking-[-0.03em] leading-[0.98] text-slate-900 dark:text-white" style={{ animationDelay: '0.1s' }}>
-            Smarter Insights for <br />
-            <span className="font-serif italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-[#0B1E36] via-[#1E3A5F] to-[#2B4C7E] dark:from-[#93B5D9] dark:via-[#C2D8ED] dark:to-[#7FA6CE]">
-              Audit-Proof Tenders.
-            </span>
+          <h1 className="hero-animate text-[40px] sm:text-[56px] lg:text-[70px] font-black tracking-[-0.03em] leading-[1.02] text-slate-900 dark:text-white" style={{ animationDelay: '0.1s' }}>
+            {t?.landing?.heroTitle || 'AI-Powered Indian Standards Engine for Public Procurement'}
           </h1>
 
-          <p className="hero-animate text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-xl mx-auto leading-relaxed font-normal" style={{ animationDelay: '0.2s' }}>
-            Autonomous AI gateway that resolves exact <strong className="text-slate-900 dark:text-slate-200 font-semibold">Bureau of Indian Standards (IS)</strong> codes, mandatory Gazette QCO decrees, and eliminates single-vendor bias under <strong className="text-slate-900 dark:text-slate-200 font-semibold">GFR 2017 Rule 144(xi)</strong>.
+          <p className="hero-animate text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-normal" style={{ animationDelay: '0.2s' }}>
+            {t?.landing?.heroSubtitle || 'Autonomous AI gateway that resolves exact Bureau of Indian Standards (IS) codes, mandatory Gazette QCO decrees, and eliminates single-vendor bias under GFR 2017 Rule 144(xi).'}
           </p>
 
           <div className="hero-animate flex flex-wrap items-center justify-center gap-3.5 pt-2" style={{ animationDelay: '0.3s' }}>
@@ -339,7 +410,7 @@ export function LandingView() {
               onClick={() => document.getElementById('terminal')?.scrollIntoView({ behavior: 'smooth' })}
               className="px-6 py-3.5 rounded-full text-xs font-bold bg-[#0B1E36] hover:bg-[#132845] dark:bg-white dark:hover:bg-slate-100 text-white dark:text-[#07080A] shadow-lg shadow-[#0B1E36]/20 transition-all flex items-center gap-2 cursor-pointer"
             >
-              <span>Try Live Terminal</span>
+              <span>{t?.landing?.ctaLaunch || 'Try Live Terminal'}</span>
               <ArrowRight className="w-3.5 h-3.5 text-amber-400 dark:text-slate-900" />
             </button>
             <button
@@ -347,14 +418,14 @@ export function LandingView() {
               className="px-6 py-3.5 rounded-full text-xs font-bold bg-white/70 dark:bg-white/[0.04] hover:bg-white dark:hover:bg-white/[0.08] border border-slate-200/80 dark:border-white/10 text-slate-800 dark:text-slate-200 shadow-xs backdrop-blur-xl transition-all flex items-center gap-2 cursor-pointer"
             >
               <Terminal className="w-3.5 h-3.5 text-amber-500" />
-              <span>Full Sandbox ↗</span>
+              <span>{t?.landing?.ctaExplore || 'Full Sandbox ↗'}</span>
             </button>
           </div>
 
           <div className="hero-animate pt-4 flex flex-wrap items-center justify-center gap-4 text-[11px] font-mono text-slate-500 dark:text-slate-400" style={{ animationDelay: '0.4s' }}>
-            <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> 22,410+ IS Standards</span>
-            <span className="flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5 text-amber-500" /> 142 Active QCO Decrees</span>
-            <span className="flex items-center gap-1.5"><Lock className="w-3.5 h-3.5 text-[#1E3A5F] dark:text-sky-400" /> SHA-256 Sealed Passports</span>
+            <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {t?.landing?.trustPill1 || '22,410+ IS Standards'}</span>
+            <span className="flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5 text-amber-500" /> {t?.landing?.trustPill2 || '142 Active QCO Decrees'}</span>
+            <span className="flex items-center gap-1.5"><Lock className="w-3.5 h-3.5 text-[#1E3A5F] dark:text-sky-400" /> {t?.landing?.trustPill3 || 'SHA-256 Sealed Passports'}</span>
           </div>
         </div>
 
@@ -365,10 +436,10 @@ export function LandingView() {
           <div className="rounded-3xl bg-white/75 dark:bg-[#0E1322]/70 backdrop-blur-2xl border border-slate-200/80 dark:border-white/[0.08] shadow-2xl overflow-hidden">
             <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-slate-200/70 dark:divide-white/[0.06]">
               {[
-                { label: 'STANDARDS', value: 22410, suffix: '+', desc: 'Active Bureau of Indian Standards' },
-                { label: 'QCO DECREES', value: 142, suffix: '+', desc: 'Mandatory Gazette QCOs Enforced' },
-                { label: 'COMPLIANCE', value: 100, suffix: '%', desc: 'GFR 2017 & BIS Act 2016' },
-                { label: 'BIAS SCORE', value: 0, suffix: '%', desc: 'Single-Vendor Proprietary Bias' },
+                { label: 'STANDARDS', value: 22410, suffix: '+', desc: t?.landing?.statStandardsLabel || 'Active Bureau of Indian Standards' },
+                { label: 'QCO DECREES', value: 142, suffix: '+', desc: t?.landing?.statQcoLabel || 'Mandatory Gazette QCOs Enforced' },
+                { label: 'COMPLIANCE', value: 100, suffix: '%', desc: t?.landing?.statNormativeLabel || 'GFR 2017 & BIS Act 2016' },
+                { label: 'BIAS SCORE', value: 0, suffix: '%', desc: t?.landing?.statDisputesLabel || 'Single-Vendor Proprietary Bias' },
               ].map((stat, i) => (
                 <div key={i} className="p-6 text-center hover:bg-slate-50/50 dark:hover:bg-white/[0.02] transition-colors">
                   <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-slate-500 dark:text-slate-400 block mb-1.5">
@@ -412,7 +483,9 @@ export function LandingView() {
             <div className="p-6 sm:p-8 space-y-6">
               {/* Presets */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Select Specification:</span>
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                  {lang === 'hi' ? 'विशिष्टता चुनें:' : lang === 'gu' ? 'વિશિષ્ટતા પસંદ કરો:' : 'Select Specification:'}
+                </span>
                 <div className="flex flex-wrap gap-2">
                   {liveDemoPresets.map((preset, idx) => (
                     <button
@@ -439,14 +512,14 @@ export function LandingView() {
                     value={demoQuery}
                     onChange={(e) => setDemoQuery(e.target.value)}
                     className="flex-1 px-3.5 py-3.5 bg-transparent text-slate-900 dark:text-white placeholder-slate-400 text-xs sm:text-sm font-mono outline-none"
-                    placeholder="Enter or paste draft procurement BOQ specification..."
+                    placeholder={t?.input?.naturalQueryPlaceholder || 'Enter or paste draft procurement BOQ specification...'}
                   />
                   <button
                     type="submit"
                     disabled={isResolving}
                     className="px-5 py-2.5 mr-2 rounded-xl bg-[#0B1E36] dark:bg-white text-white dark:text-[#07080A] text-xs font-bold font-mono disabled:opacity-40 hover:bg-[#132845] dark:hover:bg-slate-100 transition-all cursor-pointer flex items-center gap-1.5"
                   >
-                    <span>{isResolving ? 'Resolving...' : 'Execute RAG'}</span>
+                    <span>{isResolving ? (lang === 'hi' ? 'हल कर रहा है...' : lang === 'gu' ? 'શોધી રહ્યું છે...' : 'Resolving...') : (lang === 'hi' ? 'आरएजी चलाएं' : lang === 'gu' ? 'RAG ચલાવો' : 'Execute RAG')}</span>
                     <Send className="w-3 h-3 text-amber-400 dark:text-slate-900" />
                   </button>
                 </div>
@@ -459,7 +532,9 @@ export function LandingView() {
                   <div className="p-6 rounded-2xl bg-slate-50/70 dark:bg-white/[0.02] border border-slate-200/70 dark:border-white/[0.05] space-y-4 h-full flex flex-col justify-between">
                     <div className="space-y-3">
                       <div className="flex items-center justify-between text-xs font-mono">
-                        <span className="font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Extracted Vector</span>
+                        <span className="font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                          {lang === 'hi' ? 'निकाला गया वेक्टर' : lang === 'gu' ? 'એક્સટ્રેક્ટ કરેલ વેક્ટર' : 'Extracted Vector'}
+                        </span>
                         <span className="text-[10px] text-[#1E3A5F] dark:text-amber-400 px-2 py-0.5 rounded-full bg-[#1E3A5F]/10 dark:bg-amber-500/10 border border-[#1E3A5F]/20 dark:border-amber-500/20">{resolvedResult.denseVector}</span>
                       </div>
                       <div className="p-3.5 rounded-xl bg-white dark:bg-black/40 border border-slate-200/80 dark:border-white/[0.05] font-mono text-xs text-slate-800 dark:text-slate-300 leading-relaxed">
@@ -469,7 +544,7 @@ export function LandingView() {
                       </div>
                       <div>
                         <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block mb-2">
-                          Normative References:
+                          {lang === 'hi' ? 'प्रामाणिक संदर्भ:' : lang === 'gu' ? 'પ્રમાણભૂત સંદર્ભો:' : 'Normative References:'}
                         </span>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                           {resolvedResult.normative.map((test, i) => (
@@ -482,7 +557,7 @@ export function LandingView() {
                       </div>
                     </div>
                     <div className="pt-3 border-t border-slate-200/80 dark:border-white/[0.05] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-slate-400">
-                      <span>Division: <strong className="text-slate-900 dark:text-white">{resolvedResult.division}</strong></span>
+                      <span>{lang === 'hi' ? 'विभाग' : lang === 'gu' ? 'વિભાગ' : 'Division'}: <strong className="text-slate-900 dark:text-white">{resolvedResult.division}</strong></span>
                       <span>MII: <strong className="text-emerald-600 dark:text-emerald-400">{resolvedResult.mii}</strong></span>
                     </div>
                   </div>
@@ -494,7 +569,7 @@ export function LandingView() {
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-300 px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30">
-                          Top Match • {resolvedResult.confidence}%
+                          {lang === 'hi' ? 'सर्वोत्तम मिलान' : lang === 'gu' ? 'શ્રેષ્ઠ મેળ' : 'Top Match'} • {resolvedResult.confidence}%
                         </span>
                         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                       </div>
@@ -505,7 +580,9 @@ export function LandingView() {
                       <div className="p-3.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-200 text-xs flex items-start gap-2.5">
                         <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                         <div>
-                          <span className="font-bold font-mono uppercase text-[9px] text-amber-300 block">STATUTORY GAZETTE DECREE:</span>
+                          <span className="font-bold font-mono uppercase text-[9px] text-amber-300 block">
+                            {lang === 'hi' ? 'वैधानिक गजट आदेश:' : lang === 'gu' ? 'વૈધાનિક ગેઝેટ હુકમ:' : 'STATUTORY GAZETTE DECREE:'}
+                          </span>
                           <p className="mt-0.5 text-xs text-amber-100 font-medium">{resolvedResult.qco}</p>
                         </div>
                       </div>
@@ -514,7 +591,7 @@ export function LandingView() {
                       onClick={() => { loadScenario(resolvedResult.scenarioId); navigate('/dashboard'); }}
                       className="w-full py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-amber-400/20"
                     >
-                      <span>Launch Full Tender Matrix</span>
+                      <span>{t?.landing?.ctaLaunch || 'Launch Full Tender Matrix'}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -533,22 +610,22 @@ export function LandingView() {
           <ScrollReveal direction="left" className="lg:col-span-5">
             <div className="space-y-4">
               <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#1E3A5F] dark:text-amber-400 block">
-                The Statutory Mandate
+                {t?.landing?.problemSolutionSubtitle || 'The Statutory Mandate'}
               </span>
               <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
-                Eliminating Vulnerabilities in Public Tenders.
+                {t?.landing?.problemSolutionTitle || 'Eliminating Vulnerabilities in Public Tenders.'}
               </h2>
               <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
-                Public procurement officers face immense legal liability under CAG audits and CVC scrutiny when tender specifications inadvertently cite outdated standards or embed single-vendor proprietary parameters.
+                {t?.landing?.aboutP1 || 'Public procurement officers face immense legal liability under CAG audits and CVC scrutiny when tender specifications inadvertently cite outdated standards or embed single-vendor proprietary parameters.'}
               </p>
             </div>
           </ScrollReveal>
 
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
-              { icon: Scale, title: 'GFR Anti-Bias Guard', desc: 'Audits against Rule 144(xi) to stop restrictive custom tolerances.' },
-              { icon: Database, title: '22,410+ Standards', desc: 'Traverses normative reference graphs for raw material dependencies.' },
-              { icon: ShieldCheck, title: 'SHA-256 Passports', desc: 'Verifiable QR compliance certificates for on-site physical inspection.' },
+              { icon: Scale, title: t?.landing?.card1Title || 'GFR Anti-Bias Guard', desc: t?.landing?.card1Problem || 'Audits against Rule 144(xi) to stop restrictive custom tolerances.' },
+              { icon: Database, title: t?.landing?.card2Title || '22,410+ Standards', desc: t?.landing?.card2Problem || 'Traverses normative reference graphs for raw material dependencies.' },
+              { icon: ShieldCheck, title: t?.landing?.card3Title || 'SHA-256 Passports', desc: t?.landing?.card3Problem || 'Verifiable QR compliance certificates for on-site physical inspection.' },
             ].map((card, i) => (
               <ScrollReveal key={i} direction="up" delay={i + 1}>
                 <div className="p-6 rounded-3xl bg-white/75 dark:bg-[#0E1322]/70 backdrop-blur-xl border border-slate-200/80 dark:border-white/[0.08] shadow-lg space-y-3 h-full hover:border-[#1E3A5F]/40 dark:hover:border-white/20 transition-all">
@@ -572,11 +649,15 @@ export function LandingView() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
             <div>
               <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#1E3A5F] dark:text-amber-400 block mb-2">
-                4-Tier System Architecture
+                {t?.landing?.archSubtitle || '4-Tier System Architecture'}
               </span>
-              <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">End-to-End Pipeline</h2>
+              <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">{t?.landing?.archTitle || 'End-to-End Pipeline'}</h2>
             </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm">Click any tier to inspect vector dimensions, compliance gates, and export pipelines.</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm">
+              {lang === 'hi' ? 'वेक्टर आयामों, अनुपालन द्वारों और निर्यात पाइपलाइनों का निरीक्षण करने के लिए किसी भी स्तर पर क्लिक करें।' :
+               lang === 'gu' ? 'વેક્ટર પરિમાણો અને નિકાસ પાઇપલાઇન્સનું નિરીક્ષણ કરવા માટે કોઈપણ સ્તર પર ક્લિક કરો.' :
+               'Click any tier to inspect vector dimensions, compliance gates, and export pipelines.'}
+            </p>
           </div>
         </ScrollReveal>
 
@@ -611,7 +692,9 @@ export function LandingView() {
                     <div className="mt-5 pt-5 border-t border-slate-200/80 dark:border-white/[0.06] grid grid-cols-1 md:grid-cols-12 gap-5 animate-in fade-in duration-200">
                       <p className="md:col-span-8 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{row.description}</p>
                       <div className="md:col-span-4 space-y-2">
-                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">Core Capabilities:</span>
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
+                          {lang === 'hi' ? 'मुख्य क्षमताएं:' : lang === 'gu' ? 'મુખ્ય ક્ષમતાઓ:' : 'Core Capabilities:'}
+                        </span>
                         {row.specs.map((spec, sIdx) => (
                           <div key={sIdx} className="flex items-center gap-2 text-xs font-mono text-slate-700 dark:text-slate-300">
                             <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
@@ -634,8 +717,12 @@ export function LandingView() {
       <section id="corpus" className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         <ScrollReveal>
           <div className="p-8 sm:p-12 rounded-3xl bg-white/75 dark:bg-[#0E1322]/70 backdrop-blur-2xl border border-slate-200/80 dark:border-white/[0.08] shadow-2xl">
-            <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#1E3A5F] dark:text-amber-400 mb-2 block">Universal Standards Corpus</span>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-6">6 Technical BIS Divisions</h2>
+            <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#1E3A5F] dark:text-amber-400 mb-2 block">
+              {t?.landing?.divisionsSubtitle || 'Universal Standards Corpus'}
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-6">
+              {t?.landing?.divisionsTitle || '6 Technical BIS Divisions'}
+            </h2>
             
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 mb-6">
               {BIS_DIVISIONS.map((div) => (
@@ -654,22 +741,28 @@ export function LandingView() {
                     {div.code}
                   </span>
                   <p className="text-xs font-bold truncate">{div.shortName}</p>
-                  <p className="text-[10px] font-mono opacity-80 mt-0.5">{div.standardsCount.toLocaleString()} Stds</p>
+                  <p className="text-[10px] font-mono opacity-80 mt-0.5">{div.standardsCount.toLocaleString()} {lang === 'hi' ? 'मानक' : lang === 'gu' ? 'ધોરણો' : 'Stds'}</p>
                 </button>
               ))}
             </div>
 
             <div className="p-6 rounded-2xl bg-slate-50/70 dark:bg-white/[0.02] border border-slate-200/70 dark:border-white/[0.05] grid grid-cols-1 md:grid-cols-3 gap-5">
               <div>
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">Division</span>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
+                  {lang === 'hi' ? 'विभाग' : lang === 'gu' ? 'વિભાગ' : 'Division'}
+                </span>
                 <p className="text-sm font-bold text-slate-900 dark:text-white mt-1">{activeDivInfo.fullName}</p>
               </div>
               <div>
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">Standards & QCOs</span>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
+                  {lang === 'hi' ? 'मानक और क्यूसीओ' : lang === 'gu' ? 'ધોરણો અને QCO' : 'Standards & QCOs'}
+                </span>
                 <p className="text-sm font-bold font-mono text-[#1E3A5F] dark:text-amber-400 mt-1">{activeDivInfo.standardsCount.toLocaleString()} Active Standards • {activeDivInfo.activeQCOs} QCOs</p>
               </div>
               <div>
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">Scope</span>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
+                  {lang === 'hi' ? 'कार्यक्षेत्र' : lang === 'gu' ? 'કાર્યક્ષેત્ર' : 'Scope'}
+                </span>
                 <p className="text-xs text-slate-700 dark:text-slate-300 mt-1 leading-relaxed">{activeDivInfo.keyProducts}</p>
               </div>
             </div>
@@ -684,9 +777,17 @@ export function LandingView() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           <ScrollReveal direction="left" className="lg:col-span-4">
             <div className="space-y-3">
-              <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#1E3A5F] dark:text-amber-400 block">Knowledge Base</span>
-              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">Frequently Asked Questions</h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Statutory guidance regarding BIS Act 2016 and GFR 2017 compliance.</p>
+              <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#1E3A5F] dark:text-amber-400 block">
+                {t?.landing?.aboutSubtitle || 'Knowledge Base'}
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
+                {t?.landing?.aboutTitle || 'Frequently Asked Questions'}
+              </h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                {lang === 'hi' ? 'बीआईएस अधिनियम 2016 और जीएफआर 2017 अनुपालन के संबंध में वैधानिक मार्गदर्शन।' :
+                 lang === 'gu' ? 'BIS એક્ટ 2016 અને GFR 2017 પાલન અંગે વૈધાનિક માર્ગદર્શન.' :
+                 'Statutory guidance regarding BIS Act 2016 and GFR 2017 compliance.'}
+              </p>
             </div>
           </ScrollReveal>
 
@@ -718,22 +819,28 @@ export function LandingView() {
       </section>
 
       {/* ================================================================ */}
-      {/* CTA                                                              */}
+      {/* CTA BANNER                                                       */}
       {/* ================================================================ */}
       <section className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         <ScrollReveal>
           <div className="rounded-3xl p-10 sm:p-14 bg-gradient-to-br from-[#0B1E36] via-[#10243E] to-[#0B1428] text-white border border-[#1E3A5F]/50 shadow-2xl backdrop-blur-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-96 h-96 bg-[radial-gradient(circle,rgba(245,158,11,0.15),transparent_70%)] rounded-full blur-3xl pointer-events-none" />
             <div className="max-w-lg space-y-4 relative z-10">
-              <span className="text-xs font-mono font-bold uppercase tracking-widest text-amber-400 block">Procurement Modernization</span>
-              <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">Ready to create audit-proof tenders?</h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">Evaluate specifications against 22,410+ Indian Standards in milliseconds. Built for Government Ministries and PSUs.</p>
+              <span className="text-xs font-mono font-bold uppercase tracking-widest text-amber-400 block">
+                {lang === 'hi' ? 'खरीद आधुनिकीकरण' : lang === 'gu' ? 'પ્રાપ્તિ આધુનિકીકરણ' : 'Procurement Modernization'}
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
+                {t?.landing?.ctaBannerTitle || 'Ready to create audit-proof tenders?'}
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+                {t?.landing?.ctaBannerSubtitle || 'Evaluate specifications against 22,410+ Indian Standards in milliseconds. Built for Government Ministries and PSUs.'}
+              </p>
               <div className="flex flex-wrap gap-3 pt-2">
                 <button
                   onClick={() => navigate('/login')}
                   className="px-6 py-3 rounded-full text-xs font-bold bg-amber-400 hover:bg-amber-300 text-slate-950 shadow-lg shadow-amber-400/20 transition-all flex items-center gap-2 cursor-pointer"
                 >
-                  <span>Start Audit</span>
+                  <span>{t?.landing?.ctaBannerBtn || 'Start Audit'}</span>
                   <ArrowRight className="w-3.5 h-3.5 text-slate-950" />
                 </button>
                 <button
@@ -741,7 +848,7 @@ export function LandingView() {
                   className="px-6 py-3 rounded-full text-xs font-bold bg-white/10 hover:bg-white/20 text-white border border-white/15 transition-all flex items-center gap-2 cursor-pointer"
                 >
                   <Terminal className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Launch Sandbox</span>
+                  <span>{t?.landing?.ctaExplore || 'Launch Sandbox'}</span>
                 </button>
               </div>
             </div>
@@ -763,15 +870,19 @@ export function LandingView() {
                   </div>
                   <span className="font-bold text-sm text-slate-900 dark:text-white">BIS<span className="text-[#1E3A5F] dark:text-[#93B5D9] font-serif italic">Engine</span></span>
                 </div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">National AI-Powered Recommendation Engine for Indian Standards & GFR 2017 Compliance.</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
+                  {t?.nav?.brandSubtitle || 'National AI-Powered Recommendation Engine for Indian Standards & GFR 2017 Compliance.'}
+                </p>
                 <div className="flex items-center gap-1.5 text-[11px] font-mono font-bold text-emerald-600 dark:text-emerald-400">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> All Systems Operational
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> {lang === 'hi' ? 'सभी सिस्टम चालू हैं' : lang === 'gu' ? 'બધી સિસ્ટમો સક્રિય છે' : 'All Systems Operational'}
                 </div>
               </div>
             </ScrollReveal>
             <ScrollReveal direction="up" delay={2}>
               <div className="space-y-2">
-                <p className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 dark:text-white">Statutory Frameworks</p>
+                <p className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 dark:text-white">
+                  {lang === 'hi' ? 'वैधानिक ढांचा' : lang === 'gu' ? 'વૈધાનિક માળખું' : 'Statutory Frameworks'}
+                </p>
                 <ul className="text-xs space-y-1.5 text-slate-500 dark:text-slate-400 font-normal">
                   <li>• BIS Act 2016 (Section 16)</li>
                   <li>• GFR 2017 Rule 144(xi)</li>
@@ -782,7 +893,9 @@ export function LandingView() {
             </ScrollReveal>
             <ScrollReveal direction="up" delay={3}>
               <div className="space-y-2">
-                <p className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 dark:text-white">Core Capabilities</p>
+                <p className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 dark:text-white">
+                  {lang === 'hi' ? 'मुख्य क्षमताएं' : lang === 'gu' ? 'મુખ્ય ક્ષમતાઓ' : 'Core Capabilities'}
+                </p>
                 <ul className="text-xs space-y-1.5 text-slate-500 dark:text-slate-400 font-normal">
                   <li>• 768-D Vector Retrieval</li>
                   <li>• Normative Graph Traversal</li>
@@ -802,8 +915,8 @@ export function LandingView() {
           <div className="pt-6 border-t border-slate-200/80 dark:border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400 font-mono">
             <p>© 2026 BIS Standards Engine. Smart India Hackathon 2026. All rights reserved.</p>
             <div className="flex gap-6">
-              <span className="hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer">Security Policy</span>
-              <span className="hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer">Terms of Service</span>
+              <span className="hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer">{lang === 'hi' ? 'सुरक्षा नीति' : lang === 'gu' ? 'સુરક્ષા નીતિ' : 'Security Policy'}</span>
+              <span className="hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer">{lang === 'hi' ? 'सेवा की शर्तें' : lang === 'gu' ? 'સેવાની શરતો' : 'Terms of Service'}</span>
             </div>
           </div>
         </div>
