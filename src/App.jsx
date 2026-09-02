@@ -12,13 +12,14 @@ import { InputFormView } from './views/InputFormView';
 import { AnalyzingView } from './views/AnalyzingView';
 import { DashboardView } from './views/DashboardView';
 import { ReportsView } from './views/ReportsView';
+import { SandboxView } from './views/SandboxView';
 
 function AppLayout({ children }) {
   const location = useLocation();
   const isCustomOrAuthPage = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/analyzing';
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#090D16] text-slate-900 dark:text-slate-100 selection:bg-blue-600 selection:text-white transition-colors duration-200">
+    <div className="min-h-screen flex flex-col bg-[#F1F5F9] dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 selection:bg-blue-600 selection:text-white transition-colors duration-200">
       {!isCustomOrAuthPage && <Navbar />}
       <main className="flex-1">
         {children}
@@ -39,6 +40,7 @@ export function App() {
               <Routes>
                 <Route path="/" element={<LandingView />} />
                 <Route path="/login" element={<LoginView />} />
+                <Route path="/sandbox" element={<SandboxView />} />
                 <Route path="/input" element={<InputFormView />} />
                 <Route path="/analyzing" element={<AnalyzingView />} />
                 <Route path="/dashboard" element={<DashboardView />} />
