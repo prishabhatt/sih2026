@@ -230,7 +230,7 @@ export function Navbar() {
 
       {/* Relocated Navigation Stepper (Centered Layout, floats below header) */}
       <div className="w-full px-4 sm:px-6 lg:px-8 mt-6 mb-8 relative z-30 flex justify-center">
-        <nav className="inline-flex flex-nowrap items-center bg-white dark:bg-zinc-900/90 p-1.5 rounded-full border border-zinc-200 dark:border-zinc-800 shadow-sm overflow-x-auto max-w-full no-scrollbar">
+        <nav className="inline-flex flex-nowrap items-center glass-pill-container p-1.5 rounded-full overflow-x-auto max-w-full no-scrollbar shadow-lg">
           {navSteps.map((step) => {
             const isActive = location.pathname === step.path;
             
@@ -238,10 +238,10 @@ export function Navbar() {
               <Link
                 key={step.path}
                 to={step.path}
-                className={`px-4 py-2 rounded-full text-xs transition-all whitespace-nowrap ${
+                className={`px-4 py-2 rounded-full text-xs transition-all duration-200 whitespace-nowrap ${
                   isActive
-                    ? 'bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900 font-semibold shadow-sm'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 font-medium hover:bg-slate-50 dark:hover:bg-zinc-800/50'
+                    ? 'glass-pill-active text-slate-900 dark:text-white font-bold scale-[1.02]'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 font-medium hover:bg-white/40 dark:hover:bg-white/[0.04]'
                 }`}
               >
                 {step.short}
