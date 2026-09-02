@@ -17,9 +17,9 @@ export function SampleDataDrawer() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden bg-black/60 backdrop-blur-md flex justify-end">
-      <div className="w-full max-w-md glass-card rounded-l-3xl h-full shadow-2xl border-l border-white/70 dark:border-white/20 flex flex-col animate-in slide-in-from-right duration-200 text-slate-900 dark:text-slate-100 transition-all">
-        <div className="p-6 flex items-center justify-between border-b border-slate-200/80 dark:border-white/10 bg-white/40 dark:bg-white/[0.02]">
+    <div className="fixed inset-0 z-50 overflow-hidden bg-black/60 flex justify-end">
+      <div className="w-full max-w-md bg-white dark:bg-[#0B132B] rounded-l-3xl h-full shadow-2xl border-l border-slate-200 dark:border-slate-800 flex flex-col animate-in slide-in-from-right duration-200 text-slate-900 dark:text-slate-100 transition-all">
+        <div className="p-6 flex items-center justify-between border-b border-slate-200/80 dark:border-white/10 bg-slate-50/80 dark:bg-[#070B14]">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 flex items-center justify-center font-bold shadow-xs">
               <Sparkles className="w-4 h-4 text-amber-500" />
@@ -37,22 +37,22 @@ export function SampleDataDrawer() {
           </button>
         </div>
 
-        <div className="p-5 overflow-y-auto flex-1 space-y-3.5 bg-white/30 dark:bg-[#070B14]/40">
+        <div className="p-5 overflow-y-auto flex-1 space-y-3.5 bg-white dark:bg-[#090D1A]">
           {SAMPLE_SCENARIOS.map((scenario) => (
             <div
               key={scenario.id}
               onClick={() => handleSelectScenario(scenario.id)}
-              className="glass-card p-4 rounded-2xl hover:border-[#292524] dark:hover:border-white/30 transition-all cursor-pointer group shadow-xs"
+              className="bg-slate-50 dark:bg-[#0E1529] border border-slate-200 dark:border-white/10 p-4 rounded-2xl hover:border-blue-500 dark:hover:border-blue-400 transition-all cursor-pointer group shadow-xs"
             >
               <div className="flex items-start justify-between">
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#292524] dark:text-[#A8A29E] bg-[#292524]/10 px-2.5 py-0.5 rounded-full border border-[#292524]/20">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 px-2.5 py-0.5 rounded-full border border-blue-200 dark:border-blue-800/40">
                   {scenario.division}
                 </span>
-                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 group-hover:text-[#292524] dark:group-hover:text-[#A8A29E] transition flex items-center gap-1">
-                  Load <ArrowRight className="w-3.5 h-3.5 text-amber-400 group-hover:translate-x-0.5 transition-transform" />
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition flex items-center gap-1">
+                  Load <ArrowRight className="w-3.5 h-3.5 text-amber-500 group-hover:translate-x-0.5 transition-transform" />
                 </span>
               </div>
-              <h4 className="font-extrabold text-xs text-slate-900 dark:text-white mt-2.5 group-hover:text-[#292524] dark:group-hover:text-[#A8A29E] transition">
+              <h4 className="font-extrabold text-xs text-slate-900 dark:text-white mt-2.5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">
                 {scenario.title}
               </h4>
               <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 font-normal">
