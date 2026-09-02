@@ -10,7 +10,7 @@ import {
   Download,
   QrCode
 } from 'lucide-react';
-import confetti from 'canvas-confetti';
+import { triggerVerification } from "../utils/verificationPulse";
 import { useProcurement } from '../context/ProcurementContext';
 import { MOCK_STANDARDS } from '../data/mockStandardsData';
 import { DigitalPassportQR } from '../components/DigitalPassportQR';
@@ -33,7 +33,7 @@ export function ReportsView() {
   const selectedStds = MOCK_STANDARDS.filter((s) => selectedStandardIds.includes(s.id));
 
   const handlePrint = () => {
-    confetti({ particleCount: 30, spread: 40, origin: { y: 0.9 } });
+    triggerVerification();
     window.print();
   };
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, ShieldCheck, ChevronDown, GitFork, Filter, Copy, Check, FileText, Layers, ExternalLink, XCircle, Sparkles, SlidersHorizontal } from 'lucide-react';
-import confetti from 'canvas-confetti';
+import { triggerVerification } from "../utils/verificationPulse";
 
 const DIVISION_OPTIONS = [
   { id: 'ALL', label: 'All Divisions', count: '22.4k' },
@@ -58,12 +58,7 @@ export function StandardsTable({
 
   const handleAddClick = (stdId, isCurrentlySelected) => {
     if (!isCurrentlySelected) {
-      confetti({
-        particleCount: 25,
-        spread: 40,
-        origin: { y: 0.8 },
-        colors: ['#10B981', '#1D4ED8', '#F59E0B']
-      });
+      triggerVerification();
     }
     onToggleStandard && onToggleStandard(stdId);
   };

@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { 
   X, 
   GitFork, 
@@ -24,14 +25,20 @@ export function NormativeTreeModal() {
   const rawTests = standard.normativeReferences?.rawMaterialTests || [];
   const safetyCodes = standard.normativeReferences?.safetyCodes || [];
 
-  return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-md flex items-center justify-center p-4">
-      <div className="relative glass-card rounded-3xl max-w-4xl w-full shadow-2xl border border-white/70 dark:border-white/20 max-h-[90vh] flex flex-col overflow-hidden text-slate-900 dark:text-slate-100 transition-all">
+  return createPortal(
+    <div 
+      className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 bg-slate-950/75 backdrop-blur-xl animate-in fade-in duration-200"
+      onClick={() => setIsNormativeModalOpen(false)}
+    >
+      <div 
+        className="relative bg-white dark:bg-[#0B111E] rounded-[2rem] max-w-4xl w-full shadow-[0_25px_70px_rgba(0,0,0,0.5)] border-2 border-white dark:border-white/20 max-h-[90vh] flex flex-col overflow-hidden text-slate-900 dark:text-slate-100 transition-all animate-in fade-in zoom-in-95 duration-150"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
-        <div className="p-6 sm:p-7 flex items-start justify-between border-b border-slate-200/80 dark:border-white/10 bg-white/40 dark:bg-white/[0.02]">
+        <div className="p-6 sm:p-7 flex items-start justify-between border-b border-slate-200/80 dark:border-white/10 bg-white/60 dark:bg-white/[0.02] backdrop-blur-md shrink-0">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="glass-pill-container px-3 py-0.5 rounded-full text-[#292524] dark:text-[#A8A29E] text-xs font-mono font-bold shadow-xs">
+              <span className="bg-amber-500/15 border border-amber-500/30 px-3 py-0.5 rounded-full text-amber-700 dark:text-amber-400 text-xs font-bold shadow-xs">
                 {standard.code}
               </span>
               <Badge variant="qco" size="sm">
@@ -47,96 +54,59 @@ export function NormativeTreeModal() {
           </div>
           <button
             onClick={() => setIsNormativeModalOpen(false)}
-            className="text-slate-400 hover:text-slate-700 dark:hover:text-white p-2 rounded-full hover:bg-slate-200/60 dark:hover:bg-white/10 transition cursor-pointer"
+            className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/10 dark:hover:bg-white/20 border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold transition cursor-pointer text-xs"
           >
-            <X className="w-5 h-5" />
+            ✕
           </button>
         </div>
 
-        {/* Modal Body */}
-        <div className="p-6 overflow-y-auto space-y-6 flex-1 bg-white/30 dark:bg-[#070B14]/40">
-          {/* Root standard */}
-          <div className="glass-card p-4 sm:p-5 rounded-2xl flex items-center justify-between border border-white/70 dark:border-white/10">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-[#292524]/10 dark:bg-[#292524]/25 text-[#292524] dark:text-[#A8A29E] flex items-center justify-center font-bold shadow-xs">
-                <GitFork className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-wider text-[#292524] dark:text-[#A8A29E] font-mono">Root Specification</p>
-                <h3 className="font-black text-sm sm:text-base text-slate-900 dark:text-white">{standard.code}</h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 truncate max-w-xl">{standard.title}</p>
-              </div>
-            </div>
-            <span className="text-xs font-mono font-bold text-slate-700 dark:text-slate-300 glass-pill-container px-3 py-1 rounded-full shadow-xs">
-              Division: {standard.division}
-            </span>
-          </div>
-
-          {/* Tier 1: Raw Material Tests */}
+        {/* Tree Content */}
+        <div className="p-6 overflow-y-auto flex-1 space-y-6 bg-slate-50/50 dark:bg-black/20">
+          {/* Tier 1: Raw Material Acceptance Tests */}
           <div>
             <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <span className="w-5 h-5 rounded-full bg-[#059669]/15 text-emerald-600 dark:text-[#059669] flex items-center justify-center text-[10px] font-mono font-bold">
-                  1
-                </span>
-                <h4 className="font-extrabold text-xs text-slate-900 dark:text-white uppercase tracking-wider">
-                  Mandatory Raw Material & Laboratory Test Codes (Normative References)
-                </h4>
-              </div>
-              <span className="text-xs text-slate-400 font-mono">
-                {currentSelectedTests.length}/{rawTests.length} active
+              <h4 className="font-extrabold text-xs text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+                <GitFork className="w-4 h-4 text-[#292524] dark:text-[#A8A29E]" />
+                Mandatory Raw Material Tests ({rawTests.length} Stipulated)
+              </h4>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold">
+                Click test code to bundle in tender NIT
               </span>
             </div>
 
-            <div className="space-y-3">
-              {rawTests.map((test) => {
-                const isChecked = currentSelectedTests.includes(test.code);
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {rawTests.map((t, idx) => {
+                const isSelected = currentSelectedTests.includes(t.code);
                 return (
                   <div
-                    key={test.code}
-                    onClick={() => toggleNormativeTest(standard.id, test.code)}
+                    key={idx}
+                    onClick={() => toggleNormativeTest(standard.id, t.code)}
                     className={`p-4 rounded-2xl border transition-all cursor-pointer ${
-                      isChecked
-                        ? 'glass-pill-active border-[#059669]/50 dark:border-[#059669]/40 text-slate-900 dark:text-white shadow-sm ring-1 ring-emerald-500/20'
-                        : 'glass-card hover:border-slate-300 dark:hover:border-white/20 text-slate-700 dark:text-slate-300'
+                      isSelected
+                        ? 'bg-white dark:bg-white/10 border-slate-900 dark:border-white shadow-md'
+                        : 'bg-white/60 dark:bg-white/[0.02] border-slate-200/80 dark:border-white/10 hover:border-slate-400'
                     }`}
                   >
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex items-start gap-3">
-                        <div className="mt-0.5 text-emerald-600 dark:text-[#059669]">
-                          {isChecked ? (
-                            <CheckSquare className="w-4 h-4" />
-                          ) : (
-                            <Square className="w-4 h-4 text-slate-400 dark:text-slate-600" />
-                          )}
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="font-bold text-xs text-slate-900 dark:text-white font-mono">
-                              {test.code}
-                            </span>
-                            <span className="text-xs text-slate-600 dark:text-slate-300 font-medium">
-                              - {test.title}
-                            </span>
-                          </div>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                            <strong className="text-slate-700 dark:text-slate-300 font-bold">Test Method:</strong> {test.testMethod}
-                          </p>
-                          <div className="mt-2.5 flex flex-wrap items-center gap-2 text-[11px]">
-                            <span className="px-2.5 py-0.5 rounded-full glass-pill-container text-slate-700 dark:text-slate-300 font-mono text-[10px] font-bold">
-                              {test.mandatoryClause}
-                            </span>
-                            <span className="px-2.5 py-0.5 rounded-full bg-[#059669]/10 text-emerald-700 dark:text-emerald-300 text-[10px] font-bold">
-                              {test.importance}
-                            </span>
-                          </div>
-                        </div>
+                    <div className="flex items-start justify-between gap-2 mb-1.5">
+                      <div className="flex items-center gap-2">
+                        {isSelected ? (
+                          <CheckSquare className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                        ) : (
+                          <Square className="w-4 h-4 text-slate-400 shrink-0" />
+                        )}
+                        <span className="font-bold text-xs text-slate-900 dark:text-white">
+                          {t.code}
+                        </span>
                       </div>
-                      <span className={`text-[11px] font-extrabold px-3 py-1 rounded-full shrink-0 ${
-                        isChecked ? 'bg-emerald-600 text-white shadow-xs' : 'glass-pill-container text-slate-600 dark:text-slate-400'
-                      }`}>
-                        {isChecked ? 'Included' : '+ Add'}
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 font-semibold">
+                        {t.parameter}
                       </span>
+                    </div>
+                    <p className="text-xs text-slate-600 dark:text-slate-300 ml-6 font-medium">
+                      {t.name}
+                    </p>
+                    <div className="mt-2 ml-6 text-[11px] text-slate-400 font-normal">
+                      Mandatory Acceptance Threshold: <strong className="text-slate-700 dark:text-slate-200">{t.threshold}</strong>
                     </div>
                   </div>
                 );
@@ -144,55 +114,60 @@ export function NormativeTreeModal() {
             </div>
           </div>
 
-          {/* Tier 2: Safety & Installation Codes */}
+          {/* Tier 2: Safety & Environmental Codes */}
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <span className="w-5 h-5 rounded-full bg-[#292524]/15 text-[#292524] dark:text-[#A8A29E] flex items-center justify-center text-[10px] font-mono font-bold">
-                2
-              </span>
-              <h4 className="font-extrabold text-xs text-slate-900 dark:text-white uppercase tracking-wider">
-                Statutory Safety Codes & Execution Standards
-              </h4>
-            </div>
+            <h4 className="font-extrabold text-xs text-slate-900 dark:text-white uppercase tracking-wider mb-3 flex items-center gap-2">
+              <GitFork className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              Statutory Fire & Environmental Safety Baselines ({safetyCodes.length} Codes)
+            </h4>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {safetyCodes.map((safe) => (
-                <div key={safe.code} className="glass-card p-4 rounded-2xl">
-                  <span className="font-mono font-bold text-xs text-[#292524] dark:text-[#A8A29E] block mb-1">
-                    {safe.code}
-                  </span>
-                  <h5 className="font-bold text-xs text-slate-900 dark:text-white mb-1">{safe.title}</h5>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">{safe.summary}</p>
+            <div className="space-y-2.5">
+              {safetyCodes.map((s, idx) => (
+                <div key={idx} className="p-3.5 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="font-bold text-xs text-slate-900 dark:text-white">
+                      {s.code}
+                    </span>
+                    <span className="text-xs text-slate-600 dark:text-slate-300 font-medium">
+                      {s.name}
+                    </span>
+                  </div>
+                  <Badge variant="verified" size="sm">
+                    {s.role}
+                  </Badge>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Tier 3: Sampling Frequency */}
-          <div className="glass-card p-4 rounded-2xl border border-amber-500/30">
-            <h4 className="font-bold text-xs text-amber-600 dark:text-amber-400 uppercase tracking-wider mb-1 flex items-center gap-2">
+          <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30">
+            <h4 className="font-bold text-xs text-amber-700 dark:text-amber-400 uppercase tracking-wider mb-1 flex items-center gap-2">
               <HardHat className="w-4 h-4 text-amber-500" />
               Mandatory Sampling Frequency & Field Inspection Rule
             </h4>
-            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
+            <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
               {standard.normativeReferences?.samplingFrequency || 'Standard batch testing of 1 sample per manufactured lot.'}
             </p>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="p-5 border-t border-slate-200/80 dark:border-white/10 flex items-center justify-between bg-white/40 dark:bg-white/[0.02]">
-          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+        <div className="p-5 border-t border-slate-200/80 dark:border-white/10 flex items-center justify-between bg-white/60 dark:bg-white/[0.02] backdrop-blur-md shrink-0">
+          <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
             Toggling test codes recalculates the <strong className="text-slate-900 dark:text-white font-bold">Compliance Completeness Index</strong>.
           </p>
           <button
             onClick={() => setIsNormativeModalOpen(false)}
-            className="glass-btn-primary shimmer-sweep px-5 py-2.5 rounded-full text-white text-xs font-extrabold transition shadow-md cursor-pointer"
+            className="bg-[#0B1E36] hover:bg-[#132845] dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 text-xs font-black px-6 py-2.5 rounded-full shadow-md cursor-pointer transition-all hover:scale-105 border border-white/30 dark:border-white/10"
           >
             Apply & Close Explorer
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
+
+export default NormativeTreeModal;

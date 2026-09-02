@@ -192,6 +192,31 @@ html:not(.dark) {
   background: #404040;
 }
 
+/* Professional Verification Pulse — replaces confetti */
+@keyframes verify-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+@keyframes verify-ring {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+@keyframes verify-check {
+  0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+  60% { transform: scale(1.2) rotate(0deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.verify-pulse {
+  animation: verify-pulse 0.8s ease-out;
+}
+.verify-ring-anim {
+  animation: verify-ring 0.8s ease-out forwards;
+}
+.verify-check-anim {
+  animation: verify-check 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
 /* Print */
 @media print {
   body { background: white !important; color: black !important; }

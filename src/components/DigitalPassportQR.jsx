@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { QRCodeCanvas } from 'qrcode.react';
 import { 
   Download, 
@@ -11,7 +12,7 @@ import {
   Smartphone,
   ExternalLink
 } from 'lucide-react';
-import confetti from 'canvas-confetti';
+import { triggerVerification } from "../utils/verificationPulse";
 import { useProcurement } from '../context/ProcurementContext';
 import { MOCK_STANDARDS } from '../data/mockStandardsData';
 
@@ -114,7 +115,7 @@ export function DigitalPassportQR({ className = '', isDarkTheme = false }) {
     link.download = `BIS_Compliance_QR_Pass_${certificateId}.png`;
     link.href = brandedCanvas.toDataURL('image/png');
     link.click();
-    confetti({ particleCount: 30, spread: 40, origin: { y: 0.8 } });
+    triggerVerification();
   };
 
   const handleCopyPayload = () => {
@@ -124,16 +125,16 @@ export function DigitalPassportQR({ className = '', isDarkTheme = false }) {
   };
 
   return (
-    <div className={`rounded-3xl border p-6 glass-card shadow-xl transition-all ${className}`}>
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-5 border-b border-slate-200/80 dark:border-white/10">
+    <div className={`rounded-3xl border border-white dark:border-white/20 p-6 sm:p-8 bg-white/60 dark:bg-white/[0.04] backdrop-blur-2xl shadow-xl transition-all ${className}`}>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-5 border-b border-white dark:border-white/10">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-[#292524]/10 text-[#292524] dark:text-[#A8A29E] border border-[#292524]/20 flex items-center justify-center font-bold shadow-xs">
-            <QrCode className="w-4 h-4" />
+          <div className="w-10 h-10 rounded-2xl bg-white/80 dark:bg-white/10 text-slate-800 dark:text-slate-200 border border-white dark:border-white/20 flex items-center justify-center font-bold shadow-xs backdrop-blur-md">
+            <QrCode className="w-5 h-5 text-slate-800 dark:text-slate-200" />
           </div>
           <div>
-            <h3 className="font-extrabold text-xs uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-2">
+            <h3 className="font-black text-xs uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-2">
               <span>Physical Audit & Inventory QR Pass</span>
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#059669]/10 text-emerald-600 dark:text-[#059669] border border-[#059669]/20 font-bold">
+              <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/25 font-bold">
                 Live Scannable
               </span>
             </h3>
@@ -143,19 +144,20 @@ export function DigitalPassportQR({ className = '', isDarkTheme = false }) {
           </div>
         </div>
 
+        {/* High-Contrast Simulate Field Scan Button */}
         <button
           onClick={() => setShowScannerModal(true)}
-          className="glass-btn-secondary flex items-center gap-2 px-4 py-2 rounded-full text-slate-800 dark:text-slate-200 text-xs font-bold transition shadow-xs cursor-pointer"
+          className="bg-white/80 hover:bg-white dark:bg-white/15 dark:hover:bg-white/25 backdrop-blur-2xl border border-white dark:border-white/30 text-slate-900 dark:text-white text-xs font-extrabold px-5 py-2.5 rounded-full shadow-md flex items-center gap-2 hover:scale-105 transition-all cursor-pointer"
         >
-          <Smartphone className="w-3.5 h-3.5 text-[#292524] dark:text-[#A8A29E]" />
+          <Smartphone className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
           <span>Simulate Field Scan</span>
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 pt-5 items-center">
-        {/* QR Code Canvas */}
-        <div className="md:col-span-4 flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-slate-200 shadow-md text-center">
-          <div ref={qrRef} className="p-2 bg-white rounded-xl">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 pt-6 items-center">
+        {/* QR Code Canvas Frame Matching Input Specs */}
+        <div className="md:col-span-4 flex flex-col items-center justify-center p-5 bg-white/90 dark:bg-black/40 backdrop-blur-md rounded-2xl border border-white dark:border-white/20 shadow-md text-center">
+          <div ref={qrRef} className="p-2.5 bg-white rounded-xl shadow-xs">
             <QRCodeCanvas
               value={payloadString}
               size={148}
@@ -163,47 +165,47 @@ export function DigitalPassportQR({ className = '', isDarkTheme = false }) {
               includeMargin={true}
             />
           </div>
-          <p className="text-[10px] font-bold text-slate-800 mt-1.5">
+          <p className="text-[11px] font-bold text-slate-800 dark:text-slate-200 mt-2">
             {certificateId}
           </p>
-          <span className="text-[9px] text-slate-400 font-semibold">
-            ECC: HIGH (30% redundancy)
+          <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">
+            ECC: HIGH (30% REDUNDANCY)
           </span>
         </div>
 
         {/* Passport Details & Actions */}
-        <div className="md:col-span-8 space-y-4">
+        <div className="md:col-span-8 space-y-5">
           <div className="grid grid-cols-2 gap-3 text-[11px]">
-            <div className="p-3 rounded-2xl glass-pill-container shadow-xs">
-              <span className="text-[10px] text-slate-400 block uppercase font-bold">Tender Ref ID</span>
-              <strong className="text-[#292524] dark:text-[#A8A29E] text-xs truncate block mt-0.5 font-bold">{certificateId}</strong>
+            <div className="p-3.5 rounded-2xl bg-white/70 dark:bg-white/[0.03] backdrop-blur-md border border-white dark:border-white/10 shadow-xs">
+              <span className="text-[10px] text-slate-400 block uppercase font-bold tracking-wider">Tender Ref ID</span>
+              <strong className="text-slate-900 dark:text-white text-xs truncate block mt-0.5 font-black">{certificateId}</strong>
             </div>
 
-            <div className="p-3 rounded-2xl glass-pill-container shadow-xs">
-              <span className="text-[10px] text-slate-400 block uppercase font-bold">Statutory QCO Status</span>
-              <strong className="text-emerald-600 dark:text-[#059669] text-xs truncate block mt-0.5 font-bold">100% Enforced</strong>
+            <div className="p-3.5 rounded-2xl bg-white/70 dark:bg-white/[0.03] backdrop-blur-md border border-white dark:border-white/10 shadow-xs">
+              <span className="text-[10px] text-slate-400 block uppercase font-bold tracking-wider">Statutory QCO Status</span>
+              <strong className="text-emerald-700 dark:text-emerald-400 text-xs truncate block mt-0.5 font-black">100% Enforced</strong>
             </div>
 
-            <div className="p-3 rounded-2xl glass-pill-container shadow-xs">
-              <span className="text-[10px] text-slate-400 block uppercase font-bold">Primary Standards</span>
+            <div className="p-3.5 rounded-2xl bg-white/70 dark:bg-white/[0.03] backdrop-blur-md border border-white dark:border-white/10 shadow-xs">
+              <span className="text-[10px] text-slate-400 block uppercase font-bold tracking-wider">Primary Standards</span>
               <span className="text-slate-800 dark:text-slate-200 font-bold truncate block mt-0.5">
                 {primaryCodes.join(', ') || 'IS 7098 (Part 2):2011'}
               </span>
             </div>
 
-            <div className="p-3 rounded-2xl glass-pill-container shadow-xs">
-              <span className="text-[10px] text-slate-400 block uppercase font-bold">Normative Tests Bundled</span>
+            <div className="p-3.5 rounded-2xl bg-white/70 dark:bg-white/[0.03] backdrop-blur-md border border-white dark:border-white/10 shadow-xs">
+              <span className="text-[10px] text-slate-400 block uppercase font-bold tracking-wider">Normative Tests Bundled</span>
               <span className="text-slate-800 dark:text-slate-200 font-bold truncate block mt-0.5">
                 {allTests.length} Laboratory Methods
               </span>
             </div>
           </div>
 
-          {/* Action Buttons */}
+          {/* Action Buttons: High-Contrast Download QR Button */}
           <div className="flex flex-wrap items-center gap-3 pt-1">
             <button
               onClick={handleDownloadPng}
-              className="glass-btn-primary shimmer-sweep flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-xs font-extrabold transition shadow-md cursor-pointer"
+              className="bg-[#0B1E36]/90 hover:bg-[#0B1E36] dark:bg-white/20 dark:hover:bg-white/30 text-white text-xs font-extrabold px-6 py-2.5 rounded-full backdrop-blur-2xl border border-white/60 dark:border-white/40 shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center gap-2 hover:scale-105 transition-all cursor-pointer"
             >
               <Download className="w-3.5 h-3.5 text-amber-400" />
               <span>Download QR Tag (PNG)</span>
@@ -211,7 +213,7 @@ export function DigitalPassportQR({ className = '', isDarkTheme = false }) {
 
             <button
               onClick={handleCopyPayload}
-              className="glass-btn-secondary flex items-center gap-2 px-4 py-2.5 rounded-full text-slate-800 dark:text-slate-200 text-xs font-bold transition shadow-xs cursor-pointer"
+              className="bg-white/80 hover:bg-white dark:bg-white/10 dark:hover:bg-white/20 backdrop-blur-2xl border border-white dark:border-white/20 text-slate-800 dark:text-slate-200 text-xs font-bold px-5 py-2.5 rounded-full shadow-xs flex items-center gap-2 transition-all cursor-pointer"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copied ? 'Copied JSON Payload' : 'Copy Payload'}</span>
@@ -220,46 +222,66 @@ export function DigitalPassportQR({ className = '', isDarkTheme = false }) {
         </div>
       </div>
 
-      {/* Field Scanner Simulation Modal */}
-      {showScannerModal && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/70 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="glass-card rounded-3xl max-w-lg w-full border border-white/20 p-6 space-y-4 shadow-2xl text-slate-100 animate-in fade-in zoom-in-95 duration-150">
-            <div className="flex items-start justify-between pb-3 border-b border-white/10">
-              <div className="flex items-center gap-2.5">
-                <Scan className="w-5 h-5 text-[#059669] animate-pulse" />
+      {/* Field Scanner Simulation Modal via React Portal (Full-Screen Blurred Overlay) */}
+      {showScannerModal && createPortal(
+        <div 
+          className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 bg-slate-950/75 backdrop-blur-xl animate-in fade-in duration-200"
+          onClick={() => setShowScannerModal(false)}
+        >
+          <div 
+            className="relative bg-white dark:bg-[#0E1322] rounded-[2rem] max-w-lg w-full border-2 border-white dark:border-white/20 p-6 sm:p-7 shadow-[0_25px_70px_rgba(0,0,0,0.5)] space-y-4 animate-in fade-in zoom-in-95 duration-150 max-h-[90vh] flex flex-col overflow-hidden text-slate-900 dark:text-slate-100"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="flex items-start justify-between pb-3 border-b border-slate-200/80 dark:border-white/10 shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-xs">
+                  <Scan className="w-5 h-5 animate-pulse" />
+                </div>
                 <div>
-                  <h4 className="font-extrabold text-sm text-white">Handheld Field Scanner Verification</h4>
-                  <p className="text-[11px] text-slate-400 font-normal">Simulated NABL / Third Party Inspection Agency (TPIA) Terminal</p>
+                  <h4 className="font-black text-sm text-slate-900 dark:text-white">Handheld Field Scanner Verification</h4>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 font-normal">Simulated NABL / Third Party Inspection Agency (TPIA) Terminal</p>
                 </div>
               </div>
               <button
                 onClick={() => setShowScannerModal(false)}
-                className="text-slate-400 hover:text-white text-xs font-bold p-1.5 rounded-full hover:bg-white/10 transition cursor-pointer"
+                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/10 dark:hover:bg-white/20 border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold transition cursor-pointer text-xs"
               >
                 ✕
               </button>
             </div>
 
-            <div className="p-3 bg-[#059669]/10 rounded-2xl border border-[#059669]/20 text-xs text-emerald-300 flex items-center gap-2 font-medium">
-              <CheckCircle2 className="w-4 h-4 text-[#059669] shrink-0" />
-              <span><strong className="font-bold">AUTHENTIC TENDER PASSPORT:</strong> Digital signature verified with NIC Trust Gateway.</span>
+            {/* Authentic Passport Verification Banner */}
+            <div className="p-3.5 bg-emerald-500/15 rounded-2xl border border-emerald-500/30 text-xs text-emerald-800 dark:text-emerald-300 flex items-center gap-2.5 font-bold backdrop-blur-md shrink-0">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+              <span>AUTHENTIC TENDER PASSPORT: Digital signature verified with NIC Trust Gateway.</span>
             </div>
 
-            <div className="bg-[#070B14]/90 p-4 rounded-2xl border border-white/10 max-h-60 overflow-y-auto font-mono text-[11px] text-slate-300 space-y-1">
+            {/* Decrypted Payload Terminal */}
+            <div className="bg-[#070B14] p-4 rounded-2xl border border-slate-800 dark:border-white/10 overflow-y-auto flex-1 font-mono text-[11px] text-slate-300 space-y-1 shadow-inner scroll-smooth">
+              <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/10 text-[10px] text-slate-400 font-mono">
+                <span className="text-emerald-400 font-bold">› DECRYPTED_CERTIFICATE_PAYLOAD</span>
+                <span>SHA-256 VERIFIED</span>
+              </div>
               <pre className="whitespace-pre-wrap">{payloadString}</pre>
             </div>
 
-            <div className="flex items-center justify-between text-xs pt-1">
-              <span className="text-[11px] text-slate-400 font-mono">Status: COMPLIANT • SECURE-04</span>
+            {/* Modal Footer */}
+            <div className="flex items-center justify-between text-xs pt-3 border-t border-slate-200/80 dark:border-white/10 shrink-0">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[11px] text-slate-600 dark:text-slate-400 font-bold">Status: COMPLIANT • SECURE-04</span>
+              </div>
               <button
                 onClick={() => setShowScannerModal(false)}
-                className="glass-btn-primary shimmer-sweep px-5 py-2 rounded-full text-white text-xs font-bold cursor-pointer"
+                className="bg-[#0B1E36] hover:bg-[#132845] dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 text-xs font-black px-6 py-2.5 rounded-full shadow-md cursor-pointer transition-all hover:scale-105 border border-white/30 dark:border-white/10"
               >
                 Done
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

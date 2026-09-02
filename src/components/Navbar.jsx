@@ -7,7 +7,8 @@ import {
   Sparkles, 
   CheckCircle2,
   Sun,
-  Moon
+  Moon,
+  Globe
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useProcurement } from '../context/ProcurementContext';
@@ -72,45 +73,45 @@ export function Navbar() {
                 <span className="sm:hidden">Sample Specs</span>
               </button>
 
-              {/* Labeled Segmented Theme Toggle */}
-              <div className="flex items-center p-0.5 rounded-full glass-pill-container">
+              {/* Distinct Segmented Theme Capsule Toggle */}
+              <div className="flex items-center p-1 rounded-full bg-slate-200/90 dark:bg-black/50 border-2 border-slate-300 dark:border-white/20 shadow-inner backdrop-blur-2xl transition-all">
                 <button
                   type="button"
                   onClick={setLightTheme}
-                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs transition-all ${
+                  className={`flex items-center justify-center p-1.5 px-2.5 rounded-full text-xs transition-all duration-200 cursor-pointer ${
                     !isDark
-                      ? 'glass-pill-active text-slate-900 font-bold shadow-xs'
-                      : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+                      ? 'bg-white text-amber-500 shadow-[0_2px_8px_rgba(0,0,0,0.15)] ring-1 ring-black/5 font-extrabold scale-105'
+                      : 'text-slate-400 hover:text-slate-700 dark:text-slate-500 dark:hover:text-slate-300 hover:bg-black/5 dark:hover:bg-white/10'
                   }`}
                   title="Switch to Institutional Light Mode"
                 >
-                  <Sun className={`w-3.5 h-3.5 ${!isDark ? 'text-amber-500' : 'text-slate-400'}`} />
+                  <Sun className={`w-4 h-4 stroke-[2.5] ${!isDark ? 'text-amber-500 drop-shadow-xs' : 'text-slate-400'}`} />
                 </button>
 
                 <button
                   type="button"
                   onClick={setDarkTheme}
-                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs transition-all ${
+                  className={`flex items-center justify-center p-1.5 px-2.5 rounded-full text-xs transition-all duration-200 cursor-pointer ${
                     isDark
-                      ? 'glass-pill-active text-white font-bold shadow-xs'
-                      : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+                      ? 'bg-[#0B1E36] dark:bg-slate-800 text-sky-400 shadow-[0_2px_8px_rgba(0,0,0,0.3)] ring-1 ring-white/20 font-extrabold scale-105'
+                      : 'text-slate-400 hover:text-slate-700 dark:text-slate-500 dark:hover:text-slate-300 hover:bg-black/5 dark:hover:bg-white/10'
                   }`}
                   title="Switch to Dark Mode"
                 >
-                  <Moon className={`w-3.5 h-3.5 ${isDark ? 'text-[#A8A29E]' : 'text-slate-500'}`} />
+                  <Moon className={`w-4 h-4 stroke-[2.5] ${isDark ? 'text-sky-300 drop-shadow-xs' : 'text-slate-400'}`} />
                 </button>
               </div>
 
-              {/* Multilingual Glassmorphic Dropdown */}
+              {/* Multilingual Distinct Glassmorphic Container */}
               <div className="relative">
                 <button
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                  className="glass-btn-secondary inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 cursor-pointer shadow-xs"
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-black tracking-wider text-slate-900 dark:text-white bg-white/90 hover:bg-white dark:bg-white/15 dark:hover:bg-white/25 border-2 border-slate-300/90 dark:border-white/30 backdrop-blur-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all cursor-pointer hover:scale-105"
                   title="Select Portal Language"
                 >
-                  <Languages className="w-3.5 h-3.5 text-[#292524] dark:text-[#A8A29E]" />
+                  <Globe className="w-4 h-4 text-amber-500 shrink-0 stroke-[2.5]" />
                   <span className="uppercase">{lang}</span>
-                  <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform duration-200 ${isLangMenuOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-3.5 h-3.5 text-slate-500 dark:text-slate-300 transition-transform duration-200 ${isLangMenuOpen ? 'rotate-180 text-amber-500' : ''}`} />
                 </button>
 
                 {isLangMenuOpen && (
@@ -119,7 +120,7 @@ export function Navbar() {
                       className="fixed inset-0 z-40" 
                       onClick={() => setIsLangMenuOpen(false)} 
                     />
-                    <div className="absolute right-0 mt-2 w-60 bg-white dark:bg-[#0B132B] rounded-2xl shadow-2xl p-1.5 z-50 border border-slate-200 dark:border-slate-800 animate-in fade-in slide-in-from-top-2 duration-150 max-h-96 overflow-y-auto">
+                    <div className="absolute right-0 mt-2 w-64 bg-white/95 dark:bg-[#0B132B]/95 rounded-2xl shadow-2xl p-2 z-50 border border-slate-300/80 dark:border-white/20 backdrop-blur-2xl animate-in fade-in slide-in-from-top-2 duration-150 max-h-96 overflow-y-auto">
                       <div className="px-3 py-1.5 mb-1 border-b border-slate-200/60 dark:border-white/5">
                         <span className="text-[10px] font-bold tracking-wider uppercase text-slate-400 dark:text-slate-500">
                           Major Indian Languages

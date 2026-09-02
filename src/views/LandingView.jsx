@@ -120,7 +120,7 @@ function ScrollReveal({ children, className = '', direction = 'up', delay = 0 })
 
 export function LandingView() {
   const navigate = useNavigate();
-  const { toggleTheme, isDark } = useTheme();
+  const { toggleTheme, setLightTheme, setDarkTheme, isDark } = useTheme();
   const { lang, setLang, languages = [], t = {}, loadScenario } = useProcurement();
 
   const [activeDivisionTab, setActiveDivisionTab] = useState('ETD');
@@ -310,35 +310,35 @@ export function LandingView() {
 
           <nav className="hidden lg:flex items-center gap-7 text-xs font-semibold text-slate-600 dark:text-slate-400 tracking-wide">
             <a href="#overview" className="hover:text-[#1E3A5F] dark:hover:text-white transition-colors">
-              {t?.nav?.home || 'Overview'}
+              {lang === 'hi' ? 'अवलोकन' : lang === 'gu' ? 'ઝાંખી' : 'Overview'}
             </a>
             <a href="#terminal" className="hover:text-[#1E3A5F] dark:hover:text-white transition-colors">
-              {t?.nav?.step3 || 'Terminal'}
+              {lang === 'hi' ? 'लाइव डेमो' : lang === 'gu' ? 'લાઇવ ડેમો' : 'Live Demo'}
             </a>
             <a href="#architecture" className="hover:text-[#1E3A5F] dark:hover:text-white transition-colors">
-              {t?.nav?.architecture || 'Architecture'}
+              {lang === 'hi' ? 'आर्किटेक्चर' : lang === 'gu' ? 'આર્કિટેક્ચર' : 'Architecture'}
             </a>
             <a href="#pipeline" className="hover:text-[#1E3A5F] dark:hover:text-white transition-colors">
-              {t?.nav?.step4 || 'Pipeline'}
+              {lang === 'hi' ? 'सिस्टम पाइपलाइन' : lang === 'gu' ? 'સિસ્ટમ પાઇપલાઇન' : 'System Pipeline'}
             </a>
             <a href="#corpus" className="hover:text-[#1E3A5F] dark:hover:text-white transition-colors">
-              {t?.nav?.standards || 'Corpus'}
+              {lang === 'hi' ? 'मानक संग्रह' : lang === 'gu' ? 'માનક સંગ્રહ' : 'Standards Corpus'}
             </a>
             <a href="#faq" className="hover:text-[#1E3A5F] dark:hover:text-white transition-colors">
-              {t?.nav?.about || 'FAQ'}
+              {lang === 'hi' ? 'एफएक्यू' : lang === 'gu' ? 'પ્રશ્નોત્તરી' : 'FAQ'}
             </a>
           </nav>
 
           <div className="flex items-center gap-3">
-            {/* Multilingual Glassmorphic Dropdown */}
+            {/* Multilingual Distinct Glassmorphic Dropdown */}
             <div className="relative">
               <button
                 onClick={() => setIsLangOpen(!isLangOpen)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-slate-700 dark:text-slate-300 bg-white/60 dark:bg-white/[0.04] hover:bg-white dark:hover:bg-white/[0.08] border border-slate-200/80 dark:border-white/10 shadow-2xs backdrop-blur-xl transition-all cursor-pointer font-mono"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-black tracking-wider text-slate-900 dark:text-white bg-white/90 hover:bg-white dark:bg-white/15 dark:hover:bg-white/25 border-2 border-slate-300/90 dark:border-white/30 backdrop-blur-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all cursor-pointer hover:scale-105"
               >
-                <Globe className="w-3.5 h-3.5 text-amber-500" />
-                <span className="uppercase font-bold">{lang}</span>
-                <ChevronDown className={`w-3 h-3 transition-transform ${isLangOpen ? 'rotate-180' : ''}`} />
+                <Globe className="w-4 h-4 text-amber-500 shrink-0 stroke-[2.5]" />
+                <span className="uppercase">{lang}</span>
+                <ChevronDown className={`w-3.5 h-3.5 text-slate-500 dark:text-slate-300 transition-transform ${isLangOpen ? 'rotate-180 text-amber-500' : ''}`} />
               </button>
               {isLangOpen && (
                 <>
@@ -370,12 +370,34 @@ export function LandingView() {
                 </>
               )}
             </div>
-            <button
-              onClick={toggleTheme}
-              className="w-8 h-8 rounded-full flex items-center justify-center text-slate-700 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-white/10 transition-colors cursor-pointer"
-            >
-              {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-700" />}
-            </button>
+            {/* Distinct Segmented Theme Capsule Toggle */}
+            <div className="flex items-center p-1 rounded-full bg-slate-200/90 dark:bg-black/50 border-2 border-slate-300 dark:border-white/20 shadow-inner backdrop-blur-2xl transition-all">
+              <button
+                type="button"
+                onClick={setLightTheme}
+                className={`flex items-center justify-center p-1.5 px-2.5 rounded-full text-xs transition-all duration-200 cursor-pointer ${
+                  !isDark
+                    ? 'bg-white text-amber-500 shadow-[0_2px_8px_rgba(0,0,0,0.15)] ring-1 ring-black/5 font-extrabold scale-105'
+                    : 'text-slate-400 hover:text-slate-700 dark:text-slate-500 dark:hover:text-slate-300 hover:bg-black/5 dark:hover:bg-white/10'
+                }`}
+                title="Switch to Institutional Light Mode"
+              >
+                <Sun className={`w-4 h-4 stroke-[2.5] ${!isDark ? 'text-amber-500 drop-shadow-xs' : 'text-slate-400'}`} />
+              </button>
+
+              <button
+                type="button"
+                onClick={setDarkTheme}
+                className={`flex items-center justify-center p-1.5 px-2.5 rounded-full text-xs transition-all duration-200 cursor-pointer ${
+                  isDark
+                    ? 'bg-[#0B1E36] dark:bg-slate-800 text-sky-400 shadow-[0_2px_8px_rgba(0,0,0,0.3)] ring-1 ring-white/20 font-extrabold scale-105'
+                    : 'text-slate-400 hover:text-slate-700 dark:text-slate-500 dark:hover:text-slate-300 hover:bg-black/5 dark:hover:bg-white/10'
+                }`}
+                title="Switch to Dark Mode"
+              >
+                <Moon className={`w-4 h-4 stroke-[2.5] ${isDark ? 'text-sky-300 drop-shadow-xs' : 'text-slate-400'}`} />
+              </button>
+            </div>
             <button
               onClick={() => navigate('/login')}
               className="px-4 py-2 rounded-full text-xs font-bold bg-[#0B1E36] hover:bg-[#132845] dark:bg-white dark:hover:bg-slate-100 text-white dark:text-[#07080A] shadow-md transition-all cursor-pointer flex items-center gap-1.5"
@@ -392,12 +414,7 @@ export function LandingView() {
       {/* ================================================================ */}
       <section id="overview" className="relative z-10 pt-32 sm:pt-40 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         <div className="max-w-3xl mx-auto text-center space-y-6">
-          <div className="hero-animate inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/75 dark:bg-white/[0.04] border border-slate-200/80 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-300 shadow-xs backdrop-blur-xl">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-            <span className="font-semibold font-mono text-[11px]">{t?.landing?.govBadge || 'State Procurement Intelligence Gateway • SIH 2026'}</span>
-          </div>
-
-          <h1 className="hero-animate text-[40px] sm:text-[56px] lg:text-[70px] font-black tracking-[-0.03em] leading-[1.02] text-slate-900 dark:text-white" style={{ animationDelay: '0.1s' }}>
+          <h1 className="hero-animate text-[40px] sm:text-[56px] lg:text-[70px] font-black tracking-[-0.03em] leading-[1.02] text-slate-900 dark:text-white">
             {t?.landing?.heroTitle || 'AI-Powered Indian Standards Engine for Public Procurement'}
           </h1>
 
