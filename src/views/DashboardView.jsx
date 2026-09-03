@@ -446,30 +446,92 @@ export function DashboardView() {
                     })}
                   </div>
                 ) : (
-                  /* SVG Wave Curve Trend View */
+                  /* SVG Sharp Zig-Zag Angular Trend View */
                   <div className="pt-6 relative z-10 h-32 flex flex-col justify-end">
                     <svg className="w-full h-24 overflow-visible" viewBox="0 0 300 100" preserveAspectRatio="none">
                       <defs>
                         <linearGradient id="trendGrad" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.3" />
+                          <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.35" />
                           <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.0" />
                         </linearGradient>
                       </defs>
-                      <path
-                        d="M 0 60 Q 50 20, 100 45 T 200 15 T 300 25 L 300 100 L 0 100 Z"
+
+                      {/* Background Grid Lines */}
+                      <line x1="10" y1="20" x2="290" y2="20" stroke="currentColor" strokeOpacity="0.08" strokeDasharray="3 3" />
+                      <line x1="10" y1="50" x2="290" y2="50" stroke="currentColor" strokeOpacity="0.08" strokeDasharray="3 3" />
+                      <line x1="10" y1="80" x2="290" y2="80" stroke="currentColor" strokeOpacity="0.08" strokeDasharray="3 3" />
+
+                      {/* Area Fill Polygon Under Zig-Zag Line */}
+                      <polygon
+                        points={`10,95 ${currentChartData.map((d, i) => {
+                          const x = (i / (currentChartData.length - 1)) * 280 + 10;
+                          const y = 85 - (d.cyan / 100) * 65;
+                          return `${x},${y}`;
+                        }).join(' ')} 290,95`}
                         fill="url(#trendGrad)"
                       />
-                      <path
-                        d="M 0 60 Q 50 20, 100 45 T 200 15 T 300 25"
+
+                      {/* Sharp Zig-Zag Polyline */}
+                      <polyline
+                        points={currentChartData.map((d, i) => {
+                          const x = (i / (currentChartData.length - 1)) * 280 + 10;
+                          const y = 85 - (d.cyan / 100) * 65;
+                          return `${x},${y}`;
+                        }).join(' ')}
                         fill="none"
                         stroke="#38BDF8"
                         strokeWidth="2.5"
-                        strokeLinecap="round"
+                        strokeLinejoin="miter"
+                        strokeLinecap="square"
                       />
+
+                      {/* Interactive Vertex Dots */}
+                      {currentChartData.map((d, i) => {
+                        const x = (i / (currentChartData.length - 1)) * 280 + 10;
+                        const y = 85 - (d.cyan / 100) * 65;
+                        const isHovered = hoveredMonth?.month === d.month;
+                        return (
+                          <g 
+                            key={d.month} 
+                            className="cursor-pointer"
+                            onMouseEnter={() => setHoveredMonth(d)}
+                            onMouseLeave={() => setHoveredMonth(null)}
+                          >
+                            <circle
+                              cx={x}
+                              cy={y}
+                              r={isHovered ? "5.5" : "3.5"}
+                              fill="#38BDF8"
+                              stroke="#0E1322"
+                              strokeWidth="2"
+                              className="transition-all duration-200"
+                            />
+                            {isHovered && (
+                              <circle
+                                cx={x}
+                                cy={y}
+                                r="8"
+                                fill="none"
+                                stroke="#38BDF8"
+                                strokeWidth="1.5"
+                                strokeDasharray="2 2"
+                              />
+                            )}
+                          </g>
+                        );
+                      })}
                     </svg>
-                    <div className="flex justify-between text-[10px] text-slate-400 pt-1 px-1">
+
+                    <div className="flex justify-between text-[10px] text-slate-400 pt-1 px-1 font-mono">
                       {currentChartData.map(d => (
-                        <span key={d.month}>{d.month}</span>
+                        <span 
+                          key={d.month}
+                          onMouseEnter={() => setHoveredMonth(d)}
+                          onMouseLeave={() => setHoveredMonth(null)}
+                          className={`cursor-pointer transition-colors ${hoveredMonth?.month === d.month ? 'text-sky-400 font-bold' : ''}`}
+                        >
+                          {d.month}
+                        </span>
                       ))}
                     </div>
                   </div>

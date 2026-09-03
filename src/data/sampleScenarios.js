@@ -88,5 +88,23 @@
     query: 'Procurement of 90W to 150W pressure die-cast aluminium housing LED street light luminaires with system efficacy >= 130 lm/W, correlated color temperature 4000K-5700K, ingress protection IP66, impact resistance IK08, and built-in 10kV surge protection device (SPD) under Smart Streetlighting modernization project.',
     boqFilename: 'SmartCity_LED_Luminaires_NIT_Specs.pdf',
     tags: ['LED Street Light', 'IP66 IK08', '10kV Surge', '130 lm/W', 'LITD 27']
-  }
+  },
+  {
+    id: 'packaged_water_railways',
+    title: 'Packaged Drinking Water for Institutional Catering',
+    category: 'Food & Agriculture (FAD)',
+    division: 'FAD',
+    organizationType: 'Central Public Sector Enterprise (CPSE)',
+    applicantName: 'Er. Sandeep Mukherjee',
+    mobileNumber: '+91 97176 54321',
+    emailId: 's.mukherjee@irctc.gov.in',
+    businessName: 'Indian Railway Catering and Tourism Corp (IRCTC)',
+    gstin: '07AAACI1234F1Z5',
+    state: 'Delhi',
+    district: 'New Delhi',
+    pincode: '110001',
+    query: 'Procurement of packaged drinking water (other than natural mineral water) in 500ml and 1000ml food-grade PET bottles for passenger catering networks. Must strictly conform to IS 14543 with mandatory BIS certification (ISI mark), testing for total dissolved solids (TDS < 500 mg/l), chemical pesticide residues, and zero microbiological contamination (E. coli, coliforms).',
+    boqFilename: 'IRCTC_Packaged_Water_Tender_Specs_2026.pdf',
+    tags: ['IS 14543', 'Packaged Water', 'Mandatory ISI', 'TDS & Purity', 'FAD 14']
+  },
 ];

@@ -6,6 +6,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { SampleDataDrawer } from './components/SampleDataDrawer';
+import { ChatbotWidget } from './components/ChatbotWidget';
 import { LandingView } from './views/LandingView';
 import { LoginView } from './views/LoginView';
 import { InputFormView } from './views/InputFormView';
@@ -19,12 +20,14 @@ function AppLayout({ children }) {
   const isCustomOrAuthPage = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/analyzing';
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F7F6F3] dark:bg-[#0E121B] text-[#1A1A1A] dark:text-[#E8E6E3] selection:bg-[#D6D3CF] dark:selection:bg-[#2A3040] transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#070B14] text-slate-900 dark:text-slate-100 selection:bg-blue-600 selection:text-white transition-colors duration-200 relative">
       {!isCustomOrAuthPage && <Navbar />}
       <main className="flex-1">
         {children}
       </main>
       <SampleDataDrawer />
+      {/* Global AI Mascot Chatbot Assistant on ALL Pages */}
+      <ChatbotWidget />
       {!isCustomOrAuthPage && <Footer />}
     </div>
   );

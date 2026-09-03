@@ -359,7 +359,7 @@ export function InputFormView() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            <div className="grid grid-cols-7 gap-2 sm:gap-2.5 overflow-x-auto pb-1">
               {BIS_DIVISIONS.map((div) => {
                 const isSelected = selectedDivision === div.code;
                 return (
@@ -367,26 +367,26 @@ export function InputFormView() {
                     key={div.code}
                     type="button"
                     onClick={() => setSelectedDivision(div.code)}
-                    className={`p-4 rounded-2xl text-left transition-all flex flex-col justify-between cursor-pointer backdrop-blur-md ${
+                    className={`p-2.5 sm:p-3 rounded-2xl text-left transition-all flex flex-col justify-between cursor-pointer backdrop-blur-md min-w-[100px] ${
                       isSelected
-                        ? 'bg-white/90 dark:bg-white/20 border-2 border-white shadow-md ring-2 ring-slate-900/10'
+                        ? 'bg-white/95 dark:bg-white/20 border-2 border-white shadow-md ring-2 ring-slate-900/10'
                         : 'bg-white/50 dark:bg-white/[0.02] border border-white/90 dark:border-white/15 hover:bg-white/70 dark:hover:bg-white/10'
                     }`}
                   >
                     <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className={`text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
                           isSelected ? 'bg-slate-900 text-white dark:bg-white dark:text-black' : 'bg-white/80 dark:bg-white/10 border border-white/60 text-slate-700 dark:text-slate-300'
                         }`}>
                           {div.code}
                         </span>
-                        {isSelected && <CheckCircle2 className="w-4 h-4 text-slate-900 dark:text-white" />}
+                        {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-slate-900 dark:text-white" />}
                       </div>
-                      <p className="text-xs font-extrabold text-slate-900 dark:text-white leading-tight">
+                      <p className="text-[11px] sm:text-xs font-extrabold text-slate-900 dark:text-white leading-tight truncate" title={div.shortName}>
                         {div.shortName}
                       </p>
                     </div>
-                    <div className="mt-3 pt-2 border-t border-white/60 dark:border-white/10 text-[10px] text-slate-500 dark:text-slate-400 flex items-center justify-between">
+                    <div className="mt-2 pt-1.5 border-t border-white/60 dark:border-white/10 text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400 flex items-center justify-between">
                       <span>{div.standardsCount} Stds</span>
                       <span className="text-emerald-600 dark:text-emerald-400 font-bold">{div.activeQCOs} QCOs</span>
                     </div>
