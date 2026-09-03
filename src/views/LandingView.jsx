@@ -430,20 +430,13 @@ export function LandingView() {
             {t?.landing?.heroSubtitle || 'Autonomous AI gateway that resolves exact Bureau of Indian Standards (IS) codes, mandatory Gazette QCO decrees, and eliminates single-vendor bias under GFR 2017 Rule 144(xi).'}
           </p>
 
-          <div className="hero-animate flex flex-wrap items-center justify-center gap-3.5 pt-2" style={{ animationDelay: '0.3s' }}>
+          <div className="hero-animate flex items-center justify-center pt-2" style={{ animationDelay: '0.3s' }}>
             <button
-              onClick={() => document.getElementById('terminal')?.scrollIntoView({ behavior: 'smooth' })}
-              className="px-6 py-3.5 rounded-full text-xs font-bold bg-[#0B1E36] hover:bg-[#132845] dark:bg-white dark:hover:bg-slate-100 text-white dark:text-[#07080A] shadow-lg shadow-[#0B1E36]/20 transition-all flex items-center gap-2 cursor-pointer"
+              onClick={() => navigate('/login')}
+              className="px-8 py-3.5 rounded-full text-xs sm:text-sm font-bold bg-[#0B1E36] hover:bg-[#132845] dark:bg-white dark:hover:bg-slate-100 text-white dark:text-[#07080A] shadow-xl shadow-[#0B1E36]/25 dark:shadow-white/10 transition-all transform hover:scale-105 flex items-center gap-2.5 cursor-pointer"
             >
-              <span>{t?.landing?.ctaLaunch || 'Try Live Terminal'}</span>
-              <ArrowRight className="w-3.5 h-3.5 text-amber-400 dark:text-slate-900" />
-            </button>
-            <button
-              onClick={() => { loadScenario('underground_cable_metro'); navigate('/sandbox'); }}
-              className="px-6 py-3.5 rounded-full text-xs font-bold bg-white/70 dark:bg-white/[0.04] hover:bg-white dark:hover:bg-white/[0.08] border border-slate-200/80 dark:border-white/10 text-slate-800 dark:text-slate-200 shadow-xs backdrop-blur-xl transition-all flex items-center gap-2 cursor-pointer"
-            >
-              <Terminal className="w-3.5 h-3.5 text-amber-500" />
-              <span>{t?.landing?.ctaExplore || 'Full Sandbox ↗'}</span>
+              <span>{t?.landing?.ctaLaunch || 'Access Recommendation Portal'}</span>
+              <ArrowRight className="w-4 h-4 text-amber-400 dark:text-slate-900" />
             </button>
           </div>
 

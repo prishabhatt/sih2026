@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { useTheme } from '../context/ThemeContext';
 
-function useInView(ref, threshold = 0.2) {
+function useInView(ref, threshold = 0.15) {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const el = ref.current;
@@ -24,7 +24,7 @@ export function ComparisonGraph() {
   const [animProgress, setAnimProgress] = useState(0);
   const rafRef = useRef(null);
   const startRef = useRef(null);
-  const DURATION = 2200;
+  const DURATION = 2400;
 
   useEffect(() => {
     if (!visible) return;
@@ -32,7 +32,8 @@ export function ComparisonGraph() {
     const tick = (now) => {
       const elapsed = now - startRef.current;
       const raw = Math.min(elapsed / DURATION, 1);
-      const eased = 1 - Math.pow(1 - raw, 3);
+      // ease-out quart for smooth deceleration
+      const eased = 1 - Math.pow(1 - raw, 4);
       setAnimProgress(eased);
       if (raw < 1) rafRef.current = requestAnimationFrame(tick);
     };
@@ -42,331 +43,239 @@ export function ComparisonGraph() {
 
   const t = animProgress;
 
-  // ── Tall Expansive SVG Coordinate System Matching Reference Image ──
-  const W = 840, H = 720;
-  const PAD = { top: 60, right: 50, bottom: 65, left: 110 };
+  // ── SVG coordinate system ──
+  const W = 800, H = 520;
+  const PAD = { top: 55, right: 55, bottom: 60, left: 70 };
   const gL = PAD.left, gR = W - PAD.right, gT = PAD.top, gB = H - PAD.bottom;
   const gW = gR - gL, gH = gB - gT;
 
-  // ── Curves ──
+  // ── Curves (both start near origin) ──
+  const N = 160;
+
   const expoPoints = useMemo(() => {
     const pts = [];
-    const N = 160;
     for (let i = 0; i <= N; i++) {
       const frac = i / N;
-      // Start slightly to the left of the axis like reference image
-      const x = (gL - 35) + frac * (gW + 25);
-      const normalized = (Math.exp(frac * 3.3) - 1) / (Math.exp(3.3) - 1);
-      const y = (gB - 5) - normalized * (gH * 0.92);
+      const x = gL + frac * gW;
+      const normalized = (Math.exp(frac * 3.4) - 1) / (Math.exp(3.4) - 1);
+      const y = gB - normalized * gH * 0.88;
       pts.push([x, y]);
     }
     return pts;
-  }, [gL, gW, gB, gH]);
+  }, []);
 
   const linearPoints = useMemo(() => {
     const pts = [];
-    const N = 160;
     for (let i = 0; i <= N; i++) {
       const frac = i / N;
-      const x = (gL - 35) + frac * (gW + 25);
-      const normalized = 0.04 + frac * 0.12;
-      const y = (gB - 5) - normalized * gH;
+      const x = gL + frac * gW;
+      const normalized = 0.06 + frac * 0.15;
+      const y = gB - normalized * gH;
       pts.push([x, y]);
     }
     return pts;
-  }, [gL, gW, gB, gH]);
+  }, []);
 
   const buildPath = (pts) => pts.map((p, i) => `${i === 0 ? 'M' : 'L'}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ');
 
-  const approxLen = 2800;
+  const approxLen = 2600;
+
+  // Animated clip: reveals curves progressively from origin
+  const clipRight = gL + t * (gW + 10);
 
   // ── Endpoints ──
   const expoEnd = expoPoints[expoPoints.length - 1];
   const linearEnd = linearPoints[linearPoints.length - 1];
 
-  // ── Gap Arrow (Aligned with right dots) ──
-  const gapX = expoEnd[0];
+  // ── Gap arrow (right side) ──
+  const gapX = gR + 30;
   const gapTopY = expoEnd[1];
   const gapBotY = linearEnd[1];
   const gapMidY = (gapTopY + gapBotY) / 2;
 
-  // ── Theme Styling ──
+  // ── Colors ──
   const c = {
-    axisLine: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(100,116,139,0.4)',
-    tickLine: isDark ? 'rgba(255,255,255,0.45)' : 'rgba(71,85,105,0.5)',
-    axisText: isDark ? '#94A3B8' : '#475569',
+    axis: isDark ? 'rgba(148,163,184,0.3)' : 'rgba(100,116,139,0.35)',
+    tick: isDark ? 'rgba(148,163,184,0.2)' : 'rgba(100,116,139,0.25)',
+    gridDash: isDark ? 'rgba(148,163,184,0.06)' : 'rgba(100,116,139,0.07)',
+    axisLabel: isDark ? '#94A3B8' : '#64748B',
     expo: isDark ? '#E85D36' : '#C44D2A',
+    expoFill: isDark ? 'rgba(232,93,54,0.08)' : 'rgba(196,77,42,0.05)',
     linear: isDark ? '#7FA84A' : '#5A7E3C',
-    cardBg: isDark ? '#1C1C1E' : '#F9F7F1',
-    cardBorder: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.08)',
-    blackPillBg: isDark ? '#000000' : '#18181B',
-    blackPillText: '#FFFFFF',
-    arrow: isDark ? '#CBD5E1' : '#1E293B',
+    linearFill: isDark ? 'rgba(127,168,74,0.06)' : 'rgba(90,126,60,0.04)',
+    gap: isDark ? '#CBD5E1' : '#475569',
+    labelText: isDark ? '#E2E8F0' : '#1E293B',
+    labelSub: isDark ? '#94A3B8' : '#64748B',
   };
 
-  // ── Tick Intervals along Axes ──
-  const yTicks = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0];
-  const xTicks = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0];
+  // ── Inch-style tick marks ──
+  const majorFrac = [0.2, 0.4, 0.6, 0.8];
+  const minorFrac = [0.1, 0.3, 0.5, 0.7, 0.9];
+  const majorLen = 7, minorLen = 4;
 
   return (
     <div ref={containerRef} className={`w-full transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
       <svg
         viewBox={`0 0 ${W} ${H}`}
-        className="w-full h-auto drop-shadow-sm select-none"
+        className="w-full h-auto"
         preserveAspectRatio="xMidYMid meet"
         style={{ display: 'block' }}
       >
-        {/* ── Vertical Y-axis (Dashed line with ticks) ── */}
-        <line
-          x1={gL}
-          y1={gT}
-          x2={gL}
-          y2={gB}
-          stroke={c.axisLine}
-          strokeWidth="1.5"
-          strokeDasharray="4,4"
-        />
-        {yTicks.map((frac, i) => {
-          const isMajor = (i + 1) % 2 === 0;
-          return (
-            <line
-              key={`yt-${i}`}
-              x1={gL}
-              y1={gB - frac * gH}
-              x2={gL - (isMajor ? 12 : 7)}
-              y2={gB - frac * gH}
-              stroke={c.tickLine}
-              strokeWidth={isMajor ? '1.8' : '1.2'}
-            />
-          );
-        })}
+        <defs>
+          {/* Animated clip that reveals curves from origin */}
+          <clipPath id="cg-clip">
+            <rect x={0} y={0} width={clipRight} height={H} />
+          </clipPath>
+          <linearGradient id="cg-expo-fill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={c.expo} stopOpacity="0.15" />
+            <stop offset="100%" stopColor={c.expo} stopOpacity="0.0" />
+          </linearGradient>
+          <linearGradient id="cg-linear-fill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={c.linear} stopOpacity="0.10" />
+            <stop offset="100%" stopColor={c.linear} stopOpacity="0.0" />
+          </linearGradient>
+        </defs>
 
-        {/* ── Horizontal X-axis (Dashed line with ticks) ── */}
-        <line
-          x1={gL}
-          y1={gB}
-          x2={gR}
-          y2={gB}
-          stroke={c.axisLine}
-          strokeWidth="1.5"
-          strokeDasharray="4,4"
-        />
-        {xTicks.map((frac, i) => {
-          const isMajor = (i + 1) % 2 === 0;
-          return (
-            <line
-              key={`xt-${i}`}
-              x1={gL + frac * gW}
-              y1={gB}
-              x2={gL + frac * gW}
-              y2={gB + (isMajor ? 12 : 7)}
-              stroke={c.tickLine}
-              strokeWidth={isMajor ? '1.8' : '1.2'}
-            />
-          );
-        })}
+        {/* ── Subtle dashed grid lines ── */}
+        {majorFrac.map((frac, i) => (
+          <React.Fragment key={`g-${i}`}>
+            <line x1={gL} y1={gB - frac * gH} x2={gR} y2={gB - frac * gH}
+              stroke={c.gridDash} strokeWidth="1" strokeDasharray="4,8" />
+            <line x1={gL + frac * gW} y1={gT} x2={gL + frac * gW} y2={gB}
+              stroke={c.gridDash} strokeWidth="1" strokeDasharray="4,8" />
+          </React.Fragment>
+        ))}
 
-        {/* ── Axis Labels ── */}
-        <text
-          x={gL - 25}
-          y={gB - gH * 0.35}
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fill={c.axisText}
-          fontSize="13"
-          fontFamily="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
-          fontWeight="700"
-          letterSpacing="0.14em"
-          transform={`rotate(-90, ${gL - 25}, ${gB - gH * 0.35})`}
-        >
-          COMPLEXITY
+        {/* ── X-axis with inch ticks ── */}
+        <line x1={gL} y1={gB} x2={gR + 8} y2={gB} stroke={c.axis} strokeWidth="1" />
+        {majorFrac.map((frac, i) => (
+          <line key={`xm-${i}`} x1={gL + frac * gW} y1={gB} x2={gL + frac * gW} y2={gB + majorLen}
+            stroke={c.tick} strokeWidth="1" />
+        ))}
+        {minorFrac.map((frac, i) => (
+          <line key={`xn-${i}`} x1={gL + frac * gW} y1={gB} x2={gL + frac * gW} y2={gB + minorLen}
+            stroke={c.tick} strokeWidth="0.6" />
+        ))}
+
+        {/* ── Y-axis with inch ticks ── */}
+        <line x1={gL} y1={gT - 8} x2={gL} y2={gB} stroke={c.axis} strokeWidth="1" />
+        {majorFrac.map((frac, i) => (
+          <line key={`ym-${i}`} x1={gL} y1={gB - frac * gH} x2={gL - majorLen} y2={gB - frac * gH}
+            stroke={c.tick} strokeWidth="1" />
+        ))}
+        {minorFrac.map((frac, i) => (
+          <line key={`yn-${i}`} x1={gL} y1={gB - frac * gH} x2={gL - minorLen} y2={gB - frac * gH}
+            stroke={c.tick} strokeWidth="0.6" />
+        ))}
+
+        {/* ── Axis labels ── */}
+        <text x={gR + 8} y={gB + 18} textAnchor="end" fill={c.axisLabel}
+          fontSize="10" fontFamily="'SF Mono','Fira Code','Cascadia Code',monospace"
+          fontWeight="700" letterSpacing="0.08em">
+          TENDER SCALE / TIME →
+        </text>
+        <text x={gL - 8} y={gT - 12} textAnchor="start" fill={c.axisLabel}
+          fontSize="10" fontFamily="'SF Mono','Fira Code','Cascadia Code',monospace"
+          fontWeight="700" letterSpacing="0.08em">
+          ↑ COMPLEXITY
         </text>
 
-        <text
-          x={gL + 25}
-          y={gB + 34}
-          textAnchor="start"
-          fill={c.axisText}
-          fontSize="13"
-          fontFamily="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
-          fontWeight="700"
-          letterSpacing="0.14em"
-        >
-          TIME
-        </text>
+        {/* ── Curves + Area fills (clipped to animate from origin) ── */}
+        <g clipPath="url(#cg-clip)">
+          {/* Area fills — reveal progressively from left */}
+          {t > 0.02 && (
+            <>
+              <path
+                d={`${buildPath(expoPoints)} L${expoEnd[0]},${gB} L${gL},${gB} Z`}
+                fill="url(#cg-expo-fill)"
+              />
+              <path
+                d={`${buildPath(linearPoints)} L${linearEnd[0]},${gB} L${gL},${gB} Z`}
+                fill="url(#cg-linear-fill)"
+              />
+            </>
+          )}
 
-        {/* ── Curve 1: Regulatory Complexity (Steep Exponential Curve) ── */}
-        <path
-          d={buildPath(expoPoints)}
-          fill="none"
-          stroke={c.expo}
-          strokeWidth="3.5"
-          strokeLinecap="round"
-          strokeDasharray={approxLen}
-          strokeDashoffset={approxLen * (1 - t)}
-        />
+          {/* Curve 1: Regulatory Compliance (exponential) */}
+          <path
+            d={buildPath(expoPoints)}
+            fill="none" stroke={c.expo} strokeWidth="2.5" strokeLinecap="round"
+            strokeDasharray={approxLen} strokeDashoffset={approxLen * (1 - t)}
+          />
 
-        {/* ── Curve 2: Manual Capacity (Linear Slope) ── */}
-        <path
-          d={buildPath(linearPoints)}
-          fill="none"
-          stroke={c.linear}
-          strokeWidth="3.5"
-          strokeLinecap="round"
-          strokeDasharray={approxLen}
-          strokeDashoffset={approxLen * (1 - t)}
-        />
+          {/* Curve 2: Manual Capacity (linear) */}
+          <path
+            d={buildPath(linearPoints)}
+            fill="none" stroke={c.linear} strokeWidth="2.5" strokeLinecap="round"
+            strokeDasharray={approxLen} strokeDashoffset={approxLen * (1 - t)}
+          />
+        </g>
 
-        {/* ── Endpoints ── */}
+        {/* ── Endpoint dots (outside clip so they pop at the end) ── */}
         {t > 0.88 && (
           <>
-            <circle
-              cx={expoEnd[0]}
-              cy={expoEnd[1]}
-              r="6.5"
-              fill={c.expo}
-              opacity={Math.min((t - 0.88) / 0.12, 1)}
-            />
-            <circle
-              cx={linearEnd[0]}
-              cy={linearEnd[1]}
-              r="6.5"
-              fill={c.linear}
-              opacity={Math.min((t - 0.88) / 0.12, 1)}
-            />
+            <circle cx={expoEnd[0]} cy={expoEnd[1]} r="4.5" fill={c.expo}
+              opacity={Math.min((t - 0.88) / 0.12, 1)} />
+            <circle cx={linearEnd[0]} cy={linearEnd[1]} r="4" fill={c.linear}
+              opacity={Math.min((t - 0.88) / 0.12, 1)} />
           </>
         )}
 
-        {/* ── Solid Vertical Double-Ended Arrow ── */}
-        {t > 0.45 && (
-          <g opacity={Math.min((t - 0.45) / 0.3, 1)}>
-            <line
-              x1={gapX}
-              y1={gapTopY + 12}
-              x2={gapX}
-              y2={gapBotY - 12}
-              stroke={c.arrow}
-              strokeWidth="2.5"
-            />
-            {/* Top arrow head */}
+        {/* ── COMPLIANCE GAP — right side vertical double arrow ── */}
+        {t > 0.5 && (
+          <g opacity={Math.min((t - 0.5) / 0.3, 1)}>
+            <line x1={gapX} y1={gapTopY + 10} x2={gapX} y2={gapBotY - 10}
+              stroke={c.gap} strokeWidth="1.2" strokeDasharray="3,3" />
+            {/* Top arrowhead */}
             <polygon
-              points={`${gapX},${gapTopY + 2} ${gapX - 5.5},${gapTopY + 14} ${gapX + 5.5},${gapTopY + 14}`}
-              fill={c.arrow}
-            />
-            {/* Bottom arrow head */}
+              points={`${gapX},${gapTopY + 4} ${gapX - 4},${gapTopY + 13} ${gapX + 4},${gapTopY + 13}`}
+              fill={c.gap} />
+            {/* Bottom arrowhead */}
             <polygon
-              points={`${gapX},${gapBotY - 2} ${gapX - 5.5},${gapBotY - 14} ${gapX + 5.5},${gapBotY - 14}`}
-              fill={c.arrow}
-            />
-          </g>
-        )}
-
-        {/* ── Center Black Box Pill Badge: "THE COMPLIANCE GAP" ── */}
-        {t > 0.6 && (
-          <g
-            opacity={Math.min((t - 0.6) / 0.25, 1)}
-            transform={`translate(${gapX - 195}, ${gapMidY - 18})`}
-          >
-            <rect
-              width="185"
-              height="36"
-              rx="4"
-              fill={c.blackPillBg}
-              className="shadow-md"
-            />
-            <text
-              x="92.5"
-              y="22.5"
-              textAnchor="middle"
-              fill={c.blackPillText}
-              fontSize="11.5"
-              fontFamily="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
-              fontWeight="900"
-              letterSpacing="0.1em"
-            >
+              points={`${gapX},${gapBotY - 4} ${gapX - 4},${gapBotY - 13} ${gapX + 4},${gapBotY - 13}`}
+              fill={c.gap} />
+            {/* Label rotated 90° */}
+            <text x={gapX + 16} y={gapMidY} textAnchor="middle" dominantBaseline="middle"
+              fill={c.labelText} fontSize="9" fontFamily="'SF Mono','Fira Code',monospace"
+              fontWeight="800" letterSpacing="0.1em"
+              transform={`rotate(-90, ${gapX + 16}, ${gapMidY})`}>
               THE COMPLIANCE GAP
             </text>
           </g>
         )}
 
-        {/* ── Top Badge Card: "UNDERSTANDING NEEDED TO MANAGE PRODUCTION" ── */}
-        {t > 0.8 && (
-          <g
-            opacity={Math.min((t - 0.8) / 0.2, 1)}
-            transform={`translate(${expoEnd[0] - 225}, ${expoEnd[1] - 56})`}
-          >
-            <rect
-              width="215"
-              height="48"
-              rx="4"
-              fill={c.cardBg}
-              stroke={c.cardBorder}
-              strokeWidth="1"
-            />
-            <text
-              x="107.5"
-              y="20"
-              textAnchor="middle"
-              fill={c.expo}
-              fontSize="11.5"
-              fontFamily="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
-              fontWeight="800"
-              letterSpacing="0.05em"
-            >
-              UNDERSTANDING NEEDED TO
+        {/* ── Floating callout: Regulatory Complexity ── */}
+        {t > 0.82 && (
+          <g opacity={Math.min((t - 0.82) / 0.18, 1)}>
+            <line x1={expoEnd[0]} y1={expoEnd[1]} x2={expoEnd[0] - 14} y2={expoEnd[1] - 12}
+              stroke={c.expo} strokeWidth="0.8" strokeDasharray="2,2" opacity="0.5" />
+            <text x={expoEnd[0] - 18} y={expoEnd[1] - 20} textAnchor="end"
+              fill={c.labelText} fontSize="11"
+              fontFamily="'SF Mono','Fira Code',monospace" fontWeight="700" letterSpacing="0.05em">
+              REGULATORY COMPLEXITY
             </text>
-            <text
-              x="107.5"
-              y="37"
-              textAnchor="middle"
-              fill={c.expo}
-              fontSize="11.5"
-              fontFamily="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
-              fontWeight="800"
-              letterSpacing="0.05em"
-            >
-              MANAGE PRODUCTION
+            <text x={expoEnd[0] - 18} y={expoEnd[1] - 6} textAnchor="end"
+              fill={c.labelSub} fontSize="9"
+              fontFamily="'SF Mono','Fira Code',monospace" fontWeight="500" letterSpacing="0.04em">
+              NEEDED TO SECURE TENDERS
             </text>
           </g>
         )}
 
-        {/* ── Bottom Badge Card: "WHAT YOUR TEAM CAN HOLD IN THEIR HEADS" ── */}
-        {t > 0.8 && (
-          <g
-            opacity={Math.min((t - 0.8) / 0.2, 1)}
-            transform={`translate(${linearEnd[0] - 185}, ${linearEnd[1] - 12})`}
-          >
-            <rect
-              width="175"
-              height="48"
-              rx="4"
-              fill={c.cardBg}
-              stroke={c.cardBorder}
-              strokeWidth="1"
-            />
-            <text
-              x="87.5"
-              y="20"
-              textAnchor="middle"
-              fill={c.linear}
-              fontSize="11.5"
-              fontFamily="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
-              fontWeight="800"
-              letterSpacing="0.05em"
-            >
-              WHAT YOUR TEAM CAN
+        {/* ── Floating callout: Manual Capacity ── */}
+        {t > 0.82 && (
+          <g opacity={Math.min((t - 0.82) / 0.18, 1)}>
+            <line x1={linearEnd[0]} y1={linearEnd[1]} x2={linearEnd[0] - 14} y2={linearEnd[1] + 14}
+              stroke={c.linear} strokeWidth="0.8" strokeDasharray="2,2" opacity="0.5" />
+            <text x={linearEnd[0] - 18} y={linearEnd[1] + 20} textAnchor="end"
+              fill={c.labelText} fontSize="11"
+              fontFamily="'SF Mono','Fira Code',monospace" fontWeight="700" letterSpacing="0.05em">
+              WHAT PROCUREMENT OFFICERS
             </text>
-            <text
-              x="87.5"
-              y="37"
-              textAnchor="middle"
-              fill={c.linear}
-              fontSize="11.5"
-              fontFamily="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
-              fontWeight="800"
-              letterSpacing="0.05em"
-            >
-              HOLD IN THEIR HEADS
+            <text x={linearEnd[0] - 18} y={linearEnd[1] + 34} textAnchor="end"
+              fill={c.labelSub} fontSize="9"
+              fontFamily="'SF Mono','Fira Code',monospace" fontWeight="500" letterSpacing="0.04em">
+              CAN PROCESS MANUALLY
             </text>
           </g>
         )}
