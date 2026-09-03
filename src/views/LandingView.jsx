@@ -767,10 +767,9 @@ export function LandingView() {
               {t?.landing?.divisionsSubtitle || 'Universal Standards Corpus'}
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-6">
-              {t?.landing?.divisionsTitle || '6 Technical BIS Divisions'}
+              {t?.landing?.divisionsTitle || '7 Technical BIS Divisions'}
             </h2>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 mb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 mb-6">
               {BIS_DIVISIONS.map((div) => (
                 <button
                   key={div.code}

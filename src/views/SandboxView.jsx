@@ -28,6 +28,19 @@ export function SandboxView() {
 
   const demoPresets = [
     {
+      id: 'water',
+      division: 'FAD',
+      title: 'Packaged Drinking Water & Food Grade Beverages',
+      specText: 'Supply of packaged drinking water in 500ml and 1000ml food-grade PET bottles for institutional passenger catering. Must conform to IS 14543 with mandatory BIS ISI certification mark, testing for TDS (75-500 mg/l) and zero microbiological pathogens.',
+      resolvedCode: 'IS 14543 : 2016',
+      resolvedTitle: 'Packaged Drinking Water (Other than Natural Mineral Water) - Specification',
+      qcoMandate: 'Packaged Drinking Water (Quality Control) Order, 2024 [Mandatory ISI Mark]',
+      normativeTests: ['IS 3025 Part 11 (pH 6.5 - 8.5)', 'IS 15185 (0 CFU E. Coli / 250ml)', 'IS 15410 (PET Overall Migration Test)'],
+      scenarioId: 'packaged_water_railways',
+      confidence: 99.2,
+      miiLocalContent: '75% Class-I Local'
+    },
+    {
       id: 'cable',
       division: 'ETD',
       title: '11kV HT XLPE Metro Power Cables',

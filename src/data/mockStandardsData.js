@@ -1,5 +1,69 @@
 export const MOCK_STANDARDS = [
   {
+    "id": "IS_14543",
+    "code": "IS 14543 : 2016",
+    "title": "Packaged Drinking Water (Other than Packaged Natural Mineral Water) - Specification",
+    "division": "FAD",
+    "divisionName": "Food & Agriculture Division (FAD 14)",
+    "category": "Food, Packaged Water & Agriculture",
+    "scope": "Prescribes requirements and methods of sampling and testing for packaged drinking water other than packaged natural mineral water.",
+    "latestAmendment": "Amendment No. 2 (2022) - Enhanced pesticide residue limits & food-grade PET migration testing",
+    "status": "Active",
+    "statusBadge": "Active / QCO Mandatory",
+    "reaffirmationDate": "Reaffirmed 2022",
+    "confidenceScore": 99.2,
+    "certificationScheme": "Scheme-I (Mandatory ISI Mark)",
+    "qcoMandatory": true,
+    "qcoGazetteOrder": "Packaged Drinking Water (Quality Control) Order, 2024 (Ministry of Consumer Affairs)",
+    "ministryEnforcing": "Ministry of Consumer Affairs, Food & Public Distribution",
+    "makeInIndiaLocalContentMin": "75% (Class-I Local Supplier)",
+    "keyParameters": [
+      "Total Dissolved Solids (TDS): 75 mg/l to 500 mg/l",
+      "pH Range: 6.5 to 8.5",
+      "Microbiological: E. coli, Coliforms, Faecal Streptococci = Absent in 250 ml",
+      "Toxic Substances: Lead <= 0.01 mg/l, Arsenic <= 0.01 mg/l, Mercury <= 0.001 mg/l",
+      "Packaging: Food-grade tamper-evident PET containers conforming to IS 15410"
+    ],
+    "normativeReferences": {
+      "rawMaterialTests": [
+        {
+          "code": "IS 3025 (Part 11) : 2022",
+          "title": "Methods of Sampling and Test (Physical and Chemical) for Water: Part 11 pH Value",
+          "testMethod": "Electrometric pH Meter Method (6.5 to 8.5 Range)",
+          "mandatoryClause": "Clause 4.2 Table 1 (Mandatory parameter for potable consumer water)",
+          "importance": "Crucial - Ensures optimum neutral acidity/alkalinity for human consumption",
+          "checkedByDefault": true
+        },
+        {
+          "code": "IS 15185 : 2016",
+          "title": "Water Quality - Detection and Enumeration of Escherichia coli and Coliform Bacteria",
+          "testMethod": "Membrane Filtration & Chromogenic Agar Incubation (0 CFU / 250ml)",
+          "mandatoryClause": "Clause 5.1 Table 2 (Zero microbial tolerance)",
+          "importance": "Critical - Prevents waterborne bacterial pathogens in public supplies",
+          "checkedByDefault": true
+        },
+        {
+          "code": "IS 15410 : 2003",
+          "title": "Containers for Packaging of Natural Mineral Water and Packaged Drinking Water",
+          "testMethod": "Overall Migration Test with Food Simulants as per IS 9845",
+          "mandatoryClause": "Clause 6.2 (Food-grade virgin polymer certification)",
+          "importance": "High - Prevents phthalate and chemical leaching from bottles",
+          "checkedByDefault": true
+        }
+      ],
+      "safetyCodes": [
+        {
+          "code": "IS 14543 Annex D",
+          "title": "Good Hygienic and Manufacturing Practices for Packaged Water Processing Facilities",
+          "summary": "Mandatory UV sterilization, reverse osmosis, ozonation, and automated bottling lines."
+        }
+      ],
+      "installationGuidelines": "Bottling must occur in automated class-10000 cleanroom environments certified under FSSAI and BIS CML licensing.",
+      "samplingFrequency": "Batch testing: 1 sample per 1,000 bottles for physical/chemical and 1 sample per batch for microbiological safety."
+    },
+    "modelNitClause": "1.0 TECHNICAL COMPLIANCE - PACKAGED DRINKING WATER:\n1.1 All packaged water supplied under this procurement shall strictly conform to BIS specification IS 14543:2016 with all latest amendments.\n1.2 STATUTORY QCO MANDATE: Under Section 16 of the BIS Act 2016 and the Packaged Drinking Water QCO 2024, the bidder/OEM MUST hold an active BIS Standard Mark (ISI Certification) license. Bids lacking a valid CML number shall be disqualified.\n1.3 SAFETY & TESTING:\n   a) Microbiological sterility verified as per IS 15185 with zero E. coli and coliform counts.\n   b) Bottles shall be food-grade virgin PET certified under IS 15410.\n1.4 LOCAL CONTENT: Minimum local value addition under PPP-MII Order 2017 shall be 75%."
+  },
+  {
     "id": "IS_7098_P2",
     "code": "IS 7098 (Part 2) : 2011",
     "title": "Cross-Linked Polyethylene Insulated Thermoplastic Sheathed Cables - Specification (Part 2: For Working Voltages from 3.3 kV Up to and Including 33 kV)",
