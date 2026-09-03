@@ -130,27 +130,27 @@ export function AppleStripeBackground() {
       // =========================================================================
       // PASS 2: Subtle Laser Scanline Sweep (State Intelligence Terminal)
       // =========================================================================
-      scanlineY = (scanlineY + 0.8) % (height + 300);
-      const curScanY = scanlineY - 150;
-
-      if (curScanY > -50 && curScanY < height + 50) {
-        const scanGrad = ctx.createLinearGradient(0, curScanY - 60, 0, curScanY + 60);
-        const scanColor = isDark ? 'rgba(245, 158, 11, 0.04)' : 'rgba(30, 58, 95, 0.035)';
-        scanGrad.addColorStop(0, 'rgba(0, 0, 0, 0)');
-        scanGrad.addColorStop(0.5, scanColor);
-        scanGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-        ctx.fillStyle = scanGrad;
-        ctx.fillRect(0, curScanY - 60, width, 120);
-
-        // Thin laser line
-        ctx.strokeStyle = isDark ? 'rgba(245, 158, 11, 0.12)' : 'rgba(30, 58, 95, 0.08)';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(0, curScanY);
-        ctx.lineTo(width, curScanY);
-        ctx.stroke();
-      }
+     // scanlineY = (scanlineY + 0.8) % (height + 300);
+     // const curScanY = scanlineY - 150;
+//
+     // if (curScanY > -50 && curScanY < height + 50) {
+     //   const scanGrad = ctx.createLinearGradient(0, curScanY - 60, 0, curScanY + 60);
+     //   const scanColor = isDark ? 'rgba(245, 158, 11, 0.04)' : 'rgba(30, 58, 95, 0.035)';
+     //   scanGrad.addColorStop(0, 'rgba(0, 0, 0, 0)');
+     //   scanGrad.addColorStop(0.5, scanColor);
+     //   scanGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+//
+     //   ctx.fillStyle = scanGrad;
+     //   ctx.fillRect(0, curScanY - 60, width, 120);
+//
+     //   // Thin laser line
+     //   ctx.strokeStyle = isDark ? 'rgba(245, 158, 11, 0.12)' : 'rgba(30, 58, 95, 0.08)';
+     //   ctx.lineWidth = 1;
+     //   ctx.beginPath();
+     //   ctx.moveTo(0, curScanY);
+     //   ctx.lineTo(width, curScanY);
+     //   ctx.stroke();
+     // }
 
       // =========================================================================
       // PASS 3: Neural Constellation & Particle Mesh

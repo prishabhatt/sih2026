@@ -28,6 +28,7 @@ import { useTheme } from '../context/ThemeContext';
 import { useProcurement } from '../context/ProcurementContext';
 import { BIS_DIVISIONS } from '../data/divisionsData';
 import { AppleStripeBackground } from '../components/AppleStripeBackground';
+import { ComparisonGraph } from '../components/ComparisonGraph';
 
 function AnimatedNumber({ target, suffix = '', duration = 1800 }) {
   const [count, setCount] = useState(0);
@@ -296,8 +297,8 @@ export function LandingView() {
           
           {/* Module 1: Brand Logo & Status */}
           <div className="flex items-center gap-3.5 shrink-0">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#0B1E36] to-[#1E3A5F] flex items-center justify-center text-white border border-[#1E3A5F]/40 shadow-md shadow-[#0B1E36]/30">
-              <ShieldCheck className="w-5 h-5 text-amber-400" />
+            <div className="w-10 h-10 rounded-[18px] bg-[#1C1C1E] dark:bg-black border border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.25)] flex items-center justify-center text-white shrink-0 transition-transform hover:scale-105">
+              <ShieldCheck className="w-5 h-5 text-white stroke-[2.4]" />
             </div>
             <div className="flex items-center gap-2.5">
               <span className="font-extrabold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white">
@@ -629,39 +630,40 @@ export function LandingView() {
       {/* ================================================================ */}
       {/* ARCHITECTURE                                                     */}
       {/* ================================================================ */}
-      <section id="architecture" className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          <ScrollReveal direction="left" className="lg:col-span-5">
-            <div className="space-y-4">
-              <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#1E3A5F] dark:text-amber-400 block">
-                {t?.landing?.problemSolutionSubtitle || 'The Statutory Mandate'}
-              </span>
+      <section id="architecture" className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-14 items-center">
+          <ScrollReveal direction="left" className="lg:col-span-7">
+            <ComparisonGraph />
+          </ScrollReveal>
+
+          <ScrollReveal direction="right" className="lg:col-span-5">
+            <div className="space-y-5">
               <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
-                {t?.landing?.problemSolutionTitle || 'Eliminating Vulnerabilities in Public Tenders.'}
+                {t?.landing?.problemSolutionTitle || 'Bridging the Critical Gap in Indian Public Procurement'}
               </h2>
               <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
                 {t?.landing?.aboutP1 || 'Public procurement officers face immense legal liability under CAG audits and CVC scrutiny when tender specifications inadvertently cite outdated standards or embed single-vendor proprietary parameters.'}
               </p>
+              <div className="pt-2 space-y-3">
+                <div className="flex items-start gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#C44D2A] dark:bg-[#E87744] mt-2 shrink-0" />
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                    {lang === 'hi' ? 'नियामक मानक और QCO जटिलता घातीय रूप से बढ़ती है, जबकि मैनुअल समीक्षा क्षमता स्थिर रहती है।' :
+                     lang === 'gu' ? 'નિયામક ધોરણો અને QCO જટિલતા ઘાતાંકીય રીતે વધે છે, જ્યારે મેન્યુઅલ સમીક્ષા ક્ષમતા સપાટ રહે છે.' :
+                     'Regulatory standards and QCO complexity scale exponentially while manual review capacity remains flat — creating a growing compliance gap that exposes tenders to CAG audit risk.'}
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#5A7E3C] dark:bg-[#8AB862] mt-2 shrink-0" />
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                    {lang === 'hi' ? 'बीआईएस इंजन इस बढ़ते अंतर को पाटकर स्वचालित अनुपालन सुनिश्चित करता है।' :
+                     lang === 'gu' ? 'BIS Engine આ વધતા અંતરને પાર કરીને સ્વચાલિત અનુપાલન સુનિશ્ચિત કરે છે.' :
+                     'The BIS Engine bridges this gap by autonomously resolving exact Indian Standards, normative references, and mandatory QCO decrees in milliseconds.'}
+                  </p>
+                </div>
+              </div>
             </div>
           </ScrollReveal>
-
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {[
-              { icon: Scale, title: t?.landing?.card1Title || 'GFR Anti-Bias Guard', desc: t?.landing?.card1Problem || 'Audits against Rule 144(xi) to stop restrictive custom tolerances.' },
-              { icon: Database, title: t?.landing?.card2Title || '22,410+ Standards', desc: t?.landing?.card2Problem || 'Traverses normative reference graphs for raw material dependencies.' },
-              { icon: ShieldCheck, title: t?.landing?.card3Title || 'SHA-256 Passports', desc: t?.landing?.card3Problem || 'Verifiable QR compliance certificates for on-site physical inspection.' },
-            ].map((card, i) => (
-              <ScrollReveal key={i} direction="up" delay={i + 1}>
-                <div className="p-6 rounded-3xl bg-white/75 dark:bg-[#0E1322]/70 backdrop-blur-xl border border-slate-200/80 dark:border-white/[0.08] shadow-lg space-y-3 h-full hover:border-[#1E3A5F]/40 dark:hover:border-white/20 transition-all">
-                  <div className="w-10 h-10 rounded-2xl bg-[#1E3A5F]/10 dark:bg-white/[0.04] border border-[#1E3A5F]/20 dark:border-white/10 flex items-center justify-center text-[#1E3A5F] dark:text-amber-400">
-                    <card.icon className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">{card.title}</h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">{card.desc}</p>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -889,8 +891,8 @@ export function LandingView() {
             <ScrollReveal direction="up" delay={1}>
               <div className="space-y-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#0B1E36] to-[#1E3A5F] flex items-center justify-center text-white border border-[#1E3A5F]/40">
-                    <ShieldCheck className="w-4 h-4 text-amber-400" />
+                  <div className="w-8 h-8 rounded-xl bg-[#1C1C1E] dark:bg-black border border-white/20 flex items-center justify-center text-white shadow-md">
+                    <ShieldCheck className="w-4.5 h-4.5 text-white stroke-[2.4]" />
                   </div>
                   <span className="font-bold text-sm text-slate-900 dark:text-white">BIS<span className="text-[#1E3A5F] dark:text-[#93B5D9] font-serif italic">Engine</span></span>
                 </div>

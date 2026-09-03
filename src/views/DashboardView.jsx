@@ -357,7 +357,7 @@ export function DashboardView() {
                 <div className="flex justify-between items-start text-xs relative z-10">
                   <div>
                     <h3 className="font-bold text-white text-xs tracking-tight flex items-center gap-1.5">
-                      <TrendingUp className="w-3.5 h-3.5 text-[#00D2D3]" />
+                      <TrendingUp className="w-3.5 h-3.5 text-sky-400" />
                       Compliance Status
                     </h3>
                     <p className="text-[10px] text-slate-400 font-sans mt-0.5">
@@ -371,7 +371,7 @@ export function DashboardView() {
                       <button
                         onClick={() => setChartMode('bars')}
                         className={`p-1 rounded-md transition-all cursor-pointer ${
-                          chartMode === 'bars' ? 'bg-[#00D2D3] text-black font-bold' : 'text-slate-300 hover:text-white'
+                          chartMode === 'bars' ? 'bg-sky-400 text-slate-950 font-extrabold shadow-xs' : 'text-slate-300 hover:text-white'
                         }`}
                         title="Bar Chart Mode"
                       >
@@ -380,7 +380,7 @@ export function DashboardView() {
                       <button
                         onClick={() => setChartMode('trend')}
                         className={`p-1 rounded-md transition-all cursor-pointer ${
-                          chartMode === 'trend' ? 'bg-[#00D2D3] text-black font-bold' : 'text-slate-300 hover:text-white'
+                          chartMode === 'trend' ? 'bg-sky-400 text-slate-950 font-extrabold shadow-xs' : 'text-slate-300 hover:text-white'
                         }`}
                         title="Wave Curve Trend Mode"
                       >
@@ -394,7 +394,7 @@ export function DashboardView() {
                           key={tf}
                           onClick={() => setTimeframe(tf)}
                           className={`px-2 py-0.5 rounded-full transition-all cursor-pointer ${
-                            timeframe === tf ? 'bg-[#00D2D3] text-black font-bold' : 'text-slate-300 hover:text-white'
+                            timeframe === tf ? 'bg-sky-400 text-slate-950 font-extrabold shadow-xs' : 'text-slate-300 hover:text-white'
                           }`}
                         >
                           {tf}
@@ -406,14 +406,14 @@ export function DashboardView() {
 
                 {/* Floating Interactive Tooltip */}
                 {hoveredMonth && (
-                  <div className="absolute top-16 left-1/2 -translate-x-1/2 bg-slate-950/95 text-white text-[10px] px-3.5 py-1.5 rounded-xl border border-white/20 shadow-2xl z-20 whitespace-nowrap animate-in fade-in duration-150">
-                    <span className="text-[#00D2D3] font-bold">{hoveredMonth.month}</span>: {hoveredMonth.passedCount} Passed ({hoveredMonth.adherence}) / <span className="text-[#A259FF] font-bold">{hoveredMonth.flaggedCount} Flagged</span>
+                  <div className="absolute top-16 left-1/2 -translate-x-1/2 bg-slate-950/95 text-white text-[10px] px-3.5 py-1.5 rounded-xl border border-white/20 shadow-xl z-20 whitespace-nowrap animate-in fade-in duration-150">
+                    <span className="text-sky-400 font-bold">{hoveredMonth.month}</span>: {hoveredMonth.passedCount} Passed ({hoveredMonth.adherence}) / <span className="text-purple-400 font-bold">{hoveredMonth.flaggedCount} Flagged</span>
                   </div>
                 )}
 
                 {/* Chart Area */}
                 {chartMode === 'bars' ? (
-                  /* Dual Bar View */
+                  /* Dual Bar View with Diminished, Soft Glow */
                   <div className="flex items-end justify-between gap-3 pt-6 px-2 relative z-10">
                     {currentChartData.map((d) => {
                       const isHovered = hoveredMonth?.month === d.month;
@@ -424,21 +424,21 @@ export function DashboardView() {
                           onMouseEnter={() => setHoveredMonth(d)}
                           onMouseLeave={() => setHoveredMonth(null)}
                         >
-                          <div className="w-full flex items-end justify-center gap-1.5 h-24 bg-white/[0.03] rounded-xl p-1 transition-colors group-hover:bg-white/[0.08]">
+                          <div className="w-full flex items-end justify-center gap-1.5 h-24 bg-white/[0.03] rounded-xl p-1 transition-colors group-hover:bg-white/[0.06]">
                             <div 
                               style={{ height: `${d.cyan}%` }}
-                              className={`w-3 bg-[#00D2D3] rounded-t-sm transition-all duration-300 ${
-                                isHovered ? 'brightness-125 shadow-[0_0_10px_#00D2D3]' : ''
+                              className={`w-3 bg-sky-400 rounded-t-sm transition-all duration-300 ${
+                                isHovered ? 'brightness-110 shadow-[0_2px_8px_rgba(56,189,248,0.3)]' : ''
                               }`}
                             />
                             <div 
                               style={{ height: `${d.purple}%` }}
-                              className={`w-3 bg-[#A259FF] rounded-t-sm transition-all duration-300 ${
-                                isHovered ? 'brightness-125 shadow-[0_0_10px_#A259FF]' : ''
+                              className={`w-3 bg-purple-400 rounded-t-sm transition-all duration-300 ${
+                                isHovered ? 'brightness-110 shadow-[0_2px_8px_rgba(192,132,252,0.3)]' : ''
                               }`}
                             />
                           </div>
-                          <span className={`text-[10px] transition-colors ${isHovered ? 'text-[#00D2D3] font-bold' : 'text-slate-400'}`}>
+                          <span className={`text-[10px] transition-colors ${isHovered ? 'text-sky-400 font-bold' : 'text-slate-400'}`}>
                             {d.month}
                           </span>
                         </div>
@@ -451,8 +451,8 @@ export function DashboardView() {
                     <svg className="w-full h-24 overflow-visible" viewBox="0 0 300 100" preserveAspectRatio="none">
                       <defs>
                         <linearGradient id="trendGrad" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#00D2D3" stopOpacity="0.4" />
-                          <stop offset="100%" stopColor="#00D2D3" stopOpacity="0.0" />
+                          <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.3" />
+                          <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.0" />
                         </linearGradient>
                       </defs>
                       <path
@@ -462,7 +462,7 @@ export function DashboardView() {
                       <path
                         d="M 0 60 Q 50 20, 100 45 T 200 15 T 300 25"
                         fill="none"
-                        stroke="#00D2D3"
+                        stroke="#38BDF8"
                         strokeWidth="2.5"
                         strokeLinecap="round"
                       />

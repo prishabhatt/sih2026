@@ -62,17 +62,6 @@ export function Navbar() {
 
             {/* Right Actions Container */}
             <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 justify-end">
-              
-              {/* Load Sample Specs Button */}
-              <button
-                onClick={() => setIsSampleDrawerOpen(true)}
-                className="glass-btn-secondary inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold text-amber-600 dark:text-amber-300 cursor-pointer shadow-xs"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
-                <span className="hidden sm:inline">{t.nav.loadSample}</span>
-                <span className="sm:hidden">Sample Specs</span>
-              </button>
-
               {/* Distinct Segmented Theme Capsule Toggle */}
               <div className="flex items-center p-1 rounded-full bg-slate-200/90 dark:bg-black/50 border-2 border-slate-300 dark:border-white/20 shadow-inner backdrop-blur-2xl transition-all">
                 <button

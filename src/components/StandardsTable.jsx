@@ -56,11 +56,18 @@ export function StandardsTable({
     }
   };
 
-  const handleAddClick = (stdId, isCurrentlySelected) => {
+  const handleAddClick = (std, isCurrentlySelected) => {
     if (!isCurrentlySelected) {
-      triggerVerification();
+      triggerVerification({
+        title: 'Standard Added to Draft',
+        code: std.code,
+        description: std.title,
+        badge: std.qcoMandatory ? 'Mandatory Gazette QCO' : 'BIS Recognized Standard',
+        isRemoval: false
+      });
     }
-    onToggleStandard && onToggleStandard(stdId);
+    // Seamless inline removal with zero modal popup interruptions
+    onToggleStandard && onToggleStandard(std.id);
   };
 
   const setTabFor = (stdId, tab) => {
@@ -196,7 +203,7 @@ export function StandardsTable({
                       <td className="px-6 py-5 text-right align-middle whitespace-nowrap">
                         <div className="flex items-center justify-end gap-3">
                           <button
-                            onClick={() => handleAddClick(std.id, isSelected)}
+                            onClick={() => handleAddClick(std, isSelected)}
                             className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer shadow-2xs ${
                               isSelected
                                 ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/50'
