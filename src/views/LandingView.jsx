@@ -283,35 +283,35 @@ export function LandingView() {
   const faqItems = useMemo(() => [
     {
       q: lang === 'hi' ? 'एआई इंजन नवीनतम संशोधित भारतीय मानक को कैसे हल करता है?' :
-         lang === 'gu' ? 'એઆઈ એન્જિન નવીનતમ સુધારેલા ભારતીય ધોરણને કેવી રીતે શોધે છે?' :
-         'How does the AI engine resolve the latest amended Indian Standard?',
+        lang === 'gu' ? 'એઆઈ એન્જિન નવીનતમ સુધારેલા ભારતીય ધોરણને કેવી રીતે શોધે છે?' :
+          'How does the AI engine resolve the latest amended Indian Standard?',
       a: lang === 'hi' ? 'इंजन 768-आयामी सघन वेक्टर एम्बेडिंग के साथ लाइव बीआईएस गजट कॉर्पस को इंडेक्स करता है। जब किसी निविदा विवरण को इनपुट किया जाता है, तो सिमेंटिक आरएजी मिलान नवीनतम संशोधन प्राप्त करता है।' :
-         lang === 'gu' ? 'એન્જિન 768-પરિમાણીય વેક્ટર એમ્બેડિંગ્સ સાથે લાઇવ બીઆઈએસ ગેઝેટ કોર્પસને ઇન્ડેક્સ કરે છે. જ્યારે ટેન્ડર વિગતો દાખલ થાય છે ત્યારે સિમેન્ટીક RAG મેચિંગ તાજેતરના સુધારા પુનઃપ્રાપ્ત કરે છે.' :
-         'The engine indexes the live BIS Gazette corpus with 768-dimensional dense vector embeddings. When a tender description is ingested, semantic RAG matching retrieves the most recent reaffirmation and active amendments, preventing references to obsolete specifications.'
+        lang === 'gu' ? 'એન્જિન 768-પરિમાણીય વેક્ટર એમ્બેડિંગ્સ સાથે લાઇવ બીઆઈએસ ગેઝેટ કોર્પસને ઇન્ડેક્સ કરે છે. જ્યારે ટેન્ડર વિગતો દાખલ થાય છે ત્યારે સિમેન્ટીક RAG મેચિંગ તાજેતરના સુધારા પુનઃપ્રાપ્ત કરે છે.' :
+          'The engine indexes the live BIS Gazette corpus with 768-dimensional dense vector embeddings. When a tender description is ingested, semantic RAG matching retrieves the most recent reaffirmation and active amendments, preventing references to obsolete specifications.'
     },
     {
       q: lang === 'hi' ? 'GFR 2017 नियम 144(xi) के तहत एकल-विक्रेता पक्षपात को कैसे रोका जाता है?' :
-         lang === 'gu' ? 'GFR 2017 નિયમ 144(xi) હેઠળ સિંગલ-વેન્ડર પક્ષપાત કેવી રીતે અટકાવવામાં આવે છે?' :
-         'How does the system prevent single-vendor bias under GFR 2017 Rule 144(xi)?',
+        lang === 'gu' ? 'GFR 2017 નિયમ 144(xi) હેઠળ સિંગલ-વેન્ડર પક્ષપાત કેવી રીતે અટકાવવામાં આવે છે?' :
+          'How does the system prevent single-vendor bias under GFR 2017 Rule 144(xi)?',
       a: lang === 'hi' ? 'GFR 2017 नियम 144(xi) उन विनिर्देशों को प्रतिबंधित करता है जो प्रतिस्पर्धा को किसी विशिष्ट मेक या ब्रांड तक सीमित करते हैं। इंजन मानकीकृत बीआईएस मापदंडों के विरुद्ध ड्राफ्ट निविदा खंडों का ऑडिट करता है।' :
-         lang === 'gu' ? 'GFR 2017 નિયમ 144(xi) એવી વિશિષ્ટતાઓને પ્રતિબંધિત કરે છે જે સ્પર્ધાને કોઈ ચોક્કસ બ્રાન્ડ સુધી સીમિત કરે છે. એન્જિન પ્રમાણિત પરિમાણો સામે ડ્રાફ્ટ ટેન્ડર શરતોનું ઓડિટ કરે છે.' :
-         'GFR 2017 Rule 144(xi) prohibits specifications that restrict competition to a specific make or brand. The engine audits draft tender clauses against standardized Indian Standards parameters.'
+        lang === 'gu' ? 'GFR 2017 નિયમ 144(xi) એવી વિશિષ્ટતાઓને પ્રતિબંધિત કરે છે જે સ્પર્ધાને કોઈ ચોક્કસ બ્રાન્ડ સુધી સીમિત કરે છે. એન્જિન પ્રમાણિત પરિમાણો સામે ડ્રાફ્ટ ટેન્ડર શરતોનું ઓડિટ કરે છે.' :
+          'GFR 2017 Rule 144(xi) prohibits specifications that restrict competition to a specific make or brand. The engine audits draft tender clauses against standardized Indian Standards parameters.'
     },
     {
       q: lang === 'hi' ? 'वैधानिक गुणवत्ता नियंत्रण आदेश (QCO) कैसे लागू किए जाते हैं?' :
-         lang === 'gu' ? 'વૈધાનિક ગુણવત્તા નિયંત્રણ ઓર્ડર (QCO) કેવી રીતે લાગુ કરવામાં આવે છે?' :
-         'How are statutory QCOs and mandatory BIS certification enforced?',
+        lang === 'gu' ? 'વૈધાનિક ગુણવત્તા નિયંત્રણ ઓર્ડર (QCO) કેવી રીતે લાગુ કરવામાં આવે છે?' :
+          'How are statutory QCOs and mandatory BIS certification enforced?',
       a: lang === 'hi' ? 'बीआईएस अधिनियम 2016 की धारा 16 के तहत, अनिवार्य क्यूसीओ आदेश स्कीम-I आईएसआई मार्क या स्कीम-II सीआरएस पंजीकरण अनिवार्य करते हैं। गेटवे स्वचालित रूप से अनिवार्य क्यूसीओ को चिह्नित करता है।' :
-         lang === 'gu' ? 'BIS એક્ટ 2016 ની કલમ 16 હેઠળ, ગેઝેટ કરાયેલા QCOs સ્કીમ-I ISI માર્ક અથવા સ્કીમ-II CRS રજીસ્ટ્રેશન ફરજિયાત કરે છે. ગેટવે આપમેળે વસ્તુઓને સક્રિય QCO હેઠળ ફ્લેગ કરે છે.' :
-         'Under Section 16 of the BIS Act 2016, gazetted QCOs mandate Scheme-I ISI Marks or Scheme-II CRS Registrations. The gateway automatically flags items under active QCO decrees.'
+        lang === 'gu' ? 'BIS એક્ટ 2016 ની કલમ 16 હેઠળ, ગેઝેટ કરાયેલા QCOs સ્કીમ-I ISI માર્ક અથવા સ્કીમ-II CRS રજીસ્ટ્રેશન ફરજિયાત કરે છે. ગેટવે આપમેળે વસ્તુઓને સક્રિય QCO હેઠળ ફ્લેગ કરે છે.' :
+          'Under Section 16 of the BIS Act 2016, gazetted QCOs mandate Scheme-I ISI Marks or Scheme-II CRS Registrations. The gateway automatically flags items under active QCO decrees.'
     },
     {
       q: lang === 'hi' ? 'क्रिप्टोग्राफिक SHA-256 डिजिटल पासपोर्ट क्या है?' :
-         lang === 'gu' ? 'ક્રિપ્ટોગ્રાફિક SHA-256 ડિજિટલ પાસપોર્ટ શું છે?' :
-         'What is a Cryptographic SHA-256 Digital Passport?',
+        lang === 'gu' ? 'ક્રિપ્ટોગ્રાફિક SHA-256 ડિજિટલ પાસપોર્ટ શું છે?' :
+          'What is a Cryptographic SHA-256 Digital Passport?',
       a: lang === 'hi' ? 'सत्यापन के बाद, सिस्टम सभी अनुमोदित मानकों, प्रामाणिक परीक्षण प्रोटोकॉल और स्थानीय सामग्री सीमाओं का SHA-256 हैश उत्पन्न करता है, जिसे साइट निरीक्षण के लिए क्यूआर कोड में एम्बेड किया जाता है।' :
-         lang === 'gu' ? 'ચકાસણી પછી, સિસ્ટમ તમામ મંજૂર ધોરણો, પરીક્ષણ પ્રોટોકોલ અને સ્થાનિક સામગ્રી થ્રેશોલ્ડના SHA-256 હેશની ગણતરી કરે છે, જે સાઇટ નિરીક્ષણ માટે QR પાસપોર્ટમાં એમ્બેડ થાય છે.' :
-         'Once verified, the system computes a SHA-256 hash of all approved standards, normative test protocols, and local content thresholds, embedded in a tamper-proof QR Passport for field inspection.'
+        lang === 'gu' ? 'ચકાસણી પછી, સિસ્ટમ તમામ મંજૂર ધોરણો, પરીક્ષણ પ્રોટોકોલ અને સ્થાનિક સામગ્રી થ્રેશોલ્ડના SHA-256 હેશની ગણતરી કરે છે, જે સાઇટ નિરીક્ષણ માટે QR પાસપોર્ટમાં એમ્બેડ થાય છે.' :
+          'Once verified, the system computes a SHA-256 hash of all approved standards, normative test protocols, and local content thresholds, embedded in a tamper-proof QR Passport for field inspection.'
     }
   ], [lang]);
 
@@ -326,7 +326,7 @@ export function LandingView() {
       {/* ================================================================ */}
       <div className="fixed top-4 sm:top-5 inset-x-0 z-50 flex justify-center px-4 sm:px-6 lg:px-8 pointer-events-none">
         <header className="pointer-events-auto max-w-[1360px] w-full backdrop-blur-2xl bg-white/85 dark:bg-[#070B14]/90 border-2 border-white dark:border-white/20 shadow-[0_12px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.5)] rounded-full px-6 sm:px-8 py-3 sm:py-3.5 flex items-center justify-between gap-6 transition-all">
-          
+
           {/* Module 1: Brand Logo & Status */}
           <div className="flex items-center gap-3.5 shrink-0">
             <div className="w-10 h-10 rounded-[18px] bg-[#1C1C1E] dark:bg-black border border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.25)] flex items-center justify-center text-white shrink-0 transition-transform hover:scale-105">
@@ -390,11 +390,10 @@ export function LandingView() {
                       <button
                         key={l.code}
                         onClick={() => { setLang(l.code); setIsLangOpen(false); }}
-                        className={`w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between transition-colors my-0.5 cursor-pointer ${
-                          lang === l.code
+                        className={`w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between transition-colors my-0.5 cursor-pointer ${lang === l.code
                             ? 'font-bold bg-[#1E3A5F]/15 dark:bg-[#1E3A5F]/40 text-[#1E3A5F] dark:text-white border border-[#1E3A5F]/30'
                             : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10'
-                        }`}
+                          }`}
                       >
                         <div>
                           <span className="font-semibold">{l.native}</span>
@@ -413,11 +412,10 @@ export function LandingView() {
               <button
                 type="button"
                 onClick={setLightTheme}
-                className={`flex items-center justify-center p-1.5 px-2.5 rounded-full text-xs transition-all duration-200 cursor-pointer ${
-                  !isDark
+                className={`flex items-center justify-center p-1.5 px-2.5 rounded-full text-xs transition-all duration-200 cursor-pointer ${!isDark
                     ? 'bg-white text-amber-500 shadow-[0_2px_8px_rgba(0,0,0,0.15)] ring-1 ring-black/5 font-extrabold scale-105'
                     : 'text-slate-400 hover:text-slate-700 dark:text-slate-500 dark:hover:text-slate-300 hover:bg-black/5 dark:hover:bg-white/10'
-                }`}
+                  }`}
                 title="Switch to Institutional Light Mode"
               >
                 <Sun className={`w-4 h-4 stroke-[2.5] ${!isDark ? 'text-amber-500 drop-shadow-xs' : 'text-slate-400'}`} />
@@ -426,11 +424,10 @@ export function LandingView() {
               <button
                 type="button"
                 onClick={setDarkTheme}
-                className={`flex items-center justify-center p-1.5 px-2.5 rounded-full text-xs transition-all duration-200 cursor-pointer ${
-                  isDark
+                className={`flex items-center justify-center p-1.5 px-2.5 rounded-full text-xs transition-all duration-200 cursor-pointer ${isDark
                     ? 'bg-[#0B1E36] dark:bg-slate-800 text-sky-400 shadow-[0_2px_8px_rgba(0,0,0,0.3)] ring-1 ring-white/20 font-extrabold scale-105'
                     : 'text-slate-400 hover:text-slate-700 dark:text-slate-500 dark:hover:text-slate-300 hover:bg-black/5 dark:hover:bg-white/10'
-                }`}
+                  }`}
                 title="Switch to Dark Mode"
               >
                 <Moon className={`w-4 h-4 stroke-[2.5] ${isDark ? 'text-sky-300 drop-shadow-xs' : 'text-slate-400'}`} />
@@ -541,11 +538,10 @@ export function LandingView() {
                     <button
                       key={idx}
                       onClick={() => handleSelectPreset(preset, idx)}
-                      className={`px-3.5 py-1.5 rounded-full text-xs font-mono font-bold transition-all cursor-pointer ${
-                        activePresetIndex === idx
+                      className={`px-3.5 py-1.5 rounded-full text-xs font-mono font-bold transition-all cursor-pointer ${activePresetIndex === idx
                           ? 'bg-[#0B1E36] dark:bg-white text-white dark:text-[#07080A] shadow-sm'
                           : 'bg-slate-100/80 dark:bg-white/[0.04] text-slate-700 dark:text-slate-300 hover:bg-slate-200/80 dark:hover:bg-white/[0.08]'
-                      }`}
+                        }`}
                     >
                       {preset.label}
                     </button>
@@ -674,16 +670,16 @@ export function LandingView() {
                   <div className="w-1.5 h-1.5 rounded-full bg-[#C44D2A] dark:bg-[#E87744] mt-2 shrink-0" />
                   <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                     {lang === 'hi' ? 'नियामक मानक और QCO जटिलता घातीय रूप से बढ़ती है, जबकि मैनुअल समीक्षा क्षमता स्थिर रहती है।' :
-                     lang === 'gu' ? 'નિયામક ધોરણો અને QCO જટિલતા ઘાતાંકીય રીતે વધે છે, જ્યારે મેન્યુઅલ સમીક્ષા ક્ષમતા સપાટ રહે છે.' :
-                     'Regulatory standards and QCO complexity scale exponentially while manual review capacity remains flat — creating a growing compliance gap that exposes tenders to CAG audit risk.'}
+                      lang === 'gu' ? 'નિયામક ધોરણો અને QCO જટિલતા ઘાતાંકીય રીતે વધે છે, જ્યારે મેન્યુઅલ સમીક્ષા ક્ષમતા સપાટ રહે છે.' :
+                        'Regulatory standards and QCO complexity scale exponentially while manual review capacity remains flat — creating a growing compliance gap that exposes tenders to CAG audit risk.'}
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-1.5 h-1.5 rounded-full bg-[#5A7E3C] dark:bg-[#8AB862] mt-2 shrink-0" />
                   <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                     {lang === 'hi' ? 'बीआईएस इंजन इस बढ़ते अंतर को पाटकर स्वचालित अनुपालन सुनिश्चित करता है।' :
-                     lang === 'gu' ? 'BIS Engine આ વધતા અંતરને પાર કરીને સ્વચાલિત અનુપાલન સુનિશ્ચિત કરે છે.' :
-                     'The BIS Engine bridges this gap by autonomously resolving exact Indian Standards, normative references, and mandatory QCO decrees in milliseconds.'}
+                      lang === 'gu' ? 'BIS Engine આ વધતા અંતરને પાર કરીને સ્વચાલિત અનુપાલન સુનિશ્ચિત કરે છે.' :
+                        'The BIS Engine bridges this gap by autonomously resolving exact Indian Standards, normative references, and mandatory QCO decrees in milliseconds.'}
                   </p>
                 </div>
               </div>
@@ -706,8 +702,8 @@ export function LandingView() {
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 pt-1 font-normal leading-relaxed">
               {lang === 'hi' ? 'यह देखने के लिए किसी भी चरण पर क्लिक करें कि सिस्टम निविदा दस्तावेजों की जांच कैसे करता है और धोखाधड़ी को रोकता है।' :
-               lang === 'gu' ? 'સિસ્ટમ ટેન્ડર દસ્તાવેજોની તપાસ કેવી રીતે કરે છે અને છેતરપિંડી અટકાવે છે તે જોવા માટે કોઈપણ પગલા પર ક્લિક કરો.' :
-               'Click any stage below to see how the system reads tender documents, detects legal violations, and creates court-ready proof.'}
+                lang === 'gu' ? 'સિસ્ટમ ટેન્ડર દસ્તાવેજોની તપાસ કેવી રીતે કરે છે અને છેતરપિંડી અટકાવે છે તે જોવા માટે કોઈપણ પગલા પર ક્લિક કરો.' :
+                  'Click any stage below to see how the system reads tender documents, detects legal violations, and creates court-ready proof.'}
             </p>
           </div>
         </ScrollReveal>
@@ -719,11 +715,10 @@ export function LandingView() {
               <ScrollReveal key={idx} direction="up" delay={idx + 1}>
                 <div
                   onClick={() => setExpandedPipelineRow(isExpanded ? null : idx)}
-                  className={`p-6 rounded-3xl border transition-all cursor-pointer backdrop-blur-xl ${
-                    isExpanded
+                  className={`p-6 rounded-3xl border transition-all cursor-pointer backdrop-blur-xl ${isExpanded
                       ? 'bg-white/90 dark:bg-[#0E1322]/90 border-[#1E3A5F]/50 dark:border-amber-500/50 shadow-xl'
                       : 'bg-white/60 dark:bg-[#0E1322]/50 border-slate-200/80 dark:border-white/[0.08] hover:border-slate-300 dark:hover:border-white/20'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
@@ -774,21 +769,19 @@ export function LandingView() {
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-6">
               {t?.landing?.divisionsTitle || '6 Technical BIS Divisions'}
             </h2>
-            
+
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 mb-6">
               {BIS_DIVISIONS.map((div) => (
                 <button
                   key={div.code}
                   onClick={() => setActiveDivisionTab(div.code)}
-                  className={`p-3.5 rounded-2xl text-left transition-all cursor-pointer border ${
-                    activeDivisionTab === div.code
+                  className={`p-3.5 rounded-2xl text-left transition-all cursor-pointer border ${activeDivisionTab === div.code
                       ? 'bg-[#0B1E36] dark:bg-white text-white dark:text-[#07080A] border-[#0B1E36] dark:border-white shadow-md'
                       : 'border-slate-200/80 dark:border-white/10 hover:bg-slate-100/70 dark:hover:bg-white/[0.04]'
-                  }`}
+                    }`}
                 >
-                  <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full mb-1.5 block w-fit ${
-                    activeDivisionTab === div.code ? 'bg-amber-400 text-slate-950' : 'bg-slate-200/60 dark:bg-white/[0.08] text-slate-700 dark:text-slate-300'
-                  }`}>
+                  <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full mb-1.5 block w-fit ${activeDivisionTab === div.code ? 'bg-amber-400 text-slate-950' : 'bg-slate-200/60 dark:bg-white/[0.08] text-slate-700 dark:text-slate-300'
+                    }`}>
                     {div.code}
                   </span>
                   <p className="text-xs font-bold truncate">{div.shortName}</p>
@@ -836,8 +829,8 @@ export function LandingView() {
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                 {lang === 'hi' ? 'बीआईएस अधिनियम 2016 और जीएफआर 2017 अनुपालन के संबंध में अक्सर पूछे जाने वाले कानूनी प्रश्न।' :
-                 lang === 'gu' ? 'BIS એક્ટ 2016 અને GFR 2017 પાલન અંગે વારંવાર પૂછાતા પ્રશ્નો.' :
-                 'Clear legal and statutory answers regarding BIS Act 2016, Gazette QCO mandates, and GFR 2017 anti-bias compliance.'}
+                  lang === 'gu' ? 'BIS એક્ટ 2016 અને GFR 2017 પાલન અંગે વારંવાર પૂછાતા પ્રશ્નો.' :
+                    'Clear legal and statutory answers regarding BIS Act 2016, Gazette QCO mandates, and GFR 2017 anti-bias compliance.'}
               </p>
             </div>
           </ScrollReveal>
@@ -847,11 +840,10 @@ export function LandingView() {
               <ScrollReveal key={fIdx} direction="up" delay={fIdx + 1}>
                 <div
                   onClick={() => setOpenFaqIndex(openFaqIndex === fIdx ? null : fIdx)}
-                  className={`p-6 rounded-3xl border transition-all cursor-pointer backdrop-blur-xl ${
-                    openFaqIndex === fIdx
+                  className={`p-6 rounded-3xl border transition-all cursor-pointer backdrop-blur-xl ${openFaqIndex === fIdx
                       ? 'bg-white/90 dark:bg-[#0E1322]/90 border-[#1E3A5F]/50 dark:border-amber-500/50 shadow-md'
                       : 'bg-white/60 dark:bg-[#0E1322]/50 border-slate-200/80 dark:border-white/[0.08] hover:border-slate-300 dark:hover:border-white/20'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center justify-between gap-3">
                     <h3 className="text-sm font-bold text-slate-900 dark:text-white pr-3">{item.q}</h3>
@@ -972,7 +964,7 @@ export function LandingView() {
       {/* ================================================================ */}
       {isHelpDeskOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md animate-in fade-in duration-200">
-          <div 
+          <div
             className="w-full max-w-xl bg-white dark:bg-[#0B132B] rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-white/20 relative animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
