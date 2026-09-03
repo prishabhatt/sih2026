@@ -6,7 +6,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { SampleDataDrawer } from './components/SampleDataDrawer';
-import { ChatbotWidget } from './views/ChatbotWidget';
+import { ChatbotWidget } from './components/ChatbotWidget';
 import { LandingView } from './views/LandingView';
 import { LoginView } from './views/LoginView';
 import { InputFormView } from './views/InputFormView';

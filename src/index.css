@@ -6,182 +6,174 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
   }
-
   body {
     font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    touch-action: manipulation;
   }
 }
 
 /* ========================================================================= */
-/* PROFESSIONAL COLOR SYSTEM — Light + Dark Mode                             */
+/* COLOR SYSTEM                                                              */
 /* ========================================================================= */
-
-/* Dark Mode: Near-black canvas, neutral grays, warm amber accent only */
 .dark {
   color-scheme: dark;
 }
-
-/* Light Mode: Clean warm whites, neutral grays */
 html:not(.dark) {
   color-scheme: light;
 }
 
 /* ========================================================================= */
-/* SCROLL-REVEAL ANIMATION SYSTEM                                            */
+/* FLUID AMBIENT DRIFT ORB ANIMATIONS (HARDWARE ACCELERATED 60/120FPS)        */
 /* ========================================================================= */
+@keyframes orb-drift-1 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(24px, 32px, 0) scale(1.08);
+  }
+  66% {
+    transform: translate3d(-18px, 18px, 0) scale(0.94);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
 
+@keyframes orb-drift-2 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(-28px, -22px, 0) scale(0.92);
+  }
+  66% {
+    transform: translate3d(22px, -32px, 0) scale(1.06);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes orb-drift-3 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(32px, -24px, 0) scale(1.05);
+  }
+  66% {
+    transform: translate3d(-24px, 26px, 0) scale(0.95);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.animate-orb-1 {
+  animation: orb-drift-1 22s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-orb-2 {
+  animation: orb-drift-2 26s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-orb-3 {
+  animation: orb-drift-3 30s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* ========================================================================= */
+/* SCROLL-REVEAL & HERO ENTRANCE SYSTEM                                      */
+/* ========================================================================= */
 @keyframes reveal-fade-up {
   from {
     opacity: 0;
-    transform: translateY(32px);
+    transform: translate3d(0, 28px, 0);
   }
-
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
-@keyframes reveal-fade-left {
-  from {
-    opacity: 0;
-    transform: translateX(-40px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes reveal-fade-right {
-  from {
-    opacity: 0;
-    transform: translateX(40px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes reveal-scale {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Scroll Reveal Classes */
 .sr-fade-up {
   opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translate3d(0, 24px, 0);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
-
 .sr-fade-up.sr-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 
 .sr-fade-left {
   opacity: 0;
-  transform: translateX(-40px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translate3d(-30px, 0, 0);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
-
 .sr-fade-left.sr-visible {
   opacity: 1;
-  transform: translateX(0);
+  transform: translate3d(0, 0, 0);
 }
 
 .sr-fade-right {
   opacity: 0;
-  transform: translateX(40px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translate3d(30px, 0, 0);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
-
 .sr-fade-right.sr-visible {
   opacity: 1;
-  transform: translateX(0);
+  transform: translate3d(0, 0, 0);
 }
 
 .sr-scale {
   opacity: 0;
-  transform: scale(0.95);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: scale(0.96);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
-
 .sr-scale.sr-visible {
   opacity: 1;
   transform: scale(1);
 }
 
-/* Stagger delays */
-.sr-delay-1 {
-  transition-delay: 0.06s;
-}
+.sr-delay-1 { transition-delay: 0.05s; }
+.sr-delay-2 { transition-delay: 0.10s; }
+.sr-delay-3 { transition-delay: 0.15s; }
+.sr-delay-4 { transition-delay: 0.20s; }
+.sr-delay-5 { transition-delay: 0.25s; }
+.sr-delay-6 { transition-delay: 0.30s; }
 
-.sr-delay-2 {
-  transition-delay: 0.12s;
-}
-
-.sr-delay-3 {
-  transition-delay: 0.18s;
-}
-
-.sr-delay-4 {
-  transition-delay: 0.24s;
-}
-
-.sr-delay-5 {
-  transition-delay: 0.30s;
-}
-
-.sr-delay-6 {
-  transition-delay: 0.36s;
-}
-
-/* ========================================================================= */
-/* HERO ENTRANCE ANIMATIONS                                                  */
-/* ========================================================================= */
-
+/* Hero Entrance */
 @keyframes hero-enter {
   from {
     opacity: 0;
-    transform: translateY(40px);
+    transform: translate3d(0, 32px, 0);
   }
-
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
-
 .hero-animate {
-  animation: hero-enter 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: hero-enter 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* Typewriter cursor */
 @keyframes blink {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 .typewriter-cursor::after {
@@ -209,96 +201,55 @@ html:not(.dark) {
   width: 5px;
   height: 5px;
 }
-
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
   background: #d4d4d4;
   border-radius: 4px;
 }
-
 .dark ::-webkit-scrollbar-thumb {
   background: #262626;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: #a3a3a3;
 }
-
 .dark ::-webkit-scrollbar-thumb:hover {
   background: #404040;
 }
 
-/* Professional Verification Pulse — replaces confetti */
+/* Glassmorphism & Smooth Touch Momentum */
+.glass-container {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.touch-scroll {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Verification Pulse */
 @keyframes verify-pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
-  }
-
-  50% {
-    box-shadow: 0 0 0 12px rgba(16, 185, 129, 0);
-  }
-
-  100% {
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
-  }
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  50% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
 }
-
-@keyframes verify-ring {
-  0% {
-    transform: scale(0.8);
-    opacity: 1;
-  }
-
-  100% {
-    transform: scale(2.5);
-    opacity: 0;
-  }
-}
-
-@keyframes verify-check {
-  0% {
-    transform: scale(0) rotate(-45deg);
-    opacity: 0;
-  }
-
-  60% {
-    transform: scale(1.2) rotate(0deg);
-    opacity: 1;
-  }
-
-  100% {
-    transform: scale(1) rotate(0deg);
-    opacity: 1;
-  }
-}
-
 .verify-pulse {
   animation: verify-pulse 0.8s ease-out;
 }
 
-.verify-ring-anim {
-  animation: verify-ring 0.8s ease-out forwards;
-}
-
-.verify-check-anim {
-  animation: verify-check 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
-}
-
 /* Print */
 @media print {
-  body {
-    background: white !important;
-    color: black !important;
-  }
-
-  .no-print {
-    display: none !important;
-  }
-
-  .noise-overlay {
-    display: none !important;
-  }
+  body { background: white !important; color: black !important; }
+  .no-print { display: none !important; }
+  .noise-overlay { display: none !important; }
 }
