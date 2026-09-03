@@ -951,14 +951,14 @@ export function LandingView() {
             </ScrollReveal>
             <ScrollReveal direction="up" delay={4}>
               <div className="space-y-2">
-                <p className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 dark:text-white">Smart India Hackathon</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">Team Chronos • SIH 2026</p>
+                <p className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 dark:text-white">National Procurement Gateway</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Bureau of Indian Standards (BIS)</p>
                 <p className="text-[11px] text-slate-400 font-mono mt-1">Ministry of Consumer Affairs, Food & Public Distribution</p>
               </div>
             </ScrollReveal>
           </div>
           <div className="pt-6 border-t border-slate-200/80 dark:border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400 font-mono">
-            <p>© 2026 BIS Standards Engine. Smart India Hackathon 2026. All rights reserved.</p>
+            <p>© 2026 BIS Standards Engine. Bureau of Indian Standards. All rights reserved.</p>
             <div className="flex gap-6">
               <span className="hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer">{lang === 'hi' ? 'सुरक्षा नीति' : lang === 'gu' ? 'સુરક્ષા નીતિ' : 'Security Policy'}</span>
               <span className="hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer">{lang === 'hi' ? 'सेवा की शर्तें' : lang === 'gu' ? 'સેવાની શરતો' : 'Terms of Service'}</span>

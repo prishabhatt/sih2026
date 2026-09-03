@@ -10,7 +10,6 @@ import {
   Download,
   QrCode
 } from 'lucide-react';
-import { triggerVerification } from "../utils/verificationPulse";
 import { useProcurement } from '../context/ProcurementContext';
 import { MOCK_STANDARDS } from '../data/mockStandardsData';
 import { DigitalPassportQR } from '../components/DigitalPassportQR';
@@ -33,7 +32,6 @@ export function ReportsView() {
   const selectedStds = MOCK_STANDARDS.filter((s) => selectedStandardIds.includes(s.id));
 
   const handlePrint = () => {
-    triggerVerification();
     window.print();
   };
 
@@ -68,7 +66,7 @@ export function ReportsView() {
           <div className="text-center pb-6 border-b border-slate-200 space-y-2">
             <div className="flex items-center justify-center gap-2 font-bold text-slate-600 text-[10px] uppercase tracking-widest">
               <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
-              GOVERNMENT OF INDIA • SMART INDIA HACKATHON 2026
+              GOVERNMENT OF INDIA • BUREAU OF INDIAN STANDARDS
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight uppercase">
               {t.reports.certificateTitle}

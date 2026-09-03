@@ -63,7 +63,7 @@ export function ProcurementProvider({ children }) {
 
   // Analysis Telemetry
   const [analysisTimestamp, setAnalysisTimestamp] = useState(new Date().toISOString());
-  const [certificateId, setCertificateId] = useState('CERT-BIS-SIH-2026-98442');
+  const [certificateId, setCertificateId] = useState('CERT-BIS-GOV-2026-98442');
   const [shaHash, setShaHash] = useState('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855');
 
   // Audit Logs

@@ -71,7 +71,7 @@ export const TRANSLATIONS = {
       "loadSample": "Load Sample Specs"
     },
     "landing": {
-      "govBadge": "National Procurement AI Compliance Gateway • Smart India Hackathon 2026",
+      "govBadge": "National Procurement AI Compliance Gateway • Bureau of Indian Standards",
       "heroTitle": "AI-Powered Indian Standards Engine for Public Procurement",
       "heroSubtitle": "Eliminate technical loopholes and substandard material delivery in Government Tenders. Automatically map draft specifications and BOQs to 22,000+ Bureau of Indian Standards (BIS) and statutory Quality Control Orders (QCOs) under GFR 2017.",
       "ctaLaunch": "Access Recommendation Portal",

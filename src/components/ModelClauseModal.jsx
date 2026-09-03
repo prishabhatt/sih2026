@@ -7,7 +7,6 @@ import {
   Download, 
   CheckCircle2
 } from 'lucide-react';
-import { triggerVerification } from "../utils/verificationPulse";
 import { useProcurement } from '../context/ProcurementContext';
 import { MOCK_STANDARDS } from '../data/mockStandardsData';
 
@@ -95,7 +94,6 @@ END OF MODEL NIT TECHNICAL CLAUSE - GENERATED VIA BIS STANDARDS ENGINE
   const handleCopy = () => {
     navigator.clipboard.writeText(generatedClauseText);
     setCopied(true);
-    triggerVerification();
     setTimeout(() => setCopied(false), 2000);
   };
 

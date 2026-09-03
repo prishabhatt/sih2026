@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Search, ShieldCheck, ChevronDown, GitFork, Filter, Copy, Check, FileText, Layers, ExternalLink, XCircle, Sparkles, SlidersHorizontal } from 'lucide-react';
-import { triggerVerification } from "../utils/verificationPulse";
 
 const DIVISION_OPTIONS = [
   { id: 'ALL', label: 'All Divisions', count: '22.4k' },
@@ -56,17 +55,8 @@ export function StandardsTable({
     }
   };
 
-  const handleAddClick = (std, isCurrentlySelected) => {
-    if (!isCurrentlySelected) {
-      triggerVerification({
-        title: 'Standard Added to Draft',
-        code: std.code,
-        description: std.title,
-        badge: std.qcoMandatory ? 'Mandatory Gazette QCO' : 'BIS Recognized Standard',
-        isRemoval: false
-      });
-    }
-    // Seamless inline removal with zero modal popup interruptions
+  const handleAddClick = (std) => {
+    // Seamless instant inline addition & removal with zero modal popup interruptions
     onToggleStandard && onToggleStandard(std.id);
   };
 

@@ -15,10 +15,10 @@
  */
 export function triggerVerification(opts = {}) {
   // Support both object arguments and legacy string signatures (title, message)
-  let title = 'Standard Added to Draft';
-  let message = 'Enrolled into active tender draft with statutory compliance.';
+  let title = 'Official Identity Verified';
+  let message = '2-Factor Government Token & Biometric Signature Authenticated.';
   let code = '';
-  let badge = '';
+  let badge = 'BIS Authorized Official';
   let isRemoval = false;
 
   if (typeof opts === 'string') {
@@ -28,7 +28,7 @@ export function triggerVerification(opts = {}) {
     title = opts.title || title;
     code = opts.code || '';
     message = opts.description || opts.message || message;
-    badge = opts.badge || (opts.qcoMandatory ? 'Mandatory Gazette QCO' : '');
+    badge = opts.badge !== undefined ? opts.badge : badge;
     isRemoval = Boolean(opts.isRemoval);
   }
 
