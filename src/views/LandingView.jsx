@@ -21,13 +21,20 @@ import {
   Lock,
   Award,
   Check,
-  Globe
+  Globe,
+  Headphones,
+  Phone,
+  Mail,
+  Clock,
+  MessageSquare,
+  X
 } from 'lucide-react';
 
 import { useTheme } from '../context/ThemeContext';
 import { useProcurement } from '../context/ProcurementContext';
 import { BIS_DIVISIONS } from '../data/divisionsData';
 import { AppleStripeBackground } from '../components/AppleStripeBackground';
+import { ComparisonGraph } from '../components/ComparisonGraph';
 
 function AnimatedNumber({ target, suffix = '', duration = 1800 }) {
   const [count, setCount] = useState(0);
@@ -127,6 +134,32 @@ export function LandingView() {
   const [expandedPipelineRow, setExpandedPipelineRow] = useState(0);
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
   const [isLangOpen, setIsLangOpen] = useState(false);
+  const [isHelpDeskOpen, setIsHelpDeskOpen] = useState(false);
+  const [queryForm, setQueryForm] = useState({
+    name: 'Er. Vikramaditya Sharma',
+    email: 'v.sharma@metrorail.delhi.gov.in',
+    category: 'MANDATORY_QCO',
+    tenderRef: 'NMRC/ELECT/CABLE-11KV/PKG-02',
+    description: ''
+  });
+  const [isSubmittingQuery, setIsSubmittingQuery] = useState(false);
+  const [submittedTicket, setSubmittedTicket] = useState(null);
+
+  const handleQuerySubmit = (e) => {
+    e.preventDefault();
+    if (!queryForm.description.trim()) return;
+    setIsSubmittingQuery(true);
+    setTimeout(() => {
+      setSubmittedTicket({
+        id: `BIS-TKT-2026-${Math.floor(10000 + Math.random() * 90000)}`,
+        timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+        category: queryForm.category,
+        tenderRef: queryForm.tenderRef || 'General Public Tender',
+        email: queryForm.email
+      });
+      setIsSubmittingQuery(false);
+    }, 500);
+  };
 
   const [activePresetIndex, setActivePresetIndex] = useState(0);
   const [demoQuery, setDemoQuery] = useState('11kV HT XLPE Metro Power Distribution Cables with FRLS sheath');
@@ -211,38 +244,38 @@ export function LandingView() {
   const pipelineRows = useMemo(() => [
     {
       num: '01',
-      title: t?.landing?.stage1Title || 'Natural-Language Scope & Tender BOQ Ingestion',
-      subtitle: t?.landing?.stage1Desc || 'Multilingual OCR Ingestion & Vector Extraction',
-      badge: 'INGESTION',
-      description: t?.landing?.stage1Desc || 'Procurement authorities upload unstructured draft tender specifications, engineering BOQs, or GeM descriptions. The parser extracts parameters across 8 Indian languages.',
-      specs: ['PDF, DOCX & Raw Text', 'Multilingual Tokenizer', '768-D Embeddings'],
+      title: t?.landing?.stage1Title || 'Reads Tender Documents & BOQ Lists',
+      subtitle: t?.landing?.stage1Desc || 'Processes plain English, Hindi, and regional tender documents in seconds',
+      badge: 'DOCUMENT INGESTION',
+      description: t?.landing?.stage1Desc || 'Upload raw tender files (PDF, Word, or Excel BOQ spreadsheets). The AI instantly reads through every clause, technical parameter, and line item without missing hidden fine print.',
+      specs: ['Reads PDFs, Word & Excel', 'Multilingual Hindi & English', 'Extracts Item Parameters'],
       icon: FileText
     },
     {
       num: '02',
-      title: t?.landing?.stage2Title || 'Neural Vector RAG Semantic Resolution',
-      subtitle: t?.landing?.stage2Desc || 'Dense Retrieval Across 22,410+ Active Standards',
-      badge: 'RESOLUTION',
-      description: t?.landing?.stage2Desc || 'Resolves technical scopes to exact Indian Standards (IS) codes, reaffirmations, and active amendments. Cross-checks gazetted Quality Control Orders (QCOs).',
-      specs: ['Dense Embeddings Matrix', 'Cosine Similarity >= 95%', 'Gazette QCO Registry'],
+      title: t?.landing?.stage2Title || 'Matches with 22,000+ Indian Standards (BIS)',
+      subtitle: t?.landing?.stage2Desc || 'Verifies every product against official national quality and safety codes',
+      badge: 'STANDARDS MATCHING',
+      description: t?.landing?.stage2Desc || 'Automatically matches items (steel, power cables, pipes, cement) against the latest Bureau of Indian Standards (IS) codes. Flags obsolete, withdrawn, or missing standards immediately.',
+      specs: ['22,410+ Active Standards', 'Catches Outdated Standards', 'Mandatory Gazette Orders (QCO)'],
       icon: Cpu
     },
     {
       num: '03',
-      title: t?.landing?.stage3Title || 'GFR 2017 Rule 144(xi) Anti-Bias Loophole Scanner',
-      subtitle: t?.landing?.stage3Desc || 'Eliminating Single-Vendor Lock-in & Proprietary Traps',
-      badge: 'AUDIT GUARD',
-      description: t?.landing?.stage3Desc || 'Scans tender drafts for restrictive commercial parameters that stifle fair competition or secretly bias awards toward single vendors. Enforces open bidding.',
-      specs: ['GFR Rule 144(xi) Audit', 'Proprietary Clause Blocker', 'Make-in-India Validation'],
+      title: t?.landing?.stage3Title || 'Detects Tender Rigging & Single-Vendor Favouritism',
+      subtitle: t?.landing?.stage3Desc || 'Enforces GFR 2017 Rule 144(xi) to stop biased specifications',
+      badge: 'FRAUD & BIAS SCANNER',
+      description: t?.landing?.stage3Desc || 'Scans draft specifications for restrictive, brand-specific clauses engineered to secretly favour a single preferred supplier. Guarantees fair, open public bidding and Make-in-India compliance.',
+      specs: ['GFR Rule 144(xi) Anti-Bias Check', 'Blocks Tailored Vendor Clauses', 'Make-in-India (MII) Validation'],
       icon: Scale
     },
     {
       num: '04',
-      title: t?.landing?.stage4Title || 'Cryptographic SHA-256 Passport & Model NIT Export',
-      subtitle: t?.landing?.stage4Desc || 'Tamper-Proof Field Verification & 1-Click NIT Clauses',
-      badge: 'TRUST PASSPORT',
-      description: t?.landing?.stage5Desc || 'Synthesizes legally binding model Notice Inviting Tender (NIT) clauses and generates immutable SHA-256 sealed QR compliance passports for field warehouse inspection.',
-      specs: ['SHA-256 Digital Seal', 'Mobile Scannable QR', '1-Click GeM NIT Export'],
+      title: t?.landing?.stage4Title || 'Court-Ready Certificate & Tamper-Proof QR Passport',
+      subtitle: t?.landing?.stage4Desc || 'Generates legally binding NIT clauses and digital audit proof',
+      badge: 'DIGITAL EVIDENCE',
+      description: t?.landing?.stage5Desc || 'Creates legally enforceable Notice Inviting Tender (NIT) clauses and an immutable SHA-256 digital QR passport. Prosecutors, CAG auditors, and warehouse inspectors can scan the QR code to verify zero tampering.',
+      specs: ['Court-Admissible Digital Seal', 'Mobile Scannable QR Code', '1-Click GeM/CPPP Legal Clauses'],
       icon: QrCode
     }
   ], [t]);
@@ -296,8 +329,8 @@ export function LandingView() {
           
           {/* Module 1: Brand Logo & Status */}
           <div className="flex items-center gap-3.5 shrink-0">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#0B1E36] to-[#1E3A5F] flex items-center justify-center text-white border border-[#1E3A5F]/40 shadow-md shadow-[#0B1E36]/30">
-              <ShieldCheck className="w-5 h-5 text-amber-400" />
+            <div className="w-10 h-10 rounded-[18px] bg-[#1C1C1E] dark:bg-black border border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.25)] flex items-center justify-center text-white shrink-0 transition-transform hover:scale-105">
+              <ShieldCheck className="w-5 h-5 text-white stroke-[2.4]" />
             </div>
             <div className="flex items-center gap-2.5">
               <span className="font-extrabold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white">
@@ -429,20 +462,13 @@ export function LandingView() {
             {t?.landing?.heroSubtitle || 'Autonomous AI gateway that resolves exact Bureau of Indian Standards (IS) codes, mandatory Gazette QCO decrees, and eliminates single-vendor bias under GFR 2017 Rule 144(xi).'}
           </p>
 
-          <div className="hero-animate flex flex-wrap items-center justify-center gap-3.5 pt-2" style={{ animationDelay: '0.3s' }}>
+          <div className="hero-animate flex items-center justify-center pt-2" style={{ animationDelay: '0.3s' }}>
             <button
-              onClick={() => document.getElementById('terminal')?.scrollIntoView({ behavior: 'smooth' })}
-              className="px-6 py-3.5 rounded-full text-xs font-bold bg-[#0B1E36] hover:bg-[#132845] dark:bg-white dark:hover:bg-slate-100 text-white dark:text-[#07080A] shadow-lg shadow-[#0B1E36]/20 transition-all flex items-center gap-2 cursor-pointer"
+              onClick={() => navigate('/login')}
+              className="px-8 py-3.5 rounded-full text-xs sm:text-sm font-bold bg-[#0B1E36] hover:bg-[#132845] dark:bg-white dark:hover:bg-slate-100 text-white dark:text-[#07080A] shadow-xl shadow-[#0B1E36]/25 dark:shadow-white/10 transition-all transform hover:scale-105 flex items-center gap-2.5 cursor-pointer"
             >
-              <span>{t?.landing?.ctaLaunch || 'Try Live Terminal'}</span>
-              <ArrowRight className="w-3.5 h-3.5 text-amber-400 dark:text-slate-900" />
-            </button>
-            <button
-              onClick={() => { loadScenario('underground_cable_metro'); navigate('/sandbox'); }}
-              className="px-6 py-3.5 rounded-full text-xs font-bold bg-white/70 dark:bg-white/[0.04] hover:bg-white dark:hover:bg-white/[0.08] border border-slate-200/80 dark:border-white/10 text-slate-800 dark:text-slate-200 shadow-xs backdrop-blur-xl transition-all flex items-center gap-2 cursor-pointer"
-            >
-              <Terminal className="w-3.5 h-3.5 text-amber-500" />
-              <span>{t?.landing?.ctaExplore || 'Full Sandbox ↗'}</span>
+              <span>{t?.landing?.ctaLaunch || 'Access Recommendation Portal'}</span>
+              <ArrowRight className="w-4 h-4 text-amber-400 dark:text-slate-900" />
             </button>
           </div>
 
@@ -629,39 +655,40 @@ export function LandingView() {
       {/* ================================================================ */}
       {/* ARCHITECTURE                                                     */}
       {/* ================================================================ */}
-      <section id="architecture" className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          <ScrollReveal direction="left" className="lg:col-span-5">
-            <div className="space-y-4">
-              <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#1E3A5F] dark:text-amber-400 block">
-                {t?.landing?.problemSolutionSubtitle || 'The Statutory Mandate'}
-              </span>
+      <section id="architecture" className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-14 items-center">
+          <ScrollReveal direction="left" className="lg:col-span-7">
+            <ComparisonGraph />
+          </ScrollReveal>
+
+          <ScrollReveal direction="right" className="lg:col-span-5">
+            <div className="space-y-5">
               <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
-                {t?.landing?.problemSolutionTitle || 'Eliminating Vulnerabilities in Public Tenders.'}
+                {t?.landing?.problemSolutionTitle || 'Bridging the Critical Gap in Indian Public Procurement'}
               </h2>
               <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
                 {t?.landing?.aboutP1 || 'Public procurement officers face immense legal liability under CAG audits and CVC scrutiny when tender specifications inadvertently cite outdated standards or embed single-vendor proprietary parameters.'}
               </p>
+              <div className="pt-2 space-y-3">
+                <div className="flex items-start gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#C44D2A] dark:bg-[#E87744] mt-2 shrink-0" />
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                    {lang === 'hi' ? 'नियामक मानक और QCO जटिलता घातीय रूप से बढ़ती है, जबकि मैनुअल समीक्षा क्षमता स्थिर रहती है।' :
+                     lang === 'gu' ? 'નિયામક ધોરણો અને QCO જટિલતા ઘાતાંકીય રીતે વધે છે, જ્યારે મેન્યુઅલ સમીક્ષા ક્ષમતા સપાટ રહે છે.' :
+                     'Regulatory standards and QCO complexity scale exponentially while manual review capacity remains flat — creating a growing compliance gap that exposes tenders to CAG audit risk.'}
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#5A7E3C] dark:bg-[#8AB862] mt-2 shrink-0" />
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                    {lang === 'hi' ? 'बीआईएस इंजन इस बढ़ते अंतर को पाटकर स्वचालित अनुपालन सुनिश्चित करता है।' :
+                     lang === 'gu' ? 'BIS Engine આ વધતા અંતરને પાર કરીને સ્વચાલિત અનુપાલન સુનિશ્ચિત કરે છે.' :
+                     'The BIS Engine bridges this gap by autonomously resolving exact Indian Standards, normative references, and mandatory QCO decrees in milliseconds.'}
+                  </p>
+                </div>
+              </div>
             </div>
           </ScrollReveal>
-
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {[
-              { icon: Scale, title: t?.landing?.card1Title || 'GFR Anti-Bias Guard', desc: t?.landing?.card1Problem || 'Audits against Rule 144(xi) to stop restrictive custom tolerances.' },
-              { icon: Database, title: t?.landing?.card2Title || '22,410+ Standards', desc: t?.landing?.card2Problem || 'Traverses normative reference graphs for raw material dependencies.' },
-              { icon: ShieldCheck, title: t?.landing?.card3Title || 'SHA-256 Passports', desc: t?.landing?.card3Problem || 'Verifiable QR compliance certificates for on-site physical inspection.' },
-            ].map((card, i) => (
-              <ScrollReveal key={i} direction="up" delay={i + 1}>
-                <div className="p-6 rounded-3xl bg-white/75 dark:bg-[#0E1322]/70 backdrop-blur-xl border border-slate-200/80 dark:border-white/[0.08] shadow-lg space-y-3 h-full hover:border-[#1E3A5F]/40 dark:hover:border-white/20 transition-all">
-                  <div className="w-10 h-10 rounded-2xl bg-[#1E3A5F]/10 dark:bg-white/[0.04] border border-[#1E3A5F]/20 dark:border-white/10 flex items-center justify-center text-[#1E3A5F] dark:text-amber-400">
-                    <card.icon className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">{card.title}</h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">{card.desc}</p>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -672,15 +699,15 @@ export function LandingView() {
         <ScrollReveal>
           <div className="mb-8 space-y-2 max-w-3xl">
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#1E3A5F] dark:text-amber-400 block">
-              {t?.landing?.archSubtitle || '4-Tier System Architecture'}
+              {t?.landing?.archSubtitle || '4-Stage Investigation & Audit Workflow'}
             </span>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
-              {t?.landing?.archTitle || 'End-to-End Neural Resolution Architecture'}
+              {t?.landing?.archTitle || 'How the System Inspects & Validates Every Tender'}
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 pt-1 font-normal leading-relaxed">
-              {lang === 'hi' ? 'वेक्टर आयामों, अनुपालन द्वारों और निर्यात पाइपलाइनों का निरीक्षण करने के लिए किसी भी स्तर पर क्लिक करें।' :
-               lang === 'gu' ? 'વેક્ટર પરિમાણો અને નિકાસ પાઇપલાઇન્સનું નિરીક્ષણ કરવા માટે કોઈપણ સ્તર પર ક્લિક કરો.' :
-               'Click any tier to inspect vector dimensions, compliance gates, and export pipelines.'}
+              {lang === 'hi' ? 'यह देखने के लिए किसी भी चरण पर क्लिक करें कि सिस्टम निविदा दस्तावेजों की जांच कैसे करता है और धोखाधड़ी को रोकता है।' :
+               lang === 'gu' ? 'સિસ્ટમ ટેન્ડર દસ્તાવેજોની તપાસ કેવી રીતે કરે છે અને છેતરપિંડી અટકાવે છે તે જોવા માટે કોઈપણ પગલા પર ક્લિક કરો.' :
+               'Click any stage below to see how the system reads tender documents, detects legal violations, and creates court-ready proof.'}
             </p>
           </div>
         </ScrollReveal>
@@ -802,15 +829,15 @@ export function LandingView() {
           <ScrollReveal direction="left" className="lg:col-span-4">
             <div className="space-y-3">
               <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#1E3A5F] dark:text-amber-400 block">
-                {t?.landing?.aboutSubtitle || 'Knowledge Base'}
+                {t?.landing?.faqSubtitle || 'Legal & Statutory Guidance'}
               </span>
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
-                {t?.landing?.aboutTitle || 'Frequently Asked Questions'}
+                {t?.landing?.faqTitle || 'FAQ (Frequently Asked Questions)'}
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                {lang === 'hi' ? 'बीआईएस अधिनियम 2016 और जीएफआर 2017 अनुपालन के संबंध में वैधानिक मार्गदर्शन।' :
-                 lang === 'gu' ? 'BIS એક્ટ 2016 અને GFR 2017 પાલન અંગે વૈધાનિક માર્ગદર્શન.' :
-                 'Statutory guidance regarding BIS Act 2016 and GFR 2017 compliance.'}
+                {lang === 'hi' ? 'बीआईएस अधिनियम 2016 और जीएफआर 2017 अनुपालन के संबंध में अक्सर पूछे जाने वाले कानूनी प्रश्न।' :
+                 lang === 'gu' ? 'BIS એક્ટ 2016 અને GFR 2017 પાલન અંગે વારંવાર પૂછાતા પ્રશ્નો.' :
+                 'Clear legal and statutory answers regarding BIS Act 2016, Gazette QCO mandates, and GFR 2017 anti-bias compliance.'}
               </p>
             </div>
           </ScrollReveal>
@@ -849,30 +876,24 @@ export function LandingView() {
         <ScrollReveal>
           <div className="rounded-3xl p-10 sm:p-14 bg-gradient-to-br from-[#0B1E36] via-[#10243E] to-[#0B1428] text-white border border-[#1E3A5F]/50 shadow-2xl backdrop-blur-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-96 h-96 bg-[radial-gradient(circle,rgba(245,158,11,0.15),transparent_70%)] rounded-full blur-3xl pointer-events-none" />
-            <div className="max-w-lg space-y-4 relative z-10">
+            <div className="max-w-xl space-y-4 relative z-10">
               <span className="text-xs font-mono font-bold uppercase tracking-widest text-amber-400 block">
-                {lang === 'hi' ? 'खरीद आधुनिकीकरण' : lang === 'gu' ? 'પ્રાપ્તિ આધુનિકીકરણ' : 'Procurement Modernization'}
+                {lang === 'hi' ? 'सरकारी सहायता केंद्र' : lang === 'gu' ? 'સરકારી હેલ્પ ડેસ્ક અને સપોર્ટ' : 'Government Helpdesk & Support'}
               </span>
               <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
-                {t?.landing?.ctaBannerTitle || 'Ready to create audit-proof tenders?'}
+                {t?.landing?.ctaBannerTitle || 'Need Help with Your Tender Specifications?'}
               </h2>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-                {t?.landing?.ctaBannerSubtitle || 'Evaluate specifications against 22,410+ Indian Standards in milliseconds. Built for Government Ministries and PSUs.'}
+                {t?.landing?.ctaBannerSubtitle || 'Our dedicated technical and legal help desk assists procurement officers, evaluators, and auditors across Central & State ministries in resolving BIS standards, QCO mandates, and GFR 2017 compliance.'}
               </p>
-              <div className="flex flex-wrap gap-3 pt-2">
+              <div className="pt-2">
                 <button
-                  onClick={() => navigate('/login')}
-                  className="px-6 py-3 rounded-full text-xs font-bold bg-amber-400 hover:bg-amber-300 text-slate-950 shadow-lg shadow-amber-400/20 transition-all flex items-center gap-2 cursor-pointer"
+                  onClick={() => setIsHelpDeskOpen(true)}
+                  className="px-8 py-3.5 rounded-full text-xs sm:text-sm font-bold bg-amber-400 hover:bg-amber-300 text-slate-950 shadow-xl shadow-amber-400/25 transition-all transform hover:scale-105 flex items-center gap-2.5 cursor-pointer"
                 >
-                  <span>{t?.landing?.ctaBannerBtn || 'Start Audit'}</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-950" />
-                </button>
-                <button
-                  onClick={() => { loadScenario('underground_cable_metro'); navigate('/sandbox'); }}
-                  className="px-6 py-3 rounded-full text-xs font-bold bg-white/10 hover:bg-white/20 text-white border border-white/15 transition-all flex items-center gap-2 cursor-pointer"
-                >
-                  <Terminal className="w-3.5 h-3.5 text-amber-400" />
-                  <span>{t?.landing?.ctaExplore || 'Launch Sandbox'}</span>
+                  <Headphones className="w-4 h-4 text-slate-950" />
+                  <span>{lang === 'hi' ? 'सहायता केंद्र से संपर्क करें' : lang === 'gu' ? 'સપોર્ટ / હેલ્પ ડેસ્ક સંપર્ક' : 'Contact Support / Help Desk'}</span>
+                  <ArrowRight className="w-4 h-4 text-slate-950" />
                 </button>
               </div>
             </div>
@@ -889,8 +910,8 @@ export function LandingView() {
             <ScrollReveal direction="up" delay={1}>
               <div className="space-y-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#0B1E36] to-[#1E3A5F] flex items-center justify-center text-white border border-[#1E3A5F]/40">
-                    <ShieldCheck className="w-4 h-4 text-amber-400" />
+                  <div className="w-8 h-8 rounded-xl bg-[#1C1C1E] dark:bg-black border border-white/20 flex items-center justify-center text-white shadow-md">
+                    <ShieldCheck className="w-4.5 h-4.5 text-white stroke-[2.4]" />
                   </div>
                   <span className="font-bold text-sm text-slate-900 dark:text-white">BIS<span className="text-[#1E3A5F] dark:text-[#93B5D9] font-serif italic">Engine</span></span>
                 </div>
@@ -930,14 +951,14 @@ export function LandingView() {
             </ScrollReveal>
             <ScrollReveal direction="up" delay={4}>
               <div className="space-y-2">
-                <p className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 dark:text-white">Smart India Hackathon</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">Team Chronos • SIH 2026</p>
+                <p className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900 dark:text-white">National Procurement Gateway</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Bureau of Indian Standards (BIS)</p>
                 <p className="text-[11px] text-slate-400 font-mono mt-1">Ministry of Consumer Affairs, Food & Public Distribution</p>
               </div>
             </ScrollReveal>
           </div>
           <div className="pt-6 border-t border-slate-200/80 dark:border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400 font-mono">
-            <p>© 2026 BIS Standards Engine. Smart India Hackathon 2026. All rights reserved.</p>
+            <p>© 2026 BIS Standards Engine. Bureau of Indian Standards. All rights reserved.</p>
             <div className="flex gap-6">
               <span className="hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer">{lang === 'hi' ? 'सुरक्षा नीति' : lang === 'gu' ? 'સુરક્ષા નીતિ' : 'Security Policy'}</span>
               <span className="hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer">{lang === 'hi' ? 'सेवा की शर्तें' : lang === 'gu' ? 'સેવાની શરતો' : 'Terms of Service'}</span>
@@ -945,6 +966,186 @@ export function LandingView() {
           </div>
         </div>
       </footer>
+
+      {/* ================================================================ */}
+      {/* INTERACTIVE QUERY & GRIEVANCE REPORTING MODAL                    */}
+      {/* ================================================================ */}
+      {isHelpDeskOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md animate-in fade-in duration-200">
+          <div 
+            className="w-full max-w-xl bg-white dark:bg-[#0B132B] rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-white/20 relative animate-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => { setIsHelpDeskOpen(false); setSubmittedTicket(null); }}
+              className="absolute top-5 right-5 p-2 rounded-full text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {!submittedTicket ? (
+              /* Query Reporting Form */
+              <div>
+                {/* Modal Header */}
+                <div className="flex items-center gap-3.5 mb-5">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-400/20 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+                    <MessageSquare className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-black text-slate-900 dark:text-white">
+                      {lang === 'hi' ? 'प्रश्न या शिकायत दर्ज करें' : lang === 'gu' ? 'પ્રશ્ન અથવા ફરિયાદ નોંધાવો' : 'Report a Query or Grievance'}
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      {lang === 'hi' ? 'बीआईएस तकनीकी और कानूनी अनुपालन निदेशालय को सीधी सबमिशन' : lang === 'gu' ? 'BIS ટેકનિકલ અને કાનૂની નિયામકને સીધી સબમિશન' : 'Submit your query directly to the BIS Technical & Legal Directorate'}
+                    </p>
+                  </div>
+                </div>
+
+                <form onSubmit={handleQuerySubmit} className="space-y-3.5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[11px] font-mono font-bold text-slate-600 dark:text-slate-400 mb-1 uppercase tracking-wider">
+                        {lang === 'hi' ? 'अधिकारी का नाम / पद' : lang === 'gu' ? 'અધિકારીનું નામ / પદ' : 'Officer Name / Dept'}
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={queryForm.name}
+                        onChange={(e) => setQueryForm({ ...queryForm, name: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-xs text-slate-900 dark:text-white font-mono outline-none focus:ring-2 focus:ring-amber-400"
+                        placeholder="Er. Name (Department)"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-mono font-bold text-slate-600 dark:text-slate-400 mb-1 uppercase tracking-wider">
+                        {lang === 'hi' ? 'आधिकारिक ईमेल' : lang === 'gu' ? 'સત્તાવાર ઈમેલ' : 'Official Email ID'}
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={queryForm.email}
+                        onChange={(e) => setQueryForm({ ...queryForm, email: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-xs text-slate-900 dark:text-white font-mono outline-none focus:ring-2 focus:ring-amber-400"
+                        placeholder="name@gov.in"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[11px] font-mono font-bold text-slate-600 dark:text-slate-400 mb-1 uppercase tracking-wider">
+                        {lang === 'hi' ? 'प्रश्न श्रेणी' : lang === 'gu' ? 'પ્રશ્ન કેટેગરી' : 'Query Category'}
+                      </label>
+                      <select
+                        value={queryForm.category}
+                        onChange={(e) => setQueryForm({ ...queryForm, category: e.target.value })}
+                        className="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-[#0E1322] border border-slate-200 dark:border-white/10 text-xs text-slate-900 dark:text-white font-mono outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer"
+                      >
+                        <option value="MANDATORY_QCO">Mandatory Gazette QCO Order Clarification</option>
+                        <option value="GFR_ANTI_BIAS">GFR 2017 Rule 144(xi) Anti-Bias Check</option>
+                        <option value="STANDARDS_UPDATE">Missing or Outdated Indian Standard (IS)</option>
+                        <option value="BOQ_REVIEW">Tender BOQ Technical Specification Review</option>
+                        <option value="GENERAL_GRIEVANCE">General Procurement Inquiry / Grievance</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-mono font-bold text-slate-600 dark:text-slate-400 mb-1 uppercase tracking-wider">
+                        {lang === 'hi' ? 'निविदा संदर्भ / संख्या' : lang === 'gu' ? 'ટેન્ડર સંદર્ભ / નંબર' : 'Tender Ref / BOQ No.'}
+                      </label>
+                      <input
+                        type="text"
+                        value={queryForm.tenderRef}
+                        onChange={(e) => setQueryForm({ ...queryForm, tenderRef: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-xs text-slate-900 dark:text-white font-mono outline-none focus:ring-2 focus:ring-amber-400"
+                        placeholder="e.g. RAIL/2026/PKG-01"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-mono font-bold text-slate-600 dark:text-slate-400 mb-1 uppercase tracking-wider">
+                      {lang === 'hi' ? 'प्रश्न का विवरण' : lang === 'gu' ? 'પ્રશ્નની વિગત' : 'Detailed Query / Description'}
+                    </label>
+                    <textarea
+                      required
+                      rows={3}
+                      value={queryForm.description}
+                      onChange={(e) => setQueryForm({ ...queryForm, description: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-xs text-slate-900 dark:text-white font-mono outline-none focus:ring-2 focus:ring-amber-400 resize-none leading-relaxed"
+                      placeholder="Specify the IS standard, mandatory QCO decree, single-vendor clause concern, or technical doubt..."
+                    />
+                  </div>
+
+                  {/* Actions */}
+                  <div className="pt-2 flex items-center justify-end gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setIsHelpDeskOpen(false)}
+                      className="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-all cursor-pointer"
+                    >
+                      {lang === 'hi' ? 'रद्द करें' : lang === 'gu' ? 'રદ કરો' : 'Cancel'}
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={isSubmittingQuery || !queryForm.description.trim()}
+                      className="px-6 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black uppercase tracking-wider shadow-lg shadow-amber-400/20 disabled:opacity-50 transition-all flex items-center gap-2 cursor-pointer"
+                    >
+                      <span>{isSubmittingQuery ? (lang === 'hi' ? 'दर्ज हो रहा है...' : 'Submitting...') : (lang === 'hi' ? 'प्रश्न दर्ज करें →' : 'Submit Query Ticket →')}</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            ) : (
+              /* Success Confirmation Card */
+              <div className="text-center py-4 space-y-4 animate-in fade-in zoom-in-95 duration-200">
+                <div className="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-500 mx-auto flex items-center justify-center">
+                  <CheckCircle2 className="w-8 h-8" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
+                    {lang === 'hi' ? 'प्रश्न टिकट सफलतापूर्वक दर्ज किया गया' : lang === 'gu' ? 'પ્રશ્ન ટિકિટ સફળતાપૂર્વક નોંધાઈ ગઈ' : 'Query Ticket Successfully Registered'}
+                  </h3>
+                  <div className="inline-block mt-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-xs font-mono font-bold">
+                    {submittedTicket.id}
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 text-xs text-slate-600 dark:text-slate-300 text-left font-mono space-y-1.5 max-w-md mx-auto">
+                  <p>• <strong>Timestamp:</strong> {submittedTicket.timestamp}</p>
+                  <p>• <strong>Category:</strong> {submittedTicket.category}</p>
+                  <p>• <strong>Tender Ref:</strong> {submittedTicket.tenderRef}</p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 pt-1 font-sans">
+                    An official confirmation receipt has been dispatched to <strong className="text-slate-900 dark:text-white">{submittedTicket.email}</strong>. The Legal Directorate will review and provide statutory guidance within 2 business hours.
+                  </p>
+                </div>
+
+                <div className="pt-2 flex justify-center gap-3">
+                  <button
+                    onClick={() => {
+                      setSubmittedTicket(null);
+                      setQueryForm({ ...queryForm, description: '' });
+                    }}
+                    className="px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-white/10 text-slate-800 dark:text-slate-200 text-xs font-bold transition-all cursor-pointer"
+                  >
+                    {lang === 'hi' ? 'दूसरा प्रश्न दर्ज करें' : 'Submit Another Query'}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsHelpDeskOpen(false);
+                      setSubmittedTicket(null);
+                    }}
+                    className="px-6 py-2.5 rounded-xl bg-[#0B1E36] dark:bg-white text-white dark:text-slate-950 text-xs font-bold transition-all cursor-pointer shadow-md"
+                  >
+                    {lang === 'hi' ? 'पूर्ण' : 'Done'}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

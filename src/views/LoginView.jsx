@@ -142,7 +142,11 @@ export function LoginView() {
   const handleGoogleSignIn = () => {
     setIsGoogleSigningIn(true);
     setTimeout(() => {
-      triggerVerification();
+      triggerVerification({
+        title: 'Google Workspace Verified',
+        badge: 'Government Official SSO',
+        description: 'Identity authenticated via verified institutional Google Workspace directory.'
+      });
       setOrgProfile((prev) => ({
         ...prev,
         applicantName: 'Er. Vikramaditya Sharma',
@@ -204,7 +208,11 @@ export function LoginView() {
     }
 
     setLoginEmailSuccess(true);
-    triggerVerification();
+    triggerVerification({
+      title: 'Official Email Verified',
+      badge: 'NIC e-Gov Token Active',
+      description: `2-Factor security clearance verified for ${loginEmail}.`
+    });
 
     setOrgProfile((prev) => ({
       ...prev,
@@ -267,7 +275,11 @@ export function LoginView() {
     }
 
     setLoginMobileSuccess(true);
-    triggerVerification();
+    triggerVerification({
+      title: 'Mobile 2FA Verified',
+      badge: 'Biometric & SMS Token Validated',
+      description: `Encrypted 2-Factor session verified for +91 ${loginMobileNumber}.`
+    });
 
     setOrgProfile((prev) => ({
       ...prev,
@@ -337,7 +349,11 @@ export function LoginView() {
     }
     setEmailOtpVerified(true);
     setEmailOtpError('');
-    triggerVerification();
+    triggerVerification({
+      title: 'Institutional Email Verified',
+      badge: 'Valid Government Domain',
+      description: `Official email address (${email}) successfully authenticated.`
+    });
   };
 
   const handleSendSignupOtp = (e) => {
@@ -383,7 +399,11 @@ export function LoginView() {
     }
     setSignupOtpVerified(true);
     setSignupOtpError('');
-    triggerVerification();
+    triggerVerification({
+      title: 'Mobile 2FA Authenticated',
+      badge: 'Verified SMS OTP',
+      description: `Mobile number (+91 ${signupMobile}) verified for dual-factor access.`
+    });
   };
 
   const handleSignUpSubmit = (e) => {
@@ -414,7 +434,11 @@ export function LoginView() {
       setSelectedDivision(primaryDivision);
     }
 
-    triggerVerification();
+    triggerVerification({
+      title: 'Officer Account Provisioned',
+      badge: 'BIS Authorized Evaluator',
+      description: `Statutory permissions granted under BIS Act 2016 for ${activeName}.`
+    });
     setTimeout(() => {
       navigate('/input');
     }, 600);

@@ -12,7 +12,6 @@ import {
   Smartphone,
   ExternalLink
 } from 'lucide-react';
-import { triggerVerification } from "../utils/verificationPulse";
 import { useProcurement } from '../context/ProcurementContext';
 import { MOCK_STANDARDS } from '../data/mockStandardsData';
 
@@ -115,7 +114,6 @@ export function DigitalPassportQR({ className = '', isDarkTheme = false }) {
     link.download = `BIS_Compliance_QR_Pass_${certificateId}.png`;
     link.href = brandedCanvas.toDataURL('image/png');
     link.click();
-    triggerVerification();
   };
 
   const handleCopyPayload = () => {

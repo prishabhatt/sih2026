@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Search, ShieldCheck, ChevronDown, GitFork, Filter, Copy, Check, FileText, Layers, ExternalLink, XCircle, Sparkles, SlidersHorizontal } from 'lucide-react';
-import { triggerVerification } from "../utils/verificationPulse";
 
 const DIVISION_OPTIONS = [
   { id: 'ALL', label: 'All Divisions', count: '22.4k' },
@@ -56,11 +55,9 @@ export function StandardsTable({
     }
   };
 
-  const handleAddClick = (stdId, isCurrentlySelected) => {
-    if (!isCurrentlySelected) {
-      triggerVerification();
-    }
-    onToggleStandard && onToggleStandard(stdId);
+  const handleAddClick = (std) => {
+    // Seamless instant inline addition & removal with zero modal popup interruptions
+    onToggleStandard && onToggleStandard(std.id);
   };
 
   const setTabFor = (stdId, tab) => {
@@ -196,7 +193,7 @@ export function StandardsTable({
                       <td className="px-6 py-5 text-right align-middle whitespace-nowrap">
                         <div className="flex items-center justify-end gap-3">
                           <button
-                            onClick={() => handleAddClick(std.id, isSelected)}
+                            onClick={() => handleAddClick(std, isSelected)}
                             className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer shadow-2xs ${
                               isSelected
                                 ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/50'
