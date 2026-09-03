@@ -127,30 +127,30 @@ export function AppleStripeBackground() {
       }
       ctx.restore();
 
-      // =========================================================================
-      // PASS 2: Subtle Laser Scanline Sweep (State Intelligence Terminal)
-      // =========================================================================
-      scanlineY = (scanlineY + 0.8) % (height + 300);
-      const curScanY = scanlineY - 150;
+      // // =========================================================================
+      // // PASS 2: Subtle Laser Scanline Sweep (State Intelligence Terminal)
+      // // =========================================================================
+      // scanlineY = (scanlineY + 0.8) % (height + 300);
+      // const curScanY = scanlineY - 150;
 
-      if (curScanY > -50 && curScanY < height + 50) {
-        const scanGrad = ctx.createLinearGradient(0, curScanY - 60, 0, curScanY + 60);
-        const scanColor = isDark ? 'rgba(245, 158, 11, 0.04)' : 'rgba(30, 58, 95, 0.035)';
-        scanGrad.addColorStop(0, 'rgba(0, 0, 0, 0)');
-        scanGrad.addColorStop(0.5, scanColor);
-        scanGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      // if (curScanY > -50 && curScanY < height + 50) {
+      //   const scanGrad = ctx.createLinearGradient(0, curScanY - 60, 0, curScanY + 60);
+      //   const scanColor = isDark ? 'rgba(245, 158, 11, 0.04)' : 'rgba(30, 58, 95, 0.035)';
+      //   scanGrad.addColorStop(0, 'rgba(0, 0, 0, 0)');
+      //   scanGrad.addColorStop(0.5, scanColor);
+      //   scanGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
-        ctx.fillStyle = scanGrad;
-        ctx.fillRect(0, curScanY - 60, width, 120);
+      //   ctx.fillStyle = scanGrad;
+      //   ctx.fillRect(0, curScanY - 60, width, 120);
 
-        // Thin laser line
-        ctx.strokeStyle = isDark ? 'rgba(245, 158, 11, 0.12)' : 'rgba(30, 58, 95, 0.08)';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(0, curScanY);
-        ctx.lineTo(width, curScanY);
-        ctx.stroke();
-      }
+      //   // Thin laser line
+      //   ctx.strokeStyle = isDark ? 'rgba(245, 158, 11, 0.12)' : 'rgba(30, 58, 95, 0.08)';
+      //   ctx.lineWidth = 1;
+      //   ctx.beginPath();
+      //   ctx.moveTo(0, curScanY);
+      //   ctx.lineTo(width, curScanY);
+      //   ctx.stroke();
+      // }
 
       // =========================================================================
       // PASS 3: Neural Constellation & Particle Mesh
@@ -261,11 +261,10 @@ export function AppleStripeBackground() {
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
       {/* 1. Base Layer Dynamic Backdrop Gradient */}
       <div
-        className={`absolute inset-0 transition-colors duration-1000 ${
-          isDark
+        className={`absolute inset-0 transition-colors duration-1000 ${isDark
             ? 'bg-gradient-to-b from-[#05070D] via-[#070B14] to-[#05070D]'
             : 'bg-gradient-to-b from-[#F8FAFC] via-[#F1F5F9] to-[#E2E8F0]'
-        }`}
+          }`}
       />
 
       {/* 2. Interactive High-Precision Particle & Fluid Canvas */}
@@ -276,27 +275,24 @@ export function AppleStripeBackground() {
 
       {/* 3. Volumetric Ambient Light Shimmers (Top & Bottom Accent Glows) */}
       <div
-        className={`absolute -top-40 left-1/4 w-[800px] h-[500px] rounded-full blur-[120px] pointer-events-none transition-all duration-1000 ${
-          isDark
+        className={`absolute -top-40 left-1/4 w-[800px] h-[500px] rounded-full blur-[120px] pointer-events-none transition-all duration-1000 ${isDark
             ? 'bg-gradient-to-b from-[#1E3A5F]/25 via-[#0B1E36]/15 to-transparent'
             : 'bg-gradient-to-b from-[#93B5D9]/30 via-[#C2D8ED]/15 to-transparent'
-        }`}
+          }`}
       />
       <div
-        className={`absolute -bottom-40 right-1/4 w-[700px] h-[500px] rounded-full blur-[120px] pointer-events-none transition-all duration-1000 ${
-          isDark
+        className={`absolute -bottom-40 right-1/4 w-[700px] h-[500px] rounded-full blur-[120px] pointer-events-none transition-all duration-1000 ${isDark
             ? 'bg-gradient-to-t from-[#D97706]/12 via-[#1E3A5F]/10 to-transparent'
             : 'bg-gradient-to-t from-[#F59E0B]/15 via-[#93B5D9]/15 to-transparent'
-        }`}
+          }`}
       />
 
       {/* 4. Elegant Micro-Vignette Edge Mask */}
       <div
-        className={`absolute inset-0 pointer-events-none ${
-          isDark
+        className={`absolute inset-0 pointer-events-none ${isDark
             ? 'bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(5,7,13,0.4)_100%)]'
             : 'bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(226,232,240,0.35)_100%)]'
-        }`}
+          }`}
       />
     </div>
   );
