@@ -373,10 +373,10 @@ export function ChatbotWidget() {
             isExpanded
               ? 'bottom-4 right-2 left-2 sm:left-auto sm:right-6 sm:bottom-6 w-[calc(100vw-16px)] sm:w-[500px] h-[720px] max-h-[92vh]'
               : 'bottom-20 right-2 left-2 sm:left-auto sm:right-6 w-[calc(100vw-16px)] sm:w-[390px] md:w-[410px] h-[550px] sm:h-[590px] max-h-[85vh]'
-          } rounded-[28px] bg-[#F6F8FA] dark:bg-[#12192B] border-2 border-slate-200/90 dark:border-white/20 shadow-[0_25px_70px_rgba(0,0,0,0.5),0_0_35px_rgba(37,99,235,0.15)] ring-1 ring-black/5 dark:ring-white/10 overflow-hidden animate-in fade-in zoom-in-95 duration-200`}
+          } rounded-[28px] bg-[#F6F8FA] dark:bg-[#181A20] border-2 border-slate-200/90 dark:border-2 dark:border-blue-500/30 shadow-[0_25px_70px_rgba(0,0,0,0.5),0_0_35px_rgba(37,99,235,0.15)] dark:shadow-[0_0_60px_-15px_rgba(37,99,235,0.3)] ring-1 ring-black/5 overflow-hidden animate-in fade-in zoom-in-95 duration-200`}
         >
           {/* Top Royal Sovereign Navy Header */}
-          <div className="px-4 py-3.5 bg-gradient-to-r from-[#0C234E] via-[#123675] to-[#1B4B9A] border-b border-blue-400/20 text-white flex items-center justify-between gap-3 shadow-md flex-shrink-0">
+          <div className="px-4 py-3.5 bg-gradient-to-r from-[#0C234E] via-[#123675] to-[#1B4B9A] dark:bg-none dark:bg-zinc-950/80 border-b border-blue-400/20 dark:border-blue-500/20 text-white flex items-center justify-between gap-3 shadow-md flex-shrink-0">
             <div className="flex items-center gap-2.5">
               {/* Avatar Icon */}
               <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/30 bg-[#0A1938] flex-shrink-0 shadow-inner flex items-center justify-center p-0.5">
@@ -444,8 +444,8 @@ export function ChatbotWidget() {
                   <div
                     className={`max-w-[92%] sm:max-w-[88%] rounded-2xl p-4 sm:p-4.5 ${
                       isBot
-                        ? 'bg-[#ECEEF2] dark:bg-[#1C2945] text-slate-800 dark:text-slate-100 border border-slate-200/60 dark:border-white/15 shadow-sm'
-                        : 'bg-[#2563EB] text-white rounded-br-none shadow-md font-medium'
+                        ? 'bg-[#ECEEF2] dark:bg-zinc-800 text-slate-800 dark:text-zinc-100 border border-slate-200/60 dark:border dark:border-zinc-700 shadow-sm'
+                        : 'bg-[#2563EB] dark:bg-blue-600 text-white dark:text-white rounded-br-none shadow-md font-medium'
                     }`}
                   >
                     {/* Bot Message Formatted Text */}
@@ -538,14 +538,7 @@ export function ChatbotWidget() {
 
                     {/* Footer Row inside bot message card */}
                     {isBot && (
-                      <div className="flex items-center justify-between gap-2 mt-3 pt-2 border-t border-slate-300/50 dark:border-white/10 text-[11px] text-slate-500 dark:text-slate-400">
-                        <div className="flex items-center gap-1.5">
-                          <div className="w-4 h-4 rounded-full overflow-hidden border border-slate-300 dark:border-white/20 flex-shrink-0">
-                            <img src="/mascot.png" alt="CORA" className="w-full h-full object-cover" />
-                          </div>
-                          <span>{msg.timestamp}</span>
-                        </div>
-
+                      <div className="flex items-center justify-end gap-2 mt-3 pt-2 border-t border-slate-300/50 dark:border-white/10 text-[11px] text-slate-500 dark:text-slate-400">
                         <button
                           onClick={() => handleCopyText(msg.text || (msg.card ? msg.card.title + '\n' + msg.card.content : ''), index)}
                           className="hover:text-slate-900 dark:hover:text-white flex items-center gap-1 cursor-pointer transition"
@@ -568,9 +561,8 @@ export function ChatbotWidget() {
                         <button
                           key={sIdx}
                           onClick={() => handleSendMessage(sug)}
-                          className="px-3 py-1.5 rounded-full bg-white dark:bg-[#1C2945] hover:bg-slate-50 dark:hover:bg-[#25375C] border border-slate-200 dark:border-white/15 text-slate-700 dark:text-blue-100 text-xs font-semibold shadow-sm transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95"
+                          className="px-3 py-1.5 rounded-full bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border dark:border-slate-600 text-slate-700 dark:text-slate-300 text-xs font-semibold shadow-sm transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95"
                         >
-                          <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-sky-400 flex-shrink-0" />
                           <span>{sug}</span>
                         </button>
                       ))}
@@ -593,13 +585,13 @@ export function ChatbotWidget() {
           </div>
 
           {/* Bottom Chat Input Bar */}
-          <div className="p-3 sm:p-3.5 border-t border-slate-200/80 dark:border-white/10 bg-[#F6F8FA] dark:bg-[#12192B] flex-shrink-0 space-y-2">
+          <div className="p-3 sm:p-3.5 border-t border-slate-200/80 dark:border-t dark:border-zinc-800 bg-[#F6F8FA] dark:bg-zinc-950/80 flex-shrink-0 space-y-2">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSendMessage();
               }}
-              className="relative flex items-center bg-[#E5E9EE] dark:bg-[#1C2945] border border-slate-200/90 dark:border-white/15 rounded-full px-3 py-1.5 gap-2 shadow-inner"
+              className="relative flex items-center bg-[#E5E9EE] dark:bg-zinc-900 border border-slate-200/90 dark:border dark:border-zinc-700 rounded-full px-3 py-1.5 gap-2 shadow-inner"
             >
               {/* Paperclip Attachment Icon */}
               <button

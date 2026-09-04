@@ -63,7 +63,7 @@ export const TRANSLATIONS = {
       "step2": "2. Specification Input",
       "step3": "3. AI Analysis",
       "step4": "4. Dashboard",
-      "step5": "5. Audit Certificate",
+      "step5": "5. Audit Report",
       "govBadge": "Govt of India / GeM Aligned",
       "sessionActive": "Session Active",
       "logout": "Switch User",
@@ -226,8 +226,8 @@ export const TRANSLATIONS = {
       "normativeSidebarDesc": "Normative references required to prevent contractor quality substitution"
     },
     "reports": {
-      "certificateTitle": "GOVERNMENT OF INDIA • PROCUREMENT COMPLIANCE AUDIT CERTIFICATE",
-      "certificateSubtitle": "Statutory Verification Certificate Issued under Bureau of Indian Standards Act 2016 & GFR 2017",
+      "certificateTitle": "GOVERNMENT OF INDIA • PROCUREMENT COMPLIANCE AUDIT REPORT",
+      "certificateSubtitle": "Automated Statutory Verification Generated via National Procurement AI Compliance Gateway",
       "certificateId": "Certificate Reference ID",
       "issuedOn": "Date & Timestamp of Issue",
       "officer": "Authorized Procurement Officer",

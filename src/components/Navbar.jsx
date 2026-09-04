@@ -29,7 +29,7 @@ export function Navbar() {
     { path: '/input', label: t.nav.step2, short: 'Input Specs' },
     { path: '/analyzing', label: t.nav.step3, short: 'AI Analysis' },
     { path: '/dashboard', label: t.nav.step4, short: 'Matrix' },
-    { path: '/reports', label: t.nav.step5, short: 'Certificate' },
+    { path: '/reports', label: t.nav.step5, short: 'Report' },
   ];
 
   return (
