@@ -189,7 +189,10 @@ export function DashboardView() {
               </button>
 
               <button
-                onClick={() => navigate('/reports')}
+                onClick={() => {
+                  window.scrollTo(0, 0);
+                  navigate('/reports');
+                }}
                 className="px-4 py-2 rounded-full text-xs font-semibold bg-white/90 dark:bg-white/[0.04] hover:bg-white dark:hover:bg-white/[0.08] border border-slate-200/80 dark:border-white/10 text-slate-800 dark:text-slate-200 transition-all shadow-xs backdrop-blur-xl flex items-center gap-2 cursor-pointer hover:shadow-md"
               >
                 <Award className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
@@ -369,7 +372,7 @@ export function DashboardView() {
                 </div>
               </div>
 
-              {/* Action Buttons: Preview NIT & Download Dossier */}
+              {/* Action Buttons: Preview NIT, Audit Report & Download Dossier */}
               <div className="pt-3 border-t border-slate-200/80 dark:border-white/[0.08] space-y-2">
                 <button
                   onClick={() => setIsModelClauseModalOpen(true)}
@@ -377,6 +380,17 @@ export function DashboardView() {
                 >
                   <FileText className="w-3.5 h-3.5 text-amber-400 dark:text-[#0B1E36]" />
                   <span>Preview Model NIT Clause</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    window.scrollTo(0, 0);
+                    navigate('/reports');
+                  }}
+                  className="w-full py-2.5 rounded-full bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/50 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800/40 text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer shadow-xs hover:shadow-sm"
+                >
+                  <Award className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                  <span>Compliance Audit Report →</span>
                 </button>
 
                 <button

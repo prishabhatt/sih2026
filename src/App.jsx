@@ -15,12 +15,21 @@ import { DashboardView } from './views/DashboardView';
 import { ReportsView } from './views/ReportsView';
 import { SandboxView } from './views/SandboxView';
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
 function AppLayout({ children }) {
   const location = useLocation();
   const isCustomOrAuthPage = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/analyzing';
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#070B14] text-slate-900 dark:text-slate-100 selection:bg-blue-600 selection:text-white transition-colors duration-200 relative">
+      <ScrollToTop />
       {!isCustomOrAuthPage && <Navbar />}
       <main className="flex-1">
         {children}
