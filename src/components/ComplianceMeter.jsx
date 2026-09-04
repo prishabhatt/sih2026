@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Award, Sparkles, CheckCircle2, ChevronRight, Info, ShieldCheck, X, BookOpen } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Award, CheckCircle2, ChevronRight, Info, ShieldCheck, X, BookOpen } from 'lucide-react';
 import { useProcurement } from '../context/ProcurementContext';
 
 export function ComplianceMeter() {
@@ -14,24 +14,21 @@ export function ComplianceMeter() {
   } = complianceStats;
 
   const [activeInfoKey, setActiveInfoKey] = useState(null);
-  const [animatedProgress, setAnimatedProgress] = useState(0);
-  const [displayScore, setDisplayScore] = useState(0);
+  const [displayScore, setDisplayScore] = useState(overallScore);
+  const prevScoreRef = useRef(overallScore);
 
-  // Smooth entry animation on page load / score change
+  // Smooth responsive interpolation on score change
   useEffect(() => {
-    setAnimatedProgress(0);
-    setDisplayScore(0);
-
-    let raf1, raf2;
-    raf1 = requestAnimationFrame(() => {
-      raf2 = requestAnimationFrame(() => {
-        setAnimatedProgress(overallScore);
-      });
-    });
-
-    let start = 0;
+    const start = prevScoreRef.current;
     const end = overallScore;
-    const duration = 1400; // ms
+    prevScoreRef.current = end;
+
+    if (start === end) {
+      setDisplayScore(end);
+      return;
+    }
+
+    const duration = 500; // ms
     const startTime = performance.now();
 
     const animateCount = (now) => {
@@ -49,18 +46,13 @@ export function ComplianceMeter() {
     };
 
     const countReq = requestAnimationFrame(animateCount);
-
-    return () => {
-      cancelAnimationFrame(raf1);
-      cancelAnimationFrame(raf2);
-      cancelAnimationFrame(countReq);
-    };
+    return () => cancelAnimationFrame(countReq);
   }, [overallScore]);
 
   // Full 360-Degree Circle Geometry
   const radius = 80;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (Math.min(100, Math.max(0, animatedProgress)) / 100) * circumference;
+  const strokeDashoffset = circumference - (Math.min(100, Math.max(0, displayScore)) / 100) * circumference;
 
   const metricDetails = {
     primary: {
@@ -82,10 +74,14 @@ export function ComplianceMeter() {
     qco: {
       title: 'Statutory QCO Mandates Met',
       score: qcoStatutoryRate,
-      color: 'from-emerald-700 to-emerald-950 dark:from-emerald-400 dark:to-emerald-200',
-      shortDesc: '100% adherence to Ministry Gazette Orders issued under BIS Act 2016.',
-      fullExplanation: 'Verifies that every procurement item governed by a mandatory Quality Control Order (QCO) issued by Central Ministries requires mandatory ISI/CRS certification in the NIT technical clause.',
-      statutoryRef: 'Gazette Quality Control Orders (QCOs) 2023-2024'
+      color: qcoStatutoryRate < 70 
+        ? 'from-rose-600 to-rose-900 dark:from-rose-400 dark:to-rose-200' 
+        : 'from-emerald-700 to-emerald-950 dark:from-emerald-400 dark:to-emerald-200',
+      shortDesc: qcoStatutoryRate < 70 
+        ? 'Critical QCO evasion clauses detected (Sec 16 BIS Act breach).' 
+        : 'Full adherence to Ministry Gazette Orders issued under BIS Act 2016.',
+      fullExplanation: 'Verifies that every procurement item governed by a mandatory Quality Control Order (QCO) issued by Central Ministries requires mandatory ISI/CRS certification in the NIT technical clause without illegal startup or unbranded exemptions.',
+      statutoryRef: 'Section 16, BIS Act 2016 & Gazette Quality Control Orders (QCOs)'
     },
     mii: {
       title: 'Make In India Local Content',
@@ -302,7 +298,7 @@ export function ComplianceMeter() {
 
       {/* Advice Note */}
       <div className="p-3.5 rounded-2xl bg-slate-100/80 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/[0.08] text-[11px] text-slate-700 dark:text-slate-300 flex items-start gap-2.5 shadow-2xs">
-        <Sparkles className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+        <Info className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
         <p className="leading-relaxed font-medium">
           Include all normative raw material test codes to ensure bid specifications have zero legal loopholes.
         </p>

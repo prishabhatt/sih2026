@@ -38,7 +38,7 @@ export function StandardCard({ std, isSelected, onToggle, onExploreNormative }) 
                 : 'glass-btn-primary shimmer-sweep text-white'
             }`}
           >
-            {isSelected ? '✓ Added' : '+ Add'}
+            {isSelected ? 'Added' : '+ Add'}
           </button>
           <button
             onClick={() => setIsExpanded(!isExpanded)}

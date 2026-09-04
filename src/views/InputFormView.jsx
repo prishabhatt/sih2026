@@ -73,7 +73,8 @@ export function InputFormView() {
         name: file.name,
         size: `${(file.size / (1024 * 1024)).toFixed(2)} MB`,
         type: file.type || 'application/octet-stream',
-        extractedItems: 16
+        extractedItems: 5,
+        rawFile: file
       });
     }
   };
@@ -85,7 +86,8 @@ export function InputFormView() {
         name: file.name,
         size: `${(file.size / (1024 * 1024)).toFixed(2)} MB`,
         type: file.type || 'application/octet-stream',
-        extractedItems: 16
+        extractedItems: 5,
+        rawFile: file
       });
     }
   };

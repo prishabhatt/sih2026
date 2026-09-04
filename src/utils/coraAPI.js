@@ -145,13 +145,14 @@ Platform: BIS Engine v1.0 · SIH 2026
 
 const API_KEY  = import.meta.env.VITE_OPENAI_API_KEY;
 const BASE_URL = import.meta.env.VITE_OPENAI_BASE_URL || 'https://api.openai.com/v1';
-const MODEL    = import.meta.env.VITE_OPENAI_MODEL    || 'gpt-oss-120b';
+const MODEL    = import.meta.env.VITE_OPENAI_MODEL    || 'openai/gpt-oss-120b';
 const MAX_TOKENS = parseInt(import.meta.env.VITE_AI_MAX_TOKENS || '1024', 10);
 const TEMPERATURE = parseFloat(import.meta.env.VITE_AI_TEMPERATURE || '0.3');
 const STREAM = import.meta.env.VITE_AI_STREAM === 'true';
 
 /**
- * Sends a message to CORA (GPT OSS 120B) and returns the assistant reply.
+ * Sends a message to CORA Copilot (Direct LLM via Groq / GPT-OSS-120B with System Prompt).
+ * No RAG pipeline — purely prompt-engineered intelligence.
  *
  * @param {Array<{role: 'user'|'assistant', content: string}>} conversationHistory
  *   Full chat history (excluding the system prompt — this function prepends it).

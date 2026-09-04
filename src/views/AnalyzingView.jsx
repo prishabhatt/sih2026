@@ -14,7 +14,7 @@ import { AppleStripeBackground } from '../components/AppleStripeBackground';
 
 export function AnalyzingView() {
   const navigate = useNavigate();
-  const { t, selectedDivision, orgProfile } = useProcurement();
+  const { t, selectedDivision, orgProfile, naturalQuery, uploadedFile, triggerRAGAnalysis, ragAnalysisState } = useProcurement();
 
   const [currentStep, setCurrentStep] = useState(0);
   const [progress, setProgress] = useState(15);
@@ -43,6 +43,11 @@ export function AnalyzingView() {
   ];
 
   useEffect(() => {
+    // Fire the real Graph-RAG analysis immediately in background
+    if (naturalQuery) {
+      triggerRAGAnalysis(naturalQuery, selectedDivision, uploadedFile?.rawFile || null);
+    }
+
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
@@ -60,7 +65,7 @@ export function AnalyzingView() {
     }, 450);
 
     return () => clearInterval(interval);
-  }, [currentStep, navigate]);
+  }, [currentStep, navigate, naturalQuery, selectedDivision, triggerRAGAnalysis]);
 
   useEffect(() => {
     let logIndex = 0;
