@@ -1,5 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import {
   X,
   Send,
@@ -15,9 +17,22 @@ import {
   MicOff,
   Paperclip,
   Lock,
-  AlertTriangle
+  AlertTriangle,
+  Wifi,
+  WifiOff
 } from 'lucide-react';
 import { useProcurement } from '../context/ProcurementContext';
+import { askCORA, buildHistory } from '../utils/coraAPI';
+
+// Strip any raw HTML tags the model accidentally outputs (e.g. <br/>, <br>, <strong>)
+const sanitizeMarkdown = (text) => {
+  if (!text) return text;
+  return text
+    .replace(/<br\s*\/?>/gi, '\n')       // <br> / <br/> → newline
+    .replace(/<\/?(strong|b)>/gi, '**')  // <strong> → **
+    .replace(/<\/?(em|i)>/gi, '*')       // <em> → *
+    .replace(/<[^>]+>/g, '');            // strip any remaining HTML tags
+};
 
 // Comprehensive Knowledge Base for CORA
 const BOT_KNOWLEDGE = [
@@ -113,6 +128,10 @@ export function ChatbotWidget() {
   const [copiedIndex, setCopiedIndex] = useState(null);
   const [isTyping, setIsTyping] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [streamingText, setStreamingText] = useState('');
+  const [isStreaming, setIsStreaming] = useState(false);
+  const [apiError, setApiError] = useState(null);
+  const streamingMsgIdRef = useRef(null);
 
   const messagesEndRef = useRef(null);
 
@@ -188,9 +207,11 @@ export function ChatbotWidget() {
     }
   }, [messages, isOpen, isTyping]);
 
-  const handleSendMessage = (textToSend) => {
+  const handleSendMessage = useCallback(async (textToSend) => {
     const query = (textToSend || inputText).trim();
-    if (!query) return;
+    if (!query || isTyping || isStreaming) return;
+
+    setApiError(null);
 
     const userMessage = {
       id: Date.now(),
@@ -203,51 +224,110 @@ export function ChatbotWidget() {
     if (!textToSend) setInputText('');
     setIsTyping(true);
 
-    setTimeout(() => {
-      const lowerQuery = query.toLowerCase().replace(/[?.,!]/g, ' ').trim();
-      
-      let matchedEntry = BOT_KNOWLEDGE.find((entry) =>
-        entry.keywords.some((kw) => {
-          const cleanKw = kw.toLowerCase().trim();
-          return lowerQuery.includes(cleanKw) || cleanKw.includes(lowerQuery);
-        })
-      );
+    // Build streaming placeholder message
+    const botMsgId = Date.now() + 1;
+    streamingMsgIdRef.current = botMsgId;
 
-      let botReply;
-      if (matchedEntry) {
-        botReply = {
-          id: Date.now() + 1,
-          sender: 'bot',
-          timestamp: 'Just now',
-          card: matchedEntry.response,
-          suggestions: matchedEntry.response.suggestions || [
-            'What is this website?',
-            'What is IS 7098 (Part 2)?',
-            'Explain GFR Rule 144(xi)'
-          ]
-        };
-      } else {
-        botReply = {
-          id: Date.now() + 1,
-          sender: 'bot',
-          timestamp: 'Just now',
-          text: 'I queried our 768-D neural vector database across 22,410+ Indian Standards for: "' + query + '".\n\nWould you like me to resolve this specification directly in the live AI procurement engine or audit it against mandatory Quality Control Orders (QCOs)?',
-          action: {
-            label: 'Analyze in AI Standards Engine ↗',
-            route: '/input'
-          },
-          suggestions: [
-            'What is this website?',
-            'What is IS 7098 (Part 2)?',
-            'Explain GFR Rule 144(xi)'
-          ]
-        };
-      }
+    // First check local knowledge base for fast rich-card responses
+    const lowerQuery = query.toLowerCase().replace(/[?.,!]/g, ' ').trim();
+    const matchedEntry = BOT_KNOWLEDGE.find((entry) =>
+      entry.keywords.some((kw) => {
+        const cleanKw = kw.toLowerCase().trim();
+        return lowerQuery.includes(cleanKw) || cleanKw.includes(lowerQuery);
+      })
+    );
 
-      setMessages((prev) => [...prev, botReply]);
+    if (matchedEntry) {
+      // Serve instantly from local KB as a rich card, then also ask the AI for more detail
+      const cardReply = {
+        id: botMsgId,
+        sender: 'bot',
+        timestamp: 'Just now',
+        card: matchedEntry.response,
+        suggestions: matchedEntry.response.suggestions || [
+          'What is this website?',
+          'What is IS 7098 (Part 2)?',
+          'Explain GFR Rule 144(xi)'
+        ]
+      };
+      setMessages((prev) => [...prev, cardReply]);
       setIsTyping(false);
-    }, 450);
-  };
+      return;
+    }
+
+    // No local match — call GPT OSS 120B
+    try {
+      // Add a streaming placeholder
+      const placeholderMsg = {
+        id: botMsgId,
+        sender: 'bot',
+        timestamp: 'Just now',
+        text: '',
+        streaming: true,
+      };
+      setMessages((prev) => [...prev, placeholderMsg]);
+      setIsStreaming(true);
+      setIsTyping(false);
+
+      // Build history from all messages (excluding placeholder)
+      const historyForAI = buildHistory([
+        ...messages,
+        userMessage,
+      ]);
+
+      let accumulated = '';
+
+      const finalText = await askCORA(historyForAI, (chunk) => {
+        accumulated += chunk;
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === botMsgId ? { ...m, text: accumulated } : m
+          )
+        );
+      });
+
+      // Finalize message — remove streaming flag, add suggestions
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === botMsgId
+            ? {
+                ...m,
+                text: finalText || accumulated,
+                streaming: false,
+                suggestions: [
+                  'What is this website?',
+                  'What is IS 7098 (Part 2)?',
+                  'Explain GFR Rule 144(xi)'
+                ]
+              }
+            : m
+        )
+      );
+    } catch (err) {
+      const isNoKey = err.message === 'CORA_NO_KEY';
+      const errorText = isNoKey
+        ? '⚠️ **API key not configured.**\n\nTo activate CORA\'s AI, add your `VITE_OPENAI_API_KEY` to the `.env` file and restart the dev server.'
+        : `⚠️ **CORA encountered an error.**\n\n${err.message.includes('CORA_API_ERROR') ? 'The AI service returned an error. Please try again shortly.' : 'Network error — please check your connection.'}\n\nYou can still ask about IS codes, QCOs, and platform features!`;
+
+      setApiError(isNoKey ? 'no_key' : 'api_error');
+
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === botMsgId
+            ? {
+                ...m,
+                text: errorText,
+                streaming: false,
+                isError: true,
+              }
+            : m
+        )
+      );
+    } finally {
+      setIsTyping(false);
+      setIsStreaming(false);
+    }
+  }, [inputText, isTyping, isStreaming, messages]);
 
   const handleActionClick = (action) => {
     if (action.scenarioId) {
@@ -371,8 +451,8 @@ export function ChatbotWidget() {
         <div
           className={`fixed z-50 transition-all duration-300 flex flex-col ${
             isExpanded
-              ? 'bottom-4 right-2 left-2 sm:left-auto sm:right-6 sm:bottom-6 w-[calc(100vw-16px)] sm:w-[500px] h-[720px] max-h-[92vh]'
-              : 'bottom-20 right-2 left-2 sm:left-auto sm:right-6 w-[calc(100vw-16px)] sm:w-[390px] md:w-[410px] h-[550px] sm:h-[590px] max-h-[85vh]'
+              ? 'bottom-4 right-2 left-2 sm:left-auto sm:right-6 sm:bottom-6 w-[calc(100vw-16px)] sm:w-[680px] h-[92vh]'
+              : 'bottom-20 right-2 left-2 sm:left-auto sm:right-6 w-[calc(100vw-16px)] sm:w-[520px] md:w-[560px] h-[700px] max-h-[88vh]'
           } rounded-[28px] bg-[#F6F8FA] dark:bg-[#181A20] border-2 border-slate-200/90 dark:border-2 dark:border-blue-500/30 shadow-[0_25px_70px_rgba(0,0,0,0.5),0_0_35px_rgba(37,99,235,0.15)] dark:shadow-[0_0_60px_-15px_rgba(37,99,235,0.3)] ring-1 ring-black/5 overflow-hidden animate-in fade-in zoom-in-95 duration-200`}
         >
           {/* Top Royal Sovereign Navy Header */}
@@ -448,22 +528,68 @@ export function ChatbotWidget() {
                         : 'bg-[#2563EB] dark:bg-blue-600 text-white dark:text-white rounded-br-none shadow-md font-medium'
                     }`}
                   >
-                    {/* Bot Message Formatted Text */}
-                    {msg.text && (
-                      <div className="leading-relaxed whitespace-pre-wrap font-normal text-xs sm:text-[13px]">
-                        {msg.text.split('\n\n').map((para, pIdx) => {
-                          const parts = para.split('CORA');
-                          return (
-                            <p key={pIdx} className={pIdx > 0 ? 'mt-3' : ''}>
-                              {parts.map((part, idx) => (
-                                <React.Fragment key={idx}>
-                                  {part}
-                                  {idx < parts.length - 1 && <strong>CORA</strong>}
-                                </React.Fragment>
-                              ))}
-                            </p>
-                          );
-                        })}
+                    {/* Bot Message Formatted Text — rendered as GFM Markdown */}
+                    {msg.text !== undefined && (
+                      <div className={`leading-relaxed font-normal text-xs sm:text-[13px] ${msg.isError ? 'text-amber-700 dark:text-amber-300' : 'text-slate-800 dark:text-zinc-100'}`}>
+                        {msg.text ? (
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                              // Headings
+                              h1: ({children}) => <h1 className="text-sm font-extrabold text-blue-700 dark:text-sky-300 mt-2 mb-1">{children}</h1>,
+                              h2: ({children}) => <h2 className="text-xs font-bold text-blue-700 dark:text-sky-300 mt-2 mb-1 uppercase tracking-wide">{children}</h2>,
+                              h3: ({children}) => <h3 className="text-xs font-bold text-slate-700 dark:text-slate-200 mt-1.5 mb-0.5">{children}</h3>,
+                              // Paragraph
+                              p: ({children}) => <p className="mb-1.5 last:mb-0 leading-relaxed">{children}</p>,
+                              // Bold & italic
+                              strong: ({children}) => <strong className="font-bold text-slate-900 dark:text-white">{children}</strong>,
+                              em: ({children}) => <em className="italic text-slate-600 dark:text-slate-300">{children}</em>,
+                              // Lists
+                              ul: ({children}) => <ul className="my-1 ml-3 space-y-0.5 list-none">{children}</ul>,
+                              ol: ({children}) => <ol className="my-1 ml-3 space-y-0.5 list-decimal list-inside">{children}</ol>,
+                              li: ({children}) => (
+                                <li className="flex items-start gap-1.5">
+                                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-500 flex-shrink-0" />
+                                  <span>{children}</span>
+                                </li>
+                              ),
+                              // Block code (react-markdown v10: use pre wrapper)
+                              pre: ({children}) => (
+                                <pre className="my-1.5 p-2 rounded-xl bg-slate-100 dark:bg-zinc-900 overflow-x-auto text-[11px] font-mono text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-zinc-700">
+                                  {children}
+                                </pre>
+                              ),
+                              // Inline code — no parent pre means inline
+                              code: ({children, className}) => (
+                                <code className={`font-mono text-[11px] ${className ? '' : 'px-1 py-0.5 rounded bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-sky-300'} ${className || ''}`}>
+                                  {children}
+                                </code>
+                              ),
+                              // Tables — GFM (break out of bubble padding for full-width scroll)
+                              table: ({children}) => (
+                                <div className="my-2 -mx-4 overflow-x-auto border-y border-slate-200 dark:border-zinc-700">
+                                  <table className="border-collapse" style={{minWidth:'100%', tableLayout:'auto'}}>{children}</table>
+                                </div>
+                              ),
+                              thead: ({children}) => <thead className="bg-blue-600 text-white sticky top-0">{children}</thead>,
+                              tbody: ({children}) => <tbody className="divide-y divide-slate-100 dark:divide-zinc-700">{children}</tbody>,
+                              tr: ({children}) => <tr className="even:bg-slate-50 dark:even:bg-zinc-800/50 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors align-top">{children}</tr>,
+                              th: ({children}) => <th className="px-3 py-2 text-left font-bold text-white text-[10px] uppercase tracking-wide whitespace-nowrap">{children}</th>,
+                              td: ({children}) => <td className="px-3 py-2 text-slate-700 dark:text-slate-200 align-top leading-snug text-[11px]" style={{minWidth:'100px', maxWidth:'220px', wordBreak:'break-word'}}>{children}</td>,
+                              // Blockquote
+                              blockquote: ({children}) => <blockquote className="my-1.5 pl-3 border-l-2 border-blue-400 text-slate-600 dark:text-slate-400 italic">{children}</blockquote>,
+                              // Horizontal rule
+                              hr: () => <hr className="my-2 border-slate-200 dark:border-zinc-700" />,
+                              // Links
+                              a: ({href, children}) => <a href={href} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-sky-400 underline underline-offset-2 hover:text-blue-800">{children}</a>,
+                            }}
+                          >
+                            {sanitizeMarkdown(msg.text)}
+                          </ReactMarkdown>
+                        ) : null}
+                        {msg.streaming && (
+                          <span className="inline-block w-1.5 h-4 bg-blue-500 ml-0.5 animate-pulse rounded-sm" />
+                        )}
                       </div>
                     )}
 
@@ -640,9 +766,15 @@ export function ChatbotWidget() {
             <div className="flex items-center justify-between px-2 text-[10px] text-slate-400 font-medium">
               <span className="flex items-center gap-1">
                 <Lock className="w-3 h-3 text-slate-400" />
-                <span>NIC-BIS 768-D Vector Index Node</span>
+                <span className="flex items-center gap-1">
+                  {apiError === 'no_key' ? (
+                    <span className="text-amber-500 flex items-center gap-1"><WifiOff className="w-3 h-3" /> API Key Not Set</span>
+                  ) : (
+                    <><Sparkles className="w-3 h-3 text-blue-400" /> GPT OSS 120B · BIS 768-D Index</>
+                  )}
+                </span>
               </span>
-              <span>Press Enter ↵</span>
+              <span>{isStreaming ? <span className="text-blue-400 animate-pulse">Generating...</span> : 'Press Enter ↵'}</span>
             </div>
           </div>
         </div>
