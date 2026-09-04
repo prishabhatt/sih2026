@@ -32,6 +32,9 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# ─── In-memory store for published compliance reports (keyed by certificate_id) ───
+published_reports: Dict[str, Dict[str, Any]] = {}
+
 # Enable CORS for the React frontend (running on Vite http://localhost:5173 or similar)
 app.add_middleware(
     CORSMiddleware,
@@ -143,6 +146,43 @@ def list_standards():
 def get_graph_data():
     """Returns node-link data for frontend network graph visualizers."""
     return standards_kg.export_graph_for_ui()
+
+
+# ─── COMPLIANCE REPORT ENDPOINTS (for QR Verification) ──────────────────────
+
+class ReportPublishRequest(BaseModel):
+    certificate_id: str
+    payload: Dict[str, Any]
+
+@app.post("/api/reports/publish")
+def publish_report(req: ReportPublishRequest):
+    """
+    Publishes a compliance audit report for QR-based verification.
+    Stores the payload in memory keyed by certificate_id.
+    Returns the certificate_id and a relative verify path.
+    """
+    published_reports[req.certificate_id] = req.payload
+    return {
+        "status": "published",
+        "certificate_id": req.certificate_id,
+        "verify_path": f"/verify/{req.certificate_id}"
+    }
+
+@app.get("/api/reports/{certificate_id}")
+def get_report(certificate_id: str):
+    """
+    Retrieves a previously published compliance report by certificate_id.
+    Used by the frontend VerifyView when a QR code is scanned.
+    """
+    report = published_reports.get(certificate_id)
+    if not report:
+        raise HTTPException(status_code=404, detail=f"Report '{certificate_id}' not found. It may not have been published yet.")
+    return {
+        "status": "found",
+        "certificate_id": certificate_id,
+        "payload": report
+    }
+
 
 if __name__ == "__main__":
     import uvicorn

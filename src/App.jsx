@@ -14,6 +14,7 @@ import { AnalyzingView } from './views/AnalyzingView';
 import { DashboardView } from './views/DashboardView';
 import { ReportsView } from './views/ReportsView';
 import { SandboxView } from './views/SandboxView';
+import { VerifyView } from './views/VerifyView';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -25,7 +26,7 @@ function ScrollToTop() {
 
 function AppLayout({ children }) {
   const location = useLocation();
-  const isCustomOrAuthPage = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/analyzing';
+  const isCustomOrAuthPage = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/analyzing' || location.pathname.startsWith('/verify');
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#070B14] text-slate-900 dark:text-slate-100 selection:bg-blue-600 selection:text-white transition-colors duration-200 relative">
@@ -57,6 +58,7 @@ export function App() {
                 <Route path="/analyzing" element={<AnalyzingView />} />
                 <Route path="/dashboard" element={<DashboardView />} />
                 <Route path="/reports" element={<ReportsView />} />
+                <Route path="/verify/:certificateId" element={<VerifyView />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </AppLayout>

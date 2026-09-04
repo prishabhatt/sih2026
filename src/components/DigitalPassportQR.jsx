@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { QRCodeCanvas } from 'qrcode.react';
 import { 
@@ -13,10 +13,15 @@ import {
   ExternalLink,
   Lock,
   Layers,
-  FileCheck
+  FileCheck,
+  Loader2,
+  Wifi,
+  WifiOff
 } from 'lucide-react';
 import { useProcurement } from '../context/ProcurementContext';
 import { MOCK_STANDARDS } from '../data/mockStandardsData';
+
+const API_BASE = 'http://localhost:8000';
 
 export function DigitalPassportQR({ className = '' }) {
   const { 
@@ -32,6 +37,7 @@ export function DigitalPassportQR({ className = '' }) {
   const qrRef = useRef(null);
   const [copied, setCopied] = useState(false);
   const [showScannerModal, setShowScannerModal] = useState(false);
+  const [publishStatus, setPublishStatus] = useState('idle'); // 'idle' | 'publishing' | 'published' | 'offline'
 
   const selectedStds = MOCK_STANDARDS.filter((s) => selectedStandardIds.includes(s.id));
   const primaryCodes = selectedStds.length > 0 
@@ -53,6 +59,7 @@ export function DigitalPassportQR({ className = '' }) {
 
   const testsCount = allTests.length > 0 ? allTests.length : 6;
 
+  // The full compliance payload (used for publishing & simulator)
   const payloadObject = {
     tender_id: certificateId,
     issuing_org: orgProfile.businessName || 'National Public Infrastructure Agency',
@@ -68,6 +75,36 @@ export function DigitalPassportQR({ className = '' }) {
   };
 
   const payloadString = JSON.stringify(payloadObject, null, 2);
+
+  // ─── QR VALUE: Encode a short verification URL instead of full JSON ───────
+  // This makes the QR code scannable by any phone camera
+  const verifyUrl = `${window.location.origin}/verify/${encodeURIComponent(certificateId)}`;
+
+  // ─── Auto-publish report to backend on mount & when payload changes ───────
+  useEffect(() => {
+    const publishReport = async () => {
+      setPublishStatus('publishing');
+      try {
+        const res = await fetch(`${API_BASE}/api/reports/publish`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            certificate_id: certificateId,
+            payload: payloadObject
+          })
+        });
+        if (res.ok) {
+          setPublishStatus('published');
+        } else {
+          setPublishStatus('offline');
+        }
+      } catch {
+        // Backend offline — QR still works, just shows the URL which will prompt fetch on load
+        setPublishStatus('offline');
+      }
+    };
+    publishReport();
+  }, [certificateId, shaHash, complianceStats.overallScore, selectedStandardIds.length]);
 
   const handleDownloadPng = () => {
     const canvas = qrRef.current?.querySelector('canvas');
@@ -114,9 +151,13 @@ export function DigitalPassportQR({ className = '' }) {
     bCtx.fillText(`SHA: ${shaHash.substring(0, 32)}...`, 200, 405);
     bCtx.fillText('BIS Act 2016 Section 16 & GFR 2017 Verified', 200, 425);
 
+    bCtx.fillStyle = '#047857';
+    bCtx.font = 'bold 9px monospace';
+    bCtx.fillText('SCAN QR TO VERIFY → ' + verifyUrl.substring(0, 45), 200, 450);
+
     bCtx.fillStyle = '#0F172A';
     bCtx.font = 'bold 10px sans-serif';
-    bCtx.fillText('DIGITAL SUPPLY CHAIN PASSPORT', 200, 455);
+    bCtx.fillText('DIGITAL SUPPLY CHAIN PASSPORT', 200, 475);
 
     // Download image
     const link = document.createElement('a');
@@ -172,7 +213,7 @@ export function DigitalPassportQR({ className = '' }) {
         <div className="md:col-span-4 flex flex-col items-center justify-center p-5 bg-slate-50 rounded-2xl border border-slate-200 shadow-xs text-center">
           <div ref={qrRef} className="p-3 bg-white rounded-2xl shadow-sm border border-slate-200">
             <QRCodeCanvas
-              value={payloadString}
+              value={verifyUrl}
               size={152}
               level="H"
               includeMargin={true}
@@ -184,6 +225,19 @@ export function DigitalPassportQR({ className = '' }) {
           <span className="text-[10px] font-mono font-semibold text-slate-500 mt-0.5 uppercase tracking-wider">
             ECC: HIGH (30% REDUNDANCY)
           </span>
+          {/* Publish status indicator */}
+          <div className={`mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider ${
+            publishStatus === 'published'
+              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+              : publishStatus === 'publishing'
+              ? 'bg-blue-50 text-blue-600 border border-blue-200'
+              : 'bg-amber-50 text-amber-700 border border-amber-200'
+          }`}>
+            {publishStatus === 'published' && <><Wifi className="w-2.5 h-2.5" /> Report Published</>}
+            {publishStatus === 'publishing' && <><Loader2 className="w-2.5 h-2.5 animate-spin" /> Publishing...</>}
+            {publishStatus === 'offline' && <><WifiOff className="w-2.5 h-2.5" /> Backend Offline</>}
+            {publishStatus === 'idle' && <><WifiOff className="w-2.5 h-2.5" /> Pending</>}
+          </div>
         </div>
 
         {/* Right: 4 Clean Bento Metadata Boxes & High-Contrast Buttons */}
@@ -295,6 +349,12 @@ export function DigitalPassportQR({ className = '' }) {
             <div className="p-3.5 bg-emerald-50 rounded-2xl border border-emerald-200 text-xs text-emerald-900 flex items-center gap-2.5 font-bold shrink-0">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
               <span>AUTHENTIC TENDER PASSPORT: Digital signature verified with NIC Trust Gateway.</span>
+            </div>
+
+            {/* Scan URL Info */}
+            <div className="p-3 bg-blue-50 rounded-xl border border-blue-200 text-xs text-blue-800 font-bold flex items-center gap-2 shrink-0">
+              <ExternalLink className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+              <span className="truncate">Scan opens: {verifyUrl}</span>
             </div>
 
             {/* Decrypted Payload Terminal */}
