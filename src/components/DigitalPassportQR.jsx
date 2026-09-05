@@ -25,7 +25,7 @@ const API_BASE = 'http://localhost:8000';
 
 export function DigitalPassportQR({ className = '' }) {
   const { 
-    certificateId = 'CERT-BIS-GOV-2026-98442', 
+    certificateId = 'CERT-IS-GOV-2026-98442', 
     orgProfile = {}, 
     selectedStandardIds = [], 
     selectedNormativeTests = {}, 

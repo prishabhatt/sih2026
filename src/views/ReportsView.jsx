@@ -94,7 +94,7 @@ export function ReportsView() {
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs">
             <div>
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{t.reports.certificateId}</p>
-              <p className="font-bold text-[#292524] text-xs mt-0.5">{certificateId || 'CERT-BIS-GOV-2026-98442'}</p>
+              <p className="font-bold text-[#292524] text-xs mt-0.5">{certificateId || 'CERT-IS-GOV-2026-98442'}</p>
             </div>
             <div>
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{t.reports.issuedOn}</p>
