@@ -166,6 +166,13 @@ export function ProcurementProvider({ children }) {
     meta: null,          // { queriesRun, standardsFound, timestamp }
   });
 
+  // Document Rejection State (tracks whether an uploaded document was rejected as non-procurement)
+  const [documentRejectionState, setDocumentRejectionState] = useState({
+    isRejected: false,
+    docType: null,
+    reason: null
+  });
+
   // Run the full Graph-Augmented RAG Analysis & replace recommendedStandards with live results
   const triggerRAGAnalysis = useCallback(async (query, division, file = null) => {
     setRagAnalysisState(prev => ({ ...prev, isLoading: true, error: null }));
@@ -186,9 +193,32 @@ export function ProcurementProvider({ children }) {
     }
 
     try {
+      const isFileUpload = Boolean(file);
       const { standards, ragMeta } = await runRAGAnalysis(query, division, file);
 
+      // 1. Explicit Rejection for Non-Procurement / Academic / Unrelated Documents
+      if (ragMeta?.is_valid_tender === false) {
+        setDocumentRejectionState({
+          isRejected: true,
+          docType: ragMeta.document_type || 'Non-Procurement Document',
+          reason: ragMeta.rejection_reason || 'This document is not a valid procurement tender, BOQ, or technical specification.'
+        });
+        setRecommendedStandards([]);
+        setSelectedStandardIds([]);
+        setSelectedNormativeTests({});
+        setRagAnalysisState({
+          isLoading: false,
+          isLive: true,
+          backendOnline: true,
+          error: ragMeta.rejection_reason,
+          meta: ragMeta,
+        });
+        return;
+      }
+
+      // 2. Valid Standards Mapped from Tender
       if (standards.length > 0) {
+        setDocumentRejectionState({ isRejected: false, docType: null, reason: null });
         setRecommendedStandards(standards);
 
         // Auto-enroll core items from the tender BOQ; keep companion suggestions as '+ Add'
@@ -215,18 +245,41 @@ export function ProcurementProvider({ children }) {
           meta: ragMeta,
         });
       } else {
-        // RAG ran but found no matching standards → fall back to mock
-        setRecommendedStandards(MOCK_STANDARDS);
-        setRagAnalysisState({
-          isLoading: false,
-          isLive: false,
-          backendOnline: true,
-          error: 'No matching standards found via RAG. Showing reference dataset.',
-          meta: ragMeta,
-        });
+        // 3. No matching standards found
+        if (isFileUpload) {
+          // If a file was uploaded, do NOT silently fall back to mock cables!
+          setDocumentRejectionState({
+            isRejected: true,
+            docType: 'Unmapped Tender Document',
+            reason: 'The uploaded file does not contain recognized public procurement line items or Indian Standards in the active regulatory database.'
+          });
+          setRecommendedStandards([]);
+          setSelectedStandardIds([]);
+          setSelectedNormativeTests({});
+          setRagAnalysisState({
+            isLoading: false,
+            isLive: true,
+            backendOnline: true,
+            error: 'No matching standards found in uploaded document.',
+            meta: ragMeta,
+          });
+        } else {
+          // Only fall back to mock reference dataset if typing an interactive demo query without a file
+          setDocumentRejectionState({ isRejected: false, docType: null, reason: null });
+          setRecommendedStandards(INITIAL_STANDARDS_CATALOG);
+          setSelectedStandardIds(['IS_7098_P2', 'IS_694', 'IS_1786']);
+          setRagAnalysisState({
+            isLoading: false,
+            isLive: false,
+            backendOnline: true,
+            error: null,
+            meta: ragMeta,
+          });
+        }
       }
     } catch (err) {
-      setRecommendedStandards(MOCK_STANDARDS);
+      setRecommendedStandards([]);
+      setSelectedStandardIds([]);
       setRagAnalysisState({
         isLoading: false,
         isLive: false,
@@ -318,6 +371,7 @@ export function ProcurementProvider({ children }) {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       extractedItems: 12
     });
+    setDocumentRejectionState({ isRejected: false, docType: null, reason: null });
   };
 
   // Toggle Standard Selection in Tender
@@ -367,16 +421,18 @@ export function ProcurementProvider({ children }) {
   const complianceStats = useMemo(() => {
     const totalSelected = selectedStandardIds.length;
 
-    // Edge Case: Tender draft with zero enrolled standards
-    if (totalSelected === 0) {
+    // Edge Case: Tender draft with zero enrolled standards or Rejected Non-Tender Document
+    if (documentRejectionState.isRejected || totalSelected === 0) {
       return {
         overallScore: 0,
         primaryAccuracy: 0,
         rawTestCoverage: 0,
         qcoStatutoryRate: 0,
         makeInIndiaRate: 0,
-        statusText: 'No Standards Enrolled in Tender Draft',
-        statusColor: 'slate',
+        statusText: documentRejectionState.isRejected
+          ? 'Document Rejected — Non-Procurement File'
+          : 'No Standards Enrolled in Tender Draft',
+        statusColor: 'rose',
         identifiedViolations: []
       };
     }
@@ -506,7 +562,7 @@ export function ProcurementProvider({ children }) {
       statusColor,
       identifiedViolations: violations
     };
-  }, [selectedStandardIds, selectedNormativeTests, recommendedStandards, ragAnalysisState]);
+  }, [selectedStandardIds, selectedNormativeTests, recommendedStandards, ragAnalysisState, documentRejectionState]);
 
   // Translation helper
   const t = useMemo(() => {
@@ -554,7 +610,9 @@ export function ProcurementProvider({ children }) {
         shaHash,
         auditLogs,
         ragAnalysisState,
-        triggerRAGAnalysis
+        triggerRAGAnalysis,
+        documentRejectionState,
+        setDocumentRejectionState
       }}
     >
       {children}

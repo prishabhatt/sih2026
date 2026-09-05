@@ -499,11 +499,20 @@ export async function runRAGAnalysis(query, division = null, uploadedFile = null
         const auditData = await auditResp.json();
 
         // Capture strict audit metrics from backend
-        ragMeta.statutory_qco_score = auditData.statutory_qco_score ?? 20.0;
-        ragMeta.raw_material_coverage = auditData.raw_material_coverage ?? 78.5;
+        ragMeta.is_valid_tender = auditData.is_valid_tender ?? true;
+        ragMeta.document_type = auditData.document_type || 'Tender Document';
+        ragMeta.rejection_reason = auditData.rejection_reason || null;
+        ragMeta.statutory_qco_score = auditData.statutory_qco_score ?? (ragMeta.is_valid_tender ? 20.0 : 0.0);
+        ragMeta.raw_material_coverage = auditData.raw_material_coverage ?? (ragMeta.is_valid_tender ? 78.5 : 0.0);
         ragMeta.identified_violations = auditData.identified_violations || [];
         ragMeta.hallucinated_standards_purged = auditData.hallucinated_standards_purged || [];
         ragMeta.statutory_qco_audit_notes = auditData.statutory_qco_audit_notes;
+
+        // If the document is classified as non-tender or invalid, reject immediately without appending standards
+        if (auditData.is_valid_tender === false) {
+          ragMeta.standardsFound = 0;
+          return { standards: [], ragMeta };
+        }
 
         // Build exact mapped standards from BOQ (ZERO HALLUCINATIONS)
         const mappedList = auditData.mapped_standards || [];
@@ -547,23 +556,23 @@ export async function runRAGAnalysis(query, division = null, uploadedFile = null
         // STRICT SAFETY: Ensure hallucinated standards (IS 7098, IS 13252) are NEVER in this list
         standards = standards.filter(s => !s.code.includes('7098') && !s.code.includes('13252'));
 
-        // Rich suggestions: Append AI Allied Companion standards so the table provides extensive options to add
-        const existingCodes = new Set(standards.map(s => s.code));
-        for (const allied of ALLIED_STANDARDS_RECOMMENDATIONS) {
-          if (!existingCodes.has(allied.code)) {
-            standards.push({
-              ...allied,
-              isRecommendedAddition: true,
-              origin: 'AI Allied Recommendation'
-            });
-            existingCodes.add(allied.code);
+        // Rich suggestions: Append AI Allied Companion standards ONLY if genuine tender standards were mapped
+        if (standards.length > 0) {
+          const existingCodes = new Set(standards.map(s => s.code));
+          for (const allied of ALLIED_STANDARDS_RECOMMENDATIONS) {
+            if (!existingCodes.has(allied.code)) {
+              standards.push({
+                ...allied,
+                isRecommendedAddition: true,
+                origin: 'AI Allied Recommendation'
+              });
+              existingCodes.add(allied.code);
+            }
           }
         }
 
-        if (standards.length > 0) {
-          ragMeta.standardsFound = standards.length;
-          return { standards, ragMeta };
-        }
+        ragMeta.standardsFound = standards.length;
+        return { standards, ragMeta };
       }
     } catch (auditErr) {
       console.warn('[RAG Adapter] Audit-tender endpoint call failed:', auditErr.message);

@@ -73,7 +73,7 @@ export function InputFormView() {
         name: file.name,
         size: `${(file.size / (1024 * 1024)).toFixed(2)} MB`,
         type: file.type || 'application/octet-stream',
-        extractedItems: 5,
+        extractedItems: null,
         rawFile: file
       });
     }
@@ -86,7 +86,7 @@ export function InputFormView() {
         name: file.name,
         size: `${(file.size / (1024 * 1024)).toFixed(2)} MB`,
         type: file.type || 'application/octet-stream',
-        extractedItems: 5,
+        extractedItems: null,
         rawFile: file
       });
     }
@@ -507,7 +507,7 @@ export function InputFormView() {
                   <div>
                     <p className="text-xs font-bold text-slate-900 dark:text-white">{uploadedFile.name}</p>
                     <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                      {uploadedFile.size} • {uploadedFile.extractedItems} line items parsed
+                      {uploadedFile.size} • {uploadedFile.extractedItems ? `${uploadedFile.extractedItems} line items parsed` : 'Uploaded & Ready for AI Audit'}
                     </p>
                   </div>
                 </div>

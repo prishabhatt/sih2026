@@ -17,7 +17,8 @@ import {
   Filter, 
   ArrowRight, 
   ExternalLink,
-  Plus
+  Plus,
+  AlertTriangle
 } from 'lucide-react';
 
 import { useProcurement } from '../context/ProcurementContext';
@@ -64,7 +65,8 @@ export function DashboardView() {
     setSelectedNormativeTests,
     toggleNormativeTest,
     orgProfile = {},
-    ragAnalysisState = {}
+    ragAnalysisState = {},
+    documentRejectionState = {}
   } = useProcurement();
 
   const [showQrCard, setShowQrCard] = useState(false);
@@ -160,6 +162,40 @@ export function DashboardView() {
 
       <div className="max-w-[1520px] mx-auto space-y-8 relative z-10 pb-16">
         
+        {/* Document Rejection Alert Banner for Non-Procurement Files */}
+        {documentRejectionState?.isRejected && (
+          <div className="p-6 rounded-3xl bg-rose-500/10 dark:bg-rose-950/40 border border-rose-500/40 backdrop-blur-xl shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-5 animate-in fade-in slide-in-from-top-4 duration-300">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-rose-500/20 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0 border border-rose-500/30 shadow-inner">
+                <AlertTriangle className="w-6 h-6" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-rose-600 text-white shadow-xs">
+                    Audit Blocked • 0% Compliance
+                  </span>
+                  <span className="text-xs font-semibold text-rose-700 dark:text-rose-400">
+                    {documentRejectionState.docType || 'Non-Procurement Document'}
+                  </span>
+                </div>
+                <h3 className="text-base font-black text-slate-900 dark:text-white mt-1">
+                  Non-Procurement Document Rejected by Regulatory Engine
+                </h3>
+                <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 max-w-3xl leading-relaxed">
+                  {documentRejectionState.reason}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => navigate('/input')}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-lg shadow-rose-600/30 transition-all cursor-pointer shrink-0"
+            >
+              <span>Upload Valid Tender / BOQ</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+
         {/* ================================================================ */}
         {/* 1. TOP HEADER & TELEMETRY CONTROLS                               */}
         {/* ================================================================ */}
