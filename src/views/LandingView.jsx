@@ -328,19 +328,21 @@ export function LandingView() {
         <header className="pointer-events-auto max-w-[1360px] w-full backdrop-blur-2xl bg-white/85 dark:bg-[#070B14]/90 border-2 border-white dark:border-white/20 shadow-[0_12px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.5)] rounded-full px-6 sm:px-8 py-3 sm:py-3.5 flex items-center justify-between gap-6 transition-all">
 
           {/* Module 1: Brand Logo & Status */}
-          <div className="flex items-center gap-3.5 shrink-0">
-            <div className="w-10 h-10 rounded-[18px] bg-[#1C1C1E] dark:bg-black border border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.25)] flex items-center justify-center text-white shrink-0 transition-transform hover:scale-105">
-              <ShieldCheck className="w-5 h-5 text-white stroke-[2.4]" />
+          <div className="flex items-center gap-3 shrink-0">
+            <div className="h-10 sm:h-12 aspect-[16/9] rounded-xl bg-black border border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.3)] flex items-center justify-center shrink-0 overflow-hidden transition-transform hover:scale-102">
+              <video
+                src="/logo.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-contain pointer-events-none"
+              />
             </div>
-            <div className="flex items-center gap-2.5">
-              <span className="font-extrabold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white">
-                I<span className="text-[#1E3A5F] dark:text-[#93B5D9] font-serif italic">Sync</span>
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#1E3A5F]/10 dark:bg-[#1E3A5F]/30 text-[#1E3A5F] dark:text-[#93B5D9] border border-[#1E3A5F]/20 font-mono">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                {t?.nav?.sessionActive ? 'ACTIVE' : 'ACTIVE'}
-              </span>
-            </div>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#1E3A5F]/10 dark:bg-[#1E3A5F]/30 text-[#1E3A5F] dark:text-[#93B5D9] border border-[#1E3A5F]/20 font-mono">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              {t?.nav?.sessionActive ? 'ACTIVE' : 'ACTIVE'}
+            </span>
           </div>
 
           {/* Module 2: Central Navigation in Sleek Glassmorphic Capsule */}
@@ -900,11 +902,17 @@ export function LandingView() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <ScrollReveal direction="up" delay={1}>
               <div className="space-y-3">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-[#1C1C1E] dark:bg-black border border-white/20 flex items-center justify-center text-white shadow-md">
-                    <ShieldCheck className="w-4.5 h-4.5 text-white stroke-[2.4]" />
+                <div className="flex items-center gap-3">
+                  <div className="h-10 aspect-[16/9] rounded-xl bg-black border border-white/20 flex items-center justify-center shadow-md overflow-hidden shrink-0">
+                    <video
+                      src="/logo.mp4"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-contain pointer-events-none"
+                    />
                   </div>
-                  <span className="font-bold text-sm text-slate-900 dark:text-white">I<span className="text-[#1E3A5F] dark:text-[#93B5D9] font-serif italic">Sync</span></span>
                 </div>
                 <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
                   {t?.nav?.brandSubtitle || 'National AI-Powered Recommendation Engine for Indian Standards & GFR 2017 Compliance.'}

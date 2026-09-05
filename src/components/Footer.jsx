@@ -11,12 +11,16 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-slate-200/80 dark:border-white/[0.08]">
           <div className="space-y-2.5">
             <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#1C1917] to-[#292524] flex items-center justify-center text-white shadow-xs">
-                <ShieldCheck className="w-4 h-4" />
+              <div className="h-9 aspect-[16/9] rounded-xl bg-black border border-slate-300 dark:border-white/10 flex items-center justify-center overflow-hidden shrink-0 shadow-xs">
+                <video
+                  src="/logo.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-contain pointer-events-none"
+                />
               </div>
-              <span className="font-extrabold text-sm text-slate-900 dark:text-white">
-                I<span className="text-[#292524] dark:text-[#A8A29E] font-serif italic">Sync</span>
-              </span>
             </div>
             <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-xs">
               AI-Powered Recommendation Gateway for Identifying Applicable Indian Standards for Public Procurement Specifications.
