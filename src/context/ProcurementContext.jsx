@@ -1,8 +1,9 @@
-import React, { createContext, useContext, useState, useMemo, useCallback } from 'react';
+import React, { createContext, useContext, useState, useMemo, useCallback, useEffect } from 'react';
 import { MOCK_STANDARDS } from '../data/mockStandardsData';
 import { SAMPLE_SCENARIOS } from '../data/sampleScenarios';
 import { TRANSLATIONS, SUPPORTED_LANGUAGES } from '../data/translations';
 import { runRAGAnalysis, checkRAGBackendStatus, ALLIED_STANDARDS_RECOMMENDATIONS } from '../utils/ragAdapter';
+import { useAuth } from './AuthContext';
 
 // Sector Impact Matrix: Defines which regulatory sectors are actually governed by each Indian Standard
 // Ensures only the relevant sectors are affected based on the standard's statutory nature:
@@ -106,19 +107,33 @@ const ProcurementContext = createContext();
 
 export function ProcurementProvider({ children }) {
   const [lang, setLang] = useState('en');
+  const { currentUser } = useAuth();
 
   // Form State
   const [orgProfile, setOrgProfile] = useState({
-    applicantName: 'Er. Vikramaditya Sharma',
-    mobileNumber: '+91 98101 23456',
-    emailId: 'v.sharma@metrorail.delhi.gov.in',
-    businessName: 'National Metro Rail Corporation Ltd',
+    applicantName: '',
+    mobileNumber: '',
+    emailId: '',
+    businessName: '',
     orgType: 'Public Sector Undertaking (PSU)',
-    gstin: '07AAACN1234F1Z8',
-    state: 'Delhi',
-    district: 'New Delhi',
-    pincode: '110001'
+    gstin: '',
+    state: '',
+    district: '',
+    pincode: ''
   });
+
+  // Sync the logged-in user's real name and email into orgProfile
+  // whenever auth state changes (login / logout / persona switch).
+  useEffect(() => {
+    if (currentUser) {
+      setOrgProfile((prev) => ({
+        ...prev,
+        applicantName: prev.applicantName || currentUser.name || '',
+        emailId: prev.emailId || currentUser.email || '',
+        mobileNumber: prev.mobileNumber || currentUser.mobile || '',
+      }));
+    }
+  }, [currentUser]);
 
   const [selectedDivision, setSelectedDivision] = useState('ETD');
   const [naturalQuery, setNaturalQuery] = useState(
@@ -256,7 +271,7 @@ export function ProcurementProvider({ children }) {
       standards: 'IS 7098 (Part 2), IS 694',
       score: 98.4,
       status: 'Verified QCO Compliant',
-      officer: 'Er. Vikramaditya Sharma'
+      officer: currentUser?.name || 'Procurement Officer'
     },
     {
       id: 'AUD-884',

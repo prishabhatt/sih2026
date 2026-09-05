@@ -24,6 +24,7 @@ import {
   Globe
 } from 'lucide-react';
 import { triggerVerification } from "../utils/verificationPulse";
+import { auth } from '../firebase';
 import { useAuth } from '../context/AuthContext';
 import { useProcurement } from '../context/ProcurementContext';
 import { useTheme } from '../context/ThemeContext';
@@ -31,7 +32,7 @@ import { AppleStripeBackground } from '../components/AppleStripeBackground';
 
 export function LoginView() {
   const navigate = useNavigate();
-  const { loginAsRole, registerUser, switchPersona } = useAuth();
+  const { loginAsRole, registerUser, switchPersona, loginWithEmailPassword, registerWithEmailPassword, loginWithGoogle, applyFirebaseUser, sendEmailSignInLink, completeEmailSignInWithLink } = useAuth();
   const { t, loadScenario, setOrgProfile, setSelectedDivision } = useProcurement();
   const { isDark, toggleTheme } = useTheme();
 
@@ -95,6 +96,34 @@ export function LoginView() {
   const [showPassword, setShowPassword] = useState(false);
   const [agreedTerms, setAgreedTerms] = useState(true);
 
+  // ==========================================
+  // MAGIC LINK: auto-complete on redirect back
+  // ==========================================
+  useEffect(() => {
+    const href = window.location.href;
+    completeEmailSignInWithLink(href)
+      .then((firebaseUser) => {
+        if (!firebaseUser) return; // URL is not a magic link
+        triggerVerification({
+          title: 'Passwordless Sign-In Verified',
+          badge: 'Email Magic Link Authenticated',
+          description: `Signed in as ${firebaseUser.email} via one-click email link.`
+        });
+        setOrgProfile((prev) => ({
+          ...prev,
+          emailId: firebaseUser.email || '',
+          applicantName: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'Officer'
+        }));
+        applyFirebaseUser(firebaseUser, selectedRole, `Email Link (${firebaseUser.email})`);
+        navigate('/input');
+      })
+      .catch((err) => {
+        console.error('Magic link completion error:', err);
+        setLoginEmailError(err.message || 'Sign-in link verification failed. Please try again.');
+      });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Timers
   useEffect(() => {
     let timer;
@@ -139,9 +168,10 @@ export function LoginView() {
   // ----------------------------------------
   // GOOGLE SIGN-IN HANDLER
   // ----------------------------------------
-  const handleGoogleSignIn = () => {
+  const handleGoogleSignIn = async () => {
     setIsGoogleSigningIn(true);
-    setTimeout(() => {
+    try {
+      const firebaseUser = await loginWithGoogle();
       triggerVerification({
         title: 'Google Workspace Verified',
         badge: 'Government Official SSO',
@@ -149,31 +179,41 @@ export function LoginView() {
       });
       setOrgProfile((prev) => ({
         ...prev,
-        applicantName: 'Er. Vikramaditya Sharma',
-        emailId: 'v.sharma@metrorail.delhi.gov.in',
-        mobileNumber: '+91 9810123456'
+        applicantName: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'Officer',
+        emailId: firebaseUser.email || '',
+        mobileNumber: firebaseUser.phoneNumber || ''
       }));
-      loginAsRole(selectedRole, 'Google Workspace SSO (Verified Official)');
+      applyFirebaseUser(firebaseUser, selectedRole, 'Google Workspace SSO (Verified Official)');
       navigate('/input');
-    }, 600);
+    } catch (err) {
+      console.error('Google sign-in error:', err);
+      setLoginEmailError(err.message || 'Google sign-in failed. Please try again.');
+      setIsGoogleSigningIn(false);
+    }
   };
 
   // ----------------------------------------
   // EMAIL LOGIN HANDLERS
   // ----------------------------------------
-  const handleSendLoginEmailCode = (e) => {
+  const handleSendLoginEmailCode = async (e) => {
     e?.preventDefault();
     if (!loginEmail || !loginEmail.includes('@')) {
       setLoginEmailError('Please enter a valid institutional email address');
       return;
     }
     setLoginEmailError('');
-    setLoginEmailStep(2);
-    setLoginEmailCountdown(30);
-    setLoginEmailIsCounting(true);
-    setTimeout(() => {
-      loginEmailRefs.current[0]?.focus();
-    }, 100);
+    try {
+      await sendEmailSignInLink(loginEmail);
+      setLoginEmailStep(2);
+      setLoginEmailCountdown(30);
+      setLoginEmailIsCounting(true);
+      setTimeout(() => {
+        loginEmailRefs.current[0]?.focus();
+      }, 100);
+    } catch (err) {
+      console.error('Email link error:', err);
+      setLoginEmailError(err.message || 'Failed to send sign-in link. Please try again.');
+    }
   };
 
   const handleLoginEmailDigitChange = (index, value) => {
@@ -199,7 +239,7 @@ export function LoginView() {
     setLoginEmailError('');
   };
 
-  const handleVerifyLoginEmailCode = (e) => {
+  const handleVerifyLoginEmailCode = async (e) => {
     e?.preventDefault();
     const entered = loginEmailDigits.join('');
     if (entered.length < 6) {
@@ -207,22 +247,41 @@ export function LoginView() {
       return;
     }
 
-    setLoginEmailSuccess(true);
-    triggerVerification({
-      title: 'Official Email Verified',
-      badge: 'NIC e-Gov Token Active',
-      description: `2-Factor security clearance verified for ${loginEmail}.`
-    });
-
-    setOrgProfile((prev) => ({
-      ...prev,
-      emailId: loginEmail
-    }));
-
-    setTimeout(() => {
-      loginAsRole(selectedRole, `Email Verified (${loginEmail})`);
-      navigate('/input');
-    }, 700);
+    // The 6 digits are treated as the password for Firebase Email/Password auth.
+    // For a real OTP flow you would verify against a backend; here we use the
+    // digits as the credential so the UI requires zero changes.
+    const passwordAttempt = entered;
+    try {
+      await loginWithEmailPassword(loginEmail, passwordAttempt);
+      // Re-read the Firebase user to get their real display name
+      const firebaseUser = auth.currentUser;
+      setLoginEmailSuccess(true);
+      triggerVerification({
+        title: 'Official Email Verified',
+        badge: 'NIC e-Gov Token Active',
+        description: `2-Factor security clearance verified for ${loginEmail}.`
+      });
+      setOrgProfile((prev) => ({
+        ...prev,
+        emailId: loginEmail,
+        applicantName: firebaseUser?.displayName || loginEmail.split('@')[0] || 'Officer'
+      }));
+      setTimeout(() => {
+        applyFirebaseUser(
+          firebaseUser || { uid: loginEmail, email: loginEmail, displayName: null, phoneNumber: null, photoURL: null },
+          selectedRole,
+          `Email Verified (${loginEmail})`
+        );
+        navigate('/input');
+      }, 700);
+    } catch (err) {
+      console.error('Email login error:', err);
+      setLoginEmailError(
+        err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password'
+          ? 'Invalid credentials. Please check your email and code.'
+          : err.message || 'Authentication failed. Please try again.'
+      );
+    }
   };
 
   // ----------------------------------------
@@ -406,42 +465,56 @@ export function LoginView() {
     });
   };
 
-  const handleSignUpSubmit = (e) => {
+  const handleSignUpSubmit = async (e) => {
     e.preventDefault();
     const activeName = fullName.trim() || 'Institutional Officer';
     const activeEmail = email.trim() || 'officer@gov.in';
     const activeMobile = signupMobile.trim() || '9810123456';
 
-    registerUser({
-      name: activeName,
-      badgeId: 'GOV-IN-BIS-' + Math.floor(1000 + Math.random() * 9000),
-      organization: 'National Procurement Entity',
-      department: `Engineering Directorate — ${primaryDivision}`,
-      email: activeEmail,
-      mobile: `+91 ${activeMobile}`,
-      role: 'procurement',
-      roleTitle: 'Procurement Officer'
-    });
+    try {
+      // Create the Firebase account first
+      await registerWithEmailPassword(activeName, activeEmail, password);
 
-    setOrgProfile((prev) => ({
-      ...prev,
-      applicantName: activeName,
-      mobileNumber: `+91 ${activeMobile}`,
-      emailId: activeEmail
-    }));
+      // Then populate the local app profile
+      registerUser({
+        name: activeName,
+        badgeId: 'GOV-IN-BIS-' + Math.floor(1000 + Math.random() * 9000),
+        organization: 'National Procurement Entity',
+        department: `Engineering Directorate — ${primaryDivision}`,
+        email: activeEmail,
+        mobile: `+91 ${activeMobile}`,
+        role: 'procurement',
+        roleTitle: 'Procurement Officer'
+      });
 
-    if (setSelectedDivision) {
-      setSelectedDivision(primaryDivision);
+      setOrgProfile((prev) => ({
+        ...prev,
+        applicantName: activeName,
+        mobileNumber: `+91 ${activeMobile}`,
+        emailId: activeEmail
+      }));
+
+      if (setSelectedDivision) {
+        setSelectedDivision(primaryDivision);
+      }
+
+      triggerVerification({
+        title: 'Officer Account Provisioned',
+        badge: 'BIS Authorized Evaluator',
+        description: `Statutory permissions granted under BIS Act 2016 for ${activeName}.`
+      });
+      setTimeout(() => {
+        navigate('/input');
+      }, 600);
+    } catch (err) {
+      console.error('Sign-up error:', err);
+      // Surface the error in the existing email OTP error field (visible to user)
+      setEmailOtpError(
+        err.code === 'auth/email-already-in-use'
+          ? 'An account with this email already exists. Please sign in instead.'
+          : err.message || 'Registration failed. Please try again.'
+      );
     }
-
-    triggerVerification({
-      title: 'Officer Account Provisioned',
-      badge: 'BIS Authorized Evaluator',
-      description: `Statutory permissions granted under BIS Act 2016 for ${activeName}.`
-    });
-    setTimeout(() => {
-      navigate('/input');
-    }, 600);
   };
 
   return (
