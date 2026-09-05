@@ -27,7 +27,7 @@ from backend.graph.standards_graph import standards_kg
 from backend.audit.tender_auditor import tender_auditor
 
 app = FastAPI(
-    title="BIS Regulatory Graph-Augmented RAG Engine",
+    title="ISync Regulatory Graph-Augmented RAG Engine",
     description="Production-grade compliance API for public e-procurement (GeM / CPPP)",
     version="1.0.0"
 )
@@ -61,7 +61,7 @@ class QueryResponse(BaseModel):
 def health_check():
     return {
         "status": "online",
-        "service": "BIS Regulatory Graph-RAG Engine",
+        "service": "ISync Regulatory Graph-RAG Engine",
         "version": "1.0.0",
         "indexed_chunks": len(rag_pipeline.retriever.chunks),
         "standards_in_graph": len(standards_kg.graph.nodes)

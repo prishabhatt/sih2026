@@ -15,7 +15,7 @@ export function Footer() {
                 <ShieldCheck className="w-4 h-4" />
               </div>
               <span className="font-extrabold text-sm text-slate-900 dark:text-white">
-                BIS<span className="text-[#292524] dark:text-[#A8A29E] font-serif italic">Engine</span>
+                I<span className="text-[#292524] dark:text-[#A8A29E] font-serif italic">Sync</span>
               </span>
             </div>
             <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-xs">
@@ -65,7 +65,7 @@ export function Footer() {
         </div>
 
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-slate-500 text-xs">
-          <p>© 2026 BIS Standards Engine. Ministry of Consumer Affairs, Food & Public Distribution.</p>
+          <p>© 2026 ISync. Ministry of Consumer Affairs, Food & Public Distribution.</p>
           <p className="font-semibold text-[11px] text-slate-400">Simulated NIC e-Gov Cloud Gateway</p>
         </div>
       </div>

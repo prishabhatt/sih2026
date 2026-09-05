@@ -37,11 +37,11 @@ const sanitizeMarkdown = (text) => {
 // Comprehensive Knowledge Base for CORA
 const BOT_KNOWLEDGE = [
   {
-    keywords: ['what is this website', 'what is this platform', 'what is this app', 'about this website', 'what does this do', 'purpose of this website', 'what is bis engine', 'overview of platform'],
+    keywords: ['what is this website', 'what is this platform', 'what is this app', 'about this website', 'what does this do', 'purpose of this website', 'what is isync', 'overview of platform'],
     response: {
       type: 'info',
-      title: 'About the BIS Standards Recommendation Engine',
-      content: 'This platform is BIS Engine—an institutional AI-powered public procurement intelligence portal designed for the Smart India Hackathon (SIH 2026).\n\nCore Functions:\n1. Semantic IS Resolution: Maps unstructured tender scopes and BOQs to 22,410+ Bureau of Indian Standards.\n2. Statutory QCO Enforcement: Automatically verifies Gazette Quality Control Orders under Section 16 of BIS Act 2016.\n3. Bid-Bias Elimination: Audits specifications against GFR 2017 Rule 144(xi) to prevent single-vendor favouritism.\n4. Digital QR Passports: Synthesizes model NIT tender clauses and cryptographic SHA-256 compliance passports.',
+      title: 'About ISync',
+      content: 'This platform is ISync—an institutional AI-powered public procurement intelligence portal designed for the Smart India Hackathon (SIH 2026).\n\nCore Functions:\n1. Semantic IS Resolution: Maps unstructured tender scopes and BOQs to 22,410+ Bureau of Indian Standards.\n2. Statutory QCO Enforcement: Automatically verifies Gazette Quality Control Orders under Section 16 of BIS Act 2016.\n3. Bid-Bias Elimination: Audits specifications against GFR 2017 Rule 144(xi) to prevent single-vendor favouritism.\n4. Digital QR Passports: Synthesizes model NIT tender clauses and cryptographic SHA-256 compliance passports.',
       action: {
         label: 'Open Live Sandbox ↗',
         route: '/sandbox'

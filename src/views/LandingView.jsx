@@ -334,7 +334,7 @@ export function LandingView() {
             </div>
             <div className="flex items-center gap-2.5">
               <span className="font-extrabold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white">
-                BIS<span className="text-[#1E3A5F] dark:text-[#93B5D9] font-serif italic">Engine</span>
+                I<span className="text-[#1E3A5F] dark:text-[#93B5D9] font-serif italic">Sync</span>
               </span>
               <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#1E3A5F]/10 dark:bg-[#1E3A5F]/30 text-[#1E3A5F] dark:text-[#93B5D9] border border-[#1E3A5F]/20 font-mono">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -677,9 +677,9 @@ export function LandingView() {
                 <div className="flex items-start gap-3">
                   <div className="w-1.5 h-1.5 rounded-full bg-[#5A7E3C] dark:bg-[#8AB862] mt-2 shrink-0" />
                   <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {lang === 'hi' ? 'बीआईएस इंजन इस बढ़ते अंतर को पाटकर स्वचालित अनुपालन सुनिश्चित करता है।' :
-                      lang === 'gu' ? 'BIS Engine આ વધતા અંતરને પાર કરીને સ્વચાલિત અનુપાલન સુનિશ્ચિત કરે છે.' :
-                        'The BIS Engine bridges this gap by autonomously resolving exact Indian Standards, normative references, and mandatory QCO decrees in milliseconds.'}
+                    {lang === 'hi' ? 'ISync इस बढ़ते अंतर को पाटकर स्वचालित अनुपालन सुनिश्चित करता है।' :
+                      lang === 'gu' ? 'ISync આ વધતા અંતરને પાર કરીને સ્વચાલિત અનુપાલન સુનિશ્ચિત કરે છે.' :
+                        'ISync bridges this gap by autonomously resolving exact Indian Standards, normative references, and mandatory QCO decrees in milliseconds.'}
                   </p>
                 </div>
               </div>
@@ -904,7 +904,7 @@ export function LandingView() {
                   <div className="w-8 h-8 rounded-xl bg-[#1C1C1E] dark:bg-black border border-white/20 flex items-center justify-center text-white shadow-md">
                     <ShieldCheck className="w-4.5 h-4.5 text-white stroke-[2.4]" />
                   </div>
-                  <span className="font-bold text-sm text-slate-900 dark:text-white">BIS<span className="text-[#1E3A5F] dark:text-[#93B5D9] font-serif italic">Engine</span></span>
+                  <span className="font-bold text-sm text-slate-900 dark:text-white">I<span className="text-[#1E3A5F] dark:text-[#93B5D9] font-serif italic">Sync</span></span>
                 </div>
                 <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
                   {t?.nav?.brandSubtitle || 'National AI-Powered Recommendation Engine for Indian Standards & GFR 2017 Compliance.'}
@@ -949,7 +949,7 @@ export function LandingView() {
             </ScrollReveal>
           </div>
           <div className="pt-6 border-t border-slate-200/80 dark:border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400 font-mono">
-            <p>© 2026 BIS Standards Engine. Bureau of Indian Standards. All rights reserved.</p>
+            <p>© 2026 ISync. Bureau of Indian Standards. All rights reserved.</p>
             <div className="flex gap-6">
               <span className="hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer">{lang === 'hi' ? 'सुरक्षा नीति' : lang === 'gu' ? 'સુરક્ષા નીતિ' : 'Security Policy'}</span>
               <span className="hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer">{lang === 'hi' ? 'सेवा की शर्तें' : lang === 'gu' ? 'સેવાની શરતો' : 'Terms of Service'}</span>

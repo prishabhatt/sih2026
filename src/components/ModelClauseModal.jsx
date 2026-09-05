@@ -88,7 +88,7 @@ of the BIS Act 2016, immediate termination of contract, forfeiture of Performanc
 and blacklisting across all Central/State Government and GeM procurement portals.
 
 ================================================================================
-END OF MODEL NIT TECHNICAL CLAUSE - GENERATED VIA BIS STANDARDS ENGINE
+END OF MODEL NIT TECHNICAL CLAUSE - GENERATED VIA ISYNC
 ================================================================================`;
 
   const handleCopy = () => {

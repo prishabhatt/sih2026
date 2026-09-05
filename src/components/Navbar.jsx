@@ -46,7 +46,7 @@ export function Navbar() {
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="font-extrabold text-base tracking-tight text-slate-900 dark:text-white">
-                      BIS<span className="text-[#292524] dark:text-[#A8A29E] font-serif italic">Engine</span>
+                      I<span className="text-[#292524] dark:text-[#A8A29E] font-serif italic">Sync</span>
                     </span>
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold glass-pill-active text-slate-800 dark:text-slate-200">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#059669] animate-pulse" />

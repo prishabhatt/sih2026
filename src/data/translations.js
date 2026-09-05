@@ -52,7 +52,7 @@ export const SUPPORTED_LANGUAGES = [
 export const TRANSLATIONS = {
   "en": {
     "nav": {
-      "brandTitle": "BIS Standards Engine",
+      "brandTitle": "ISync",
       "brandSubtitle": "AI-Powered Procurement Recommendation System",
       "home": "Home",
       "about": "About",
@@ -246,7 +246,7 @@ export const TRANSLATIONS = {
   },
   "hi": {
     "nav": {
-      "brandTitle": "बीआईएस मानक इंजन",
+      "brandTitle": "ISync",
       "brandSubtitle": "एआई-संचालित खरीद अनुशंसा प्रणाली",
       "home": "मुख्य पृष्ठ",
       "about": "परिचय",
@@ -439,7 +439,7 @@ export const TRANSLATIONS = {
   },
   "gu": {
     "nav": {
-      "brandTitle": "બીઆઈએસ સ્ટાન્ડર્ડ્સ એન્જિન",
+      "brandTitle": "ISync",
       "brandSubtitle": "એઆઈ-સંચાલિત પ્રાપ્તિ ભલામણ સિસ્ટમ",
       "home": "મુખ્ય પૃષ્ઠ",
       "about": "વિશે",
@@ -632,7 +632,7 @@ export const TRANSLATIONS = {
   },
   "mr": {
     "nav": {
-      "brandTitle": "BIS मानके इंजिन",
+      "brandTitle": "ISync",
       "brandSubtitle": "एआय-संचालित खरेदी शिफारस प्रणाली",
       "home": "मुख्यपृष्ठ",
       "about": "माहिती",
@@ -825,7 +825,7 @@ export const TRANSLATIONS = {
   },
   "ta": {
     "nav": {
-      "brandTitle": "BIS தரநிலைகள் இன்ஜின்",
+      "brandTitle": "ISync",
       "brandSubtitle": "AI-இயங்கும் கொள்முதல் பரிந்துரை அமைப்பு",
       "home": "முகப்பு",
       "about": "பற்றி",
@@ -1018,7 +1018,7 @@ export const TRANSLATIONS = {
   },
   "te": {
     "nav": {
-      "brandTitle": "BIS ప్రమాణాల ఇంజిన్",
+      "brandTitle": "ISync",
       "brandSubtitle": "AI-ఆధారిత కొనుగోలు సిఫార్సు వ్యవస్థ",
       "home": "హోమ్",
       "about": "గురించి",
@@ -1211,7 +1211,7 @@ export const TRANSLATIONS = {
   },
   "bn": {
     "nav": {
-      "brandTitle": "BIS স্ট্যান্ডার্ডস ইঞ্জিন",
+      "brandTitle": "ISync",
       "brandSubtitle": "AI-চালিত সংগ্রহ সুপারিশ ব্যবস্থা",
       "home": "হোম",
       "about": "পরিচিতি",
@@ -1404,7 +1404,7 @@ export const TRANSLATIONS = {
   },
   "kn": {
     "nav": {
-      "brandTitle": "BIS ಮಾನದಂಡಗಳ ಎಂಜಿನ್",
+      "brandTitle": "ISync",
       "brandSubtitle": "AI-ಚಾಲಿತ ಖರೀದಿ ಶಿಫಾರಸು ವ್ಯವಸ್ಥೆ",
       "home": "ಮುಖಪುಟ",
       "about": "ಬಗ್ಗೆ",

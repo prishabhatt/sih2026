@@ -1,9 +1,9 @@
-﻿const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 const base = __dirname;
 
 const pkgJson = {
-  name: "bis-standards-engine",
+  name: "isync",
   private: true,
   version: "1.0.0",
   type: "module",
