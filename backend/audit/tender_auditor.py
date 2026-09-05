@@ -69,12 +69,88 @@ class TenderAuditor:
             }
         }
 
+    def classify_tender_document(self, text: str) -> Dict[str, Any]:
+        """
+        Evaluates whether the input text is a genuine public procurement tender / BOQ / technical specification.
+        Detects and rejects non-procurement files (e.g. academic recommendations, resumes, letters).
+        """
+        clean = text.lower()
+
+        # Non-tender / irrelevant document signatures
+        non_tender_patterns = [
+            (r'\b(?:letter of recommendation|recommend(?:ation)?\s+(?:for|mr|ms|dr)|internship programme|student of|college of engineering|ph\.?d|curriculum vitae|\bresume\b|transcript|marksheet|bonafide)\b',
+             "Academic Letter of Recommendation / Academic Credential"),
+            (r'\b(?:patient name|prescription|diagnostic report|blood sugar|hemoglobin|clinical report)\b',
+             "Medical / Clinical Document"),
+            (r'\b(?:dear (?:sir|madam|officer)|yours sincerely|yours faithfully|warm regards|leave application)\b',
+             "Personal Correspondence / Informal Letter"),
+        ]
+
+        for pattern, doc_type in non_tender_patterns:
+            if re.search(pattern, clean):
+                # Verify if it also lacks strong procurement BOQ structures
+                has_boq = bool(re.search(r'\b(?:bill of quantities|\bboq\b|schedule of requirements|notice inviting tender|\bnit\b)\b', clean))
+                if not has_boq:
+                    return {
+                        "is_valid_tender": False,
+                        "document_type": doc_type,
+                        "rejection_reason": f"The uploaded file has been detected as a '{doc_type}'. It contains zero public procurement specifications, BOQ schedules, or statutory Indian Standards clauses."
+                    }
+
+        # Tender / Procurement affirmative indicators
+        tender_signals = [
+            r'\b(?:tender|notice inviting tender|\bnit\b|bidding document|bill of quantities|\bboq\b|schedule of requirements|scope of work|procurement|gem bid|cppp)\b',
+            r'\b(?:technical specification|normative clause|acceptance criteria|tolerance|tensile|elongation|dielectric|insulation|hydrostatic|yield stress)\b',
+            r'\b(?:is\s*\d{3,5}|bureau of indian standards|isi mark|statutory qco|quality control order|bis act|ppp-mii)\b',
+            r'\b(?:fe 500|pvc insulated|xlpe|hdpe|luminaire|potable water|armoured cable|conductor|rebar)\b'
+        ]
+
+        signal_hits = sum(1 for pat in tender_signals if re.search(pat, clean))
+
+        # Words count check
+        words = clean.split()
+        if len(words) < 15:
+            return {
+                "is_valid_tender": False,
+                "document_type": "Insufficient Text / Empty Document",
+                "rejection_reason": "The uploaded file does not contain sufficient readable text or technical specifications for a regulatory compliance audit."
+            }
+
+        if signal_hits == 0:
+            return {
+                "is_valid_tender": False,
+                "document_type": "Unrelated Non-Procurement Document",
+                "rejection_reason": "No public procurement parameters, BOQ items, or technical specifications were identified in this document. Upload a valid tender document or BOQ schedule."
+            }
+
+        return {
+            "is_valid_tender": True,
+            "document_type": "Public Procurement Tender / Technical Specification",
+            "rejection_reason": None
+        }
+
     def audit_tender_document(self, text: str) -> Dict[str, Any]:
         """
         Executes the 4-Tier Verification Protocol on the supplied tender text.
         """
         lines = text.splitlines()
         clean_text = text.replace('\r', ' ')
+
+        # ─── TIER 0: DOCUMENT CLASSIFICATION & DOMAIN INTEGRITY GUARD ─────────
+        classification = self.classify_tender_document(clean_text)
+        if not classification["is_valid_tender"]:
+            return {
+                "is_valid_tender": False,
+                "document_type": classification["document_type"],
+                "rejection_reason": classification["rejection_reason"],
+                "mapped_standards": [],
+                "hallucinated_standards_purged": [],
+                "statutory_qco_score": 0.0,
+                "statutory_qco_audit_notes": f"AUDIT REJECTED: {classification['rejection_reason']}",
+                "identified_violations": [],
+                "raw_material_coverage": 0.0,
+                "raw_material_audit_breakdown": {}
+            }
 
         # ─── TIER 1: STRICT ITEM-BY-ITEM RETRIEVAL & ALIGNMENT ───────────────
         mapped_standards = []
@@ -293,6 +369,9 @@ class TenderAuditor:
         raw_material_coverage = round((matched_protocols / total_protocols) * 100, 1)
 
         return {
+            "is_valid_tender": True,
+            "document_type": classification["document_type"],
+            "rejection_reason": None,
             "mapped_standards": mapped_standards,
             "hallucinated_standards_purged": hallucinated_purged,
             "statutory_qco_score": statutory_qco_score,
