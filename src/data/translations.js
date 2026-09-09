@@ -61,7 +61,7 @@ export const TRANSLATIONS = {
       "architecture": "Architecture",
       "step1": "1. Access Portal",
       "step2": "2. Specification Input",
-      "step3": "3. AI Analysis",
+      "step3": "3. RAG Analysis",
       "step4": "4. Dashboard",
       "step5": "5. Audit Report",
       "govBadge": "Govt of India / GeM Aligned",

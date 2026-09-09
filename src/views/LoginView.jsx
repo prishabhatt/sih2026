@@ -11,7 +11,6 @@ import {
   KeyRound,
   ArrowRight,
   ShieldCheck,
-  RefreshCw,
   CheckCircle2,
   Lock,
   User,
@@ -48,14 +47,11 @@ export function LoginView() {
   // ==========================================
   // EMAIL LOGIN VERIFICATION STATE
   // ==========================================
-  const [loginEmail, setLoginEmail] = useState('v.sharma@metrorail.delhi.gov.in');
-  const [loginEmailStep, setLoginEmailStep] = useState(1);
-  const [loginEmailDigits, setLoginEmailDigits] = useState(['', '', '', '', '', '']);
-  const [loginEmailCountdown, setLoginEmailCountdown] = useState(30);
-  const [loginEmailIsCounting, setLoginEmailIsCounting] = useState(false);
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [loginEmailError, setLoginEmailError] = useState('');
   const [loginEmailSuccess, setLoginEmailSuccess] = useState(false);
-  const loginEmailRefs = useRef([]);
 
   // ==========================================
   // MOBILE LOGIN OTP STATE
@@ -125,15 +121,6 @@ export function LoginView() {
   }, []);
 
   // Timers
-  useEffect(() => {
-    let timer;
-    if (loginEmailIsCounting && loginEmailCountdown > 0) {
-      timer = setInterval(() => setLoginEmailCountdown((c) => c - 1), 1000);
-    } else if (loginEmailCountdown === 0) {
-      setLoginEmailIsCounting(false);
-    }
-    return () => clearInterval(timer);
-  }, [loginEmailIsCounting, loginEmailCountdown]);
 
   useEffect(() => {
     let timer;
@@ -193,68 +180,21 @@ export function LoginView() {
   };
 
   // ----------------------------------------
-  // EMAIL LOGIN HANDLERS
+  // EMAIL + PASSWORD LOGIN HANDLER
   // ----------------------------------------
-  const handleSendLoginEmailCode = async (e) => {
+  const handleEmailPasswordLogin = async (e) => {
     e?.preventDefault();
     if (!loginEmail || !loginEmail.includes('@')) {
-      setLoginEmailError('Please enter a valid institutional email address');
+      setLoginEmailError('Please enter a valid email address');
+      return;
+    }
+    if (!loginPassword || loginPassword.length < 6) {
+      setLoginEmailError('Password must be at least 6 characters');
       return;
     }
     setLoginEmailError('');
     try {
-      await sendEmailSignInLink(loginEmail);
-      setLoginEmailStep(2);
-      setLoginEmailCountdown(30);
-      setLoginEmailIsCounting(true);
-      setTimeout(() => {
-        loginEmailRefs.current[0]?.focus();
-      }, 100);
-    } catch (err) {
-      console.error('Email link error:', err);
-      setLoginEmailError(err.message || 'Failed to send sign-in link. Please try again.');
-    }
-  };
-
-  const handleLoginEmailDigitChange = (index, value) => {
-    if (!/^[0-9]?$/.test(value)) return;
-    const newDigits = [...loginEmailDigits];
-    newDigits[index] = value;
-    setLoginEmailDigits(newDigits);
-    setLoginEmailError('');
-
-    if (value && index < 5) {
-      loginEmailRefs.current[index + 1]?.focus();
-    }
-  };
-
-  const handleLoginEmailDigitKeyDown = (index, e) => {
-    if (e.key === 'Backspace' && !loginEmailDigits[index] && index > 0) {
-      loginEmailRefs.current[index - 1]?.focus();
-    }
-  };
-
-  const handleAutoFillLoginEmailCode = () => {
-    setLoginEmailDigits(['9', '2', '4', '8', '1', '6']);
-    setLoginEmailError('');
-  };
-
-  const handleVerifyLoginEmailCode = async (e) => {
-    e?.preventDefault();
-    const entered = loginEmailDigits.join('');
-    if (entered.length < 6) {
-      setLoginEmailError('Please enter the complete 6-digit email verification code');
-      return;
-    }
-
-    // The 6 digits are treated as the password for Firebase Email/Password auth.
-    // For a real OTP flow you would verify against a backend; here we use the
-    // digits as the credential so the UI requires zero changes.
-    const passwordAttempt = entered;
-    try {
-      await loginWithEmailPassword(loginEmail, passwordAttempt);
-      // Re-read the Firebase user to get their real display name
-      const firebaseUser = auth.currentUser;
+      const firebaseUser = await loginWithEmailPassword(loginEmail, loginPassword);
       setLoginEmailSuccess(true);
       triggerVerification({
         title: 'Official Email Verified',
@@ -268,7 +208,7 @@ export function LoginView() {
       }));
       setTimeout(() => {
         applyFirebaseUser(
-          firebaseUser || { uid: loginEmail, email: loginEmail, displayName: null, phoneNumber: null, photoURL: null },
+          firebaseUser || auth.currentUser || { uid: loginEmail, email: loginEmail, displayName: null, phoneNumber: null, photoURL: null },
           selectedRole,
           `Email Verified (${loginEmail})`
         );
@@ -278,11 +218,19 @@ export function LoginView() {
       console.error('Email login error:', err);
       setLoginEmailError(
         err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password'
-          ? 'Invalid credentials. Please check your email and code.'
+          ? 'Invalid email or password. Please check and try again.'
+          : err.code === 'auth/user-not-found'
+          ? 'No account found with this email. Please sign up first.'
+          : err.code === 'auth/too-many-requests'
+          ? 'Too many failed attempts. Please try again later.'
           : err.message || 'Authentication failed. Please try again.'
       );
     }
   };
+
+
+
+
 
   // ----------------------------------------
   // MOBILE OTP LOGIN HANDLERS
@@ -942,7 +890,7 @@ export function LoginView() {
                       }`}
                   >
                     <Mail className="w-3.5 h-3.5 text-amber-500" />
-                    <span>Email Code</span>
+                    <span>Email & Password</span>
                   </button>
                   <button
                     type="button"
@@ -968,130 +916,75 @@ export function LoginView() {
                   </button>
                 </div>
 
-                {/* METHOD 1: EMAIL VERIFICATION */}
+                {/* METHOD 1: EMAIL + PASSWORD LOGIN */}
                 {authMethod === 'email' && (
-                  <div>
-                    {loginEmailStep === 1 ? (
-                      <form onSubmit={handleSendLoginEmailCode} className="space-y-3.5">
-                        <div>
-                          <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                            Institutional / Official Email Address
-                          </label>
-                          <div className="relative flex items-center bg-white/80 dark:bg-white/[0.04] border border-white dark:border-white/20 rounded-xl focus-within:ring-2 focus-within:ring-slate-900/10 transition-all overflow-hidden shadow-xs backdrop-blur-md">
-                            <Mail className="absolute left-3.5 w-4 h-4 text-slate-400 shrink-0" />
-                            <input
-                              type="email"
-                              required
-                              value={loginEmail}
-                              onChange={(e) => setLoginEmail(e.target.value)}
-                              placeholder="e.g. officer@metrorail.delhi.gov.in"
-                              className="w-full pl-10 pr-4 py-2.5 text-xs bg-transparent outline-none placeholder:text-slate-400 text-slate-900 dark:text-white font-medium"
-                            />
-                          </div>
-                          {loginEmailError && (
-                            <p className="text-xs text-rose-600 dark:text-rose-400 mt-1.5 font-medium">{loginEmailError}</p>
-                          )}
-                        </div>
+                  <form onSubmit={handleEmailPasswordLogin} className="space-y-3.5">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                        Institutional / Official Email Address
+                      </label>
+                      <div className="relative flex items-center bg-white/80 dark:bg-white/[0.04] border border-white dark:border-white/20 rounded-xl focus-within:ring-2 focus-within:ring-slate-900/10 transition-all overflow-hidden shadow-xs backdrop-blur-md">
+                        <Mail className="absolute left-3.5 w-4 h-4 text-slate-400 shrink-0" />
+                        <input
+                          type="email"
+                          required
+                          value={loginEmail}
+                          onChange={(e) => setLoginEmail(e.target.value)}
+                          placeholder="e.g. officer@metrorail.delhi.gov.in"
+                          className="w-full pl-10 pr-4 py-2.5 text-xs bg-transparent outline-none placeholder:text-slate-400 text-slate-900 dark:text-white font-medium"
+                        />
+                      </div>
+                    </div>
 
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                        Password
+                      </label>
+                      <div className="relative flex items-center bg-white/80 dark:bg-white/[0.04] border border-white dark:border-white/20 rounded-xl focus-within:ring-2 focus-within:ring-slate-900/10 transition-all overflow-hidden shadow-xs backdrop-blur-md">
+                        <Lock className="absolute left-3.5 w-4 h-4 text-slate-400 shrink-0" />
+                        <input
+                          type={showLoginPassword ? 'text' : 'password'}
+                          required
+                          value={loginPassword}
+                          onChange={(e) => setLoginPassword(e.target.value)}
+                          placeholder="Enter your password"
+                          className="w-full pl-10 pr-10 py-2.5 text-xs bg-transparent outline-none placeholder:text-slate-400 text-slate-900 dark:text-white font-medium"
+                        />
                         <button
-                          type="submit"
-                          className="w-full py-3 rounded-xl bg-[#0B1E36] hover:bg-[#132845] dark:bg-white/20 dark:hover:bg-white/30 text-white text-xs font-extrabold shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-all border border-white/60 dark:border-white/40"
+                          type="button"
+                          onClick={() => setShowLoginPassword(!showLoginPassword)}
+                          className="absolute right-3 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 font-bold cursor-pointer"
                         >
-                          <span>Send 6–Digit Email Verification Code</span>
-                          <ArrowRight className="w-3.5 h-3.5 text-amber-400" />
+                          {showLoginPassword ? 'Hide' : 'Show'}
                         </button>
-                      </form>
-                    ) : (
-                      <form onSubmit={handleVerifyLoginEmailCode} className="space-y-4 animate-in fade-in duration-200">
-                        <div className="p-3 rounded-xl bg-white/80 dark:bg-white/[0.04] border border-white dark:border-white/20 flex items-center justify-between backdrop-blur-md">
-                          <div>
-                            <p className="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Email Address</p>
-                            <p className="font-bold text-slate-900 dark:text-white text-xs mt-0.5">{loginEmail}</p>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => setLoginEmailStep(1)}
-                            className="text-xs text-slate-700 dark:text-slate-300 hover:underline font-bold px-3 py-1 rounded-lg bg-white dark:bg-white/10 border border-white dark:border-white/20 cursor-pointer shadow-xs"
-                          >
-                            Edit
-                          </button>
-                        </div>
+                      </div>
+                    </div>
 
-                        <div>
-                          <div className="flex items-center justify-between mb-2">
-                            <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
-                              Enter 6-Digit Email Code
-                            </label>
-                            <button
-                              type="button"
-                              onClick={handleAutoFillLoginEmailCode}
-                              className="text-[11px] text-indigo-600 dark:text-indigo-400 hover:underline font-bold cursor-pointer"
-                            >
-                              Auto-Fill Demo
-                            </button>
-                          </div>
-
-                          <div className="grid grid-cols-6 gap-2">
-                            {loginEmailDigits.map((digit, idx) => (
-                              <input
-                                key={idx}
-                                ref={(el) => (loginEmailRefs.current[idx] = el)}
-                                type="text"
-                                inputMode="numeric"
-                                maxLength={1}
-                                value={digit}
-                                onChange={(e) => handleLoginEmailDigitChange(idx, e.target.value)}
-                                onKeyDown={(e) => handleLoginEmailDigitKeyDown(idx, e)}
-                                className="w-full h-11 text-center font-bold text-base rounded-xl bg-white/80 dark:bg-white/[0.04] border border-white dark:border-white/20 text-slate-900 dark:text-white focus:ring-2 focus:ring-slate-900/10 focus:outline-none transition-all shadow-xs backdrop-blur-md"
-                              />
-                            ))}
-                          </div>
-
-                          {loginEmailError && (
-                            <p className="text-xs text-rose-600 dark:text-rose-400 mt-1.5 font-medium">{loginEmailError}</p>
-                          )}
-                        </div>
-
-                        <div className="flex items-center justify-between text-xs">
-                          {loginEmailIsCounting ? (
-                            <span className="text-xs text-slate-400 font-medium">
-                              Resend code in: {loginEmailCountdown}s
-                            </span>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={handleSendLoginEmailCode}
-                              className="text-xs text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1 font-bold cursor-pointer"
-                            >
-                              <RefreshCw className="w-3 h-3" />
-                              <span>Resend Email Code</span>
-                            </button>
-                          )}
-                        </div>
-
-                        <button
-                          type="submit"
-                          disabled={loginEmailSuccess}
-                          className={`w-full py-3 rounded-xl text-white text-xs font-extrabold shadow-sm flex items-center justify-center gap-2 transition-all cursor-pointer border border-white/60 dark:border-white/40 ${loginEmailSuccess
-                              ? 'bg-emerald-600 text-white'
-                              : 'bg-[#0B1E36] hover:bg-[#132845] dark:bg-white/20 dark:hover:bg-white/30'
-                            }`}
-                        >
-                          {loginEmailSuccess ? (
-                            <>
-                              <CheckCircle2 className="w-4 h-4" />
-                              <span>Verified & Logging In...</span>
-                            </>
-                          ) : (
-                            <>
-                              <span>Verify Email & Enter Portal</span>
-                              <ArrowRight className="w-3.5 h-3.5 text-amber-400" />
-                            </>
-                          )}
-                        </button>
-                      </form>
+                    {loginEmailError && (
+                      <p className="text-xs text-rose-600 dark:text-rose-400 font-medium">{loginEmailError}</p>
                     )}
-                  </div>
+
+                    <button
+                      type="submit"
+                      disabled={loginEmailSuccess}
+                      className={`w-full py-3 rounded-xl text-white text-xs font-extrabold shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-all border border-white/60 dark:border-white/40 ${loginEmailSuccess
+                          ? 'bg-emerald-600'
+                          : 'bg-[#0B1E36] hover:bg-[#132845] dark:bg-white/20 dark:hover:bg-white/30'
+                        }`}
+                    >
+                      {loginEmailSuccess ? (
+                        <>
+                          <CheckCircle2 className="w-4 h-4" />
+                          <span>Verified & Logging In...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Sign In & Enter Portal</span>
+                          <ArrowRight className="w-3.5 h-3.5 text-amber-400" />
+                        </>
+                      )}
+                    </button>
+                  </form>
                 )}
 
                 {/* METHOD 2: MOBILE OTP */}

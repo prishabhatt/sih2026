@@ -234,10 +234,27 @@ export function LandingView() {
     if (!demoQuery.trim()) return;
     setIsResolving(true);
     setTimeout(() => {
-      const matched = liveDemoPresets.find(p => demoQuery.toLowerCase().includes(p.label.toLowerCase())) || liveDemoPresets[0];
-      setResolvedResult({ ...matched, title: `AI Resolved: ${demoQuery.slice(0, 48)}...`, confidence: 99.2, latency: '31ms' });
+      const q = demoQuery.toLowerCase();
+
+      // Keyword sets for each preset — score by how many keywords match
+      const keywords = [
+        { idx: 0, words: ['cable', 'xlpe', 'ht', '11kv', '33kv', 'wire', 'frls', 'metro', 'power cable', 'conductor', 'distribution cable', 'electrical cable'] },
+        { idx: 1, words: ['tmt', 'rebar', 'steel bar', 'fe 500', 'fe500', 'cement', 'opc', 'concrete', 'bridge', 'reinforcement', 'deformed bar', 'nhai'] },
+        { idx: 2, words: ['solar', 'pv', 'pump', 'photovoltaic', 'kusum', 'mppt', 'submersible', 'irrigation', 'drip', 'iot', 'controller', 'automation', 'sprinkler', 'water pump', 'agricultural'] },
+        { idx: 3, words: ['hdpe', 'pipe', 'polyethylene', 'pe 100', 'jjm', 'water supply', 'drinking water', 'pressure pipe', 'plumbing'] },
+      ];
+
+      let bestIdx = 0;
+      let bestScore = 0;
+      keywords.forEach(({ idx, words }) => {
+        const score = words.filter(w => q.includes(w)).length;
+        if (score > bestScore) { bestScore = score; bestIdx = idx; }
+      });
+
+      const matched = liveDemoPresets[bestIdx];
+      setResolvedResult({ ...matched, title: `RAG Resolved: ${demoQuery.slice(0, 48)}...`, confidence: +(94 + Math.random() * 5).toFixed(1), latency: `${Math.floor(25 + Math.random() * 25)}ms` });
       setIsResolving(false);
-    }, 400);
+    }, 700);
   };
 
   const activeDivInfo = useMemo(() => BIS_DIVISIONS.find((d) => d.code === activeDivisionTab) || BIS_DIVISIONS[0], [activeDivisionTab]);

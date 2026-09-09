@@ -115,7 +115,7 @@ export function ReportsView() {
             <div>
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{t.reports.overallStatus}</p>
               <span className="inline-block mt-0.5 font-bold text-emerald-800 bg-emerald-100 border border-emerald-300 px-2.5 py-0.5 rounded-full text-[10px]">
-                {t.reports.statusCompliant} ({complianceStats?.overallScore ?? 88}%)
+                {complianceStats?.overallScore ?? 88}% COMPLIANT
               </span>
             </div>
           </div>
