@@ -13,6 +13,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useProcurement } from '../context/ProcurementContext';
 import { useTheme } from '../context/ThemeContext';
+import AnimatedLogo from './AnimatedLogo';
 
 export function Navbar() {
   const location = useLocation();
@@ -38,28 +39,19 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0">
             {/* Brand Logo */}
-            <div className="flex items-center gap-4">
-              <Link to="/" className="flex items-center gap-3.5 group">
-                <div className="h-10 sm:h-12 aspect-[16/9] rounded-xl bg-black border border-slate-300 dark:border-white/15 shadow-md flex items-center justify-center overflow-hidden shrink-0 group-hover:scale-102 transition-transform">
-                  <video
-                    src="/logo.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-contain pointer-events-none"
+            <div className="flex items-center">
+              <Link to="/" className="flex items-center gap-2.5 group">
+                <div className="shrink-0 transition-transform group-hover:scale-105">
+                  <AnimatedLogo
+                    size={46}
+                    showReplay={false}
+                    textColor={isDark ? '#F1F5F9' : '#0B1E36'}
                   />
                 </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold glass-pill-active text-slate-800 dark:text-slate-200">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#059669] animate-pulse" />
-                      NIC-Active
-                    </span>
-                  </div>
-                  <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium hidden sm:block mt-0.5">
-                    National Procurement AI Compliance Gateway
-                  </p>
+                <div className="hidden sm:flex items-center pl-2.5 border-l border-slate-300/80 dark:border-white/15">
+                  <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 tracking-tight">
+                    AI Standards Engine
+                  </span>
                 </div>
               </Link>
             </div>

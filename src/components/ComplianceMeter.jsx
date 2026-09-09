@@ -99,37 +99,14 @@ export function ComplianceMeter() {
     <div className="bg-white/80 dark:bg-[#0E1322]/80 backdrop-blur-2xl rounded-3xl p-5 sm:p-6 shadow-xl border border-slate-200/90 dark:border-white/[0.08] flex flex-col space-y-5 transition-all hover:shadow-2xl group relative">
       
       {/* Header */}
-      <div className="flex items-start justify-between gap-2">
-        <div>
-          <div className="flex items-center gap-1.5 text-slate-900 dark:text-white font-black text-[11px] sm:text-xs uppercase tracking-wider">
-            <Award className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-            <span>{t?.dashboard?.complianceMeterTitle || 'COMPLIANCE COMPLETENESS INDEX'}</span>
-          </div>
-          <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 font-normal">
-            Real-time GFR 2017 & QCO Legal Index
-          </p>
+      <div>
+        <div className="flex items-center gap-1.5 text-slate-900 dark:text-white font-black text-[11px] sm:text-xs uppercase tracking-wider">
+          <Award className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+          <span>{t?.dashboard?.complianceMeterTitle || 'COMPLIANCE COMPLETENESS INDEX'}</span>
         </div>
-
-        {/* Live Badge & Audit Report Link */}
-        <div className="flex items-center gap-1.5">
-          <button
-            type="button"
-            onClick={() => {
-              window.scrollTo(0, 0);
-              navigate('/reports');
-            }}
-            title="Open Government Compliance Audit Report"
-            className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#0B1E36] hover:bg-[#152e50] dark:bg-white/10 dark:hover:bg-white/20 text-white shadow-xs transition-all cursor-pointer hover:scale-105"
-          >
-            <Award className="w-3 h-3 text-amber-400" />
-            <span>Audit Report ↗</span>
-          </button>
-          
-          <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/40 shadow-2xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span>SEALED</span>
-          </span>
-        </div>
+        <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 font-normal">
+          Real-time GFR 2017 & QCO Legal Index
+        </p>
       </div>
 
       {/* Circle Gauge Container with Central Readout */}
@@ -320,20 +297,6 @@ export function ComplianceMeter() {
           Include all normative raw material test codes to ensure bid specifications have zero legal loopholes.
         </p>
       </div>
-
-      {/* Direct Full Compliance Audit Report Link */}
-      <button
-        type="button"
-        onClick={() => {
-          window.scrollTo(0, 0);
-          navigate('/reports');
-        }}
-        className="w-full py-2.5 px-4 rounded-2xl bg-[#0B1E36] hover:bg-[#152e50] dark:bg-white/10 dark:hover:bg-white/15 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg cursor-pointer group hover:scale-[1.01]"
-      >
-        <Award className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform" />
-        <span>View Full Compliance Audit Report</span>
-        <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
-      </button>
     </div>
   );
 }

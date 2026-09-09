@@ -1,9 +1,12 @@
 import React from 'react';
 import { ShieldCheck, Lock, CheckCircle, Database } from 'lucide-react';
 import { useProcurement } from '../context/ProcurementContext';
+import { useTheme } from '../context/ThemeContext';
+import AnimatedLogo from './AnimatedLogo';
 
 export function Footer() {
   const { certificateId, shaHash } = useProcurement();
+  const { isDark } = useTheme();
 
   return (
     <footer className="relative z-10 border-t border-slate-200/80 dark:border-white/[0.08] bg-white/80 dark:bg-[#090A0F]/80 backdrop-blur-xl text-slate-600 dark:text-slate-400 text-xs py-10 no-print mt-auto transition-colors">
@@ -11,16 +14,11 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-slate-200/80 dark:border-white/[0.08]">
           <div className="space-y-2.5">
             <div className="flex items-center gap-2.5">
-              <div className="h-9 aspect-[16/9] rounded-xl bg-black border border-slate-300 dark:border-white/10 flex items-center justify-center overflow-hidden shrink-0 shadow-xs">
-                <video
-                  src="/logo.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-full object-contain pointer-events-none"
-                />
-              </div>
+              <AnimatedLogo
+                size={40}
+                showReplay={false}
+                textColor={isDark ? '#F1F5F9' : '#0B1E36'}
+              />
             </div>
             <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-xs">
               AI-Powered Recommendation Gateway for Identifying Applicable Indian Standards for Public Procurement Specifications.

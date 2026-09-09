@@ -196,7 +196,7 @@ export function StandardsTable({
       </div>
 
       {/* Standards Database Terminal Table */}
-      <div className="bg-white/95 dark:bg-[#0E1322]/90 backdrop-blur-2xl rounded-3xl shadow-sm overflow-hidden border border-slate-200/80 dark:border-white/[0.08] flex flex-col flex-1 min-h-[480px]">
+      <div className="bg-white/95 dark:bg-[#0E1322]/90 backdrop-blur-2xl rounded-3xl shadow-sm overflow-hidden border border-slate-200/80 dark:border-white/[0.08] flex flex-col h-auto">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-slate-100 dark:divide-white/[0.06]">
             <thead className="bg-slate-50/40 dark:bg-white/[0.02] border-b border-slate-100 dark:border-white/[0.06]">
@@ -458,7 +458,7 @@ export function StandardsTable({
           </table>
 
           {filteredStandards.length === 0 && (
-            <div className="p-16 text-center text-slate-400 text-xs">
+            <div className="py-7 px-4 text-center text-slate-400 dark:text-slate-500 text-xs font-medium">
               No Indian Standards found matching your search filter.
             </div>
           )}

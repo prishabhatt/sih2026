@@ -35,6 +35,7 @@ import { useProcurement } from '../context/ProcurementContext';
 import { BIS_DIVISIONS } from '../data/divisionsData';
 import { AppleStripeBackground } from '../components/AppleStripeBackground';
 import { ComparisonGraph } from '../components/ComparisonGraph';
+import AnimatedLogo from '../components/AnimatedLogo';
 
 function AnimatedNumber({ target, suffix = '', duration = 1800 }) {
   const [count, setCount] = useState(0);
@@ -327,22 +328,22 @@ export function LandingView() {
       <div className="fixed top-4 sm:top-5 inset-x-0 z-50 flex justify-center px-4 sm:px-6 lg:px-8 pointer-events-none">
         <header className="pointer-events-auto max-w-[1360px] w-full backdrop-blur-2xl bg-white/85 dark:bg-[#070B14]/90 border-2 border-white dark:border-white/20 shadow-[0_12px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.5)] rounded-full px-6 sm:px-8 py-3 sm:py-3.5 flex items-center justify-between gap-6 transition-all">
 
-          {/* Module 1: Brand Logo & Status */}
-          <div className="flex items-center gap-3 shrink-0">
-            <div className="h-10 sm:h-12 aspect-[16/9] rounded-xl bg-black border border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.3)] flex items-center justify-center shrink-0 overflow-hidden transition-transform hover:scale-102">
-              <video
-                src="/logo.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full h-full object-contain pointer-events-none"
-              />
-            </div>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#1E3A5F]/10 dark:bg-[#1E3A5F]/30 text-[#1E3A5F] dark:text-[#93B5D9] border border-[#1E3A5F]/20 font-mono">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              {t?.nav?.sessionActive ? 'ACTIVE' : 'ACTIVE'}
-            </span>
+          {/* Module 1: Brand Logo */}
+          <div className="flex items-center shrink-0">
+            <a href="#overview" className="flex items-center gap-2.5 group">
+              <div className="shrink-0 transition-transform group-hover:scale-105">
+                <AnimatedLogo
+                  size={46}
+                  showReplay={false}
+                  textColor={isDark ? '#F1F5F9' : '#0B1E36'}
+                />
+              </div>
+              <div className="hidden sm:flex items-center pl-2.5 border-l border-slate-300/80 dark:border-white/15">
+                <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 tracking-tight">
+                  AI Standards Engine
+                </span>
+              </div>
+            </a>
           </div>
 
           {/* Module 2: Central Navigation in Sleek Glassmorphic Capsule */}
@@ -903,16 +904,11 @@ export function LandingView() {
             <ScrollReveal direction="up" delay={1}>
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  <div className="h-10 aspect-[16/9] rounded-xl bg-black border border-white/20 flex items-center justify-center shadow-md overflow-hidden shrink-0">
-                    <video
-                      src="/logo.mp4"
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="w-full h-full object-contain pointer-events-none"
-                    />
-                  </div>
+                  <AnimatedLogo
+                    size={42}
+                    showReplay={false}
+                    textColor={isDark ? '#F1F5F9' : '#0B1E36'}
+                  />
                 </div>
                 <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
                   {t?.nav?.brandSubtitle || 'National AI-Powered Recommendation Engine for Indian Standards & GFR 2017 Compliance.'}

@@ -196,14 +196,6 @@ export function DigitalPassportQR({ className = '' }) {
           </div>
         </div>
 
-        {/* High-Contrast Simulate Field Scan Button */}
-        <button
-          onClick={() => setShowScannerModal(true)}
-          className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-extrabold px-4 py-2.5 rounded-xl shadow-md flex items-center gap-2 transition-all cursor-pointer flex-shrink-0"
-        >
-          <Smartphone className="w-4 h-4 text-amber-400" />
-          <span>Simulate Field Scan</span>
-        </button>
       </div>
 
       {/* Main Grid: QR Frame Left + Metadata Right */}
