@@ -19,7 +19,9 @@ import {
   Lock,
   AlertTriangle,
   Wifi,
-  WifiOff
+  WifiOff,
+  Minus,
+  ChevronUp
 } from 'lucide-react';
 import { useProcurement } from '../context/ProcurementContext';
 import { askCORA, buildHistory } from '../utils/coraAPI';
@@ -124,6 +126,7 @@ export function ChatbotWidget() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
   const [inputText, setInputText] = useState('');
   const [copiedIndex, setCopiedIndex] = useState(null);
   const [isTyping, setIsTyping] = useState(false);
@@ -403,51 +406,98 @@ export function ChatbotWidget() {
   return (
     <>
       {/* ========================================================================= */}
-      {/* FLOATING MASCOT BUTTON (SMALL COMPACT BUTTON ON BOTTOM RIGHT)             */}
+      {/* 1. FLOATING MASCOT BUTTON (WHEN CHATBOT IS CLOSED)                         */}
       {/* ========================================================================= */}
-      <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2.5">
-        {!isOpen && (
+      {!isOpen && (
+        <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2.5">
           <button
             type="button"
             key={location.pathname}
-            onClick={() => setIsOpen(true)}
+            onClick={() => { setIsOpen(true); setIsMinimized(false); }}
             className="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/95 dark:bg-[#162138]/95 border border-slate-200 dark:border-blue-400/30 text-slate-800 dark:text-blue-100 text-xs font-semibold shadow-xl backdrop-blur-md cursor-pointer hover:border-blue-500/60 transition-all hover:-translate-x-1 animate-in fade-in slide-in-from-right-2 duration-300 ring-1 ring-black/5 dark:ring-white/10"
           >
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span>{tagline.prefix} <strong>{tagline.action}</strong></span>
           </button>
-        )}
 
-        {/* Small Circular Trigger Button */}
-        <button
-          type="button"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Open CORA Chatbot"
-          className="relative rounded-full p-0.5 bg-gradient-to-tr from-blue-600 via-indigo-600 to-sky-400 shadow-2xl hover:shadow-[0_0_24px_rgba(37,99,235,0.5)] transition-transform duration-200 hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center flex-shrink-0"
-          style={{ width: 50, height: 50, minWidth: 50, minHeight: 50, maxWidth: 50, maxHeight: 50 }}
-        >
-          <span className="absolute -inset-0.5 rounded-full bg-blue-500/30 animate-pulse pointer-events-none" />
-
-          <div 
-            className="w-full h-full rounded-full overflow-hidden bg-[#0A1224] border border-white/80 dark:border-white/30 flex items-center justify-center"
-            style={{ width: '100%', height: '100%' }}
+          {/* Small Circular Trigger Button */}
+          <button
+            type="button"
+            onClick={() => { setIsOpen(true); setIsMinimized(false); }}
+            aria-label="Open CORA Chatbot"
+            className="relative rounded-full p-0.5 bg-gradient-to-tr from-blue-600 via-indigo-600 to-sky-400 shadow-2xl hover:shadow-[0_0_24px_rgba(37,99,235,0.5)] transition-transform duration-200 hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center flex-shrink-0"
+            style={{ width: 50, height: 50, minWidth: 50, minHeight: 50, maxWidth: 50, maxHeight: 50 }}
           >
-            <img
-              src="/mascot.png"
-              alt="CORA Mascot"
-              className="w-full h-full object-cover select-none pointer-events-none"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
+            <span className="absolute -inset-0.5 rounded-full bg-blue-500/30 animate-pulse pointer-events-none" />
+
+            <div 
+              className="w-full h-full rounded-full overflow-hidden bg-[#0A1224] border border-white/80 dark:border-white/30 flex items-center justify-center"
+              style={{ width: '100%', height: '100%' }}
+            >
+              <img
+                src="/mascot.png"
+                alt="CORA Mascot"
+                className="w-full h-full object-cover select-none pointer-events-none"
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            </div>
+
+            <span className="absolute top-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white dark:border-[#0B1120] shadow-xs" />
+          </button>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* 2. MINIMIZED DOCK BAR (WHEN MINIMIZED WITH - BUTTON)                      */}
+      {/* ========================================================================= */}
+      {isOpen && isMinimized && (
+        <div 
+          onClick={() => setIsMinimized(false)}
+          className="fixed bottom-5 right-5 z-50 flex items-center justify-between gap-3 px-4 py-2.5 rounded-full bg-gradient-to-r from-[#0C234E] via-[#123675] to-[#1B4B9A] text-white shadow-[0_15px_40px_rgba(0,0,0,0.4),0_0_25px_rgba(37,99,235,0.35)] border-2 border-white/30 dark:border-blue-400/40 backdrop-blur-xl cursor-pointer hover:scale-105 transition-all animate-in fade-in slide-in-from-bottom-3 duration-200 ring-2 ring-blue-500/25"
+        >
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 rounded-full overflow-hidden border border-white/40 bg-[#0A1938] flex-shrink-0 flex items-center justify-center p-0.5 shadow-xs">
+              <img src="/mascot.png" alt="CORA" className="w-full h-full object-cover" />
+            </div>
+            <div className="text-left">
+              <div className="flex items-center gap-1.5">
+                <span className="font-extrabold text-xs text-white tracking-wide">CORA</span>
+                <span className="px-1.5 py-0.2 rounded-full text-[8px] font-bold uppercase bg-blue-500/30 text-blue-100 border border-blue-300/30">Copilot</span>
+              </div>
+              <p className="text-[10px] text-blue-200/90 flex items-center gap-1 font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Click to restore chat</span>
+              </p>
+            </div>
           </div>
 
-          <span className="absolute top-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white dark:border-[#0B1120] shadow-xs" />
-        </button>
-      </div>
+          <div className="flex items-center gap-1 ml-3" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              onClick={() => setIsMinimized(false)}
+              title="Restore Chat"
+              className="p-1 rounded-full hover:bg-white/20 text-white transition cursor-pointer"
+              aria-label="Restore Chat"
+            >
+              <ChevronUp className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => { setIsOpen(false); setIsMinimized(false); }}
+              title="Close"
+              className="p-1 rounded-full hover:bg-white/20 text-white transition cursor-pointer"
+              aria-label="Close"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* ========================================================================= */}
-      {/* CHATBOT WINDOW (SOPHISTICATED ROYAL SAPPHIRE & ELEVATED CONTRAST)         */}
+      {/* 3. FULL CHATBOT WINDOW (WHEN OPEN AND NOT MINIMIZED)                      */}
       {/* ========================================================================= */}
-      {isOpen && (
+      {isOpen && !isMinimized && (
         <div
           className={`fixed z-50 transition-all duration-300 flex flex-col ${
             isExpanded
@@ -487,25 +537,41 @@ export function ChatbotWidget() {
             {/* Header Right Action Icons */}
             <div className="flex items-center gap-1.5 text-white/80">
               <button
+                type="button"
                 onClick={restartChat}
                 title="Restart Chat"
                 className="p-1.5 rounded-lg hover:bg-white/15 hover:text-white transition cursor-pointer"
+                aria-label="Restart Chat"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
 
               <button
+                type="button"
+                onClick={() => setIsMinimized(true)}
+                title="Minimize Chatbot"
+                className="p-1.5 rounded-lg hover:bg-white/15 hover:text-white transition cursor-pointer"
+                aria-label="Minimize Chatbot"
+              >
+                <Minus className="w-4 h-4" />
+              </button>
+
+              <button
+                type="button"
                 onClick={() => setIsExpanded(!isExpanded)}
                 title={isExpanded ? 'Restore' : 'Expand'}
                 className="p-1.5 rounded-lg hover:bg-white/15 hover:text-white transition cursor-pointer"
+                aria-label={isExpanded ? 'Restore' : 'Expand'}
               >
                 {isExpanded ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
               </button>
 
               <button
-                onClick={() => setIsOpen(false)}
+                type="button"
+                onClick={() => { setIsOpen(false); setIsMinimized(false); }}
                 title="Close"
                 className="p-1.5 rounded-lg hover:bg-white/15 hover:text-white transition cursor-pointer"
+                aria-label="Close"
               >
                 <X className="w-4 h-4" />
               </button>

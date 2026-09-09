@@ -36,7 +36,7 @@ export function LoginView() {
   const { isDark, toggleTheme } = useTheme();
 
   const [isSignUp, setIsSignUp] = useState(false);
-  const [authMethod, setAuthMethod] = useState('email'); // 'email', 'mobile', or 'sso'
+  const [authMethod, setAuthMethod] = useState('email'); // 'email' or 'mobile'
   const [selectedRole, setSelectedRole] = useState('procurement');
 
   // ==========================================
@@ -297,11 +297,6 @@ export function LoginView() {
       loginAsRole(selectedRole, `Mobile 2FA (+91 ${loginMobileNumber})`);
       navigate('/input');
     }, 700);
-  };
-
-  const handleSsoLogin = (ssoProvider) => {
-    loginAsRole(selectedRole, ssoProvider);
-    navigate('/input');
   };
 
   const handleQuickPersona = (personaKey, scenarioId) => {
@@ -879,7 +874,7 @@ export function LoginView() {
                   </div>
                 </div>
 
-                {/* 3-Tab Switcher: Email Verification | Mobile OTP | National SSO */}
+                {/* 2-Tab Switcher: Email & Password | Mobile OTP */}
                 <div className="flex p-1 bg-slate-200/60 dark:bg-white/[0.05] rounded-xl border border-white dark:border-white/10 backdrop-blur-md">
                   <button
                     type="button"
@@ -902,17 +897,6 @@ export function LoginView() {
                   >
                     <Smartphone className="w-3.5 h-3.5 text-emerald-500" />
                     <span>Mobile OTP</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setAuthMethod('sso')}
-                    className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 ${authMethod === 'sso'
-                        ? 'bg-white dark:bg-white/20 text-slate-950 dark:text-white shadow-xs'
-                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white'
-                      }`}
-                  >
-                    <ShieldCheck className="w-3.5 h-3.5 text-indigo-500" />
-                    <span>National SSO</span>
                   </button>
                 </div>
 
@@ -1115,37 +1099,7 @@ export function LoginView() {
                   </div>
                 )}
 
-                {/* METHOD 3: NATIONAL SSO OPTIONS */}
-                {authMethod === 'sso' && (
-                  <div className="space-y-3">
-                    <button
-                      type="button"
-                      onClick={() => handleSsoLogin('Jan Parichay (National SSO)')}
-                      className="w-full py-3 rounded-xl bg-[#0B1E36] hover:bg-[#132845] dark:bg-white/20 dark:hover:bg-white/30 border border-white/60 dark:border-white/40 text-white text-xs font-extrabold shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-all"
-                    >
-                      <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                      <span>Jan Parichay National SSO</span>
-                      <ArrowRight className="w-3.5 h-3.5 text-amber-400" />
-                    </button>
 
-                    <div className="grid grid-cols-2 gap-3">
-                      <button
-                        type="button"
-                        onClick={() => handleSsoLogin('MeriPehchaan SSO')}
-                        className="py-2.5 px-3 rounded-xl bg-white/70 dark:bg-white/[0.04] border border-white dark:border-white/20 hover:bg-white text-xs font-bold text-slate-800 dark:text-slate-200 transition-colors text-center cursor-pointer backdrop-blur-md shadow-xs"
-                      >
-                        MeriPehchaan
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleSsoLogin('GeM Portal SSO')}
-                        className="py-2.5 px-3 rounded-xl bg-white/70 dark:bg-white/[0.04] border border-white dark:border-white/20 hover:bg-white text-xs font-bold text-slate-800 dark:text-slate-200 transition-colors text-center cursor-pointer backdrop-blur-md shadow-xs"
-                      >
-                        GeM Portal SSO
-                      </button>
-                    </div>
-                  </div>
-                )}
               </div>
             )}
 
