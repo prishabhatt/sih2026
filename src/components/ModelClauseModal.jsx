@@ -36,7 +36,7 @@ export function ModelClauseModal() {
   } = useProcurement();
 
   const [copied, setCopied] = useState(false);
-  const [viewMode, setViewMode] = useState('draft'); // 'draft' | 'raw'
+  const [viewMode, setViewMode] = useState('draft');
 
   const selectedStds = useMemo(() => {
     const pool = [...recommendedStandards, ...MOCK_STANDARDS];
@@ -137,7 +137,6 @@ END OF MODEL NIT TECHNICAL CLAUSE - GENERATED VIA ISYNC
         className="relative bg-white dark:bg-[#0C1220] rounded-[2rem] max-w-5xl w-full shadow-[0_30px_90px_rgba(0,0,0,0.6)] border border-slate-200/90 dark:border-white/15 max-h-[92vh] flex flex-col overflow-hidden text-slate-900 dark:text-slate-100 transition-all animate-in fade-in zoom-in-95 duration-150"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Modal Header */}
         <div className="px-6 py-5 sm:px-8 sm:py-6 flex items-start justify-between border-b border-slate-200/80 dark:border-white/10 bg-slate-50/70 dark:bg-white/[0.02] backdrop-blur-md shrink-0">
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-2">
@@ -160,7 +159,6 @@ END OF MODEL NIT TECHNICAL CLAUSE - GENERATED VIA ISYNC
           </div>
 
           <div className="flex items-center gap-2">
-            {/* View Mode Switcher */}
             <div className="flex items-center p-1 rounded-full bg-slate-200/80 dark:bg-black/40 border border-slate-300/80 dark:border-white/15 text-xs font-bold">
               <button
                 type="button"
@@ -195,20 +193,16 @@ END OF MODEL NIT TECHNICAL CLAUSE - GENERATED VIA ISYNC
           </div>
         </div>
 
-        {/* Modal Body */}
         <div className="overflow-y-auto flex-1 p-5 sm:p-8 bg-slate-100/60 dark:bg-[#070B14]">
           {viewMode === 'raw' ? (
-            /* Raw Text View */
             <div className="p-6 bg-slate-900 text-slate-200 rounded-2xl font-mono text-xs leading-relaxed border border-slate-800 shadow-inner">
               <pre className="whitespace-pre-wrap selection:bg-[#1E3A5F] selection:text-white font-mono">
                 {generatedClauseText}
               </pre>
             </div>
           ) : (
-            /* Formatted Document Draft Preview */
             <div className="max-w-4xl mx-auto bg-white dark:bg-[#0E1526] rounded-2xl p-6 sm:p-10 shadow-lg border border-slate-200/80 dark:border-white/10 space-y-8 font-sans">
               
-              {/* Official Document Letterhead */}
               <div className="border-b-2 border-slate-900 dark:border-white/30 pb-6 text-center space-y-2">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-[10px] font-mono font-bold tracking-widest text-slate-600 dark:text-slate-300 uppercase">
                   Government of India • Public Procurement Gateway
@@ -221,7 +215,6 @@ END OF MODEL NIT TECHNICAL CLAUSE - GENERATED VIA ISYNC
                 </p>
               </div>
 
-              {/* Specification Metadata Dossier Card */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5 rounded-2xl bg-slate-50/90 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 text-xs">
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
@@ -260,7 +253,6 @@ END OF MODEL NIT TECHNICAL CLAUSE - GENERATED VIA ISYNC
                 </div>
               </div>
 
-              {/* Section 1.0 */}
               <div className="space-y-4">
                 <div className="flex items-center gap-2 pb-1 border-b border-slate-200 dark:border-white/10">
                   <span className="w-6 h-6 rounded-lg bg-blue-600 text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs">
@@ -275,7 +267,6 @@ END OF MODEL NIT TECHNICAL CLAUSE - GENERATED VIA ISYNC
                   All materials, equipment, and structural components supplied under this tender schedule shall strictly adhere to the Bureau of Indian Standards (BIS) specifications listed below, incorporating all latest amendments, revisions, and reaffirmations as on the date of bid submission:
                 </p>
 
-                {/* Standards Cards */}
                 <div className="space-y-3.5 pt-1">
                   {selectedStds.map((std, idx) => (
                     <div 
@@ -310,7 +301,6 @@ END OF MODEL NIT TECHNICAL CLAUSE - GENERATED VIA ISYNC
                         </div>
                       </div>
 
-                      {/* Technical Clause Detail Box */}
                       <div className="p-3 rounded-lg bg-white dark:bg-[#070B14] border-l-4 border-blue-600 text-xs font-mono text-slate-700 dark:text-slate-300 leading-relaxed">
                         {std.modelNitClause || `All products supplied under this item schedule must strictly conform to ${std.code}. Full batch laboratory test records and BIS license credentials must be furnished.`}
                       </div>
@@ -325,7 +315,6 @@ END OF MODEL NIT TECHNICAL CLAUSE - GENERATED VIA ISYNC
                 </div>
               </div>
 
-              {/* Section 2.0 */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2 pb-1 border-b border-slate-200 dark:border-white/10">
                   <span className="w-6 h-6 rounded-lg bg-blue-600 text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs">
@@ -357,7 +346,6 @@ END OF MODEL NIT TECHNICAL CLAUSE - GENERATED VIA ISYNC
                 </div>
               </div>
 
-              {/* Section 3.0 */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2 pb-1 border-b border-slate-200 dark:border-white/10">
                   <span className="w-6 h-6 rounded-lg bg-blue-600 text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs">
@@ -381,7 +369,6 @@ END OF MODEL NIT TECHNICAL CLAUSE - GENERATED VIA ISYNC
                 </div>
               </div>
 
-              {/* Section 4.0 */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2 pb-1 border-b border-slate-200 dark:border-white/10">
                   <span className="w-6 h-6 rounded-lg bg-red-600 text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs">
@@ -400,7 +387,6 @@ END OF MODEL NIT TECHNICAL CLAUSE - GENERATED VIA ISYNC
                 </div>
               </div>
 
-              {/* Digital Verification & Stamp Footer */}
               <div className="pt-4 border-t border-slate-200 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 rounded-full bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
@@ -421,7 +407,6 @@ END OF MODEL NIT TECHNICAL CLAUSE - GENERATED VIA ISYNC
           )}
         </div>
 
-        {/* Modal Action Bar */}
         <div className="px-6 py-4 sm:px-8 border-t border-slate-200/80 dark:border-white/10 flex flex-wrap items-center justify-between gap-4 bg-slate-50/80 dark:bg-white/[0.02] backdrop-blur-md shrink-0">
           <div className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300 font-medium">
             <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />

@@ -54,7 +54,6 @@ function getRevisionInfo(std) {
     return { revYear: '2012', amendYear: '2019', badgeType: 'rev', badgeLabel: 'REV. 2012' };
   }
 
-  // General fallback
   const codeYearMatch = std.code?.match(/:\s*(\d{4})/);
   const revYear = codeYearMatch ? codeYearMatch[1] : (std.reaffirmationDate?.match(/\d{4}/)?.[0] || '2018');
   const amendYearMatch = std.latestAmendment?.match(/\b(20\d{2})\b/);
@@ -83,7 +82,6 @@ export function StandardsTable({
   const [activeTabByStandard, setActiveTabByStandard] = useState({});
   const [copiedClauseId, setCopiedClauseId] = useState(null);
 
-  // Sync external telemetry filter
   useEffect(() => {
     if (telemetryFilter === 'QCO') {
       setQcoOnlyFilter(true);
@@ -113,7 +111,6 @@ export function StandardsTable({
   };
 
   const handleAddClick = (std) => {
-    // Seamless instant inline addition & removal with zero modal popup interruptions
     onToggleStandard && onToggleStandard(std.id);
   };
 
@@ -139,7 +136,6 @@ export function StandardsTable({
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      {/* Search & Filter Bar */}
       <div className="p-4 sm:p-5 rounded-2xl bg-white/90 dark:bg-[#0E1322]/90 backdrop-blur-xl border border-slate-200/80 dark:border-white/[0.08] shadow-sm">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3.5">
           <div className="flex items-center gap-2.5 shrink-0">
@@ -195,7 +191,6 @@ export function StandardsTable({
         </div>
       </div>
 
-      {/* Standards Database Terminal Table */}
       <div className="bg-white/95 dark:bg-[#0E1322]/90 backdrop-blur-2xl rounded-3xl shadow-sm overflow-hidden border border-slate-200/80 dark:border-white/[0.08] flex flex-col h-auto">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-slate-100 dark:divide-white/[0.06]">
@@ -228,7 +223,6 @@ export function StandardsTable({
                 return (
                   <React.Fragment key={std.id}>
                     <tr className="hover:bg-slate-50/40 dark:hover:bg-white/[0.02] transition-colors group">
-                      {/* Column 1: Standard Code & Revision Badge */}
                       <td className="px-6 py-5 whitespace-nowrap align-top">
                         <div className="flex flex-col items-start gap-1.5">
                           <span className="text-[13px] font-bold tracking-tight text-[#1D4ED8] dark:text-[#60A5FA]">
@@ -255,7 +249,6 @@ export function StandardsTable({
                         </div>
                       </td>
 
-                      {/* Column 2: Product Scope & Title */}
                       <td className="px-6 py-5 align-top max-w-sm sm:max-w-md">
                         <p className="text-xs font-medium text-slate-700 dark:text-slate-200 leading-snug">
                           {std.title}
@@ -281,7 +274,6 @@ export function StandardsTable({
                         )}
                       </td>
 
-                      {/* Column 3: Revision Status */}
                       <td className="px-6 py-5 align-top whitespace-nowrap">
                         <div className="flex flex-col gap-0.5 items-start text-xs">
                           <span className="font-semibold text-slate-600 dark:text-slate-300 text-[11px]">
@@ -299,7 +291,6 @@ export function StandardsTable({
                         </div>
                       </td>
 
-                      {/* Column 4: Compliance Status */}
                       <td className="px-6 py-5 align-top whitespace-nowrap">
                         <div className="flex flex-col gap-1.5 items-start">
                           {std.qcoMandatory && (
@@ -313,7 +304,6 @@ export function StandardsTable({
                         </div>
                       </td>
 
-                      {/* Column 5: Action Buttons */}
                       <td className="px-6 py-5 text-right align-top whitespace-nowrap">
                         <div className="flex items-center justify-end gap-2.5">
                           <button
@@ -348,13 +338,11 @@ export function StandardsTable({
                       </td>
                     </tr>
 
-                    {/* Expanded Interactive Multi-Tab Dossier */}
                     {isExpanded && (
                       <tr className="bg-slate-50/80 dark:bg-black/40 border-b border-slate-200/80 dark:border-white/[0.06] animate-in fade-in duration-200">
                         <td colSpan={5} className="p-6">
                           <div className="bg-white dark:bg-[#070B14]/90 p-6 rounded-2xl border border-slate-200/80 dark:border-white/[0.08] shadow-sm flex flex-col space-y-4">
                             
-                            {/* Inner Tab Switcher */}
                             <div className="flex items-center gap-2 border-b border-slate-100 dark:border-white/[0.06] pb-3">
                               <button
                                 onClick={() => setTabFor(std.id, 'scope')}
@@ -381,7 +369,6 @@ export function StandardsTable({
                               </button>
                             </div>
 
-                            {/* Tab 1: Scope & Gazette Details */}
                             {currentTab === 'scope' && (
                               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-in fade-in">
                                 <div className="lg:col-span-8 space-y-3">
@@ -420,7 +407,6 @@ export function StandardsTable({
                               </div>
                             )}
 
-                            {/* Tab 2: Model NIT Clause Viewer */}
                             {currentTab === 'clause' && (
                               <div className="space-y-3 animate-in fade-in">
                                 <div className="p-4 rounded-xl bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 text-xs text-slate-800 dark:text-slate-200 whitespace-pre-wrap leading-relaxed">

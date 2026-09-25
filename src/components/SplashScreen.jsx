@@ -1,11 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { AnimatedLogo } from './AnimatedLogo';
 
-/**
- * SplashScreen — ISync flower-petal atom loading screen.
- * Shows the animated flower logo, then "sync" slides in.
- * Auto-fires onComplete at 3.5s via ref (no re-render loops).
- */
 export function SplashScreen({ onComplete }) {
   const doneRef = useRef(false);
 
@@ -28,7 +23,6 @@ export function SplashScreen({ onComplete }) {
       className="fixed inset-0 flex items-center justify-center"
       style={{ zIndex: 999999, background: '#030712' }}
     >
-      {/* Ambient radial glow */}
       <div
         className="absolute"
         style={{
@@ -49,10 +43,8 @@ export function SplashScreen({ onComplete }) {
           animation: 'sp-emblem-in 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s forwards',
         }}
       >
-        {/* Flower logo — large */}
         <AnimatedLogo size={120} animate={true} showText={false} />
 
-        {/* "IS" + "sync" text */}
         <div className="flex items-center" style={{ marginTop: 2 }}>
           <span
             style={{
@@ -82,7 +74,6 @@ export function SplashScreen({ onComplete }) {
           </span>
         </div>
 
-        {/* Tagline */}
         <p
           style={{
             fontSize: 10,

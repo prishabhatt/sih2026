@@ -10,7 +10,6 @@ terminology for embedding search, while tracking the user's target response lang
 import re
 from typing import Tuple, Dict
 
-# Script Unicode Ranges
 SCRIPT_RANGES = [
     (0x0900, 0x097F, "Hindi (Devanagari)"),
     (0x0B80, 0x0BFF, "Tamil"),
@@ -23,9 +22,7 @@ SCRIPT_RANGES = [
     (0x0B00, 0x0B7F, "Odia"),
 ]
 
-# Common procurement term normalizations (Vernacular -> Canonical Regulatory English)
 VERNACULAR_KEYWORD_MAP = {
-    # Hindi / Devanagari
     "तार": "cable wire IS 694 IS 7098",
     "केबल": "power cable IS 694 IS 7098",
     "बिजली": "electrical power voltage",
@@ -42,20 +39,17 @@ VERNACULAR_KEYWORD_MAP = {
     "सर्वर": "IT server IS 13252",
     "गीजर": "electrical water heater appliance IS 302",
 
-    # Tamil
     "கம்பி": "TMT steel rebar IS 1786",
     "கேபிள்": "power cable IS 694 IS 7098",
     "குடிநீர்": "drinking water IS 10500 IS 14543",
     "குழாய்": "HDPE pipe IS 4984",
     "விளக்கு": "LED luminaire IS 10322",
 
-    # Telugu
     "కేబుల్": "power cable IS 694 IS 7098",
     "స్టీల్": "structural steel rebar IS 1786 IS 2062",
     "నీరు": "drinking water IS 10500",
     "పైపు": "HDPE pipe IS 4984",
 
-    # Hinglish
     "bijli": "electrical power",
     "taar": "cable wire IS 694",
     "paani": "drinking water IS 10500",
@@ -80,7 +74,6 @@ def normalize_query(user_query: str) -> Tuple[str, str]:
     detected_lang = detect_language_script(user_query)
     canonical = user_query.strip()
 
-    # Expand any detected vernacular procurement words
     query_lower = user_query.lower()
     expansions = []
     for term, canon in VERNACULAR_KEYWORD_MAP.items():

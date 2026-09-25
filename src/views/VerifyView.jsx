@@ -42,7 +42,6 @@ export function VerifyView() {
       }
       const data = await res.json();
       setReport(data.payload);
-      // Simulate verification animation
       setTimeout(() => setVerified(true), 800);
     } catch (err) {
       setError(err.message);
@@ -51,7 +50,6 @@ export function VerifyView() {
     }
   };
 
-  // ─── LOADING STATE ─────────────────────────────────────────────────────────
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 flex items-center justify-center p-6">
@@ -72,7 +70,6 @@ export function VerifyView() {
     );
   }
 
-  // ─── ERROR STATE (Certificate Not Found) ───────────────────────────────────
   if (error) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-rose-50 flex items-center justify-center p-6">
@@ -104,7 +101,6 @@ export function VerifyView() {
     );
   }
 
-  // ─── SUCCESS STATE (Verified Certificate) ──────────────────────────────────
   const p = report || {};
   const score = parseInt(String(p.compliance_score || '0').replace('%', ''), 10);
   const scoreColor = score >= 85 ? 'emerald' : score >= 60 ? 'amber' : 'rose';
@@ -113,7 +109,6 @@ export function VerifyView() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 py-8 px-4 sm:px-6 font-sans">
       <div className="max-w-2xl mx-auto space-y-6">
 
-        {/* ── Verification Banner ────────────────────────────────────────── */}
         <div className={`rounded-2xl p-4 border transition-all duration-700 ${
           verified
             ? 'bg-emerald-50 border-emerald-300 shadow-lg shadow-emerald-100'
@@ -143,10 +138,8 @@ export function VerifyView() {
           </div>
         </div>
 
-        {/* ── Main Certificate Card ──────────────────────────────────────── */}
         <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden">
 
-          {/* Header Band */}
           <div className="bg-slate-900 text-white px-6 py-4 sm:px-8 sm:py-5">
             <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -160,10 +153,8 @@ export function VerifyView() {
             </p>
           </div>
 
-          {/* Body */}
           <div className="p-6 sm:p-8 space-y-6">
 
-            {/* Metadata Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs">
               <MetaField label="Certificate ID" value={p.tender_id || certificateId} mono />
               <MetaField label="Issuing Organization" value={p.issuing_org || '—'} />
@@ -173,7 +164,6 @@ export function VerifyView() {
               <MetaField label="NIC Gateway" value={p.nic_gateway || '—'} mono />
             </div>
 
-            {/* Compliance Score */}
             <div className={`p-5 rounded-2xl border-2 ${
               scoreColor === 'emerald' ? 'bg-emerald-50 border-emerald-300' :
               scoreColor === 'amber' ? 'bg-amber-50 border-amber-300' :
@@ -212,7 +202,6 @@ export function VerifyView() {
               </div>
             </div>
 
-            {/* QCO Status */}
             <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
               <div className="flex items-center gap-2">
                 <FileCheck className="w-4 h-4 text-emerald-600" />
@@ -223,7 +212,6 @@ export function VerifyView() {
               </p>
             </div>
 
-            {/* Primary Standards */}
             {p.primary_standards && p.primary_standards.length > 0 && (
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
@@ -243,7 +231,6 @@ export function VerifyView() {
               </div>
             )}
 
-            {/* Mandatory Tests */}
             {p.mandatory_tests && p.mandatory_tests.length > 0 && (
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
@@ -263,7 +250,6 @@ export function VerifyView() {
               </div>
             )}
 
-            {/* SHA-256 Hash */}
             {p.compliance_hash && (
               <div className="bg-slate-900 text-slate-200 p-5 rounded-2xl space-y-2">
                 <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs">
@@ -279,7 +265,6 @@ export function VerifyView() {
               </div>
             )}
 
-            {/* Footer */}
             <div className="pt-4 border-t border-slate-200 flex items-center justify-between text-xs">
               <div>
                 <p className="font-bold text-slate-900">{p.officer || 'Procurement Official'}</p>
@@ -297,7 +282,6 @@ export function VerifyView() {
           </div>
         </div>
 
-        {/* Back Link */}
         <div className="text-center pb-8">
           <p className="text-[10px] text-slate-400 font-medium">
             This is an official digital compliance verification page. If you suspect tampering, contact the Bureau of Indian Standards.
@@ -308,7 +292,6 @@ export function VerifyView() {
   );
 }
 
-/* ── Helper Components ───────────────────────────────────────────────────── */
 
 function MetaField({ label, value, mono = false }) {
   return (

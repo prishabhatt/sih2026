@@ -104,10 +104,8 @@ export function InputFormView() {
   return (
     <div className="min-h-screen bg-[#F1F5F9] dark:bg-[#090A0F] text-slate-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 transition-colors duration-500 relative font-sans selection:bg-[#292524] selection:text-white">
       
-      {/* Living Aurora Background */}
       <AppleStripeBackground />
 
-      {/* Floating Demo Loaded Glass Notification Toast */}
       {loadedToast && (
         <div className="fixed top-24 right-6 z-50 animate-in fade-in slide-in-from-top-4 duration-300">
           <div className="bg-white/85 dark:bg-[#0E1529]/85 backdrop-blur-2xl border border-white dark:border-white/20 px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 text-slate-900 dark:text-white">
@@ -126,7 +124,6 @@ export function InputFormView() {
       )}
 
       <div className="max-w-5xl mx-auto space-y-6 relative z-10">
-        {/* Step Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200/80 dark:border-white/[0.08]">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/70 dark:bg-white/10 backdrop-blur-md border border-white dark:border-white/20 text-slate-800 dark:text-slate-200 text-xs font-bold shadow-xs mb-2">
@@ -144,7 +141,6 @@ export function InputFormView() {
             </p>
           </div>
 
-          {/* Fully Working Glassmorphic Demo Scenario Button & Dropdown */}
           <div className="relative self-start sm:self-auto">
             <div className="inline-flex items-center rounded-full p-0.5 bg-gradient-to-r from-amber-500/20 via-amber-400/30 to-amber-500/20 backdrop-blur-2xl border border-white dark:border-white/25 shadow-[0_4px_20px_rgba(245,158,11,0.18)] hover:shadow-[0_4px_25px_rgba(245,158,11,0.3)] transition-all">
               <button
@@ -166,7 +162,6 @@ export function InputFormView() {
               </button>
             </div>
 
-            {/* Glassmorphic Dropdown Popover */}
             {isDropdownOpen && (
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setIsDropdownOpen(false)} />
@@ -207,7 +202,6 @@ export function InputFormView() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Section 1: GeM Profile */}
           <div className="bg-white/60 dark:bg-white/[0.04] backdrop-blur-2xl rounded-3xl p-6 sm:p-8 shadow-xl space-y-5 border border-white dark:border-white/20">
             <div className="flex items-center gap-3 pb-4 border-b border-white/60 dark:border-white/10">
               <div className="w-9 h-9 rounded-xl bg-white/80 dark:bg-white/10 backdrop-blur-md border border-white dark:border-white/20 flex items-center justify-center text-slate-800 dark:text-slate-200 font-bold shadow-xs">
@@ -345,7 +339,6 @@ export function InputFormView() {
             </div>
           </div>
 
-          {/* Section 2: BIS Division Selection */}
           <div className="bg-white/60 dark:bg-white/[0.04] backdrop-blur-2xl rounded-3xl p-6 sm:p-8 shadow-xl space-y-4 border border-white dark:border-white/20">
             <div className="flex items-center gap-3 pb-4 border-b border-white/60 dark:border-white/10">
               <div className="w-9 h-9 rounded-xl bg-white/80 dark:bg-white/10 backdrop-blur-md border border-white dark:border-white/20 flex items-center justify-center text-slate-800 dark:text-slate-200 font-bold shadow-xs">
@@ -398,7 +391,6 @@ export function InputFormView() {
             </div>
           </div>
 
-          {/* Section 3: Natural Language Query */}
           <div className="bg-white/60 dark:bg-white/[0.04] backdrop-blur-2xl rounded-3xl p-6 sm:p-8 shadow-xl space-y-4 border border-white dark:border-white/20">
             <div className="flex items-center justify-between pb-4 border-b border-white/60 dark:border-white/10">
               <div className="flex items-center gap-3">
@@ -454,7 +446,6 @@ export function InputFormView() {
             </div>
           </div>
 
-          {/* Section 4: Document Upload Zone */}
           <div className="bg-white/60 dark:bg-white/[0.04] backdrop-blur-2xl rounded-3xl p-6 sm:p-8 shadow-xl space-y-4 border border-white dark:border-white/20">
             <div className="flex items-center gap-3 pb-4 border-b border-white/60 dark:border-white/10">
               <div className="w-9 h-9 rounded-xl bg-white/80 dark:bg-white/10 backdrop-blur-md border border-white dark:border-white/20 flex items-center justify-center text-slate-800 dark:text-slate-200 font-bold shadow-xs">
@@ -516,7 +507,6 @@ export function InputFormView() {
             )}
           </div>
 
-          {/* Section 5: Statutory Compliance Checkboxes */}
           <div className="bg-white/60 dark:bg-white/[0.04] backdrop-blur-2xl rounded-3xl p-6 sm:p-8 shadow-xl space-y-5 border border-white dark:border-white/20">
             <h2 className="font-extrabold text-xs uppercase tracking-wider text-slate-900 dark:text-white">
               {t.input.sectionDisclaimersTitle}

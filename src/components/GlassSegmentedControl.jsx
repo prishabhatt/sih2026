@@ -1,14 +1,5 @@
 import React from 'react';
 
-/**
- * GlassSegmentedControl
- * Inspired by VisionOS / iOS 18 liquid glass pill segmented controls (as in reference image).
- * 
- * @param {Array} options - Array of objects or strings: [{ id: 'opt1', label: 'Option 1', badge?: string }]
- * @param {string} value - Currently active option id
- * @param {function} onChange - Callback on selection change: (id) => void
- * @param {string} className - Optional container styling classes
- */
 export function GlassSegmentedControl({
   options = [],
   value,

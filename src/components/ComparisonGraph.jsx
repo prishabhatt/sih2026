@@ -32,7 +32,6 @@ export function ComparisonGraph() {
     const tick = (now) => {
       const elapsed = now - startRef.current;
       const raw = Math.min(elapsed / DURATION, 1);
-      // ease-out quart for smooth deceleration
       const eased = 1 - Math.pow(1 - raw, 4);
       setAnimProgress(eased);
       if (raw < 1) rafRef.current = requestAnimationFrame(tick);
@@ -43,13 +42,11 @@ export function ComparisonGraph() {
 
   const t = animProgress;
 
-  // ── SVG coordinate system ──
   const W = 800, H = 520;
   const PAD = { top: 55, right: 55, bottom: 60, left: 70 };
   const gL = PAD.left, gR = W - PAD.right, gT = PAD.top, gB = H - PAD.bottom;
   const gW = gR - gL, gH = gB - gT;
 
-  // ── Curves (both start near origin) ──
   const N = 160;
 
   const expoPoints = useMemo(() => {
@@ -80,20 +77,16 @@ export function ComparisonGraph() {
 
   const approxLen = 2600;
 
-  // Animated clip: reveals curves progressively from origin
   const clipRight = gL + t * (gW + 10);
 
-  // ── Endpoints ──
   const expoEnd = expoPoints[expoPoints.length - 1];
   const linearEnd = linearPoints[linearPoints.length - 1];
 
-  // ── Gap arrow (right side) ──
   const gapX = gR + 30;
   const gapTopY = expoEnd[1];
   const gapBotY = linearEnd[1];
   const gapMidY = (gapTopY + gapBotY) / 2;
 
-  // ── Colors ──
   const c = {
     axis: isDark ? 'rgba(148,163,184,0.3)' : 'rgba(100,116,139,0.35)',
     tick: isDark ? 'rgba(148,163,184,0.2)' : 'rgba(100,116,139,0.25)',
@@ -108,7 +101,6 @@ export function ComparisonGraph() {
     labelSub: isDark ? '#94A3B8' : '#64748B',
   };
 
-  // ── Inch-style tick marks ──
   const majorFrac = [0.2, 0.4, 0.6, 0.8];
   const minorFrac = [0.1, 0.3, 0.5, 0.7, 0.9];
   const majorLen = 7, minorLen = 4;
@@ -122,7 +114,6 @@ export function ComparisonGraph() {
         style={{ display: 'block' }}
       >
         <defs>
-          {/* Animated clip that reveals curves from origin */}
           <clipPath id="cg-clip">
             <rect x={0} y={0} width={clipRight} height={H} />
           </clipPath>
@@ -136,7 +127,6 @@ export function ComparisonGraph() {
           </linearGradient>
         </defs>
 
-        {/* ── Subtle dashed grid lines ── */}
         {majorFrac.map((frac, i) => (
           <React.Fragment key={`g-${i}`}>
             <line x1={gL} y1={gB - frac * gH} x2={gR} y2={gB - frac * gH}
@@ -146,7 +136,6 @@ export function ComparisonGraph() {
           </React.Fragment>
         ))}
 
-        {/* ── X-axis with inch ticks ── */}
         <line x1={gL} y1={gB} x2={gR + 8} y2={gB} stroke={c.axis} strokeWidth="1" />
         {majorFrac.map((frac, i) => (
           <line key={`xm-${i}`} x1={gL + frac * gW} y1={gB} x2={gL + frac * gW} y2={gB + majorLen}
@@ -157,7 +146,6 @@ export function ComparisonGraph() {
             stroke={c.tick} strokeWidth="0.6" />
         ))}
 
-        {/* ── Y-axis with inch ticks ── */}
         <line x1={gL} y1={gT - 8} x2={gL} y2={gB} stroke={c.axis} strokeWidth="1" />
         {majorFrac.map((frac, i) => (
           <line key={`ym-${i}`} x1={gL} y1={gB - frac * gH} x2={gL - majorLen} y2={gB - frac * gH}
@@ -168,7 +156,6 @@ export function ComparisonGraph() {
             stroke={c.tick} strokeWidth="0.6" />
         ))}
 
-        {/* ── Axis labels ── */}
         <text x={gR + 8} y={gB + 18} textAnchor="end" fill={c.axisLabel}
           fontSize="10" fontFamily="'SF Mono','Fira Code','Cascadia Code',monospace"
           fontWeight="700" letterSpacing="0.08em">
@@ -180,9 +167,7 @@ export function ComparisonGraph() {
           ↑ COMPLEXITY
         </text>
 
-        {/* ── Curves + Area fills (clipped to animate from origin) ── */}
         <g clipPath="url(#cg-clip)">
-          {/* Area fills — reveal progressively from left */}
           {t > 0.02 && (
             <>
               <path
@@ -196,14 +181,12 @@ export function ComparisonGraph() {
             </>
           )}
 
-          {/* Curve 1: Regulatory Compliance (exponential) */}
           <path
             d={buildPath(expoPoints)}
             fill="none" stroke={c.expo} strokeWidth="2.5" strokeLinecap="round"
             strokeDasharray={approxLen} strokeDashoffset={approxLen * (1 - t)}
           />
 
-          {/* Curve 2: Manual Capacity (linear) */}
           <path
             d={buildPath(linearPoints)}
             fill="none" stroke={c.linear} strokeWidth="2.5" strokeLinecap="round"
@@ -211,7 +194,6 @@ export function ComparisonGraph() {
           />
         </g>
 
-        {/* ── Endpoint dots (outside clip so they pop at the end) ── */}
         {t > 0.88 && (
           <>
             <circle cx={expoEnd[0]} cy={expoEnd[1]} r="4.5" fill={c.expo}
@@ -221,20 +203,16 @@ export function ComparisonGraph() {
           </>
         )}
 
-        {/* ── COMPLIANCE GAP — right side vertical double arrow ── */}
         {t > 0.5 && (
           <g opacity={Math.min((t - 0.5) / 0.3, 1)}>
             <line x1={gapX} y1={gapTopY + 10} x2={gapX} y2={gapBotY - 10}
               stroke={c.gap} strokeWidth="1.2" strokeDasharray="3,3" />
-            {/* Top arrowhead */}
             <polygon
               points={`${gapX},${gapTopY + 4} ${gapX - 4},${gapTopY + 13} ${gapX + 4},${gapTopY + 13}`}
               fill={c.gap} />
-            {/* Bottom arrowhead */}
             <polygon
               points={`${gapX},${gapBotY - 4} ${gapX - 4},${gapBotY - 13} ${gapX + 4},${gapBotY - 13}`}
               fill={c.gap} />
-            {/* Label rotated 90° */}
             <text x={gapX + 16} y={gapMidY} textAnchor="middle" dominantBaseline="middle"
               fill={c.labelText} fontSize="9" fontFamily="'SF Mono','Fira Code',monospace"
               fontWeight="800" letterSpacing="0.1em"
@@ -244,7 +222,6 @@ export function ComparisonGraph() {
           </g>
         )}
 
-        {/* ── Floating callout: Regulatory Complexity ── */}
         {t > 0.82 && (
           <g opacity={Math.min((t - 0.82) / 0.18, 1)}>
             <line x1={expoEnd[0]} y1={expoEnd[1]} x2={expoEnd[0] - 14} y2={expoEnd[1] - 12}
@@ -262,7 +239,6 @@ export function ComparisonGraph() {
           </g>
         )}
 
-        {/* ── Floating callout: Manual Capacity ── */}
         {t > 0.82 && (
           <g opacity={Math.min((t - 0.82) / 0.18, 1)}>
             <line x1={linearEnd[0]} y1={linearEnd[1]} x2={linearEnd[0] - 14} y2={linearEnd[1] + 14}

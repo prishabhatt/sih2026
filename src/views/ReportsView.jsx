@@ -34,7 +34,6 @@ export function ReportsView() {
     window.scrollTo(0, 0);
   }, []);
 
-  // Consolidate standards from recommendedStandards and MOCK_STANDARDS
   const selectedStds = React.useMemo(() => {
     const pool = [...recommendedStandards, ...MOCK_STANDARDS];
     const map = new Map();
@@ -53,11 +52,9 @@ export function ReportsView() {
   return (
     <div className="min-h-screen bg-[#F1F5F9] dark:bg-[#090A0F] text-slate-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 space-y-6 transition-colors duration-500 relative font-sans selection:bg-[#292524] selection:text-white">
       
-      {/* Living Aurora Background */}
       <AppleStripeBackground />
 
       <div className="max-w-4xl mx-auto space-y-6 relative z-10">
-        {/* Actions Bar */}
         <div className="flex items-center justify-between no-print">
           <button
             onClick={() => navigate('/dashboard')}
@@ -76,7 +73,6 @@ export function ReportsView() {
           </button>
         </div>
 
-        {/* Certificate Card (Elevated Paper Structure for Clean Printing) */}
         <div className="bg-white text-slate-900 rounded-3xl border border-slate-300 dark:border-white/20 p-8 sm:p-12 shadow-2xl print-page space-y-6">
           <div className="text-center pb-6 border-b border-slate-200 space-y-2">
             <div className="flex items-center justify-center gap-2 font-bold text-slate-600 text-[10px] uppercase tracking-widest">
@@ -120,7 +116,6 @@ export function ReportsView() {
             </div>
           </div>
 
-          {/* Section 1: Standards Registry */}
           <div className="space-y-3">
             <h3 className="font-extrabold text-xs text-slate-900 uppercase tracking-wider">
               {t.reports.standardsSectionTitle}
@@ -158,7 +153,6 @@ export function ReportsView() {
             </div>
           </div>
 
-          {/* Section 2: Normative Test Methods */}
           <div className="space-y-3">
             <h3 className="font-extrabold text-xs text-slate-900 uppercase tracking-wider">
               {t.reports.normativeSectionTitle}
@@ -183,12 +177,10 @@ export function ReportsView() {
             </div>
           </div>
 
-          {/* Section 3: Physical Audit & Inventory QR Pass */}
           <div className="pt-2">
             <DigitalPassportQR isDarkTheme={false} />
           </div>
 
-          {/* Section 4: Cryptographic Non-Repudiation Hash */}
           <div className="bg-slate-900 text-slate-200 p-5 rounded-2xl space-y-2 text-xs">
             <div className="flex items-center gap-2 text-emerald-400 font-bold">
               <Lock className="w-4 h-4" />
@@ -200,7 +192,6 @@ export function ReportsView() {
             </p>
           </div>
 
-          {/* Section 5: Authorized Sign-off */}
           <div className="pt-6 border-t border-slate-200 flex items-center justify-between text-xs">
             <div>
               <p className="font-bold text-slate-900">{orgProfile?.applicantName || 'Executive Engineer (Civil/Electrical)'}</p>
@@ -218,7 +209,6 @@ export function ReportsView() {
           </div>
         </div>
 
-        {/* Historical Departmental Procurement Audit Log Card */}
         <div className="bg-white/60 dark:bg-white/[0.04] backdrop-blur-2xl rounded-3xl p-6 sm:p-8 shadow-xl no-print space-y-5 border border-white dark:border-white/20">
           <div className="flex items-center gap-3 pb-4 border-b border-white/60 dark:border-white/10">
             <div className="w-9 h-9 rounded-xl bg-white/80 dark:bg-white/10 backdrop-blur-md border border-white dark:border-white/20 flex items-center justify-center text-slate-800 dark:text-slate-200 font-bold shadow-xs">

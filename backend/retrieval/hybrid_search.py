@@ -87,7 +87,6 @@ class HybridRetriever:
             rrf_scores[idx] = rrf_scores.get(idx, 0.0) + (1.0 / (k + rank + 1))
 
         for rank, (idx, _) in enumerate(sparse_results):
-            # Prioritize exact BM25 matches for regulatory tokens with 1.2x weight
             rrf_scores[idx] = rrf_scores.get(idx, 0.0) + (1.2 / (k + rank + 1))
 
         sorted_indices = sorted(rrf_scores.keys(), key=lambda x: rrf_scores[x], reverse=True)
@@ -96,7 +95,6 @@ class HybridRetriever:
         for idx in sorted_indices:
             chunk = dict(self.chunks[idx])
             
-            # Optional division filter
             if division_filter and chunk.get("division") != division_filter:
                 continue
 

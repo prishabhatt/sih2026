@@ -10,7 +10,7 @@ using PyMuPDF (fitz) and indexes them into dense + sparse chunk stores.
 import os
 import re
 import json
-import fitz  # PyMuPDF
+import fitz
 import numpy as np
 from typing import List, Dict, Any
 
@@ -45,7 +45,6 @@ def chunk_pdf(pdf_path: str, standard_meta: Dict[str, Any]) -> List[Dict[str, An
         if len(cleaned) < 80:
             continue
 
-        # Split into clause-sized paragraphs (~400-800 characters)
         paragraphs = cleaned.split(". ")
         current_chunk = []
         current_len = 0
@@ -61,7 +60,6 @@ def chunk_pdf(pdf_path: str, standard_meta: Dict[str, Any]) -> List[Dict[str, An
                 chunk_text = ". ".join(current_chunk) + "."
                 chunk_id = f"{std_code}_p{page_num + 1}_c{len(chunks) + 1}"
                 
-                # Detect if this chunk mentions key technical clauses
                 clause_match = re.search(r'(Clause\s+\d+(\.\d+)?|Table\s+\d+|Section\s+\d+)', chunk_text, re.IGNORECASE)
                 clause_header = clause_match.group(0) if clause_match else f"Page {page_num + 1}"
 
@@ -129,7 +127,6 @@ def build_corpus_index(force_reindex: bool = False):
     with open(CHUNKS_FILE, "w", encoding="utf-8") as f:
         json.dump(all_chunks, f, indent=2)
 
-    # Generate Embeddings using sentence-transformers
     print("[*] Computing dense vector embeddings with sentence-transformers...")
     from sentence_transformers import SentenceTransformer
     model = SentenceTransformer("all-MiniLM-L6-v2")

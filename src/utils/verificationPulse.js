@@ -1,20 +1,4 @@
-/**
- * Glassmorphic Action Notification Modal — for Standard Enrollment & Statutory Verification.
- * 
- * Shows a centered frosted-glass card with relevant standard code, title,
- * statutory status, and action feedback.
- * 
- * Usage:
- *   triggerVerification({
- *     title: 'Standard Added to Draft',
- *     code: 'IS 7098 (Part 2) : 2011',
- *     description: 'Crosslinked Polyethylene Insulated Cables',
- *     badge: 'Mandatory QCO Enforced',
- *     actionText: 'Enrolled in active tender schedule with normative test protocols.'
- *   });
- */
 export function triggerVerification(opts = {}) {
-  // Support both object arguments and legacy string signatures (title, message)
   let title = 'Official Identity Verified';
   let message = '2-Factor Government Token & Biometric Signature Authenticated.';
   let code = '';
@@ -32,13 +16,11 @@ export function triggerVerification(opts = {}) {
     isRemoval = Boolean(opts.isRemoval);
   }
 
-  // Remove any existing overlay
   const existing = document.getElementById('verify-overlay');
   if (existing) existing.remove();
 
   const isDark = document.documentElement.classList.contains('dark');
 
-  // Create backdrop
   const backdrop = document.createElement('div');
   backdrop.id = 'verify-overlay';
   Object.assign(backdrop.style, {
@@ -57,7 +39,6 @@ export function triggerVerification(opts = {}) {
     padding: '16px'
   });
 
-  // Create glassmorphic card
   const card = document.createElement('div');
   Object.assign(card.style, {
     background: isDark
@@ -196,7 +177,6 @@ export function triggerVerification(opts = {}) {
     ">Done</button>
   `;
 
-  // Inject keyframes if not already present
   if (!document.getElementById('verify-keyframes')) {
     const style = document.createElement('style');
     style.id = 'verify-keyframes';
@@ -213,7 +193,6 @@ export function triggerVerification(opts = {}) {
   backdrop.appendChild(card);
   document.body.appendChild(backdrop);
 
-  // Trigger entrance animation
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       backdrop.style.opacity = '1';
@@ -222,7 +201,6 @@ export function triggerVerification(opts = {}) {
     });
   });
 
-  // Dismiss function
   const dismiss = () => {
     backdrop.style.opacity = '0';
     card.style.transform = 'scale(0.95) translateY(8px)';
@@ -230,12 +208,10 @@ export function triggerVerification(opts = {}) {
     setTimeout(() => backdrop.remove(), 250);
   };
 
-  // Click backdrop or Done button to dismiss
   backdrop.addEventListener('click', (e) => {
     if (e.target === backdrop || e.target.id === 'verify-done-btn' || e.target.closest('#verify-done-btn')) dismiss();
   });
 
-  // Auto-dismiss after 2.8s
   setTimeout(dismiss, 2800);
 }
 

@@ -36,7 +36,6 @@ function AppLayout({ children }) {
         {children}
       </main>
       <SampleDataDrawer />
-      {/* Global AI Mascot Chatbot Assistant on ALL Pages */}
       <ChatbotWidget />
       {!isCustomOrAuthPage && <Footer />}
     </div>

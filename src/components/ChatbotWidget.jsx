@@ -26,17 +26,15 @@ import {
 import { useProcurement } from '../context/ProcurementContext';
 import { askCORA, buildHistory } from '../utils/coraAPI';
 
-// Strip any raw HTML tags the model accidentally outputs (e.g. <br/>, <br>, <strong>)
 const sanitizeMarkdown = (text) => {
   if (!text) return text;
   return text
-    .replace(/<br\s*\/?>/gi, '\n')       // <br> / <br/> → newline
-    .replace(/<\/?(strong|b)>/gi, '**')  // <strong> → **
-    .replace(/<\/?(em|i)>/gi, '*')       // <em> → *
-    .replace(/<[^>]+>/g, '');            // strip any remaining HTML tags
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/?(strong|b)>/gi, '**')
+    .replace(/<\/?(em|i)>/gi, '*')
+    .replace(/<[^>]+>/g, '');
 };
 
-// Comprehensive Knowledge Base for CORA
 const BOT_KNOWLEDGE = [
   {
     keywords: ['what is this website', 'what is this platform', 'what is this app', 'about this website', 'what does this do', 'purpose of this website', 'what is isync', 'overview of platform'],
@@ -138,7 +136,6 @@ export function ChatbotWidget() {
 
   const messagesEndRef = useRef(null);
 
-  // Dynamic contextual taglines respective to each page
   const getPageTagline = () => {
     switch (location.pathname) {
       case '/':
@@ -227,11 +224,9 @@ export function ChatbotWidget() {
     if (!textToSend) setInputText('');
     setIsTyping(true);
 
-    // Build streaming placeholder message
     const botMsgId = Date.now() + 1;
     streamingMsgIdRef.current = botMsgId;
 
-    // First check local knowledge base for fast rich-card responses
     const lowerQuery = query.toLowerCase().replace(/[?.,!]/g, ' ').trim();
     const matchedEntry = BOT_KNOWLEDGE.find((entry) =>
       entry.keywords.some((kw) => {
@@ -241,7 +236,6 @@ export function ChatbotWidget() {
     );
 
     if (matchedEntry) {
-      // Serve instantly from local KB as a rich card, then also ask the AI for more detail
       const cardReply = {
         id: botMsgId,
         sender: 'bot',
@@ -258,9 +252,7 @@ export function ChatbotWidget() {
       return;
     }
 
-    // No local match — call GPT OSS 120B
     try {
-      // Add a streaming placeholder
       const placeholderMsg = {
         id: botMsgId,
         sender: 'bot',
@@ -272,7 +264,6 @@ export function ChatbotWidget() {
       setIsStreaming(true);
       setIsTyping(false);
 
-      // Build history from all messages (excluding placeholder)
       const historyForAI = buildHistory([
         ...messages,
         userMessage,
@@ -289,7 +280,6 @@ export function ChatbotWidget() {
         );
       });
 
-      // Finalize message — remove streaming flag, add suggestions
       setMessages((prev) =>
         prev.map((m) =>
           m.id === botMsgId
@@ -405,9 +395,6 @@ export function ChatbotWidget() {
 
   return (
     <>
-      {/* ========================================================================= */}
-      {/* 1. FLOATING MASCOT BUTTON (WHEN CHATBOT IS CLOSED)                         */}
-      {/* ========================================================================= */}
       {!isOpen && (
         <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2.5">
           <button
@@ -420,7 +407,6 @@ export function ChatbotWidget() {
             <span>{tagline.prefix} <strong>{tagline.action}</strong></span>
           </button>
 
-          {/* Small Circular Trigger Button */}
           <button
             type="button"
             onClick={() => { setIsOpen(true); setIsMinimized(false); }}
@@ -447,9 +433,6 @@ export function ChatbotWidget() {
         </div>
       )}
 
-      {/* ========================================================================= */}
-      {/* 2. MINIMIZED DOCK BAR (WHEN MINIMIZED WITH - BUTTON)                      */}
-      {/* ========================================================================= */}
       {isOpen && isMinimized && (
         <div 
           onClick={() => setIsMinimized(false)}
@@ -494,9 +477,6 @@ export function ChatbotWidget() {
         </div>
       )}
 
-      {/* ========================================================================= */}
-      {/* 3. FULL CHATBOT WINDOW (WHEN OPEN AND NOT MINIMIZED)                      */}
-      {/* ========================================================================= */}
       {isOpen && !isMinimized && (
         <div
           className={`fixed z-50 transition-all duration-300 flex flex-col ${
@@ -505,10 +485,8 @@ export function ChatbotWidget() {
               : 'bottom-20 right-2 left-2 sm:left-auto sm:right-6 w-[calc(100vw-16px)] sm:w-[520px] md:w-[560px] h-[700px] max-h-[88vh]'
           } rounded-[28px] bg-[#F6F8FA] dark:bg-[#181A20] border-2 border-slate-200/90 dark:border-2 dark:border-blue-500/30 shadow-[0_25px_70px_rgba(0,0,0,0.5),0_0_35px_rgba(37,99,235,0.15)] dark:shadow-[0_0_60px_-15px_rgba(37,99,235,0.3)] ring-1 ring-black/5 overflow-hidden animate-in fade-in zoom-in-95 duration-200`}
         >
-          {/* Top Royal Sovereign Navy Header */}
           <div className="px-4 py-3.5 bg-gradient-to-r from-[#0C234E] via-[#123675] to-[#1B4B9A] dark:bg-none dark:bg-zinc-950/80 border-b border-blue-400/20 dark:border-blue-500/20 text-white flex items-center justify-between gap-3 shadow-md flex-shrink-0">
             <div className="flex items-center gap-2.5">
-              {/* Avatar Icon */}
               <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/30 bg-[#0A1938] flex-shrink-0 shadow-inner flex items-center justify-center p-0.5">
                 <img
                   src="/mascot.png"
@@ -517,7 +495,6 @@ export function ChatbotWidget() {
                 />
               </div>
 
-              {/* Title & Status */}
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="font-extrabold text-sm sm:text-base text-white tracking-wide drop-shadow-xs">
@@ -534,7 +511,6 @@ export function ChatbotWidget() {
               </div>
             </div>
 
-            {/* Header Right Action Icons */}
             <div className="flex items-center gap-1.5 text-white/80">
               <button
                 type="button"
@@ -578,7 +554,6 @@ export function ChatbotWidget() {
             </div>
           </div>
 
-          {/* Chat Messages Body */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4 text-xs sm:text-sm">
             {messages.map((msg, index) => {
               const isBot = msg.sender === 'bot';
@@ -594,23 +569,18 @@ export function ChatbotWidget() {
                         : 'bg-[#2563EB] dark:bg-blue-600 text-white dark:text-white rounded-br-none shadow-md font-medium'
                     }`}
                   >
-                    {/* Bot Message Formatted Text — rendered as GFM Markdown */}
                     {msg.text !== undefined && (
                       <div className={`leading-relaxed font-normal text-xs sm:text-[13px] ${msg.isError ? 'text-amber-700 dark:text-amber-300' : 'text-slate-800 dark:text-zinc-100'}`}>
                         {msg.text ? (
                           <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
                             components={{
-                              // Headings
                               h1: ({children}) => <h1 className="text-sm font-extrabold text-blue-700 dark:text-sky-300 mt-2 mb-1">{children}</h1>,
                               h2: ({children}) => <h2 className="text-xs font-bold text-blue-700 dark:text-sky-300 mt-2 mb-1 uppercase tracking-wide">{children}</h2>,
                               h3: ({children}) => <h3 className="text-xs font-bold text-slate-700 dark:text-slate-200 mt-1.5 mb-0.5">{children}</h3>,
-                              // Paragraph
                               p: ({children}) => <p className="mb-1.5 last:mb-0 leading-relaxed">{children}</p>,
-                              // Bold & italic
                               strong: ({children}) => <strong className="font-bold text-slate-900 dark:text-white">{children}</strong>,
                               em: ({children}) => <em className="italic text-slate-600 dark:text-slate-300">{children}</em>,
-                              // Lists
                               ul: ({children}) => <ul className="my-1 ml-3 space-y-0.5 list-none">{children}</ul>,
                               ol: ({children}) => <ol className="my-1 ml-3 space-y-0.5 list-decimal list-inside">{children}</ol>,
                               li: ({children}) => (
@@ -619,19 +589,16 @@ export function ChatbotWidget() {
                                   <span>{children}</span>
                                 </li>
                               ),
-                              // Block code (react-markdown v10: use pre wrapper)
                               pre: ({children}) => (
                                 <pre className="my-1.5 p-2 rounded-xl bg-slate-100 dark:bg-zinc-900 overflow-x-auto text-[11px] font-mono text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-zinc-700">
                                   {children}
                                 </pre>
                               ),
-                              // Inline code — no parent pre means inline
                               code: ({children, className}) => (
                                 <code className={`font-mono text-[11px] ${className ? '' : 'px-1 py-0.5 rounded bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-sky-300'} ${className || ''}`}>
                                   {children}
                                 </code>
                               ),
-                              // Tables — GFM (break out of bubble padding for full-width scroll)
                               table: ({children}) => (
                                 <div className="my-2 -mx-4 overflow-x-auto border-y border-slate-200 dark:border-zinc-700">
                                   <table className="border-collapse" style={{minWidth:'100%', tableLayout:'auto'}}>{children}</table>
@@ -642,11 +609,8 @@ export function ChatbotWidget() {
                               tr: ({children}) => <tr className="even:bg-slate-50 dark:even:bg-zinc-800/50 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors align-top">{children}</tr>,
                               th: ({children}) => <th className="px-3 py-2 text-left font-bold text-white text-[10px] uppercase tracking-wide whitespace-nowrap">{children}</th>,
                               td: ({children}) => <td className="px-3 py-2 text-slate-700 dark:text-slate-200 align-top leading-snug text-[11px]" style={{minWidth:'100px', maxWidth:'220px', wordBreak:'break-word'}}>{children}</td>,
-                              // Blockquote
                               blockquote: ({children}) => <blockquote className="my-1.5 pl-3 border-l-2 border-blue-400 text-slate-600 dark:text-slate-400 italic">{children}</blockquote>,
-                              // Horizontal rule
                               hr: () => <hr className="my-2 border-slate-200 dark:border-zinc-700" />,
-                              // Links
                               a: ({href, children}) => <a href={href} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-sky-400 underline underline-offset-2 hover:text-blue-800">{children}</a>,
                             }}
                           >
@@ -659,7 +623,6 @@ export function ChatbotWidget() {
                       </div>
                     )}
 
-                    {/* Rich Knowledge Card */}
                     {msg.card && (
                       <div className="space-y-2.5 mt-1 text-xs sm:text-[13px]">
                         <div className="flex items-center gap-1.5 text-blue-700 dark:text-sky-300 font-extrabold text-xs sm:text-sm">
@@ -717,7 +680,6 @@ export function ChatbotWidget() {
                       </div>
                     )}
 
-                    {/* Generic Action Button */}
                     {msg.action && (
                       <button
                         onClick={() => handleActionClick(msg.action)}
@@ -728,7 +690,6 @@ export function ChatbotWidget() {
                       </button>
                     )}
 
-                    {/* Footer Row inside bot message card */}
                     {isBot && (
                       <div className="flex items-center justify-end gap-2 mt-3 pt-2 border-t border-slate-300/50 dark:border-white/10 text-[11px] text-slate-500 dark:text-slate-400">
                         <button
@@ -746,7 +707,6 @@ export function ChatbotWidget() {
                     )}
                   </div>
 
-                  {/* Suggestion Chips Below Bot Message */}
                   {msg.suggestions && index === messages.length - 1 && (
                     <div className="flex flex-wrap gap-2 mt-3 max-w-[98%]">
                       {msg.suggestions.map((sug, sIdx) => (
@@ -764,7 +724,6 @@ export function ChatbotWidget() {
               );
             })}
 
-            {/* Typing Indicator */}
             {isTyping && (
               <div className="flex items-center gap-2 p-3.5 rounded-2xl bg-[#ECEEF2] dark:bg-[#1C2945] border border-slate-200/50 dark:border-white/15 w-24">
                 <span className="w-2 h-2 rounded-full bg-blue-500 animate-bounce" />
@@ -776,7 +735,6 @@ export function ChatbotWidget() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Bottom Chat Input Bar */}
           <div className="p-3 sm:p-3.5 border-t border-slate-200/80 dark:border-t dark:border-zinc-800 bg-[#F6F8FA] dark:bg-zinc-950/80 flex-shrink-0 space-y-2">
             <form
               onSubmit={(e) => {
@@ -785,7 +743,6 @@ export function ChatbotWidget() {
               }}
               className="relative flex items-center bg-[#E5E9EE] dark:bg-zinc-900 border border-slate-200/90 dark:border dark:border-zinc-700 rounded-full px-3 py-1.5 gap-2 shadow-inner"
             >
-              {/* Paperclip Attachment Icon */}
               <button
                 type="button"
                 className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition cursor-pointer"
@@ -794,7 +751,6 @@ export function ChatbotWidget() {
                 <Paperclip className="w-4 h-4" />
               </button>
 
-              {/* Text Input */}
               <input
                 type="text"
                 value={inputText}
@@ -803,7 +759,6 @@ export function ChatbotWidget() {
                 className="w-full bg-transparent text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400 focus:outline-none py-1.5"
               />
 
-              {/* Voice Input Mic */}
               <button
                 type="button"
                 onClick={handleVoiceInput}
@@ -817,7 +772,6 @@ export function ChatbotWidget() {
                 {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
               </button>
 
-              {/* Circular Send Button */}
               <button
                 type="submit"
                 disabled={!inputText.trim()}
@@ -828,7 +782,6 @@ export function ChatbotWidget() {
               </button>
             </form>
 
-            {/* Micro Footer Legend */}
             <div className="flex items-center justify-between px-2 text-[10px] text-slate-400 font-medium">
               <span className="flex items-center gap-1">
                 <Lock className="w-3 h-3 text-slate-400" />

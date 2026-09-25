@@ -1,26 +1,5 @@
 import React, { useState, useId } from "react";
 
-/**
- * AnimatedLogo (LogoReveal)
- * Phase 1 (0–1.5s): the "IS" nucleus wipes on in a subtle glowing copper tone, a
- * circular boundary fades in around it, and three tilted elliptical orbit
- * rings (-20deg, 40deg, 80deg) draw themselves in with a true SVG
- * stroke-dashoffset animation.
- * Phase 2 (1.5s on): each ring keeps spinning in smooth counter-rotation
- * once it finishes drawing.
- * Phase 3 (2.2s–3.5s): the icon stays locked in place, still spinning, and
- * the full word "ISync" glides out as one block (pure slide, no fade —
- * masked, not faded) from behind the icon toward the right.
- *
- * Background is fully transparent so it drops cleanly into a light navbar.
- *
- * Props:
- *  - word/end   : text split ("IS" nucleus + "ync" so the mask spells "ISync")
- *  - size       : icon box size in px
- *  - textColor  : color of the "ISync" wordmark — pass a light color in dark mode
- *  - showReplay : set true to show manual replay button (default: false)
- *  - showText   : set false to hide the sliding "ISync" text (default: true)
- */
 export function LogoReveal({
   word = "IS",
   end = "ync",

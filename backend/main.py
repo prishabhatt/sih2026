@@ -11,12 +11,11 @@ import os
 import sys
 from pathlib import Path
 
-# Add project root to sys.path so 'import backend...' works regardless of where the command is run
 project_root = str(Path(__file__).resolve().parent.parent)
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-import pymupdf as fitz  # PyMuPDF
+import pymupdf as fitz
 from typing import Optional, List, Dict, Any
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -32,7 +31,6 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Enable CORS for the React frontend (running on Vite http://localhost:5173 or similar)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -150,7 +148,6 @@ def extract_document_text(filename: str, file_bytes: bytes) -> tuple[str, Option
         )
 
     else:
-        # Fallback to UTF-8 text with fallback to latin-1
         try:
             extracted = file_bytes.decode("utf-8")
         except UnicodeDecodeError:
@@ -180,7 +177,6 @@ async def audit_tender(
         raise HTTPException(status_code=400, detail="Please upload a tender file or provide text_content")
 
     if parse_warning and not extracted_text.strip():
-        # Clean rejection for unparseable image or bad document
         return {
             "status": "Audit Rejected: Unreadable Document",
             "is_valid_tender": False,
@@ -202,11 +198,8 @@ async def audit_tender(
     if not extracted_text.strip():
         raise HTTPException(status_code=400, detail="No readable text found in the provided document")
 
-    # Run 4-Tier Verification Protocol & Domain Classification
     audit_data = tender_auditor.audit_tender_document(extracted_text)
 
-    # If the document is classified as a non-tender (e.g. Letter of Recommendation, resume),
-    # reject immediately with 0% score without running wasteful RAG queries.
     if not audit_data.get("is_valid_tender", True):
         return {
             "status": "Audit Rejected: Non-Tender Document",
@@ -230,7 +223,6 @@ async def audit_tender(
             "cited_clauses": []
         }
 
-    # Run RAG synthesis query for valid tender documents
     first_std = audit_data["mapped_standards"][0]["governing_standard"] if audit_data["mapped_standards"] else "IS Standards"
     audit_query = f"Audit the following tender technical specification for mandatory BIS standards and QCO compliance for {first_std}: {extracted_text[:1500]}"
     audit_result = rag_pipeline.run(audit_query, top_k=4)

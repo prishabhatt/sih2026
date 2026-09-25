@@ -15,7 +15,6 @@ from typing import Dict, Any, List
 
 class TenderAuditor:
     def __init__(self):
-        # Known standards and their normative regulatory facts
         self.standards_db = {
             "IS 1786": {
                 "full_code": "IS 1786 : 2008",
@@ -76,7 +75,6 @@ class TenderAuditor:
         """
         clean = text.lower()
 
-        # Non-tender / irrelevant document signatures
         non_tender_patterns = [
             (r'\b(?:letter of recommendation|recommend(?:ation)?\s+(?:for|mr|ms|dr)|internship programme|student of|college of engineering|ph\.?d|curriculum vitae|\bresume\b|transcript|marksheet|bonafide)\b',
              "Academic Letter of Recommendation / Academic Credential"),
@@ -88,7 +86,6 @@ class TenderAuditor:
 
         for pattern, doc_type in non_tender_patterns:
             if re.search(pattern, clean):
-                # Verify if it also lacks strong procurement BOQ structures
                 has_boq = bool(re.search(r'\b(?:bill of quantities|\bboq\b|schedule of requirements|notice inviting tender|\bnit\b)\b', clean))
                 if not has_boq:
                     return {
@@ -97,7 +94,6 @@ class TenderAuditor:
                         "rejection_reason": f"The uploaded file has been detected as a '{doc_type}'. It contains zero public procurement specifications, BOQ schedules, or statutory Indian Standards clauses."
                     }
 
-        # Tender / Procurement affirmative indicators
         tender_signals = [
             r'\b(?:tender|notice inviting tender|\bnit\b|bidding document|bill of quantities|\bboq\b|schedule of requirements|scope of work|procurement|gem bid|cppp)\b',
             r'\b(?:technical specification|normative clause|acceptance criteria|tolerance|tensile|elongation|dielectric|insulation|hydrostatic|yield stress)\b',
@@ -107,7 +103,6 @@ class TenderAuditor:
 
         signal_hits = sum(1 for pat in tender_signals if re.search(pat, clean))
 
-        # Words count check
         words = clean.split()
         if len(words) < 15:
             return {
@@ -136,7 +131,6 @@ class TenderAuditor:
         lines = text.splitlines()
         clean_text = text.replace('\r', ' ')
 
-        # ─── TIER 0: DOCUMENT CLASSIFICATION & DOMAIN INTEGRITY GUARD ─────────
         classification = self.classify_tender_document(clean_text)
         if not classification["is_valid_tender"]:
             return {
@@ -152,18 +146,15 @@ class TenderAuditor:
                 "raw_material_audit_breakdown": {}
             }
 
-        # ─── TIER 1: STRICT ITEM-BY-ITEM RETRIEVAL & ALIGNMENT ───────────────
         mapped_standards = []
         hallucinated_purged = []
 
-        # Detect explicitly cited IS codes
         has_is1786 = bool(re.search(r'\bIS\s*1786\b', clean_text, re.IGNORECASE))
         has_is694 = bool(re.search(r'\bIS\s*694\b', clean_text, re.IGNORECASE))
         has_is4984 = bool(re.search(r'\bIS\s*4984\b', clean_text, re.IGNORECASE))
         has_is10322 = bool(re.search(r'\bIS\s*10322\b', clean_text, re.IGNORECASE))
         has_is14543 = bool(re.search(r'\bIS\s*14543\b', clean_text, re.IGNORECASE))
 
-        # Check for commonly hallucinated standards
         has_is7098 = bool(re.search(r'\bIS\s*7098\b', clean_text, re.IGNORECASE))
         has_is13252 = bool(re.search(r'\bIS\s*13252\b', clean_text, re.IGNORECASE))
 
@@ -185,11 +176,9 @@ class TenderAuditor:
         qco_violations_count = 0
         total_items_count = 0
 
-        # Item 1: High Tensile TMT Rebars (Fe 500D)
         if has_is1786 or "FE 500D" in clean_text.upper():
             total_items_count += 1
             item_status = "COMPLIANT"
-            # Tier 3 check: Fe 500D Elongation Check
             elongation_match = re.search(r'elongation[^\d]*(\d+(?:\.\d+)?)\s*%', clean_text, re.IGNORECASE)
             if elongation_match:
                 elongation_val = float(elongation_match.group(1))
@@ -214,11 +203,9 @@ class TenderAuditor:
                 "qco_enforced": True
             })
 
-        # Item 2: 1.1 kV PVC Insulated Armoured Cables
         if has_is694 or "1.1 KV" in clean_text.upper() or "PVC INSULATED" in clean_text.upper():
             total_items_count += 1
             item_status = "COMPLIANT"
-            # Tier 2 check: Startup exemption or in-house test cert bypass
             if re.search(r'(?:unbranded|in-house|startup\s*participation|equivalent\s*in-house)', clean_text, re.IGNORECASE):
                 item_status = "STATUTORY_QCO_EVASION"
                 qco_violations_count += 1
@@ -241,11 +228,9 @@ class TenderAuditor:
                 "qco_enforced": True
             })
 
-        # Item 3: HDPE Pressure Pipes
         if has_is4984 or "HDPE" in clean_text.upper() or "POLYETHYLENE" in clean_text.upper():
             total_items_count += 1
             item_status = "COMPLIANT"
-            # Tier 3 check: Recycled regrind plastic blend allowance
             if re.search(r'(?:recycled|regrind|scrap)\s*(?:PE|plastic|material)?', clean_text, re.IGNORECASE):
                 item_status = "FEEDSTOCK_CONTAMINATION"
                 violations.append({
@@ -267,11 +252,9 @@ class TenderAuditor:
                 "qco_enforced": True
             })
 
-        # Item 4: Commercial LED Roadway Luminaires
         if has_is10322 or "LUMINAIRE" in clean_text.upper() or "ROADWAY" in clean_text.upper():
             total_items_count += 1
             item_status = "COMPLIANT"
-            # Tier 4 check: Scheme-I (ISI Mark / CML) vs Scheme-II (CRS Registration)
             if re.search(r'(?:Scheme-I|ISI\s*Mark|CML\s*factory\s*license)', clean_text, re.IGNORECASE) and not re.search(r'Scheme-II|CRS', clean_text, re.IGNORECASE):
                 item_status = "CONFORMITY_SCHEME_MISMATCH"
                 violations.append({
@@ -293,7 +276,6 @@ class TenderAuditor:
                 "qco_enforced": True
             })
 
-        # Item 5: Packaged Natural Drinking Water Dispensers
         if has_is14543 or "PACKAGED" in clean_text.upper() or "WATER DISPENSERS" in clean_text.upper():
             total_items_count += 1
             mapped_standards.append({
@@ -306,22 +288,16 @@ class TenderAuditor:
                 "qco_enforced": True
             })
 
-        # ─── TIER 2 & SCORING RULE: STATUTORY QCO SCORE ───────────────────────
-        # If an item belongs to a gazetted QCO and allows unbranded / evasion clauses,
-        # score MUST NOT be 100%. Set strictly based on legally enforceable clauses.
         if total_items_count > 0:
             compliant_items = sum(1 for m in mapped_standards if m["regulatory_status"] == "COMPLIANT")
             statutory_qco_score = round((compliant_items / total_items_count) * 100, 1)
         else:
             statutory_qco_score = 0.0
 
-        # ─── TIER 3: RAW MATERIAL TEST & FEEDSTOCK COVERAGE ──────────────────
-        # Extract ladle chemistry, conductor metal, resin specs, and water parameters
         raw_material_audit = {}
         matched_protocols = 0
         total_protocols = 5
 
-        # 1. Civil Steel Chemistry
         if re.search(r'C\s*≤|S\s*≤|P\s*≤|Yield strength|UTS/YS', clean_text, re.IGNORECASE):
             matched_protocols += 1
             raw_material_audit["civil_steel_chemistry"] = {
@@ -330,7 +306,6 @@ class TenderAuditor:
                 "status": "MAPPED"
             }
 
-        # 2. Electrical Conductor & Dielectric
         if re.search(r'electrolytic copper|PVC dielectric|IS 3975', clean_text, re.IGNORECASE):
             matched_protocols += 1
             raw_material_audit["electrical_conductors"] = {
@@ -339,7 +314,6 @@ class TenderAuditor:
                 "status": "MAPPED"
             }
 
-        # 3. Polymer Resin & Hydrostatic Testing
         if re.search(r'PE 100|carbon black|hydrostatic', clean_text, re.IGNORECASE):
             matched_protocols += 1
             raw_material_audit["polymer_resin"] = {
@@ -348,7 +322,6 @@ class TenderAuditor:
                 "status": "MAPPED"
             }
 
-        # 4. Luminaire Efficacy & Ingress
         if re.search(r'lm/W|CCT|CRI|THD|IP66', clean_text, re.IGNORECASE):
             matched_protocols += 1
             raw_material_audit["luminaire_parameters"] = {
@@ -357,7 +330,6 @@ class TenderAuditor:
                 "status": "MAPPED"
             }
 
-        # 5. Potable Consumable Bounds
         if re.search(r'TDS|coliforms|RO \+ UV', clean_text, re.IGNORECASE):
             matched_protocols += 1
             raw_material_audit["water_consumables"] = {
@@ -384,5 +356,4 @@ class TenderAuditor:
             "raw_material_audit_breakdown": raw_material_audit
         }
 
-# Singleton instance
 tender_auditor = TenderAuditor()

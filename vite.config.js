@@ -11,7 +11,6 @@ export default defineConfig(({ mode }) => {
       port: 3000,
       open: false,
       proxy: {
-        // Proxy /openai/* → OpenAI base URL to avoid CORS in local dev
         '/openai': {
           target: env.VITE_OPENAI_BASE_URL || 'https://api.groq.com/openai/v1',
           changeOrigin: true,

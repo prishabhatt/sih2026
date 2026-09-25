@@ -19,7 +19,6 @@ export function ComplianceMeter() {
   const [displayScore, setDisplayScore] = useState(overallScore);
   const prevScoreRef = useRef(overallScore);
 
-  // Smooth responsive interpolation on score change
   useEffect(() => {
     const start = prevScoreRef.current;
     const end = overallScore;
@@ -30,7 +29,7 @@ export function ComplianceMeter() {
       return;
     }
 
-    const duration = 500; // ms
+    const duration = 500;
     const startTime = performance.now();
 
     const animateCount = (now) => {
@@ -51,7 +50,6 @@ export function ComplianceMeter() {
     return () => cancelAnimationFrame(countReq);
   }, [overallScore]);
 
-  // Full 360-Degree Circle Geometry
   const radius = 80;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (Math.min(100, Math.max(0, displayScore)) / 100) * circumference;
@@ -98,7 +96,6 @@ export function ComplianceMeter() {
   return (
     <div className="bg-white/80 dark:bg-[#0E1322]/80 backdrop-blur-2xl rounded-3xl p-5 sm:p-6 shadow-xl border border-slate-200/90 dark:border-white/[0.08] flex flex-col space-y-5 transition-all hover:shadow-2xl group relative">
       
-      {/* Header */}
       <div>
         <div className="flex items-center gap-1.5 text-slate-900 dark:text-white font-black text-[11px] sm:text-xs uppercase tracking-wider">
           <Award className="w-3.5 h-3.5 text-amber-500 shrink-0" />
@@ -109,26 +106,22 @@ export function ComplianceMeter() {
         </p>
       </div>
 
-      {/* Circle Gauge Container with Central Readout */}
       <div className="flex flex-col items-center justify-center pt-1 pb-2">
         <div className="relative w-56 h-56 flex items-center justify-center">
           <svg className="w-full h-full transform" viewBox="0 0 240 240">
             <defs>
-              {/* Refined Sovereign Slate Arc Gradient */}
               <linearGradient id="scoreArcGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#1E3A5F" />
                 <stop offset="50%" stopColor="#334155" />
                 <stop offset="100%" stopColor="#0F172A" />
               </linearGradient>
 
-              {/* Light Mode Inner Orb Radial */}
               <radialGradient id="orbGradLight" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
                 <stop offset="70%" stopColor="#F8FAFC" stopOpacity="0.9" />
                 <stop offset="100%" stopColor="#F1F5F9" stopOpacity="0.8" />
               </radialGradient>
 
-              {/* Dark Mode Inner Orb Radial */}
               <radialGradient id="orbGradDark" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stopColor="#1E293B" stopOpacity="0.95" />
                 <stop offset="70%" stopColor="#0F172A" stopOpacity="0.9" />
@@ -136,7 +129,6 @@ export function ComplianceMeter() {
               </radialGradient>
             </defs>
 
-            {/* Central Circular Dial Surface */}
             <g>
               <circle
                 cx="120"
@@ -155,7 +147,6 @@ export function ComplianceMeter() {
                 filter="drop-shadow(0 4px 16px rgba(0,0,0,0.4))"
               />
 
-              {/* Glass Highlight Rim */}
               <circle
                 cx="120"
                 cy="120"
@@ -165,7 +156,6 @@ export function ComplianceMeter() {
               />
             </g>
 
-            {/* Background Circular Track */}
             <circle
               cx="120"
               cy="120"
@@ -175,7 +165,6 @@ export function ComplianceMeter() {
               fill="transparent"
             />
 
-            {/* Active Progress Stroke */}
             <circle
               cx="120"
               cy="120"
@@ -193,7 +182,6 @@ export function ComplianceMeter() {
             />
           </svg>
 
-          {/* Center Score Readout */}
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none select-none">
             <span className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight leading-none">
               {displayScore}%
@@ -204,7 +192,6 @@ export function ComplianceMeter() {
           </div>
         </div>
 
-        {/* Contextual Status Message */}
         <div className="text-center mt-1 space-y-0.5">
           <p className="text-xs font-bold text-slate-900 dark:text-white tracking-tight flex items-center justify-center gap-1.5">
             <span>{statusText}</span>
@@ -215,7 +202,6 @@ export function ComplianceMeter() {
         </div>
       </div>
 
-      {/* Metric Breakdown Bars with Sophisticated Slate Popovers */}
       <div className="space-y-3 text-xs pt-3 border-t border-slate-200/80 dark:border-white/[0.08]">
         {Object.entries(metricDetails).map(([key, item]) => {
           const isInfoOpen = activeInfoKey === key;
@@ -228,7 +214,6 @@ export function ComplianceMeter() {
                 <div className="flex items-center gap-2">
                   <span>{item.title}</span>
                   
-                  {/* Classy Neutral Info Button */}
                   <button
                     type="button"
                     onClick={(e) => {
@@ -248,7 +233,6 @@ export function ComplianceMeter() {
                 <span className="text-slate-950 dark:text-white font-extrabold">{item.score}%</span>
               </div>
 
-              {/* Progress Bar */}
               <div className="w-full bg-slate-200/80 dark:bg-white/10 h-2 rounded-full overflow-hidden p-0.5">
                 <div
                   className={`bg-gradient-to-r ${item.color} h-full rounded-full transition-all duration-700 shadow-2xs`}
@@ -260,7 +244,6 @@ export function ComplianceMeter() {
                 {item.shortDesc}
               </p>
 
-              {/* Expandable Classy Neutral Explanation Card */}
               {isInfoOpen && (
                 <div className="mt-2.5 p-3.5 rounded-2xl bg-white dark:bg-[#0B1120] border border-slate-200 dark:border-white/15 shadow-xl text-slate-800 dark:text-slate-200 space-y-2.5 animate-in fade-in slide-in-from-top-1 duration-150">
                   <div className="flex items-center justify-between">
@@ -290,7 +273,6 @@ export function ComplianceMeter() {
         })}
       </div>
 
-      {/* Advice Note */}
       <div className="p-3.5 rounded-2xl bg-slate-100/80 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/[0.08] text-[11px] text-slate-700 dark:text-slate-300 flex items-start gap-2.5 shadow-2xs">
         <Info className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
         <p className="leading-relaxed font-medium">

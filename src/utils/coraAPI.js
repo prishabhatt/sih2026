@@ -1,10 +1,4 @@
-/**
- * coraAPI.js
- * CORA Copilot — AI service layer for GPT OSS 120B
- * ISync Standards Recommendation Engine · SIH 2026
- */
 
-// ─── System Prompt ──────────────────────────────────────────────────────────
 export const CORA_SYSTEM_PROMPT = `
 You are CORA (Compliance & Operations Recommendation Assistant), the official AI Copilot of ISync — India's institutional AI-powered public procurement intelligence portal, built for Smart India Hackathon (SIH) 2026.
 
@@ -133,7 +127,6 @@ Current date: ${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 
 Platform: ISync v1.0 · SIH 2026
 `.trim();
 
-// ─── API Call ────────────────────────────────────────────────────────────────
 
 const API_KEY  = import.meta.env.VITE_OPENAI_API_KEY;
 const BASE_URL = import.meta.env.VITE_OPENAI_BASE_URL || 'https://api.openai.com/v1';
@@ -142,17 +135,6 @@ const MAX_TOKENS = parseInt(import.meta.env.VITE_AI_MAX_TOKENS || '1024', 10);
 const TEMPERATURE = parseFloat(import.meta.env.VITE_AI_TEMPERATURE || '0.3');
 const STREAM = import.meta.env.VITE_AI_STREAM === 'true';
 
-/**
- * Sends a message to CORA Copilot (Direct LLM via Groq / GPT-OSS-120B with System Prompt).
- * No RAG pipeline — purely prompt-engineered intelligence.
- *
- * @param {Array<{role: 'user'|'assistant', content: string}>} conversationHistory
- *   Full chat history (excluding the system prompt — this function prepends it).
- * @param {function(string): void} [onStreamChunk]
- *   Optional streaming callback. Called with each incremental text chunk.
- *   If provided and VITE_AI_STREAM=true, streaming mode is used.
- * @returns {Promise<string>} The full assistant response text.
- */
 export async function askCORA(conversationHistory, onStreamChunk) {
   if (!API_KEY || API_KEY === 'your_api_key_here') {
     throw new Error('CORA_NO_KEY');
@@ -185,7 +167,6 @@ export async function askCORA(conversationHistory, onStreamChunk) {
     throw new Error(`CORA_API_ERROR:${response.status}:${errBody}`);
   }
 
-  // ── Streaming mode ────────────────────────────────────────────────────────
   if (useStream) {
     const reader = response.body.getReader();
     const decoder = new TextDecoder('utf-8');
@@ -209,7 +190,6 @@ export async function askCORA(conversationHistory, onStreamChunk) {
             onStreamChunk(delta);
           }
         } catch {
-          // ignore malformed SSE chunks
         }
       }
     }
@@ -217,19 +197,10 @@ export async function askCORA(conversationHistory, onStreamChunk) {
     return fullText;
   }
 
-  // ── Non-streaming mode ────────────────────────────────────────────────────
   const data = await response.json();
   return data.choices?.[0]?.message?.content || '';
 }
 
-/**
- * Builds the conversationHistory array from the widget's messages state.
- * Maps bot messages → 'assistant', user messages → 'user'.
- * Skips messages that are pure UI cards with no text content.
- *
- * @param {Array} messages - React state messages array from ChatbotWidget
- * @returns {Array<{role: string, content: string}>}
- */
 export function buildHistory(messages) {
   return messages
     .filter((m) => m.text && m.text.trim())

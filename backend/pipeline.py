@@ -23,14 +23,12 @@ import urllib.request
 from typing import Dict, Any, List, Optional
 from dotenv import load_dotenv
 
-# Ensure UTF-8 output on Windows consoles
 if sys.stdout.encoding != 'utf-8':
     try:
         sys.stdout.reconfigure(encoding='utf-8')
     except Exception:
         pass
 
-# Load environment from sih2026/.env if present
 SIH_ENV = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "sih2026", ".env")
 if os.path.exists(SIH_ENV):
     load_dotenv(SIH_ENV)
@@ -45,7 +43,6 @@ class GraphAugmentedRAGPipeline:
         self.kg = standards_kg
         self.retriever = HybridRetriever()
 
-        # LLM Configurations
         self.api_key = os.getenv("VITE_OPENAI_API_KEY", "")
         self.base_url = os.getenv("VITE_OPENAI_BASE_URL", "https://api.groq.com/openai/v1")
         self.model = os.getenv("VITE_OPENAI_MODEL", "openai/gpt-oss-120b")
@@ -54,16 +51,12 @@ class GraphAugmentedRAGPipeline:
         """
         Executes the end-to-end Graph-RAG process.
         """
-        # Step 1: Multilingual Script Detection & Normalization
         canonical_query, detected_lang = normalize_query(user_query)
 
-        # Step 2: Knowledge Graph Fact Extraction (Deterministic Truth)
         graph_facts = self.kg.get_standard_facts(canonical_query)
 
-        # Step 3: Hybrid Dense + Sparse Retrieval from Ingested BIS PDFs
         retrieved_chunks = self.retriever.search(canonical_query, top_k=top_k)
 
-        # Step 4: Construct Grounded Context Packet
         context_packet = {
             "query": user_query,
             "canonical_query": canonical_query,
@@ -82,7 +75,6 @@ class GraphAugmentedRAGPipeline:
             ]
         }
 
-        # Step 5: Generate Synthesized Legal & Engineering Response
         response_text = self._synthesize_response(context_packet)
         context_packet["answer"] = response_text
 
@@ -95,7 +87,6 @@ class GraphAugmentedRAGPipeline:
         lang = packet["detected_language"]
         q = packet["query"]
 
-        # Build Graph Context Block
         graph_block = "NO DIRECT GRAPH MATCH"
         if gf:
             graph_block = (
@@ -107,7 +98,6 @@ class GraphAugmentedRAGPipeline:
                 f"NORMATIVE DEPENDENCIES: {', '.join([f'{r['target']} ({r['relation']})' for r in gf['normative_dependencies']])}"
             )
 
-        # Build PDF Source Snippets Block
         source_blocks = []
         for i, s in enumerate(sources, 1):
             source_blocks.append(f"[{i}] {s['standard_code']} - {s['clause']} (Page {s['page']}):\n\"{s['full_text']}\"")
@@ -133,7 +123,6 @@ USER QUESTION:
 {q}
 """
 
-        # Check if LLM API is available
         if self.api_key and self.api_key.startswith("gsk_"):
             try:
                 req_data = json.dumps({
@@ -162,7 +151,6 @@ USER QUESTION:
             except Exception as e:
                 print(f"[!] LLM synthesis error: {e}. Falling back to deterministic structured output.")
 
-        # High-Fidelity Deterministic Fallback Synthesis
         ans = []
         if gf:
             ans.append(f"### Standard Conformance: **{gf['full_code']}**")
@@ -191,7 +179,6 @@ USER QUESTION:
 
         return "\n".join(ans)
 
-# Singleton pipeline
 rag_pipeline = GraphAugmentedRAGPipeline()
 
 if __name__ == "__main__":

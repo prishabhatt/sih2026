@@ -16,7 +16,6 @@ class StandardsKnowledgeGraph:
         self._build_graph()
 
     def _build_graph(self):
-        # ─── 1. Core Standards & Properties ──────────────────────────────────
         standards = [
             {
                 "id": "IS 694",
@@ -155,7 +154,6 @@ class StandardsKnowledgeGraph:
         for s in standards:
             self.graph.add_node(s["id"], type="Standard", **s)
 
-        # ─── 2. Division Nodes ───────────────────────────────────────────────
         divisions = ["ETD", "CED", "MTD", "FAD", "CHD/FAD", "LITD"]
         for div in divisions:
             self.graph.add_node(div, type="Division", name=div)
@@ -163,7 +161,6 @@ class StandardsKnowledgeGraph:
         for s in standards:
             self.graph.add_edge(s["id"], s["division"], relation="BELONGS_TO_DIVISION")
 
-        # ─── 3. Normative Dependencies & Material Composition Edges ──────────
         normative_edges = [
             ("IS 694", "IS 8130 Conductor", "REQUIRES_MATERIAL", "High conductivity annealed copper / EC grade aluminum as per IS 8130"),
             ("IS 694", "IS 5831 Insulation", "REQUIRES_MATERIAL", "Type A / C PVC insulation compound as per IS 5831"),
@@ -208,8 +205,6 @@ class StandardsKnowledgeGraph:
         import re
         cleaned = code_or_keyword.upper().strip()
         
-        # 1. Exact or normalized IS code match (e.g. "IS 1786", "IS 694", "IS 10322")
-        # Extract explicit IS code patterns like "IS 1786", "IS 10322", "IS 694", "IS 14543"
         is_code_matches = re.findall(r'\bIS\s*(\d+)(?:\s*(?:PART|\(PART\))\s*(\d+))?', cleaned)
         for num, part in is_code_matches:
             target_id = f"IS {num}"
@@ -221,15 +216,12 @@ class StandardsKnowledgeGraph:
                     if node_up == target_id or node_up.startswith(target_id) or data.get("full_code", "").upper().startswith(target_id):
                         return self._extract_node_context(node)
 
-        # 2. Strict standard node string search
         for node, data in self.graph.nodes(data=True):
             if data.get("type") == "Standard":
                 node_up = node.upper()
-                # Check for explicit code match (e.g. "IS 1786" in text)
                 if re.search(r'\b' + re.escape(node_up) + r'\b', cleaned):
                     return self._extract_node_context(node)
 
-        # 3. High-threshold specific topic phrases (only if explicit code is absent)
         specific_phrases = {
             "TMT": "IS 1786",
             "REBAR": "IS 1786",
@@ -307,7 +299,6 @@ class StandardsKnowledgeGraph:
 
         return {"nodes": nodes, "links": links}
 
-# Singleton instance
 standards_kg = StandardsKnowledgeGraph()
 
 if __name__ == "__main__":

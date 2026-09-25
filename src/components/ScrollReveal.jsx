@@ -1,20 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
 
-/**
- * ScrollReveal — IntersectionObserver-powered entrance animation wrapper.
- * 
- * Usage:
- *   <ScrollReveal direction="up" delay={2} className="...">
- *     <div>Content fades in from below with delay-2</div>
- *   </ScrollReveal>
- * 
- * Props:
- *   direction: 'up' | 'down' | 'left' | 'right' | 'scale' (default: 'up')
- *   delay: 1-8 stagger delay index (default: 0 = no delay)
- *   threshold: visibility threshold 0-1 (default: 0.15)
- *   once: trigger only once (default: true)
- *   className: additional classes
- */
 export function ScrollReveal({ 
   children, 
   direction = 'up', 
@@ -48,7 +33,7 @@ export function ScrollReveal({
 
   const dirClass = {
     up: 'sr-fade-up',
-    down: 'sr-fade-up', // CSS handles direction
+    down: 'sr-fade-up',
     left: 'sr-fade-left',
     right: 'sr-fade-right',
     scale: 'sr-scale',

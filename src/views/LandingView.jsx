@@ -236,7 +236,6 @@ export function LandingView() {
     setTimeout(() => {
       const q = demoQuery.toLowerCase();
 
-      // Keyword sets for each preset — score by how many keywords match
       const keywords = [
         { idx: 0, words: ['cable', 'xlpe', 'ht', '11kv', '33kv', 'wire', 'frls', 'metro', 'power cable', 'conductor', 'distribution cable', 'electrical cable'] },
         { idx: 1, words: ['tmt', 'rebar', 'steel bar', 'fe 500', 'fe500', 'cement', 'opc', 'concrete', 'bridge', 'reinforcement', 'deformed bar', 'nhai'] },
@@ -335,17 +334,12 @@ export function LandingView() {
 
   return (
     <div className="min-h-screen bg-transparent text-slate-900 dark:text-slate-100 transition-colors duration-500 relative font-sans antialiased overflow-x-hidden selection:bg-[#1E3A5F] selection:text-white">
-      {/* Living Atmospheric Industrial Background */}
       <AppleStripeBackground />
       <div className="noise-overlay" />
 
-      {/* ================================================================ */}
-      {/* NAVBAR (Floating Glassmorphic Capsule with Top/Side Margins)      */}
-      {/* ================================================================ */}
       <div className="fixed top-4 sm:top-5 inset-x-0 z-50 flex justify-center px-4 sm:px-6 lg:px-8 pointer-events-none">
         <header className="pointer-events-auto max-w-[1360px] w-full backdrop-blur-2xl bg-white/85 dark:bg-[#070B14]/90 border-2 border-white dark:border-white/20 shadow-[0_12px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.5)] rounded-full px-6 sm:px-8 py-3 sm:py-3.5 flex items-center justify-between gap-6 transition-all">
 
-          {/* Module 1: Brand Logo */}
           <div className="flex items-center shrink-0">
             <a href="#overview" className="flex items-center gap-2.5 group">
               <div className="shrink-0 transition-transform group-hover:scale-105">
@@ -363,7 +357,6 @@ export function LandingView() {
             </a>
           </div>
 
-          {/* Module 2: Central Navigation in Sleek Glassmorphic Capsule */}
           <nav className="hidden xl:flex items-center gap-1 p-1.5 rounded-full bg-slate-100/70 dark:bg-white/[0.04] border border-slate-200/80 dark:border-white/10 backdrop-blur-xl">
             <a href="#overview" className="px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-white dark:hover:bg-white/10 hover:shadow-xs transition-all">
               {lang === 'hi' ? 'अवलोकन' : lang === 'gu' ? 'ઝાંખી' : 'Overview'}
@@ -385,9 +378,7 @@ export function LandingView() {
             </a>
           </nav>
 
-          {/* Module 3: Right Controls Group */}
           <div className="flex items-center gap-3 sm:gap-3.5 shrink-0">
-            {/* Multilingual Distinct Glassmorphic Dropdown */}
             <div className="relative">
               <button
                 onClick={() => setIsLangOpen(!isLangOpen)}
@@ -427,7 +418,6 @@ export function LandingView() {
               )}
             </div>
 
-            {/* Distinct Segmented Theme Capsule Toggle */}
             <div className="flex items-center p-1 rounded-full bg-slate-200/90 dark:bg-black/50 border-2 border-slate-300 dark:border-white/20 shadow-inner backdrop-blur-2xl transition-all">
               <button
                 type="button"
@@ -454,7 +444,6 @@ export function LandingView() {
               </button>
             </div>
 
-            {/* Portal Login Button */}
             <button
               onClick={() => navigate('/login')}
               className="px-5 py-2.5 rounded-full text-xs font-extrabold bg-[#0B1E36] hover:bg-[#132845] dark:bg-white dark:hover:bg-slate-100 text-white dark:text-[#07080A] shadow-[0_4px_16px_rgba(11,30,54,0.2)] transition-all cursor-pointer flex items-center gap-2 hover:scale-105 border border-white/30 dark:border-white/10"
@@ -466,9 +455,6 @@ export function LandingView() {
         </header>
       </div>
 
-      {/* ================================================================ */}
-      {/* HERO                                                             */}
-      {/* ================================================================ */}
       <section id="overview" className="relative z-10 pt-36 sm:pt-44 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         <div className="max-w-3xl mx-auto text-center space-y-6">
           <h1 className="hero-animate text-[40px] sm:text-[56px] lg:text-[70px] font-black tracking-[-0.03em] leading-[1.02] text-slate-900 dark:text-white">
@@ -496,9 +482,6 @@ export function LandingView() {
           </div>
         </div>
 
-        {/* ================================================================ */}
-        {/* METRICS GRID                                                     */}
-        {/* ================================================================ */}
         <div className="hero-animate mt-16" style={{ animationDelay: '0.5s' }}>
           <div className="rounded-3xl bg-white/75 dark:bg-[#0E1322]/70 backdrop-blur-2xl border border-slate-200/80 dark:border-white/[0.08] shadow-2xl overflow-hidden">
             <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-slate-200/70 dark:divide-white/[0.06]">
@@ -523,13 +506,9 @@ export function LandingView() {
         </div>
       </section>
 
-      {/* ================================================================ */}
-      {/* TERMINAL DEMO                                                    */}
-      {/* ================================================================ */}
       <section id="terminal" className="relative z-10 py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         <ScrollReveal>
           <div className="rounded-3xl bg-white/80 dark:bg-[#0E1322]/80 backdrop-blur-2xl border border-slate-200/80 dark:border-white/[0.08] shadow-2xl overflow-hidden">
-            {/* Title Bar */}
             <div className="px-6 py-4 border-b border-slate-200/80 dark:border-white/[0.06] bg-slate-50/40 dark:bg-white/[0.02] flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
@@ -548,7 +527,6 @@ export function LandingView() {
             </div>
 
             <div className="p-6 sm:p-8 space-y-6">
-              {/* Presets */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   {lang === 'hi' ? 'विशिष्टता चुनें:' : lang === 'gu' ? 'વિશિષ્ટતા પસંદ કરો:' : 'Select Specification:'}
@@ -569,7 +547,6 @@ export function LandingView() {
                 </div>
               </div>
 
-              {/* Search Bar */}
               <form onSubmit={handleRunCustomQuery}>
                 <div className="flex items-center bg-slate-50/80 dark:bg-black/30 border border-slate-200/80 dark:border-white/10 rounded-2xl overflow-hidden focus-within:border-[#1E3A5F] dark:focus-within:border-amber-400 focus-within:ring-2 focus-within:ring-[#1E3A5F]/20 dark:focus-within:ring-amber-400/20 transition-all">
                   <Search className="w-4.5 h-4.5 text-slate-400 ml-4 shrink-0" />
@@ -591,9 +568,7 @@ export function LandingView() {
                 </div>
               </form>
 
-              {/* Split Canvas */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-                {/* Left: Vector Extraction */}
                 <ScrollReveal direction="left" delay={1} className="lg:col-span-7">
                   <div className="p-6 rounded-2xl bg-slate-50/70 dark:bg-white/[0.02] border border-slate-200/70 dark:border-white/[0.05] space-y-4 h-full flex flex-col justify-between">
                     <div className="space-y-3">
@@ -629,7 +604,6 @@ export function LandingView() {
                   </div>
                 </ScrollReveal>
 
-                {/* Right: Resolved Standard */}
                 <ScrollReveal direction="right" delay={2} className="lg:col-span-5">
                   <div className="p-6 rounded-2xl bg-gradient-to-br from-[#0B1E36] to-[#0E2038] text-white border border-[#1E3A5F]/60 shadow-xl space-y-4 h-full flex flex-col justify-between">
                     <div className="space-y-3">
@@ -668,9 +642,6 @@ export function LandingView() {
         </ScrollReveal>
       </section>
 
-      {/* ================================================================ */}
-      {/* ARCHITECTURE                                                     */}
-      {/* ================================================================ */}
       <section id="architecture" className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-14 items-center">
           <ScrollReveal direction="left" className="lg:col-span-7">
@@ -708,9 +679,6 @@ export function LandingView() {
         </div>
       </section>
 
-      {/* ================================================================ */}
-      {/* PIPELINE                                                         */}
-      {/* ================================================================ */}
       <section id="pipeline" className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         <ScrollReveal>
           <div className="mb-8 space-y-2 max-w-3xl">
@@ -777,9 +745,6 @@ export function LandingView() {
         </div>
       </section>
 
-      {/* ================================================================ */}
-      {/* DIVISIONS                                                        */}
-      {/* ================================================================ */}
       <section id="corpus" className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         <ScrollReveal>
           <div className="p-8 sm:p-12 rounded-3xl bg-white/75 dark:bg-[#0E1322]/70 backdrop-blur-2xl border border-slate-200/80 dark:border-white/[0.08] shadow-2xl">
@@ -833,9 +798,6 @@ export function LandingView() {
         </ScrollReveal>
       </section>
 
-      {/* ================================================================ */}
-      {/* FAQ                                                              */}
-      {/* ================================================================ */}
       <section id="faq" className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           <ScrollReveal direction="left" className="lg:col-span-4">
@@ -880,9 +842,6 @@ export function LandingView() {
         </div>
       </section>
 
-      {/* ================================================================ */}
-      {/* CTA BANNER                                                       */}
-      {/* ================================================================ */}
       <section className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         <ScrollReveal>
           <div className="rounded-3xl p-10 sm:p-14 bg-gradient-to-br from-[#0B1E36] via-[#10243E] to-[#0B1428] text-white border border-[#1E3A5F]/50 shadow-2xl backdrop-blur-2xl relative overflow-hidden">
@@ -912,9 +871,6 @@ export function LandingView() {
         </ScrollReveal>
       </section>
 
-      {/* ================================================================ */}
-      {/* FOOTER                                                           */}
-      {/* ================================================================ */}
       <footer className="relative z-10 border-t border-slate-200/80 dark:border-white/[0.08] bg-white/75 dark:bg-[#070B14]/80 backdrop-blur-2xl py-12">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
@@ -979,16 +935,12 @@ export function LandingView() {
         </div>
       </footer>
 
-      {/* ================================================================ */}
-      {/* INTERACTIVE QUERY & GRIEVANCE REPORTING MODAL                    */}
-      {/* ================================================================ */}
       {isHelpDeskOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md animate-in fade-in duration-200">
           <div
             className="w-full max-w-xl bg-white dark:bg-[#0B132B] rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-white/20 relative animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
             <button
               onClick={() => { setIsHelpDeskOpen(false); setSubmittedTicket(null); }}
               className="absolute top-5 right-5 p-2 rounded-full text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors cursor-pointer"
@@ -997,9 +949,7 @@ export function LandingView() {
             </button>
 
             {!submittedTicket ? (
-              /* Query Reporting Form */
               <div>
-                {/* Modal Header */}
                 <div className="flex items-center gap-3.5 mb-5">
                   <div className="w-12 h-12 rounded-2xl bg-amber-400/20 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
                     <MessageSquare className="w-6 h-6" />
@@ -1090,7 +1040,6 @@ export function LandingView() {
                     />
                   </div>
 
-                  {/* Actions */}
                   <div className="pt-2 flex items-center justify-end gap-3">
                     <button
                       type="button"
@@ -1110,7 +1059,6 @@ export function LandingView() {
                 </form>
               </div>
             ) : (
-              /* Success Confirmation Card */
               <div className="text-center py-4 space-y-4 animate-in fade-in zoom-in-95 duration-200">
                 <div className="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-500 mx-auto flex items-center justify-center">
                   <CheckCircle2 className="w-8 h-8" />

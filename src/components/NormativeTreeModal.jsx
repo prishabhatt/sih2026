@@ -34,7 +34,6 @@ export function NormativeTreeModal() {
         className="relative bg-white dark:bg-[#0B111E] rounded-[2rem] max-w-4xl w-full shadow-[0_25px_70px_rgba(0,0,0,0.5)] border-2 border-white dark:border-white/20 max-h-[90vh] flex flex-col overflow-hidden text-slate-900 dark:text-slate-100 transition-all animate-in fade-in zoom-in-95 duration-150"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
         <div className="p-6 sm:p-7 flex items-start justify-between border-b border-slate-200/80 dark:border-white/10 bg-white/60 dark:bg-white/[0.02] backdrop-blur-md shrink-0">
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -60,9 +59,7 @@ export function NormativeTreeModal() {
           </button>
         </div>
 
-        {/* Tree Content */}
         <div className="p-6 overflow-y-auto flex-1 space-y-6 bg-slate-50/50 dark:bg-black/20">
-          {/* Tier 1: Raw Material Acceptance Tests */}
           <div>
             <div className="flex items-center justify-between mb-3">
               <h4 className="font-extrabold text-xs text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
@@ -114,7 +111,6 @@ export function NormativeTreeModal() {
             </div>
           </div>
 
-          {/* Tier 2: Safety & Environmental Codes */}
           <div>
             <h4 className="font-extrabold text-xs text-slate-900 dark:text-white uppercase tracking-wider mb-3 flex items-center gap-2">
               <GitFork className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
@@ -140,7 +136,6 @@ export function NormativeTreeModal() {
             </div>
           </div>
 
-          {/* Tier 3: Sampling Frequency */}
           <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30">
             <h4 className="font-bold text-xs text-amber-700 dark:text-amber-400 uppercase tracking-wider mb-1 flex items-center gap-2">
               <HardHat className="w-4 h-4 text-amber-500" />
@@ -152,7 +147,6 @@ export function NormativeTreeModal() {
           </div>
         </div>
 
-        {/* Footer */}
         <div className="p-5 border-t border-slate-200/80 dark:border-white/10 flex items-center justify-between bg-white/60 dark:bg-white/[0.02] backdrop-blur-md shrink-0">
           <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
             Toggling test codes recalculates the <strong className="text-slate-900 dark:text-white font-bold">Compliance Completeness Index</strong>.

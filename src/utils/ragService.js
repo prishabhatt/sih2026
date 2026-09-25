@@ -1,15 +1,6 @@
-/**
- * ragService.js
- * Frontend Client Bridge for the Graph-Augmented RAG Engine
- * Smart India Hackathon (SIH) 2026
- */
 
 const RAG_BACKEND_URL = import.meta.env.VITE_RAG_BACKEND_URL || 'http://localhost:8000';
 
-/**
- * Checks if the local Graph-RAG Python backend is active.
- * @returns {Promise<boolean>}
- */
 export async function isRAGBackendOnline() {
   try {
     const res = await fetch(`${RAG_BACKEND_URL}/`, { method: 'GET', signal: AbortSignal.timeout(1500) });
@@ -19,20 +10,6 @@ export async function isRAGBackendOnline() {
   }
 }
 
-/**
- * Sends a query to the Graph-Augmented RAG Pipeline.
- * @param {string} query
- * @param {number} [top_k=4]
- * @param {string} [division]
- * @returns {Promise<{
- *   query: string,
- *   canonical_query: string,
- *   detected_language: string,
- *   graph_facts: object|null,
- *   retrieved_sources: Array<object>,
- *   answer: string
- * }>}
- */
 export async function queryRAG(query, top_k = 4, division = null) {
   const response = await fetch(`${RAG_BACKEND_URL}/api/rag/query`, {
     method: 'POST',
@@ -48,11 +25,6 @@ export async function queryRAG(query, top_k = 4, division = null) {
   return await response.json();
 }
 
-/**
- * Uploads a tender document (PDF/TXT) or raw specification text for automated compliance auditing.
- * @param {File|string} fileOrText
- * @returns {Promise<object>}
- */
 export async function auditTender(fileOrText) {
   const formData = new FormData();
 
@@ -75,10 +47,6 @@ export async function auditTender(fileOrText) {
   return await response.json();
 }
 
-/**
- * Fetches the node-link graph structure for D3 / Cytoscape network visualizers.
- * @returns {Promise<{nodes: Array<object>, links: Array<object>}>}
- */
 export async function fetchStandardsGraph() {
   const response = await fetch(`${RAG_BACKEND_URL}/api/rag/graph`);
   if (!response.ok) throw new Error("FAILED_FETCH_GRAPH");

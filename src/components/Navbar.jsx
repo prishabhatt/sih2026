@@ -38,7 +38,6 @@ export function Navbar() {
       <header className="sticky top-0 z-40 bg-white/85 dark:bg-[#090A0F]/85 backdrop-blur-2xl border-b border-slate-200/80 dark:border-white/[0.08] shadow-[0_4px_20px_rgba(0,0,0,0.03)] no-print transition-all py-3.5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0">
-            {/* Brand Logo */}
             <div className="flex items-center">
               <Link to="/" className="flex items-center gap-2.5 group">
                 <div className="shrink-0 transition-transform group-hover:scale-105">
@@ -56,9 +55,7 @@ export function Navbar() {
               </Link>
             </div>
 
-            {/* Right Actions Container */}
             <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 justify-end">
-              {/* Distinct Segmented Theme Capsule Toggle */}
               <div className="flex items-center p-1 rounded-full bg-slate-200/90 dark:bg-black/50 border-2 border-slate-300 dark:border-white/20 shadow-inner backdrop-blur-2xl transition-all">
                 <button
                   type="button"
@@ -87,7 +84,6 @@ export function Navbar() {
                 </button>
               </div>
 
-              {/* Multilingual Distinct Glassmorphic Container */}
               <div className="relative">
                 <button
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
@@ -138,7 +134,6 @@ export function Navbar() {
                 )}
               </div>
 
-              {/* User Persona */}
               <div className="relative">
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
@@ -228,7 +223,6 @@ export function Navbar() {
         </div>
       </header>
 
-      {/* Navigation Stepper (Centered Floating Pill) */}
       <div className="w-full px-4 sm:px-6 lg:px-8 mt-6 mb-8 relative z-30 flex justify-center">
         <nav className="inline-flex flex-nowrap items-center bg-white/75 dark:bg-[#0B132B]/75 backdrop-blur-2xl border border-slate-300/90 dark:border-white/20 p-1.5 rounded-full overflow-x-auto max-w-full no-scrollbar shadow-[0_8px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)]">
           {navSteps.map((step) => {

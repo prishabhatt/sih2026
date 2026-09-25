@@ -36,26 +36,17 @@ export function LoginView() {
   const { isDark, toggleTheme } = useTheme();
 
   const [isSignUp, setIsSignUp] = useState(false);
-  const [authMethod, setAuthMethod] = useState('email'); // 'email' or 'mobile'
+  const [authMethod, setAuthMethod] = useState('email');
   const [selectedRole, setSelectedRole] = useState('procurement');
 
-  // ==========================================
-  // GOOGLE SIGN-IN STATE
-  // ==========================================
   const [isGoogleSigningIn, setIsGoogleSigningIn] = useState(false);
 
-  // ==========================================
-  // EMAIL LOGIN VERIFICATION STATE
-  // ==========================================
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [loginEmailError, setLoginEmailError] = useState('');
   const [loginEmailSuccess, setLoginEmailSuccess] = useState(false);
 
-  // ==========================================
-  // MOBILE LOGIN OTP STATE
-  // ==========================================
   const [loginMobileNumber, setLoginMobileNumber] = useState('9810123456');
   const [loginMobileStep, setLoginMobileStep] = useState(1);
   const [loginMobileDigits, setLoginMobileDigits] = useState(['', '', '', '', '', '']);
@@ -65,9 +56,6 @@ export function LoginView() {
   const [loginMobileSuccess, setLoginMobileSuccess] = useState(false);
   const loginMobileRefs = useRef([]);
 
-  // ==========================================
-  // STREAMLINED SIGN UP PARAMETERS
-  // ==========================================
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [emailOtpSent, setEmailOtpSent] = useState(false);
@@ -92,14 +80,11 @@ export function LoginView() {
   const [showPassword, setShowPassword] = useState(false);
   const [agreedTerms, setAgreedTerms] = useState(true);
 
-  // ==========================================
-  // MAGIC LINK: auto-complete on redirect back
-  // ==========================================
   useEffect(() => {
     const href = window.location.href;
     completeEmailSignInWithLink(href)
       .then((firebaseUser) => {
-        if (!firebaseUser) return; // URL is not a magic link
+        if (!firebaseUser) return;
         triggerVerification({
           title: 'Passwordless Sign-In Verified',
           badge: 'Email Magic Link Authenticated',
@@ -117,10 +102,8 @@ export function LoginView() {
         console.error('Magic link completion error:', err);
         setLoginEmailError(err.message || 'Sign-in link verification failed. Please try again.');
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Timers
 
   useEffect(() => {
     let timer;
@@ -152,9 +135,6 @@ export function LoginView() {
     return () => clearInterval(timer);
   }, [emailIsCounting, emailCountdown]);
 
-  // ----------------------------------------
-  // GOOGLE SIGN-IN HANDLER
-  // ----------------------------------------
   const handleGoogleSignIn = async () => {
     setIsGoogleSigningIn(true);
     try {
@@ -179,9 +159,6 @@ export function LoginView() {
     }
   };
 
-  // ----------------------------------------
-  // EMAIL + PASSWORD LOGIN HANDLER
-  // ----------------------------------------
   const handleEmailPasswordLogin = async (e) => {
     e?.preventDefault();
     if (!loginEmail || !loginEmail.includes('@')) {
@@ -232,9 +209,6 @@ export function LoginView() {
 
 
 
-  // ----------------------------------------
-  // MOBILE OTP LOGIN HANDLERS
-  // ----------------------------------------
   const handleSendLoginMobileOtp = (e) => {
     e?.preventDefault();
     if (!loginMobileNumber || loginMobileNumber.replace(/\D/g, '').length < 10) {
@@ -305,9 +279,6 @@ export function LoginView() {
     navigate('/input');
   };
 
-  // ----------------------------------------
-  // SIGN UP HANDLERS
-  // ----------------------------------------
   const handleSendEmailOtp = (e) => {
     e?.preventDefault();
     if (!email || !email.includes('@')) {
@@ -415,10 +386,8 @@ export function LoginView() {
     const activeMobile = signupMobile.trim() || '9810123456';
 
     try {
-      // Create the Firebase account first
       await registerWithEmailPassword(activeName, activeEmail, password);
 
-      // Then populate the local app profile
       registerUser({
         name: activeName,
         badgeId: 'GOV-IN-BIS-' + Math.floor(1000 + Math.random() * 9000),
@@ -451,7 +420,6 @@ export function LoginView() {
       }, 600);
     } catch (err) {
       console.error('Sign-up error:', err);
-      // Surface the error in the existing email OTP error field (visible to user)
       setEmailOtpError(
         err.code === 'auth/email-already-in-use'
           ? 'An account with this email already exists. Please sign in instead.'
@@ -463,10 +431,8 @@ export function LoginView() {
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 sm:p-8 bg-[#F8FAFC] dark:bg-[#090A0F] text-slate-900 dark:text-slate-100 transition-colors duration-500 relative font-sans selection:bg-[#292524] selection:text-white">
 
-      {/* Living Aurora Background */}
       <AppleStripeBackground />
 
-      {/* Header Navigation */}
       <div className="absolute top-0 w-full flex justify-between items-center p-6 sm:px-8 z-20">
         <button
           onClick={() => navigate('/')}
@@ -484,15 +450,12 @@ export function LoginView() {
         </button>
       </div>
 
-      {/* Central Glassmorphic Card Matching Input Specs */}
       <div className="w-full max-w-5xl bg-white/70 dark:bg-[#12141C]/80 backdrop-blur-2xl rounded-[2.5rem] p-3 sm:p-5 shadow-2xl border border-white dark:border-white/20 flex flex-col lg:flex-row gap-5 relative z-10 overflow-hidden min-h-[580px] mt-16 sm:mt-12 transition-all duration-300">
 
-        {/* Left Column - Auth Form */}
         <div className="flex-1 p-5 sm:p-8 lg:p-10 flex flex-col justify-start overflow-y-auto max-h-[85vh] scroll-smooth">
 
           <div className="w-full max-w-xl mx-auto flex flex-col justify-start my-auto">
 
-            {/* Header / Title */}
             <div className="mb-5">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/80 dark:bg-white/10 border border-white dark:border-white/20 text-slate-800 dark:text-slate-200 text-xs font-bold mb-2.5 shadow-xs backdrop-blur-md">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
@@ -508,13 +471,9 @@ export function LoginView() {
               </p>
             </div>
 
-            {/* ============================================================ */}
-            {/* SIGN UP VIEW (STREAMLINED 5-FIELD REGISTRATION)               */}
-            {/* ============================================================ */}
             {isSignUp ? (
               <form onSubmit={handleSignUpSubmit} className="flex flex-col gap-4 text-left">
 
-                {/* 1. Full Name */}
                 <div>
                   <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
                     1. Full Name
@@ -532,7 +491,6 @@ export function LoginView() {
                   </div>
                 </div>
 
-                {/* 2. Official Email Address */}
                 <div>
                   <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
                     2. Official Email Address (Verification)
@@ -631,7 +589,6 @@ export function LoginView() {
                   </div>
                 </div>
 
-                {/* 3. Mobile Number */}
                 <div>
                   <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
                     3. Mobile Number (2FA Authentication)
@@ -730,7 +687,6 @@ export function LoginView() {
                   </div>
                 </div>
 
-                {/* 4. Primary BIS Technical Division */}
                 <div>
                   <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
                     4. Primary BIS Technical Division
@@ -752,7 +708,6 @@ export function LoginView() {
                   </div>
                 </div>
 
-                {/* 5. Secure Password */}
                 <div>
                   <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
                     5. Secure Password
@@ -777,7 +732,6 @@ export function LoginView() {
                   </div>
                 </div>
 
-                {/* Statutory Checkbox */}
                 <div className="flex items-start gap-2.5 px-0.5 pt-1">
                   <input
                     type="checkbox"
@@ -792,7 +746,6 @@ export function LoginView() {
                   </label>
                 </div>
 
-                {/* Submit button */}
                 <button
                   type="submit"
                   className="w-full py-3.5 rounded-xl bg-[#0B1E36] hover:bg-[#132845] dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 text-xs font-black shadow-md flex items-center justify-center gap-2 mt-1 cursor-pointer transition-all border border-white/40"
@@ -802,12 +755,8 @@ export function LoginView() {
                 </button>
               </form>
             ) : (
-              /* ============================================================ */
-              /* SIGN IN VIEW: GOOGLE SSO + EMAIL VERIFICATION + MOBILE OTP   */
-              /* ============================================================ */
               <div className="flex flex-col gap-4">
 
-                {/* 1. PRIMARY: Sign in with Google Button */}
                 <button
                   type="button"
                   onClick={handleGoogleSignIn}
@@ -823,7 +772,6 @@ export function LoginView() {
                   <span>{isGoogleSigningIn ? 'Authenticating with Google...' : 'Sign in with Google Workspace'}</span>
                 </button>
 
-                {/* Elegant Divider */}
                 <div className="relative flex items-center justify-center my-1">
                   <div className="border-t border-slate-300/80 dark:border-white/10 w-full" />
                   <span className="bg-transparent px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 shrink-0">
@@ -832,7 +780,6 @@ export function LoginView() {
                   <div className="border-t border-slate-300/80 dark:border-white/10 w-full" />
                 </div>
 
-                {/* Role Selection */}
                 <div>
                   <h2 className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
                     Select Official Role
@@ -874,7 +821,6 @@ export function LoginView() {
                   </div>
                 </div>
 
-                {/* 2-Tab Switcher: Email & Password | Mobile OTP */}
                 <div className="flex p-1 bg-slate-200/60 dark:bg-white/[0.05] rounded-xl border border-white dark:border-white/10 backdrop-blur-md">
                   <button
                     type="button"
@@ -900,7 +846,6 @@ export function LoginView() {
                   </button>
                 </div>
 
-                {/* METHOD 1: EMAIL + PASSWORD LOGIN */}
                 {authMethod === 'email' && (
                   <form onSubmit={handleEmailPasswordLogin} className="space-y-3.5">
                     <div>
@@ -971,7 +916,6 @@ export function LoginView() {
                   </form>
                 )}
 
-                {/* METHOD 2: MOBILE OTP */}
                 {authMethod === 'mobile' && (
                   <div>
                     {loginMobileStep === 1 ? (
@@ -1103,7 +1047,6 @@ export function LoginView() {
               </div>
             )}
 
-            {/* Mode Toggle Sign Up / Sign In */}
             <div className="mt-5 text-center">
               <p className="text-xs text-slate-500 dark:text-slate-400 font-normal">
                 {isSignUp ? "Already have an official account? " : "Don't have an official account? "}
@@ -1124,7 +1067,6 @@ export function LoginView() {
           </div>
         </div>
 
-        {/* Right Column - Quick Demo Profiles (Matching Glassmorphism) */}
         <div className="flex-1 rounded-[2rem] p-8 lg:p-10 bg-[#111622] dark:bg-[#070B14] text-white border border-white/20 dark:border-white/10 shadow-2xl flex flex-col relative overflow-y-auto">
 
           <div className="flex flex-col h-full w-full max-w-sm mx-auto justify-center">

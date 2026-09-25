@@ -1,10 +1,3 @@
-/**
- * ragAdapter.js
- * Converts Graph-Augmented RAG API response and 4-Tier Tender Audit results
- * into the MOCK_STANDARDS schema shape consumed by all dashboard components.
- *
- * Smart India Hackathon (SIH) 2026
- */
 
 const RAG_BACKEND_URL = import.meta.env.VITE_RAG_BACKEND_URL || 'http://127.0.0.1:8000';
 
@@ -18,7 +11,6 @@ const DIVISION_META = {
   TXD: { name: 'Textiles Division (TXD)', color: 'rose' },
 };
 
-// Known regulatory metadata for standard codes to guarantee rich dashboard UI
 const KNOWN_STANDARDS_META = {
   'IS 1786': {
     code: 'IS 1786 : 2008',
@@ -171,7 +163,6 @@ const KNOWN_STANDARDS_META = {
   }
 };
 
-// AI Allied Recommendations: Normative companion standards to augment tender scope
 export const ALLIED_STANDARDS_RECOMMENDATIONS = [
   {
     id: 'IS_456',
@@ -457,14 +448,6 @@ export const ALLIED_STANDARDS_RECOMMENDATIONS = [
   }
 ];
 
-/**
- * Runs the full 4-Tier Regulatory Verification & RAG Analysis.
- *
- * @param {string} query - Natural language query or tender text
- * @param {string} division - Division filter
- * @param {File|null} uploadedFile - Optional uploaded tender document
- * @returns {Promise<{ standards: Array, ragMeta: object }>}
- */
 export async function runRAGAnalysis(query, division = null, uploadedFile = null) {
   let standards = [];
   let ragMeta = {
@@ -477,7 +460,6 @@ export async function runRAGAnalysis(query, division = null, uploadedFile = null
     hallucinated_standards_purged: []
   };
 
-  // Determine if this is a tender file or comprehensive multi-item tender text
   const isTenderDocument = Boolean(uploadedFile) || query.length > 250 || /NIDC|CED|ETD|LITD|FAD|BOQ|TENDER/i.test(query);
 
   if (isTenderDocument) {
@@ -498,7 +480,6 @@ export async function runRAGAnalysis(query, division = null, uploadedFile = null
       if (auditResp.ok) {
         const auditData = await auditResp.json();
 
-        // Capture strict audit metrics from backend
         ragMeta.is_valid_tender = auditData.is_valid_tender ?? true;
         ragMeta.document_type = auditData.document_type || 'Tender Document';
         ragMeta.rejection_reason = auditData.rejection_reason || null;
@@ -508,13 +489,11 @@ export async function runRAGAnalysis(query, division = null, uploadedFile = null
         ragMeta.hallucinated_standards_purged = auditData.hallucinated_standards_purged || [];
         ragMeta.statutory_qco_audit_notes = auditData.statutory_qco_audit_notes;
 
-        // If the document is classified as non-tender or invalid, reject immediately without appending standards
         if (auditData.is_valid_tender === false) {
           ragMeta.standardsFound = 0;
           return { standards: [], ragMeta };
         }
 
-        // Build exact mapped standards from BOQ (ZERO HALLUCINATIONS)
         const mappedList = auditData.mapped_standards || [];
         for (const item of mappedList) {
           const rawCode = item.governing_standard || '';
@@ -553,10 +532,8 @@ export async function runRAGAnalysis(query, division = null, uploadedFile = null
           });
         }
 
-        // STRICT SAFETY: Ensure hallucinated standards (IS 7098, IS 13252) are NEVER in this list
         standards = standards.filter(s => !s.code.includes('7098') && !s.code.includes('13252'));
 
-        // Rich suggestions: Append AI Allied Companion standards ONLY if genuine tender standards were mapped
         if (standards.length > 0) {
           const existingCodes = new Set(standards.map(s => s.code));
           for (const allied of ALLIED_STANDARDS_RECOMMENDATIONS) {
@@ -579,7 +556,6 @@ export async function runRAGAnalysis(query, division = null, uploadedFile = null
     }
   }
 
-  // Fallback: If no document or single query, synthesize via query endpoint with hallucination filter
   try {
     const resp = await fetch(`${RAG_BACKEND_URL}/api/rag/query`, {
       method: 'POST',
@@ -621,9 +597,6 @@ export async function runRAGAnalysis(query, division = null, uploadedFile = null
   return { standards, ragMeta };
 }
 
-/**
- * Checks if the RAG backend is online.
- */
 export async function checkRAGBackendStatus() {
   try {
     const resp = await fetch(`${RAG_BACKEND_URL}/`, { signal: AbortSignal.timeout(2000) });

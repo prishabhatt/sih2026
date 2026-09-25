@@ -104,7 +104,6 @@ export function SandboxView() {
       <AppleStripeBackground />
 
       <div className="max-w-7xl mx-auto space-y-8 relative z-10">
-        {/* Header Strip */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 dark:border-white/10 pb-6">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/70 dark:bg-white/10 backdrop-blur-md border border-white dark:border-white/20 text-slate-800 dark:text-slate-200 text-xs font-bold shadow-xs mb-2">
@@ -131,9 +130,7 @@ export function SandboxView() {
           </button>
         </div>
 
-        {/* The Sandbox Widget Container Matching Input Specs Glass Card */}
         <div className="rounded-3xl bg-white/60 dark:bg-white/[0.04] backdrop-blur-2xl shadow-xl overflow-hidden border border-white dark:border-white/20">
-          {/* Terminal Top Bar */}
           <div className="px-6 py-4 border-b border-white/60 dark:border-white/[0.08] bg-white/40 dark:bg-white/[0.02] flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5">
@@ -154,7 +151,6 @@ export function SandboxView() {
             </div>
           </div>
 
-          {/* Preset Selector Buttons */}
           <div className="p-6 border-b border-white/60 dark:border-white/[0.08] bg-white/30 dark:bg-white/[0.01]">
             <p className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">
               Select Public Procurement Scenario to Test AI Vector Resolution:
@@ -191,9 +187,7 @@ export function SandboxView() {
             </div>
           </div>
 
-          {/* Interactive Split View */}
           <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-white/60 dark:divide-white/[0.08]">
-            {/* Left: Input BOQ Text */}
             <div className="lg:col-span-6 p-6 sm:p-8 flex flex-col justify-between gap-6">
               <div>
                 <div className="flex items-center justify-between mb-3">
@@ -219,7 +213,6 @@ export function SandboxView() {
               </div>
             </div>
 
-            {/* Right: Resolved Bureau of Indian Standards Matrix */}
             <div className="lg:col-span-6 p-6 sm:p-8 bg-white/30 dark:bg-white/[0.01] flex flex-col justify-between gap-6">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
@@ -232,7 +225,6 @@ export function SandboxView() {
                   </span>
                 </div>
 
-                {/* Main Standard Code Matching Glass Card */}
                 <div className="p-4 rounded-2xl bg-white/70 dark:bg-black/30 backdrop-blur-md border border-white dark:border-white/20 shadow-2xs space-y-2">
                   <div className="flex items-center justify-between mb-1">
                     <p className="text-sm font-black text-slate-900 dark:text-white">
@@ -250,7 +242,6 @@ export function SandboxView() {
                   </p>
                 </div>
 
-                {/* Auto-Linked Normative Tests */}
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
                     Auto-Linked Normative Reference Test Codes:

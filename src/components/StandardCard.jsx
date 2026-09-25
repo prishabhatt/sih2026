@@ -6,9 +6,7 @@ export function StandardCard({ std, isSelected, onToggle, onExploreNormative }) 
 
   return (
     <div className="glass-card rounded-3xl p-5 shadow-lg border border-white/70 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 transition-all flex flex-col">
-      {/* Top Row (Always Visible) */}
       <div className="flex flex-wrap items-center justify-between gap-4">
-        {/* Info on Left */}
         <div className="flex flex-col gap-1.5 flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-sm font-black font-mono text-[#292524] dark:text-[#A8A29E] shrink-0">
@@ -28,7 +26,6 @@ export function StandardCard({ std, isSelected, onToggle, onExploreNormative }) 
           </h4>
         </div>
         
-        {/* Actions on Right */}
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={() => onToggle(std.id)}
@@ -49,7 +46,6 @@ export function StandardCard({ std, isSelected, onToggle, onExploreNormative }) 
         </div>
       </div>
 
-      {/* Expanded State */}
       {isExpanded && (
         <div className="animate-in fade-in slide-in-from-top-2 duration-200 pt-4 mt-4 border-t border-slate-200/80 dark:border-white/10 space-y-3">
           <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-normal">

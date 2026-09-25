@@ -1,6 +1,3 @@
-// src/firebase.js
-// Firebase app initialization — config pulled from Vite env vars.
-// Add your keys to .env (VITE_FIREBASE_*) and they'll be picked up here.
 
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
@@ -19,6 +16,5 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 
-// Request the user's profile info when they sign in with Google
 googleProvider.addScope('profile');
 googleProvider.addScope('email');

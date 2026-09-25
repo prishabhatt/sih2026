@@ -12,10 +12,6 @@ import {
 } from 'firebase/auth';
 import { auth, googleProvider } from '../firebase';
 
-// ─────────────────────────────────────────────────────────────
-// DEMO PERSONAS — kept intact so switchPersona / loadScenario
-// still work exactly as before for the quick-access demo cards.
-// ─────────────────────────────────────────────────────────────
 const DEMO_PERSONAS = {
   metro: {
     id: 'usr_metro_01',
@@ -71,10 +67,6 @@ const DEMO_PERSONAS = {
   }
 };
 
-// ─────────────────────────────────────────────────────────────
-// Helper: map a Firebase user → the shape the rest of the app
-// expects, with sensible fallbacks for optional fields.
-// ─────────────────────────────────────────────────────────────
 function mapFirebaseUser(firebaseUser, overrides = {}) {
   return {
     id: firebaseUser.uid,
@@ -99,13 +91,10 @@ export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
 
-  // ─── Sync Firebase auth state ──────────────────────────────
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
         setCurrentUser((prev) => {
-          // If we already have a richer local profile (e.g. from registerUser),
-          // keep it but refresh immutable Firebase fields.
           if (prev && prev.id === firebaseUser.uid) {
             return { ...prev, email: firebaseUser.email, name: firebaseUser.displayName || prev.name };
           }
@@ -121,29 +110,22 @@ export function AuthProvider({ children }) {
     return () => unsubscribe();
   }, []);
 
-  // ─── Firebase: Email + Password Login ──────────────────────
   const loginWithEmailPassword = async (email, password) => {
     const result = await signInWithEmailAndPassword(auth, email, password);
     return result.user;
   };
 
-  // ─── Firebase: Email + Password Sign-Up ────────────────────
   const registerWithEmailPassword = async (name, email, password) => {
     const result = await createUserWithEmailAndPassword(auth, email, password);
-    // Persist display name on the Firebase profile
     await updateProfile(result.user, { displayName: name });
     return result.user;
   };
 
-  // ─── Firebase: Google Popup ────────────────────────────────
   const loginWithGoogle = async () => {
     const result = await signInWithPopup(auth, googleProvider);
     return result.user;
   };
 
-  // ─── Apply real Firebase user into app profile ────────────
-  // Call this after any Firebase sign-in to set the correct name/email
-  // while still attaching the role the user selected on the login screen.
   const applyFirebaseUser = (firebaseUser, role = 'procurement', ssoProvider = 'Firebase Auth') => {
     const roleLabels = {
       procurement: 'Procurement Officer',
@@ -169,25 +151,19 @@ export function AuthProvider({ children }) {
     setIsAuthenticated(true);
   };
 
-  // ─── Firebase: Email Link (Passwordless / Magic Link) ─────
   const sendEmailSignInLink = async (email) => {
     const actionCodeSettings = {
-      // After the user clicks the link, they'll be redirected here.
-      // Firebase will append oobCode, mode, etc. automatically.
       url: window.location.origin + '/login',
       handleCodeInApp: true,
     };
     await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-    // Persist email so we can complete sign-in after redirect
     window.localStorage.setItem('emailForSignIn', email);
   };
 
   const completeEmailSignInWithLink = async (href) => {
     if (!isSignInWithEmailLink(auth, href)) return null;
-    // Retrieve stored email — user might have opened the link on a different device
     let email = window.localStorage.getItem('emailForSignIn');
     if (!email) {
-      // Prompt would be needed here; for now surface as an error
       throw new Error(
         'Please open the sign-in link on the same device you requested it from, or try again.'
       );
@@ -197,8 +173,6 @@ export function AuthProvider({ children }) {
     return result.user;
   };
 
-  // ─── Legacy wrapper: loginAsRole (demo quick-access cards) ─
-  // Maps a role key → a demo persona and sets local state only.
   const loginAsRole = (roleKey = 'procurement', ssoName = 'Jan Parichay (National SSO)') => {
     let persona = DEMO_PERSONAS.metro;
     if (roleKey === 'evaluator') persona = DEMO_PERSONAS.nhai;
@@ -222,7 +196,6 @@ export function AuthProvider({ children }) {
     setIsAuthenticated(true);
   };
 
-  // ─── Legacy wrapper: registerUser (called after Firebase signup) ─
   const registerUser = (userData) => {
     const newUser = {
       id: auth.currentUser?.uid || ('usr_reg_' + Date.now().toString().slice(-4)),
@@ -242,7 +215,6 @@ export function AuthProvider({ children }) {
     return newUser;
   };
 
-  // ─── Switch demo persona (unchanged) ───────────────────────
   const switchPersona = (personaKey) => {
     if (DEMO_PERSONAS[personaKey]) {
       setCurrentUser(DEMO_PERSONAS[personaKey]);
@@ -250,7 +222,6 @@ export function AuthProvider({ children }) {
     }
   };
 
-  // ─── Logout (Firebase + local state) ───────────────────────
   const logout = async () => {
     try {
       await signOut(auth);
@@ -268,14 +239,12 @@ export function AuthProvider({ children }) {
         setCurrentUser,
         isAuthenticated,
         authLoading,
-        // Firebase auth methods (used by LoginView handlers)
         loginWithEmailPassword,
         registerWithEmailPassword,
         loginWithGoogle,
         applyFirebaseUser,
         sendEmailSignInLink,
         completeEmailSignInWithLink,
-        // Legacy API (used by the rest of the app — untouched)
         loginAsRole,
         registerUser,
         switchPersona,

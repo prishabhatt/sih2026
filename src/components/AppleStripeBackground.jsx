@@ -16,7 +16,6 @@ export function AppleStripeBackground() {
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
-    // 1. Organic Fluid Aurora Orbs
     const orbs = [
       { x: 0.18, y: 0.22, vx: 0.0003, vy: 0.0002, phase: 0, radiusMult: 0.48, colorDark: 'rgba(20, 48, 92, 0.45)', colorLight: 'rgba(147, 185, 230, 0.32)' },
       { x: 0.82, y: 0.28, vx: -0.0002, vy: 0.0003, phase: 2.1, radiusMult: 0.42, colorDark: 'rgba(217, 119, 6, 0.16)', colorLight: 'rgba(251, 191, 36, 0.22)' },
@@ -25,7 +24,6 @@ export function AppleStripeBackground() {
       { x: 0.78, y: 0.78, vx: -0.0002, vy: -0.0002, phase: 3.4, radiusMult: 0.46, colorDark: 'rgba(30, 58, 95, 0.38)', colorLight: 'rgba(165, 180, 252, 0.20)' },
     ];
 
-    // 2. Interactive Constellation Particles
     const PARTICLE_COUNT = Math.min(55, Math.floor((width * height) / 28000));
     let particles = [];
 
@@ -69,7 +67,6 @@ export function AppleStripeBackground() {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseleave', handleMouseLeave);
 
-    // 3. Scanline Sweep State
     let scanlineY = 0;
     let time = 0;
 
@@ -77,13 +74,9 @@ export function AppleStripeBackground() {
       time += 0.006;
       ctx.clearRect(0, 0, width, height);
 
-      // Smooth mouse follow (LERP)
       mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * 0.08;
       mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * 0.08;
 
-      // =========================================================================
-      // PASS 1: Render Fluid Aurora Blobs (Blurred, Ethereal Atmosphere)
-      // =========================================================================
       ctx.save();
       orbs.forEach((orb, i) => {
         const cx = (orb.x + Math.sin(time * 0.8 + orb.phase) * 0.14) * width;
@@ -103,7 +96,6 @@ export function AppleStripeBackground() {
         ctx.fill();
       });
 
-      // Mouse Spotlight Glow
       if (mouseRef.current.x > 0 && mouseRef.current.y > 0) {
         const mouseGrad = ctx.createRadialGradient(
           mouseRef.current.x,
@@ -127,52 +119,24 @@ export function AppleStripeBackground() {
       }
       ctx.restore();
 
-      // // =========================================================================
-      // // PASS 2: Subtle Laser Scanline Sweep (State Intelligence Terminal)
-      // // =========================================================================
-      // scanlineY = (scanlineY + 0.8) % (height + 300);
-      // const curScanY = scanlineY - 150;
 
-      // if (curScanY > -50 && curScanY < height + 50) {
-      //   const scanGrad = ctx.createLinearGradient(0, curScanY - 60, 0, curScanY + 60);
-      //   const scanColor = isDark ? 'rgba(245, 158, 11, 0.04)' : 'rgba(30, 58, 95, 0.035)';
-      //   scanGrad.addColorStop(0, 'rgba(0, 0, 0, 0)');
-      //   scanGrad.addColorStop(0.5, scanColor);
-      //   scanGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
-      //   ctx.fillStyle = scanGrad;
-      //   ctx.fillRect(0, curScanY - 60, width, 120);
 
-      //   // Thin laser line
-      //   ctx.strokeStyle = isDark ? 'rgba(245, 158, 11, 0.12)' : 'rgba(30, 58, 95, 0.08)';
-      //   ctx.lineWidth = 1;
-      //   ctx.beginPath();
-      //   ctx.moveTo(0, curScanY);
-      //   ctx.lineTo(width, curScanY);
-      //   ctx.stroke();
-      // }
 
-      // =========================================================================
-      // PASS 3: Neural Constellation & Particle Mesh
-      // =========================================================================
       const connectionDist = Math.min(width, height) * 0.16;
       const mouseDist = 180;
 
-      // Update & Draw Connections
       for (let i = 0; i < particles.length; i++) {
         const p1 = particles[i];
 
-        // Move particle
         p1.x += p1.vx;
         p1.y += p1.vy;
 
-        // Wrap edges gracefully
         if (p1.x < -20) p1.x = width + 20;
         if (p1.x > width + 20) p1.x = -20;
         if (p1.y < -20) p1.y = height + 20;
         if (p1.y > height + 20) p1.y = -20;
 
-        // Mouse interaction: Gentle push & connect
         if (mouseRef.current.x > 0 && mouseRef.current.y > 0) {
           const dxM = p1.x - mouseRef.current.x;
           const dyM = p1.y - mouseRef.current.y;
@@ -183,7 +147,6 @@ export function AppleStripeBackground() {
             p1.x += dxM * force;
             p1.y += dyM * force;
 
-            // Draw line to mouse
             const alphaM = (1 - distM / mouseDist) * (isDark ? 0.28 : 0.22);
             ctx.strokeStyle = isDark
               ? `rgba(245, 158, 11, ${alphaM})`
@@ -196,7 +159,6 @@ export function AppleStripeBackground() {
           }
         }
 
-        // Draw inter-particle connection lines
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const dx = p1.x - p2.x;
@@ -217,7 +179,6 @@ export function AppleStripeBackground() {
         }
       }
 
-      // Draw Individual Particles
       particles.forEach((p) => {
         p.phase += p.pulseSpeed;
         const pulse = Math.sin(p.phase) * 0.4 + 1;
@@ -259,7 +220,6 @@ export function AppleStripeBackground() {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-      {/* 1. Base Layer Dynamic Backdrop Gradient */}
       <div
         className={`absolute inset-0 transition-colors duration-1000 ${isDark
           ? 'bg-gradient-to-b from-[#05070D] via-[#070B14] to-[#05070D]'
@@ -267,13 +227,11 @@ export function AppleStripeBackground() {
           }`}
       />
 
-      {/* 2. Interactive High-Precision Particle & Fluid Canvas */}
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full opacity-100"
       />
 
-      {/* 3. Volumetric Ambient Light Shimmers (Top & Bottom Accent Glows) */}
       <div
         className={`absolute -top-40 left-1/4 w-[800px] h-[500px] rounded-full blur-[120px] pointer-events-none transition-all duration-1000 ${isDark
           ? 'bg-gradient-to-b from-[#1E3A5F]/25 via-[#0B1E36]/15 to-transparent'
@@ -287,7 +245,6 @@ export function AppleStripeBackground() {
           }`}
       />
 
-      {/* 4. Elegant Micro-Vignette Edge Mask */}
       <div
         className={`absolute inset-0 pointer-events-none ${isDark
           ? 'bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(5,7,13,0.4)_100%)]'

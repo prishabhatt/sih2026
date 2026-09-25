@@ -37,7 +37,7 @@ export function DigitalPassportQR({ className = '' }) {
   const qrRef = useRef(null);
   const [copied, setCopied] = useState(false);
   const [showScannerModal, setShowScannerModal] = useState(false);
-  const [publishStatus, setPublishStatus] = useState('idle'); // 'idle' | 'publishing' | 'published' | 'offline'
+  const [publishStatus, setPublishStatus] = useState('idle');
 
   const selectedStds = MOCK_STANDARDS.filter((s) => selectedStandardIds.includes(s.id));
   const primaryCodes = selectedStds.length > 0 
@@ -48,7 +48,6 @@ export function DigitalPassportQR({ className = '' }) {
     ? [...new Set(selectedStds.map((s) => s.certificationScheme))].join(', ')
     : 'Scheme-I (Mandatory ISI Mark)';
   
-  // Aggregate all selected normative tests
   const allTests = [];
   selectedStds.forEach((s) => {
     const tests = selectedNormativeTests[s.id] || [];
@@ -59,7 +58,6 @@ export function DigitalPassportQR({ className = '' }) {
 
   const testsCount = allTests.length > 0 ? allTests.length : 6;
 
-  // The full compliance payload (used for publishing & simulator)
   const payloadObject = {
     tender_id: certificateId,
     issuing_org: orgProfile.businessName || 'National Public Infrastructure Agency',
@@ -76,11 +74,8 @@ export function DigitalPassportQR({ className = '' }) {
 
   const payloadString = JSON.stringify(payloadObject, null, 2);
 
-  // ─── QR VALUE: Encode a short verification URL instead of full JSON ───────
-  // This makes the QR code scannable by any phone camera
   const verifyUrl = `${window.location.origin}/verify/${encodeURIComponent(certificateId)}`;
 
-  // ─── Auto-publish report to backend on mount & when payload changes ───────
   useEffect(() => {
     const publishReport = async () => {
       setPublishStatus('publishing');
@@ -99,7 +94,6 @@ export function DigitalPassportQR({ className = '' }) {
           setPublishStatus('offline');
         }
       } catch {
-        // Backend offline — QR still works, just shows the URL which will prompt fetch on load
         setPublishStatus('offline');
       }
     };
@@ -115,16 +109,13 @@ export function DigitalPassportQR({ className = '' }) {
     brandedCanvas.width = 400;
     brandedCanvas.height = 520;
 
-    // Background
     bCtx.fillStyle = '#FFFFFF';
     bCtx.fillRect(0, 0, 400, 520);
 
-    // Border
     bCtx.strokeStyle = '#0F172A';
     bCtx.lineWidth = 4;
     bCtx.strokeRect(10, 10, 380, 500);
 
-    // Header Title
     bCtx.fillStyle = '#0F172A';
     bCtx.font = 'bold 14px sans-serif';
     bCtx.textAlign = 'center';
@@ -134,10 +125,8 @@ export function DigitalPassportQR({ className = '' }) {
     bCtx.fillStyle = '#475569';
     bCtx.fillText(`TENDER ID: ${certificateId}`, 200, 60);
 
-    // Draw QR code
     bCtx.drawImage(canvas, 75, 80, 250, 250);
 
-    // Footer Metadata
     bCtx.fillStyle = '#0F172A';
     bCtx.font = 'bold 11px sans-serif';
     bCtx.fillText(`Entity: ${(orgProfile.businessName || 'Government Procurement Dept').substring(0, 35)}`, 200, 360);
@@ -159,7 +148,6 @@ export function DigitalPassportQR({ className = '' }) {
     bCtx.font = 'bold 10px sans-serif';
     bCtx.fillText('DIGITAL SUPPLY CHAIN PASSPORT', 200, 475);
 
-    // Download image
     const link = document.createElement('a');
     link.download = `BIS_Compliance_QR_Pass_${certificateId}.png`;
     link.href = brandedCanvas.toDataURL('image/png');
@@ -175,7 +163,6 @@ export function DigitalPassportQR({ className = '' }) {
   return (
     <div className={`rounded-3xl border border-slate-200 p-6 sm:p-8 bg-white shadow-2xl text-slate-900 ${className}`}>
       
-      {/* Header Bar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-slate-200">
         <div className="flex items-center gap-3.5">
           <div className="w-11 h-11 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-900 shadow-xs">
@@ -198,10 +185,8 @@ export function DigitalPassportQR({ className = '' }) {
 
       </div>
 
-      {/* Main Grid: QR Frame Left + Metadata Right */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 pt-6 items-center">
         
-        {/* Left: High-Contrast QR Code Card */}
         <div className="md:col-span-4 flex flex-col items-center justify-center p-5 bg-slate-50 rounded-2xl border border-slate-200 shadow-xs text-center">
           <div ref={qrRef} className="p-3 bg-white rounded-2xl shadow-sm border border-slate-200">
             <QRCodeCanvas
@@ -217,7 +202,6 @@ export function DigitalPassportQR({ className = '' }) {
           <span className="text-[10px] font-mono font-semibold text-slate-500 mt-0.5 uppercase tracking-wider">
             ECC: HIGH (30% REDUNDANCY)
           </span>
-          {/* Publish status indicator */}
           <div className={`mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider ${
             publishStatus === 'published'
               ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
@@ -232,11 +216,9 @@ export function DigitalPassportQR({ className = '' }) {
           </div>
         </div>
 
-        {/* Right: 4 Clean Bento Metadata Boxes & High-Contrast Buttons */}
         <div className="md:col-span-8 space-y-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
             
-            {/* Box 1: Tender Ref ID */}
             <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 shadow-xs">
               <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
                 Tender Ref ID
@@ -246,7 +228,6 @@ export function DigitalPassportQR({ className = '' }) {
               </strong>
             </div>
 
-            {/* Box 2: Statutory QCO Status */}
             <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 shadow-xs">
               <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
                 Statutory QCO Status
@@ -257,7 +238,6 @@ export function DigitalPassportQR({ className = '' }) {
               </strong>
             </div>
 
-            {/* Box 3: Primary Standards */}
             <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 shadow-xs">
               <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
                 Primary Standards
@@ -267,7 +247,6 @@ export function DigitalPassportQR({ className = '' }) {
               </strong>
             </div>
 
-            {/* Box 4: Normative Tests Bundled */}
             <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 shadow-xs">
               <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
                 Normative Tests Bundled
@@ -278,7 +257,6 @@ export function DigitalPassportQR({ className = '' }) {
             </div>
           </div>
 
-          {/* Action Buttons: High-Contrast Download & Copy */}
           <div className="flex flex-wrap items-center gap-3 pt-1">
             <button
               onClick={handleDownloadPng}
@@ -308,7 +286,6 @@ export function DigitalPassportQR({ className = '' }) {
         </div>
       </div>
 
-      {/* Field Scanner Simulation Modal via React Portal */}
       {showScannerModal && createPortal(
         <div 
           className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 bg-slate-950/75 backdrop-blur-xl animate-in fade-in duration-200"
@@ -318,7 +295,6 @@ export function DigitalPassportQR({ className = '' }) {
             className="relative bg-white rounded-3xl max-w-lg w-full border border-slate-200 p-6 sm:p-7 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-150 max-h-[90vh] flex flex-col overflow-hidden text-slate-900"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Header */}
             <div className="flex items-start justify-between pb-3 border-b border-slate-200 shrink-0">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shadow-xs">
@@ -337,19 +313,16 @@ export function DigitalPassportQR({ className = '' }) {
               </button>
             </div>
 
-            {/* Authentic Passport Verification Banner */}
             <div className="p-3.5 bg-emerald-50 rounded-2xl border border-emerald-200 text-xs text-emerald-900 flex items-center gap-2.5 font-bold shrink-0">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
               <span>AUTHENTIC TENDER PASSPORT: Digital signature verified with NIC Trust Gateway.</span>
             </div>
 
-            {/* Scan URL Info */}
             <div className="p-3 bg-blue-50 rounded-xl border border-blue-200 text-xs text-blue-800 font-bold flex items-center gap-2 shrink-0">
               <ExternalLink className="w-3.5 h-3.5 text-blue-500 shrink-0" />
               <span className="truncate">Scan opens: {verifyUrl}</span>
             </div>
 
-            {/* Decrypted Payload Terminal */}
             <div className="bg-[#070B14] p-4 rounded-2xl border border-slate-800 overflow-y-auto flex-1 font-mono text-[11px] text-slate-300 space-y-1 shadow-inner scroll-smooth">
               <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/10 text-[10px] text-slate-400 font-mono">
                 <span className="text-emerald-400 font-bold">› DECRYPTED_CERTIFICATE_PAYLOAD</span>
@@ -358,7 +331,6 @@ export function DigitalPassportQR({ className = '' }) {
               <pre className="whitespace-pre-wrap">{payloadString}</pre>
             </div>
 
-            {/* Modal Footer */}
             <div className="flex items-center justify-between text-xs pt-3 border-t border-slate-200 shrink-0">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />

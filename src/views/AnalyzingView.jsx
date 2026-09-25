@@ -43,7 +43,6 @@ export function AnalyzingView() {
   ];
 
   useEffect(() => {
-    // Fire the real Graph-RAG analysis immediately in background
     if (naturalQuery) {
       triggerRAGAnalysis(naturalQuery, selectedDivision, uploadedFile?.rawFile || null);
     }
@@ -84,7 +83,6 @@ export function AnalyzingView() {
   return (
     <div className="min-h-screen bg-[#F1F5F9] dark:bg-[#090A0F] text-slate-900 dark:text-slate-100 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-500 relative font-sans selection:bg-[#292524] selection:text-white">
       
-      {/* Living Aurora Background */}
       <AppleStripeBackground />
 
       <div className="max-w-4xl mx-auto w-full space-y-6 relative z-10">
@@ -105,7 +103,6 @@ export function AnalyzingView() {
           </p>
         </div>
 
-        {/* Progress Container Matching Input Specs Glass Card */}
         <div className="bg-white/60 dark:bg-white/[0.04] backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border border-white dark:border-white/20 shadow-xl space-y-5">
           <div className="flex items-center justify-between text-xs">
             <span className="text-slate-700 dark:text-slate-300 flex items-center gap-2 font-medium">
@@ -160,7 +157,6 @@ export function AnalyzingView() {
           </div>
         </div>
 
-        {/* Streaming RAG Terminal with Pure White Border */}
         <div className="bg-[#070B14]/90 dark:bg-[#070B14]/95 text-slate-200 rounded-3xl border border-white dark:border-white/20 p-6 shadow-2xl text-xs overflow-hidden backdrop-blur-2xl">
           <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10 text-slate-400 text-[11px]">
             <span className="flex items-center gap-2 text-white font-bold">
@@ -182,7 +178,6 @@ export function AnalyzingView() {
           </div>
         </div>
 
-        {/* Telemetry Strip Matching Input Specs Glass Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
           <div className="bg-white/60 dark:bg-white/[0.04] backdrop-blur-2xl p-4 rounded-2xl border border-white dark:border-white/20 shadow-xl">
             <p className="text-[10px] uppercase font-bold tracking-wider text-slate-400">{t.analyzing.statVectors}</p>
