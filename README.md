@@ -1,26 +1,22 @@
-<div align="center">
-
 # 🛡️ ISync — Right Standard, Every Time
 ### **AI-Powered Recommendation & Statutory Compliance Engine for Public Procurement Specifications**
 
-[![SIH 2026](https://img.shields.io/badge/SIH-2026-FF6F00?style=for-the-badge)](https://sih.gov.in)
-[![Problem Statement](https://img.shields.io/badge/Problem%20Statement-SIH26108-0052CC?style=for-the-badge)](https://sih.gov.in)
-[![Theme](https://img.shields.io/badge/Theme-Smart%20Automation-00875A?style=for-the-badge)](https://sih.gov.in)
-[![Team](https://img.shields.io/badge/Team-SYNKRON%20(165691)-4C51BF?style=for-the-badge)](#-meet-the-team)
-[![React 18](https://img.shields.io/badge/React-18-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev)
-[![Python 3.11](https://img.shields.io/badge/Python-3.11-14354C?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![AI / RAG](https://img.shields.io/badge/AI-Groq%20%7C%20RAG-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)](https://groq.com)
+> **Smart India Hackathon 2026** • **Problem Statement:** `SIH26108` • **Theme:** `Smart Automation` • **Team:** `SYNKRON` (`165691`)  
+> **Tech Stack:** `React 18 SPA` • `Python 3.11` • `FastAPI (ASGI)` • `SentenceTransformers` • `NetworkX DAG` • `Groq API`
 
-<p align="center">
-  <b>Translating plain-language procurement intent into authoritative Indian Standards (IS), mandatory QCO decrees, and audit-ready tender clauses in seconds.</b>
-  <br />
-  <br />
-  <a href="#-quick-start-local-setup"><strong>🚀 Run Locally »</strong></a>
-  ·
-  <a href="https://youtu.be/your-demo-video-link"><strong>🎬 Watch YouTube Pitch & Demo »</strong></a>
-</p>
+---
 
+<div align="center">
+  <p>
+    <b>Translating plain-language procurement intent into authoritative Indian Standards (IS), mandatory QCO decrees, and audit-ready tender clauses in seconds.</b>
+    <br />
+    <br />
+    <a href="#-quick-start-local-setup"><strong>🚀 Run Locally »</strong></a>
+    &nbsp;&nbsp;•&nbsp;&nbsp;
+    <a href="https://youtu.be/your-demo-video-link"><strong>🎬 Watch YouTube Pitch & Demo »</strong></a>
+    &nbsp;&nbsp;•&nbsp;&nbsp;
+    <a href="#-key-features"><strong>✨ Explore Features »</strong></a>
+  </p>
 </div>
 
 ---
@@ -48,12 +44,15 @@ Under **GFR 2017 Rule 144** and statutory **Quality Control Orders (QCOs)**, pub
 
 ## 🧰 Built With
 
-*   **Frontend:** React 18, Vite, Tailwind CSS, Framer Motion, Lucide Icons, jsPDF
-*   **Backend & APIs:** Python 3.11, FastAPI, Uvicorn (Asynchronous REST & SSE Streaming)
-*   **AI / ML & Search:** SentenceTransformers (`all-MiniLM-L6-v2`), `rank-bm25` (BM25Okapi), Reciprocal Rank Fusion (RRF)
-*   **LLM & Graph Engine:** Groq API (`openai/gpt-oss-120b` at Temp 0.2), NetworkX (Standards DAG)
-*   **Document Parsing & Auth:** PyMuPDF (`fitz`), Firebase Auth (Role-Based Access Control)
-*   **Security & Integrity:** Cryptographic SHA-256, `qrcode.react` Digital Passports
+| Layer | Technologies / Packages | Implementation Details |
+| :--- | :--- | :--- |
+| **Frontend** | `React 18.3`, `Vite 6.0`, `TailwindCSS v3.4`, `Framer Motion` | Modern Glassmorphism GovTech UI, Light/Dark Modes |
+| **Backend API** | `Python 3.11`, `FastAPI`, `Uvicorn` | Asynchronous REST & Server-Sent Events (SSE) streaming |
+| **PDF Extraction** | `PyMuPDF (fitz)`, `python-multipart` | High-speed structured tender specification parsing |
+| **Hybrid Search** | `sentence-transformers` (`all-MiniLM-L6-v2`), `rank-bm25` | Dense vector space + Sparse BM25Okapi fused via RRF ($k=60$) |
+| **Knowledge Graph** | `NetworkX 3.2` | Directed Acyclic Graph (DAG) for normative testing codes |
+| **LLM Inference** | `Groq API` (`openai/gpt-oss-120b` at Temp 0.2) | Zero-hallucination domain-grounded statutory synthesis |
+| **Security & Auth** | `Firebase Auth`, `hashlib` (`SHA-256`), `qrcode.react` | Role-Based Access Control & tamper-proof audit trails |
 
 ---
 
