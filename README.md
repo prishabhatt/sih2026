@@ -95,45 +95,87 @@ The following diagram illustrates how an incoming procurement request moves from
 
 ```mermaid
 flowchart TD
-    subgraph INGESTION["1. Multi-Format Ingestion & Safeguards"]
-        A["User Input / Tender Upload\n(PDF, DOCX, XLSX, TXT, or Text Prompt)"] --> B["Multi-Format Parser\n(PyMuPDF, python-docx, openpyxl)"]
-        B --> C{"Procurement Document\nClassifier"}
-        C -- "Non-Procurement File\n(Resume, LOR, Medical)" --> REJ["🚫 Immediate Rejection Notice\nStatutory Score: 0.0%\nPurge Hallucinations"]
-        C -- "Valid Procurement File" --> D["Indic Normalization & Script Detection\n(8 Indian Languages Supported)"]
+    classDef default fill:#0f172a,stroke:#334155,stroke-width:1.5px,color:#ffffff;
+    classDef stage fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#ffffff;
+    classDef check fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#ffffff;
+    classDef reject fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#ffffff;
+    classDef success fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#ffffff;
+    classDef warn fill:#78350f,stroke:#f59e0b,stroke-width:2px,color:#ffffff;
+
+    subgraph S1["1. MULTI-FORMAT INGESTION & ANTI-SLOP SECURITY GATEWAY"]
+        INP["📄 Draft Tender Upload / BOQ Input\nFormats: PDF (PyMuPDF), DOCX (python-docx), XLSX (openpyxl), TXT, Prompt"]
+        PARSE["⚙️ Multi-Format Document Parser\nExtracts text layers, structural tables, and schedules of requirements"]
+        GATE{"🛡️ Procurement Document Classifier\nRegex heuristics + domain semantic signal detection"}
+        REJ["🚫 Rejection Notice Issued\nStatutory Compliance: 0.0%\nRejection Reason: Non-Procurement File (CV / LOR / Medical)\nHalts processing & suppresses hallucinated standards"]
+        NORM["🌐 Indic Linguistic Normalizer\nUnicode script detection & transliteration for 8 Indian Languages\nProduces canonical English search query"]
+
+        INP --> PARSE
+        PARSE --> GATE
+        GATE -- "Detected Non-Tender" --> REJ
+        GATE -- "Valid Public Tender" --> NORM
     end
 
-    subgraph ENGINE["2. Graph-Augmented Hybrid RAG Pipeline"]
-        D --> E["Canonical Query Generation"]
-        E --> F1["Sparse BM25 Lexical Retrieval\n(Exact Alphanumeric Codes: Fe 500D, IS 694)"]
-        E --> F2["Dense Vector Retrieval\n(SentenceTransformers all-MiniLM-L6-v2)"]
-        F1 & F2 --> G["Reciprocal Rank Fusion (RRF, k=60)\nOptimal Chunk Re-Ranking"]
+    subgraph S2["2. GRAPH-AUGMENTED HYBRID RETRIEVAL (RRF FUSION)"]
+        CANON["🔍 Canonical Technical Specification\nNormalized tender line item terms (e.g., '1.1 kV PVC armoured cable')"]
         
-        E --> H["Deterministic Knowledge Graph Traversal\n(NetworkX Directed Acyclic Graph)"]
-        H --> H1["Normative Dependencies (IS 8130, IS 5831)"]
-        H --> H2["Statutory QCO Orders (Section 16 BIS Act)"]
-        H --> H3["Conformity Scheme (Scheme-I ISI vs Scheme-II CRS)"]
-        H --> H4["Feedstock & Tolerance Rules (Fe 500D Elongation >= 16%)"]
+        BM25["🔤 Sparse Lexical Retrieval (BM25Okapi)\nMatches exact alphanumeric standards:\n• Fe 500D, IS 694:2010, IS 1786\n• Ingress Protection IP66, IK08 impact"]
+        DENSE["🧠 Dense Semantic Retrieval (all-MiniLM-L6-v2)\n384-dimensional dense vector embeddings\nCaptures contextual engineering requirements & colloquial terms"]
+        
+        RRF["⚡ Reciprocal Rank Fusion (RRF, k=60)\nRRF_Score = Σ (1 / (60 + rank_i))\nSynthesizes optimal ranked standard clause chunks"]
+        
+        CANON --> BM25
+        CANON --> DENSE
+        BM25 --> RRF
+        DENSE --> RRF
     end
 
-    subgraph INFERENCE["3. Regulatory Guardrails & LLM Inference"]
-        G & H1 & H2 & H3 & H4 --> I["Context Assembly & Strict Guardrail Injection"]
-        I --> J["Groq LLM Engine (gpt-oss-120b @ Temp 0.2)\nZero-Hallucination Regulatory Grounding"]
+    subgraph S3["3. DETERMINISTIC KNOWLEDGE GRAPH TRAVERSAL (NetworkX DAG)"]
+        DAG["🕸️ Standards Knowledge Graph (NetworkX DAG)\n22,410+ Active Standards across 15 BIS Engineering Divisions"]
+        
+        NORM_DEP["🔗 Normative Testing Dependencies\nAuto-attaches mandatory lab test codes:\n• IS 8130 (Conductor Resistance)\n• IS 5831 (Tensile & Elongation)\n• IS 10810 (Spark & Oxygen Index)"]
+        QCO_RULE["📜 Statutory Gazette QCO Verification\nCross-references Ministry orders under Section 16 BIS Act 2016\nEnforces mandatory ISI/CRS licensing"]
+        SCHEME["🏷️ Conformity Scheme Validation\nDistinguishes Scheme-I (ISI Mark CM/L) from Scheme-II (CRS R-XXXXXXXX)"]
+        TOL_RULE["📐 Mechanical & Chemical Tolerances\n• Fe 500D: Enforces elongation >= 16.0%\n• HDPE Pipes: Strict 0% recycled PE policy (IS 4984)"]
+
+        DAG --> NORM_DEP
+        DAG --> QCO_RULE
+        DAG --> SCHEME
+        DAG --> TOL_RULE
     end
 
-    subgraph OUTPUT["4. Statutory Deliverables & Audit Outputs"]
-        J --> K1["Dynamic Legal Index & Compliance Meter"]
-        J --> K2["4-Tier Audit Verdict & Defect Flags"]
-        J --> K3["Model NIT Technical Clause Generator"]
-        J --> K4["Printable Compliance Certificate (PDF)"]
-        J --> K5["Cryptographic SHA-256 Digital Passport & QR"]
-        J --> K6["CORA AI Copilot Interactive Streaming (SSE)"]
+    subgraph S4["4. REGULATORY GUARDRAILS & STRICT LLM INFERENCE"]
+        CTX["📦 Structured Regulatory Context Assembly\nFuses: (1) RRF Standard Chunks + (2) Deterministic Graph Rules + (3) GFR 2017 Directives"]
+        LLM["🤖 Groq API Inference Engine\nModel: openai/gpt-oss-120b | Temperature: 0.2\nSystem Guardrail: Zero-hallucination policy with mandatory clause-level statutory citations"]
+        
+        RRF --> CTX
+        NORM_DEP & QCO_RULE & SCHEME & TOL_RULE --> CTX
+        CTX --> LLM
     end
 
-    style INGESTION fill:#f8fafc,stroke:#64748b,stroke-width:2px;
-    style ENGINE fill:#eff6ff,stroke:#3b82f6,stroke-width:2px;
-    style INFERENCE fill:#fdf4ff,stroke:#a855f7,stroke-width:2px;
-    style OUTPUT fill:#f0fdf4,stroke:#22c55e,stroke-width:2px;
-    style REJ fill:#fef2f2,stroke:#ef4444,stroke-width:2px;
+    subgraph S5["5. STATUTORY COMPLIANCE DELIVERABLES"]
+        SCORE["📊 Dynamic Legal Index\nEvaluates tender compliance percentage (0% to 100%)"]
+        VERD["🚨 4-Tier Audit Verdict\nFlags tolerance defects, QCO evasions, and purges spurious codes"]
+        CLAUSE["📝 Model NIT Technical Clause\nGenerates authentic Sections 1.0 - 4.0 tender clauses for GeM / CPPP"]
+        PDF["🖨️ Printable Compliance Report\nOfficial printable dossier with departmental verification blocks"]
+        QR["🔐 SHA-256 Digital Passport & QR\nCryptographically tamper-proof audit verification token for CAG / CVC"]
+        CHAT["💬 CORA AI Multilingual Copilot\nReal-time SSE streaming copilot strictly scoped to procurement standards"]
+
+        LLM --> SCORE
+        LLM --> VERD
+        LLM --> CLAUSE
+        LLM --> PDF
+        LLM --> QR
+        LLM --> CHAT
+    end
+
+    NORM --> CANON
+    CANON --> DAG
+
+    class INP,PARSE,NORM,CANON,BM25,DENSE,RRF,DAG,CTX,LLM stage;
+    class GATE,SCHEME check;
+    class REJ,VERD reject;
+    class NORM_DEP,QCO_RULE,TOL_RULE warn;
+    class SCORE,CLAUSE,PDF,QR,CHAT success;
 ```
 
 ---
@@ -141,39 +183,83 @@ flowchart TD
 ### 2. The 4-Tier Statutory Audit & Verification Workflow
 
 ```mermaid
-flowchart LR
-    subgraph T1["Tier 1: Normative Alignment"]
-        direction TB
-        A1["Extract BOQ Items"] --> A2["Map Governing IS Codes"]
-        A2 --> A3["Purge Semantic Hallucinations\n(e.g., Unrelated XLPE/IT Codes)"]
+flowchart TD
+    classDef default fill:#0f172a,stroke:#334155,stroke-width:1.5px,color:#ffffff;
+    classDef stage fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#ffffff;
+    classDef check fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#ffffff;
+    classDef reject fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#ffffff;
+    classDef success fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#ffffff;
+    classDef warn fill:#78350f,stroke:#f59e0b,stroke-width:2px,color:#ffffff;
+
+    START["📥 Ingest Extracted Tender Specification & BOQ Schedule"] --> TIER1
+
+    subgraph T1["TIER 1: SPECIFICATION PARSING & ANTI-HALLUCINATION GATE"]
+        TIER1["⚙️ Tokenize & Align BOQ Line Items\nExtract engineering descriptions, material grades, and alphanumeric references"]
+        MAP1["🔍 Match Governing BIS Standards\nResolve candidate standards across 15 engineering divisions"]
+        FILTER{"🧹 Semantic Hallucination Check\nDid vector search over-generalize to unrelated domains?"}
+        PURGE["🗑️ Purge Spurious / Hallucinated Codes\n• Purge IS 7098 P2 (33kV XLPE) when tender only specifies 1.1kV low-voltage PVC\n• Purge IS 13252 (IT Safety) when tender specifies roadway LED street lighting\nLogs purged codes to transparency audit trail"]
+        VALID_STD["✅ Retain Authentic Governing Standards\ne.g., IS 1786 (TMT Bars), IS 694 (PVC Cables), IS 4984 (HDPE Pipes), IS 10322 (Luminaires)"]
+
+        TIER1 --> MAP1
+        MAP1 --> FILTER
+        FILTER -- "Hallucinated Standards Detected" --> PURGE
+        FILTER -- "Valid Standard Alignment" --> VALID_STD
+        PURGE --> VALID_STD
     end
 
-    subgraph T2["Tier 2: QCO Statutory Enforcement"]
-        direction TB
-        B1["Cross-Reference Gazette Orders"] --> B2["Check Scheme-I vs Scheme-II"]
-        B2 --> B3["Detect Unlawful Self-Cert Exemptions\n(Sec 16/29 BIS Act Violation)"]
+    VALID_STD --> TIER2
+
+    subgraph T2["TIER 2: STATUTORY QCO ENFORCEMENT & EVASION DETECTION"]
+        TIER2["📜 Gazette QCO Decree Verification\nCross-reference Ministry Quality Control Orders under Section 16 BIS Act 2016"]
+        QCO_CHECK{"⚖️ Check for Unlawful Exemption Clauses\nDoes tender allow 'in-house test certificates' or 'startup waivers'?"}
+        QCO_FAIL["🚨 Flag Statutory Violation: Ultra Vires Exemption\n• Violation: GFR 2017 Rule 144(xi) & Section 29 BIS Act 2016\n• Finding: Procuring entities cannot waive statutory QCO certification\n• Impact: Tender invalidation & vigilance risk"]
+        SCHEME_CHECK{"🏷️ Verify Conformity Assessment Scheme\nScheme-I (ISI Mark) vs Scheme-II (CRS Registration)"}
+        SCHEME_FAIL["⚠️ Flag Incorrect Certification Scheme\ne.g., Demanding ISI Mark for LED Luminaires instead of mandatory CRS Registration (R-XXXXXXXX)"]
+        QCO_PASS["✅ Statutory QCO Clearance\nMandatory certification clauses validated with exact legal citations"]
+
+        TIER2 --> QCO_CHECK
+        QCO_CHECK -- "Illegal Exemption Found" --> QCO_FAIL
+        QCO_CHECK -- "No Illegal Exemptions" --> SCHEME_CHECK
+        SCHEME_CHECK -- "Wrong Scheme Specified" --> SCHEME_FAIL
+        SCHEME_CHECK -- "Scheme Validated" --> QCO_PASS
+        QCO_FAIL --> TIER3
+        SCHEME_FAIL --> TIER3
+        QCO_PASS --> TIER3
     end
 
-    subgraph T3["Tier 3: Feedstock & Tolerances"]
-        direction TB
-        C1["Inspect Mechanical Properties\n(e.g., Fe 500D Elongation >= 16%)"]
-        C1 --> C2["Inspect Chemical / Feedstock Purity\n(e.g., 0% Recycled PE in IS 4984)"]
-        C2 --> C3["Verify Auxiliary Normative Tests\n(Spark, Conductor DC, Hydrostatic)"]
+    subgraph T3["TIER 3: MECHANICAL, CHEMICAL & FEEDSTOCK INTEGRITY CHECKS"]
+        TIER3["🔬 Deep Normative & Tolerance Audit\nInspect physical property thresholds and normative dependency test chains"]
+        MECH_CHECK{"📐 Mechanical Ductility Check (IS 1786 Table 3)\nIs Fe 500D specified with >= 16.0% elongation?"}
+        MECH_FAIL["💥 CRITICAL DEFECT: Structural Collapse Hazard\nTender specifies 12% elongation for Fe 500D; permits brittle base Fe 500 rebar in bridge viaducts"]
+        POLY_CHECK{"🧪 Feedstock Purity Check (IS 4984 Clause 5.1/5.2)\nDoes HDPE specification permit recycled or regrind plastic?"}
+        POLY_FAIL["⚠️ CONTAMINATION DEFECT: Pipeline Burst Hazard\nTender permits 30% recycled regrind PE; violates zero-recycled mandate for potable water"]
+        TEST_CHAIN["🔗 Auto-Link Mandatory Normative Lab Tests\n• Conductor Resistance (IS 8130)  • Insulation Elongation (IS 5831)  • Spark Test (IS 10810)"]
+
+        TIER3 --> MECH_CHECK
+        MECH_CHECK -- "Elongation < 16.0%" --> MECH_FAIL
+        MECH_CHECK -- "Compliant >= 16.0%" --> POLY_CHECK
+        MECH_FAIL --> POLY_CHECK
+        POLY_CHECK -- "Recycled Plastic Allowed" --> POLY_FAIL
+        POLY_CHECK -- "Virgin Polymer Only" --> TEST_CHAIN
+        POLY_FAIL --> TEST_CHAIN
     end
 
-    subgraph T4["Tier 4: Legal Index & Passport"]
-        direction TB
-        D1["Compute Dynamic Statutory Score"]
-        D1 --> D2["Generate Formatted Model Clause"]
-        D2 --> D3["Issue Tamper-Proof SHA-256 QR Tag"]
+    TEST_CHAIN --> TIER4
+
+    subgraph T4["TIER 4: LEGAL INDEX COMPUTATION & ARTIFACT SYNTHESIS"]
+        TIER4["🧮 Compute Quantitative Statutory Score\nCalculates Legal Index (0.0% - 100.0%) based on weighted defect severity"]
+        CLAUSE_GEN["📄 Synthesize Model NIT Technical Clause\nDrafts Sections 1.0 (Scope), 2.0 (Normative Codes), 3.0 (TPIA: RITES/CEIL), 4.0 (PBG Default)"]
+        PASSPORT_GEN["🔐 Generate Cryptographic SHA-256 Digital Passport & Scannable QR\nEmbeds tamper-proof hash for instant verification during CAG & CVC vigilance inspections"]
+
+        TIER4 --> CLAUSE_GEN
+        CLAUSE_GEN --> PASSPORT_GEN
     end
 
-    T1 --> T2 --> T3 --> T4
-
-    style T1 fill:#f1f5f9,stroke:#475569,stroke-width:2px;
-    style T2 fill:#fee2e2,stroke:#dc2626,stroke-width:2px;
-    style T3 fill:#fef3c7,stroke:#d97706,stroke-width:2px;
-    style T4 fill:#dcfce7,stroke:#16a34a,stroke-width:2px;
+    class START,TIER1,MAP1,VALID_STD,TIER2,TIER3,TEST_CHAIN,TIER4 stage;
+    class FILTER,QCO_CHECK,SCHEME_CHECK,MECH_CHECK,POLY_CHECK check;
+    class QCO_FAIL,MECH_FAIL reject;
+    class PURGE,SCHEME_FAIL,POLY_FAIL warn;
+    class QCO_PASS,CLAUSE_GEN,PASSPORT_GEN success;
 ```
 
 ---
@@ -183,25 +269,41 @@ flowchart LR
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Officer as Procurement / Vigilance Officer
-    participant UI as ISync Web Platform
-    participant API as FastAPI Backend Engine
-    participant Graph as NetworkX Knowledge Graph
-    participant LLM as Groq Regulatory RAG
+    actor Officer as 👤 Procurement / Vigilance Officer
+    participant UI as 🖥️ ISync Web Portal (React 18)
+    participant API as ⚡ FastAPI Backend Engine (Port 8000)
+    participant Graph as 🕸️ NetworkX Knowledge Graph DAG
+    participant LLM as 🤖 Groq RAG Engine (gpt-oss-120b)
+    actor Auditor as 🔍 CAG / CVC Vigilance Inspector
 
-    Officer->>UI: Uploads Draft Tender (e.g., CPWD Roadway & Water Supply BOQ)
-    UI->>API: POST /api/rag/audit-tender (Document stream)
-    API->>API: Multi-format parsing & Tender Classification check
-    API->>Graph: Traverses Standards DAG & Normative Testing Nodes
-    API->>LLM: Ingests chunks + graph constraints (Temp 0.2)
-    LLM-->>API: Returns 4-Tier Audit Verdict with Critical Defect Flags
-    API-->>UI: Renders Initial Compliance Score (e.g., 34% - Non-Compliant)
-    Note over Officer,UI: Detected: Fe 500D 12% Elongation Defect & In-House Cable Exemption
-    Officer->>UI: Clicks "Adopt Recommended IS Standards & Normative Clauses"
-    UI->>API: Recalculates Compliance Matrix
-    API-->>UI: Legal Index jumps to 96% (Fully Compliant)
-    Officer->>UI: Generates Model NIT Clause & Downloads Printable Audit PDF
-    Officer->>UI: Scans Cryptographic SHA-256 QR Passport for CAG Record
+    Note over Officer,UI: Step 1: Ingestion & Initial Audit
+    Officer->>UI: Uploads Draft Tender BOQ (CPWD Civil & Electrical Works .pdf)
+    UI->>API: POST /api/rag/audit-tender (multipart/form-data)
+    API->>API: PyMuPDF text extraction + classify_tender_document()
+    API->>Graph: Query Normative Dependencies & Gazette QCOs (IS 1786, IS 694, IS 4984)
+    Graph-->>API: Returns: Fe 500D min 16% elongation, Scheme-I ISI mandate, 0% recycled PE
+    API->>LLM: Ingest extracted clauses + Graph constraints (Temp 0.2)
+    LLM-->>API: Synthesizes 4-Tier Audit Verdict with defect analysis
+    API-->>UI: 200 OK: Returns Audit Payload
+    UI-->>Officer: Renders Initial Audit: Score 34% (CRITICAL DEFECTS FLAGGED)<br/>• Fe 500D 12% Elongation Defect<br/>• Unlawful In-House Cable Exemption under Section 16
+
+    Note over Officer,UI: Step 2: One-Click Statutory Remediation
+    Officer->>UI: Clicks "Adopt Recommended IS Standards & Mandatory Clauses"
+    UI->>API: POST /api/rag/audit-tender (Remediated payload with approved IS standards)
+    API->>Graph: Re-verify normative test chains (IS 8130, IS 5831, IS 10810 attached)
+    API->>LLM: Synthesize updated Model NIT Technical Clause
+    LLM-->>API: Model NIT Sections 1.0 - 4.0 generated
+    API-->>UI: 200 OK: Compliance Score Jumps to 96% (FULLY COMPLIANT)
+    UI-->>Officer: Displays 96% Legal Index Meter & Clean Audit Clearance
+
+    Note over Officer,Auditor: Step 3: Export & Tamper-Proof Field Verification
+    Officer->>UI: Clicks "Download Printable Audit Dossier (PDF)"
+    UI-->>Officer: Generates official PDF with physical signature blocks
+    Officer->>UI: Views Digital Compliance Passport
+    UI->>UI: Generates SHA-256 cryptographic hash & dynamic scannable QR Code
+    Officer->>Officer: Embeds SHA-256 QR Passport into official GeM / CPPP tender notice
+    Auditor->>UI: Scans QR code on published tender dossier
+    UI-->>Auditor: Displays real-time cryptographic verification & immutable audit trail
 ```
 
 ---
