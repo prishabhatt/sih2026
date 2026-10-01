@@ -1,42 +1,26 @@
 <div align="center">
-  <!-- 1. BANNER/LOGO -->
-  <img src="https://raw.githubusercontent.com/your-username/isync-bis-engine/main/docs/banner.png" alt="ISync Banner" width="100%" onerror="this.src='https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop'">
 
+# 🛡️ ISync — Right Standard, Every Time
+### **AI-Powered Recommendation & Statutory Compliance Engine for Public Procurement Specifications**
+
+[![SIH 2026](https://img.shields.io/badge/SIH-2026-FF6F00?style=for-the-badge)](https://sih.gov.in)
+[![Problem Statement](https://img.shields.io/badge/Problem%20Statement-SIH26108-0052CC?style=for-the-badge)](https://sih.gov.in)
+[![Theme](https://img.shields.io/badge/Theme-Smart%20Automation-00875A?style=for-the-badge)](https://sih.gov.in)
+[![Team](https://img.shields.io/badge/Team-SYNKRON%20(165691)-4C51BF?style=for-the-badge)](#-meet-the-team)
+[![React 18](https://img.shields.io/badge/React-18-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev)
+[![Python 3.11](https://img.shields.io/badge/Python-3.11-14354C?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![AI / RAG](https://img.shields.io/badge/AI-Groq%20%7C%20RAG-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)](https://groq.com)
+
+<p align="center">
+  <b>Translating plain-language procurement intent into authoritative Indian Standards (IS), mandatory QCO decrees, and audit-ready tender clauses in seconds.</b>
   <br />
   <br />
+  <a href="#-quick-start-local-setup"><strong>🚀 Run Locally »</strong></a>
+  ·
+  <a href="https://youtu.be/your-demo-video-link"><strong>🎬 Watch YouTube Pitch & Demo »</strong></a>
+</p>
 
-  <!-- 2. BADGES -->
-  <p align="center">
-    <img src="https://img.shields.io/badge/SIH-2026-FF6F00?style=for-the-badge&logo=target&logoColor=white" alt="SIH 2026" />
-    <img src="https://img.shields.io/badge/PS_ID-SIH26108-0052CC?style=for-the-badge&logo=gov.uk&logoColor=white" alt="SIH26108" />
-    <img src="https://img.shields.io/badge/React_18-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React 18" />
-    <img src="https://img.shields.io/badge/Python_3.11-14354C?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.11" />
-    <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=FastAPI&logoColor=white" alt="FastAPI" />
-    <img src="https://img.shields.io/badge/AI-Groq_&_RAG-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black" alt="AI & RAG" />
-  </p>
-
-  <!-- 3. SHORT DESCRIPTION -->
-  <h1 align="center">ISync — Right Standard, Every Time</h1>
-  <p align="center">
-    <b>AI-Powered Recommendation & Statutory Compliance Engine for Public Procurement Specifications</b>
-    <br />
-    <i>Translating plain-language procurement intent into authoritative Indian Standards (IS), mandatory QCO decrees, and audit-ready tender clauses in seconds.</i>
-    <br />
-    <br />
-    <a href="#-quick-start-local-setup"><strong>Run Locally »</strong></a>
-    ·
-    <a href="https://youtu.be/your-demo-video-link"><strong>Watch YouTube Pitch & Demo »</strong></a>
-  </p>
-</div>
-
-<br />
-
-<!-- 4. PRODUCT PREVIEW -->
-## 🚀 See it in Action
-
-<div align="center">
-  <img src="https://raw.githubusercontent.com/your-username/isync-bis-engine/main/docs/dashboard.png" alt="ISync Dashboard Preview" width="100%" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop'">
-  <p><i>Real-Time Compliance Matrix with Statutory QCO Badges, Knowledge Graph Traversal & Model NIT Clause Drafting</i></p>
 </div>
 
 ---
@@ -126,9 +110,11 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 * **Problem Statement ID:** `SIH26108`
 * **Problem Statement Title:** *AI-Powered Recommendation Engine for Identifying Applicable Indian Standards for Procurement Specifications*
 * **Theme:** Smart Automation
-* **Category:** Software 
+* **Category:** Software / GovTech
 * **Team ID:** `165691`
 * **Team Name:** **SYNKRON**
 
 ---
 
+## 📜 License
+Distributed under the **MIT License**. See `LICENSE` for more information.
