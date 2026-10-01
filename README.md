@@ -22,7 +22,7 @@
   <b>Translating colloquial procurement intent into authoritative Indian Standards (IS), mandatory Quality Control Orders (QCOs), and audit-ready tender clauses in seconds.</b>
 </p>
 
-[🚀 Quick Start](#-quick-start-local-setup) • [💡 Problem & Solution](#-the-problem--the-solution) • [📊 Facts & Impact](#-key-facts--impact-metrics) • [🏗️ System Architecture](#-system-architecture--flow-diagrams) • [📸 Visual Walkthrough](#-visual-feature-walkthrough) • [👥 Team Details](#-meet-the-team)
+[🚀 Quick Start](#quick-start) • [💡 Problem & Solution](#problem-solution) • [📊 Facts & Impact](#facts-impact) • [🏗️ System Architecture](#system-architecture) • [📸 Visual Walkthrough](#visual-walkthrough) • [👥 Team Details](#team-details)
 
 </div>
 
@@ -50,6 +50,7 @@ However, with **over 22,410+ active standards** spanning 15 engineering division
 
 ---
 
+<a id="facts-impact"></a>
 ## 📊 Key Facts & Impact Metrics
 
 | Metric / Dimension | Traditional Procurement Process | With ISync Engine | Measurable Gain / Impact |
@@ -64,6 +65,7 @@ However, with **over 22,410+ active standards** spanning 15 engineering division
 
 ---
 
+<a id="problem-solution"></a>
 ## 💡 The Problem & The Solution
 
 ```
@@ -87,6 +89,7 @@ THE REAL-WORLD VIGILANCE CHALLENGE:
 
 ---
 
+<a id="system-architecture"></a>
 ## 🏗️ System Architecture & Flow Diagrams
 
 ### 1. End-to-End System Architecture
@@ -266,48 +269,64 @@ flowchart TD
 
 ### 3. Procurement Officer Remediation Loop
 
+The following interactive lifecycle illustrates the end-to-end remediation process when a procurement official identifies and rectifies statutory non-compliance:
+
 ```mermaid
-sequenceDiagram
-    autonumber
-    actor Officer as 👤 Procurement / Vigilance Officer
-    participant UI as 🖥️ ISync Web Portal (React 18)
-    participant API as ⚡ FastAPI Backend Engine (Port 8000)
-    participant Graph as 🕸️ NetworkX Knowledge Graph DAG
-    participant LLM as 🤖 Groq RAG Engine (gpt-oss-120b)
-    actor Auditor as 🔍 CAG / CVC Vigilance Inspector
+flowchart TD
+    classDef default fill:#0f172a,stroke:#334155,stroke-width:1.5px,color:#ffffff;
+    classDef userAction fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#ffffff;
+    classDef engineAction fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#ffffff;
+    classDef alertState fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#ffffff;
+    classDef remedyState fill:#78350f,stroke:#f59e0b,stroke-width:2px,color:#ffffff;
+    classDef successState fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#ffffff;
+    classDef auditState fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#ffffff;
 
-    Note over Officer,UI: Step 1: Ingestion & Initial Audit
-    Officer->>UI: Uploads Draft Tender BOQ (CPWD Civil & Electrical Works .pdf)
-    UI->>API: POST /api/rag/audit-tender (multipart/form-data)
-    API->>API: PyMuPDF text extraction + classify_tender_document()
-    API->>Graph: Query Normative Dependencies & Gazette QCOs (IS 1786, IS 694, IS 4984)
-    Graph-->>API: Returns: Fe 500D min 16% elongation, Scheme-I ISI mandate, 0% recycled PE
-    API->>LLM: Ingest extracted clauses + Graph constraints (Temp 0.2)
-    LLM-->>API: Synthesizes 4-Tier Audit Verdict with defect analysis
-    API-->>UI: 200 OK: Returns Audit Payload
-    UI-->>Officer: Renders Initial Audit: Score 34% (CRITICAL DEFECTS FLAGGED)<br/>• Fe 500D 12% Elongation Defect<br/>• Unlawful In-House Cable Exemption under Section 16
+    subgraph STEP1["PHASE 1: DRAFT TENDER INGESTION & DIAGNOSTIC AUDIT"]
+        U1["👤 Procurement Officer Action\nUploads draft tender schedule / BOQ (e.g., CPWD Civil & Electrical Works .pdf)"]
+        SYS1["⚡ FastAPI Engine & Knowledge Graph\nExtracts line items • Queries NetworkX Standards DAG • Cross-references Gazette QCOs"]
+        DEFECTS["🚨 Initial Audit Verdict: Score 34% (CRITICAL NON-COMPLIANCE ALERT)\n• Critical Defect 1: Fe 500D rebar specified with 12% elongation (permits brittle steel in bridge viaducts)\n• Critical Defect 2: Cable clause allows unbranded in-house testing (Section 16 BIS Act violation)\n• Critical Defect 3: Missing mandatory auxiliary lab testing codes (IS 8130, IS 5831, IS 10810)"]
 
-    Note over Officer,UI: Step 2: One-Click Statutory Remediation
-    Officer->>UI: Clicks "Adopt Recommended IS Standards & Mandatory Clauses"
-    UI->>API: POST /api/rag/audit-tender (Remediated payload with approved IS standards)
-    API->>Graph: Re-verify normative test chains (IS 8130, IS 5831, IS 10810 attached)
-    API->>LLM: Synthesize updated Model NIT Technical Clause
-    LLM-->>API: Model NIT Sections 1.0 - 4.0 generated
-    API-->>UI: 200 OK: Compliance Score Jumps to 96% (FULLY COMPLIANT)
-    UI-->>Officer: Displays 96% Legal Index Meter & Clean Audit Clearance
+        U1 --> SYS1
+        SYS1 --> DEFECTS
+    end
 
-    Note over Officer,Auditor: Step 3: Export & Tamper-Proof Field Verification
-    Officer->>UI: Clicks "Download Printable Audit Dossier (PDF)"
-    UI-->>Officer: Generates official PDF with physical signature blocks
-    Officer->>UI: Views Digital Compliance Passport
-    UI->>UI: Generates SHA-256 cryptographic hash & dynamic scannable QR Code
-    Officer->>Officer: Embeds SHA-256 QR Passport into official GeM / CPPP tender notice
-    Auditor->>UI: Scans QR code on published tender dossier
-    UI-->>Auditor: Displays real-time cryptographic verification & immutable audit trail
+    subgraph STEP2["PHASE 2: ONE-CLICK STATUTORY REMEDIATION"]
+        U2["👤 Procurement Officer Action\nReviews flagged violations & clicks: 'Adopt Recommended IS Standards & Normative Clauses'"]
+        SYS2["⚙️ Regulatory Remediation Engine\n• Upgrades rebar specification to Fe 500D with >= 16.0% elongation (IS 1786 Table 3)\n• Revokes in-house self-testing waiver; enforces mandatory Scheme-I ISI Mark\n• Auto-attaches complete normative testing dependency chain into tender clauses"]
+        SURGE["📈 Real-Time Compliance Surge: Legal Index Jumps from 34% ➔ 96%\nAll statutory quality control orders and GFR Rule 144(xi) principles satisfied"]
+
+        DEFECTS --> U2
+        U2 --> SYS2
+        SYS2 --> SURGE
+    end
+
+    subgraph STEP3["PHASE 3: STATUTORY ARTIFACT GENERATION & PUBLICATION"]
+        MODEL["📝 Synthesize Model NIT Technical Clause\nGenerates formatted GoI tender text (Sections 1.0 Scope, 2.0 Normative Standards, 3.0 TPIA, 4.0 PBG)"]
+        PDF["🖨️ Download Printable Audit Dossier (PDF)\nIncludes complete compliance certificate with official verification & signature blocks"]
+        QR["🔐 Issue Cryptographic SHA-256 Digital Passport & Scannable QR\nEmbeds tamper-proof verification hash into the published GeM / CPPP tender notice"]
+
+        SURGE --> MODEL
+        MODEL --> PDF
+        MODEL --> QR
+    end
+
+    subgraph STEP4["PHASE 4: FIELD INSPECTION & VIGILANCE AUDITABILITY"]
+        AUDIT["🔍 CAG / CVC Vigilance Inspector Field Verification\nInspector scans dynamic QR code on published tender dossier or site delivery\nInstant real-time verification confirms immutable SHA-256 hash & regulatory compliance"]
+
+        QR --> AUDIT
+    end
+
+    class U1,U2 userAction;
+    class SYS1,SYS2 engineAction;
+    class DEFECTS alertState;
+    class SURGE successState;
+    class MODEL,PDF,QR remedyState;
+    class AUDIT auditState;
 ```
 
 ---
 
+<a id="visual-walkthrough"></a>
 ## 📸 Visual Feature Walkthrough
 
 Here is the complete, documented visual journey through **ISync**, demonstrating how each module functions in real time with high-resolution captures from the operational application.
@@ -502,6 +521,7 @@ The core compliance logic in `backend/audit/tender_auditor.py` executes a compre
 
 ---
 
+<a id="quick-start"></a>
 ## ⚡ Quick Start (Local Setup)
 
 Follow these instructions to run **ISync** locally on your machine.
@@ -572,6 +592,7 @@ VITE_API_BASE_URL=http://localhost:8000
 
 ---
 
+<a id="team-details"></a>
 ## 👥 Meet the Team
 
 <div align="center">
